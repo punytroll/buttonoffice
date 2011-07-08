@@ -330,6 +330,14 @@
             }
         }
 
+        public static System.Single PersonHeightSpread
+        {
+            get
+            {
+                return 0.3f;
+            }
+        }
+
         public static System.Single PersonSpeed
         {
             get
@@ -359,6 +367,14 @@
             get
             {
                 return 1.6f;
+            }
+        }
+
+        public static System.Single PersonWidthSpread
+        {
+            get
+            {
+                return 0.5f;
             }
         }
 

@@ -1,59 +1,23 @@
 ﻿namespace ButtonOffice
 {
-    internal class Person
+    internal abstract class Person
     {
-        private ButtonOffice.ActionState _ActionState;
-        private System.Single _AnimationFraction;
-        private ButtonOffice.AnimationState _AnimationState;
-        private System.UInt64 _ArrivesAtMinute;
+        protected ButtonOffice.ActionState _ActionState;
+        protected System.Single _AnimationFraction;
+        protected ButtonOffice.AnimationState _AnimationState;
+        protected System.UInt64 _ArrivesAtMinute;
         private System.UInt64 _ArrivesAtDayMinute;
-        private System.Drawing.Color _BackgroundColor;
-        private System.Drawing.Color _BorderColor;
-        private ButtonOffice.Desk _Desk;
-        private System.UInt64 _LeavesAtMinute;
-        private ButtonOffice.LivingSide _LivingSide;
+        protected System.Drawing.Color _BackgroundColor;
+        protected System.Drawing.Color _BorderColor;
+        protected ButtonOffice.Desk _Desk;
+        protected System.UInt64 _LeavesAtMinute;
+        protected ButtonOffice.LivingSide _LivingSide;
         private System.Drawing.RectangleF _Rectangle;
         private System.String _Name;
-        private System.UInt64 _Wage;
-        private System.Drawing.PointF _WalkTo;
-        private System.UInt64 _WorkMinutes;
+        protected System.UInt64 _Wage;
+        protected System.Drawing.PointF _WalkTo;
+        protected System.UInt64 _WorkMinutes;
         private ButtonOffice.Type _Type;
-
-        public ButtonOffice.ActionState ActionState
-        {
-            get
-            {
-                return _ActionState;
-            }
-            set
-            {
-                _ActionState = value;
-            }
-        }
-
-        public System.Single AnimationFraction
-        {
-            get
-            {
-                return _AnimationFraction;
-            }
-            set
-            {
-                _AnimationFraction = value;
-            }
-        }
-
-        public ButtonOffice.AnimationState AnimationState
-        {
-            get
-            {
-                return _AnimationState;
-            }
-            set
-            {
-                _AnimationState = value;
-            }
-        }
 
         public System.UInt64 ArrivesAtMinute
         {
@@ -85,10 +49,6 @@
             {
                 return _BackgroundColor;
             }
-            set
-            {
-                _BackgroundColor = value;
-            }
         }
 
         public System.Drawing.Color BorderColor
@@ -96,10 +56,6 @@
             get
             {
                 return _BorderColor;
-            }
-            set
-            {
-                _BorderColor = value;
             }
         }
 
@@ -127,18 +83,6 @@
             }
         }
 
-        public ButtonOffice.LivingSide LivingSide
-        {
-            get
-            {
-                return _LivingSide;
-            }
-            set
-            {
-                _LivingSide = value;
-            }
-        }
-
         public System.String Name
         {
             get
@@ -155,46 +99,32 @@
             }
         }
 
-        public System.UInt64 Wage
-        {
-            get
-            {
-                return _Wage;
-            }
-            set
-            {
-                _Wage = value;
-            }
-        }
-
-        public System.Drawing.PointF WalkTo
-        {
-            get
-            {
-                return _WalkTo;
-            }
-            set
-            {
-                _WalkTo = value;
-            }
-        }
-
-        public System.UInt64 WorkMinutes
-        {
-            get
-            {
-                return _WorkMinutes;
-            }
-            set
-            {
-                _WorkMinutes = value;
-            }
-        }
-
         protected Person(ButtonOffice.Type Type)
         {
+            System.Random Random = new System.Random();
+
+            _ActionState = ButtonOffice.ActionState.New;
+            _AnimationState = ButtonOffice.AnimationState.Hidden;
+            _AnimationFraction = 0.0f;
+            if(Random.NextDouble() < 0.5)
+            {
+                _LivingSide = ButtonOffice.LivingSide.Left;
+                SetLocation(-10.0f, 0.0f);
+            }
+            else
+            {
+                _LivingSide = ButtonOffice.LivingSide.Right;
+                SetLocation(ButtonOffice.Data.WorldBlockWidth + 10.0f, 0.0f);
+            }
+            _Rectangle.Height = Random.NextSingle(ButtonOffice.Data.PersonHeight, ButtonOffice.Data.PersonHeightSpread);
+            _Rectangle.Width = Random.NextSingle(ButtonOffice.Data.PersonWidth, ButtonOffice.Data.PersonWidthSpread);
             _Name = "Hagen";
             _Type = Type;
+        }
+
+        public System.Single GetAnimationFraction()
+        {
+            return _AnimationFraction;
         }
 
         public System.Single GetHeight()
@@ -220,6 +150,11 @@
         public System.Single GetY()
         {
             return _Rectangle.Y;
+        }
+
+        public System.Boolean IsHidden()
+        {
+            return _AnimationState == ButtonOffice.AnimationState.Hidden;
         }
 
         public void SetHeight(System.Single Height)
@@ -260,5 +195,19 @@
         {
             _Rectangle.Y = Y;
         }
+        
+        protected void _PlanNextWorkDay(ButtonOffice.Game Game)
+        {
+            System.UInt64 MinuteOfDay = Game.GetMinuteOfDay();
+
+            _ArrivesAtMinute = Game.GetFirstMinuteOfToday() + _ArrivesAtDayMinute;
+            if(_ArrivesAtMinute + _WorkMinutes < Game.GetTotalMinutes())
+            {
+                _ArrivesAtMinute += 1440;
+            }
+            _LeavesAtMinute = _ArrivesAtMinute + _WorkMinutes;
+        }
+
+        public abstract void Move(ButtonOffice.Game Game, System.Single GameMinutes);
     }
 }

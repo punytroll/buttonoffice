@@ -536,9 +536,9 @@
             }
             foreach(Person Person in _Game.Persons)
             {
-                if(Person.AnimationState != ButtonOffice.AnimationState.Hidden)
+                if(Person.IsHidden() == true)
                 {
-                    _DrawRectangle(EventArguments.Graphics, Person.GetRectangle(), _MixToWhite(Person.BackgroundColor, Person.AnimationFraction), Person.BorderColor);
+                    _DrawRectangle(EventArguments.Graphics, Person.GetRectangle(), _MixToWhite(Person.BackgroundColor, Person.GetAnimationFraction()), Person.BorderColor);
                 }
             }
             foreach(ButtonOffice.Office Office in _Game.Offices)

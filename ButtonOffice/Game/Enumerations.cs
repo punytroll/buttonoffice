@@ -9,6 +9,7 @@
         GoingToDesk,
         GoingToRepair,
         Leaving,
+        New,
         PickTrash,
         PushingButton,
         Repairing,
