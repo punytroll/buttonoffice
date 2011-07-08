@@ -42,7 +42,6 @@
         private System.UInt64 _ArrivesAtDayMinute;
         private System.Drawing.Color _BackgroundColor;
         private System.Drawing.Color _BorderColor;
-        private System.Collections.Generic.Queue<ButtonOffice.Desk> _Cleaning;
         private ButtonOffice.Desk _Desk;
         private System.UInt64 _LeavesAtMinute;
         private ButtonOffice.LivingSide _LivingSide;
@@ -52,7 +51,6 @@
         private System.Drawing.PointF _WalkTo;
         private System.UInt64 _WorkMinutes;
         private ButtonOffice.Type _Type;
-        private System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing> _Repairing;
 
         public ButtonOffice.ActionState ActionState
         {
@@ -138,14 +136,6 @@
             }
         }
 
-        public System.Collections.Generic.Queue<ButtonOffice.Desk> Cleaning
-        {
-            get
-            {
-                return _Cleaning;
-            }
-        }
-
         public ButtonOffice.Desk Desk
         {
             get
@@ -187,18 +177,6 @@
             get
             {
                 return _Name;
-            }
-        }
-
-        public System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing> Repairing
-        {
-            get
-            {
-                return _Repairing;
-            }
-            set
-            {
-                _Repairing = value;
             }
         }
 
@@ -246,11 +224,10 @@
             }
         }
 
-        public Person(ButtonOffice.Type Type)
+        protected Person(ButtonOffice.Type Type)
         {
             _Name = "Hagen";
             _Type = Type;
-            _Cleaning = new System.Collections.Generic.Queue<ButtonOffice.Desk>();
         }
 
         public System.Single GetHeight()

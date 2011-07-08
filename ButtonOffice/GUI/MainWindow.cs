@@ -461,36 +461,36 @@
                         {
                             _Cents -= ButtonOffice.Data.WorkerHireCost;
 
-                            Person Person = new Person(_EntityPrototype.Type);
+                            ButtonOffice.Worker Worker = new ButtonOffice.Worker();
                             System.Random Random = new System.Random();
 
-                            Person.ArrivesAtDayMinute = Random.NextUInt32(ButtonOffice.Data.WorkerStartMinute, 300) % 1440;
-                            Person.WorkMinutes = ButtonOffice.Data.WorkerWorkMinutes;
-                            _PlanNextWorkDay(Person);
-                            Person.ActionState = ButtonOffice.ActionState.AtHome;
-                            Person.AnimationState = ButtonOffice.AnimationState.Hidden;
-                            Person.AnimationFraction = 0.0f;
-                            Person.BackgroundColor = _EntityPrototype.BackgroundColor;
-                            Person.BorderColor = _EntityPrototype.BorderColor;
-                            Person.Wage = ButtonOffice.Data.WorkerWage;
-                            Person.SetHeight(Random.NextSingle(ButtonOffice.Data.PersonHeight, 0.3f));
-                            Person.SetWidth(Random.NextSingle(ButtonOffice.Data.PersonWidth, 0.5f));
+                            Worker.ArrivesAtDayMinute = Random.NextUInt32(ButtonOffice.Data.WorkerStartMinute, 300) % 1440;
+                            Worker.WorkMinutes = ButtonOffice.Data.WorkerWorkMinutes;
+                            _PlanNextWorkDay(Worker);
+                            Worker.ActionState = ButtonOffice.ActionState.AtHome;
+                            Worker.AnimationState = ButtonOffice.AnimationState.Hidden;
+                            Worker.AnimationFraction = 0.0f;
+                            Worker.BackgroundColor = _EntityPrototype.BackgroundColor;
+                            Worker.BorderColor = _EntityPrototype.BorderColor;
+                            Worker.Wage = ButtonOffice.Data.WorkerWage;
+                            Worker.SetHeight(Random.NextSingle(ButtonOffice.Data.PersonHeight, 0.3f));
+                            Worker.SetWidth(Random.NextSingle(ButtonOffice.Data.PersonWidth, 0.5f));
                             if(new System.Random().NextDouble() < 0.5)
                             {
-                                Person.LivingSide = ButtonOffice.LivingSide.Left;
-                                Person.SetLocation(-10.0f, 0.0f);
+                                Worker.LivingSide = ButtonOffice.LivingSide.Left;
+                                Worker.SetLocation(-10.0f, 0.0f);
                             }
                             else
                             {
-                                Person.LivingSide = ButtonOffice.LivingSide.Right;
-                                Person.SetLocation(ButtonOffice.Data.WorldBlockWidth + 10.0f, 0.0f);
+                                Worker.LivingSide = ButtonOffice.LivingSide.Right;
+                                Worker.SetLocation(ButtonOffice.Data.WorldBlockWidth + 10.0f, 0.0f);
                             }
 
                             ButtonOffice.Desk Desk = Office.GetFreeDesk();
 
-                            Desk.Person = Person;
-                            Person.Desk = Desk;
-                            _Persons.Add(Person);
+                            Desk.Person = Worker;
+                            Worker.Desk = Desk;
+                            _Persons.Add(Worker);
                             if(System.Windows.Forms.Control.ModifierKeys != System.Windows.Forms.Keys.Shift)
                             {
                                 _HireWorkerButton.Checked = false;
@@ -505,38 +505,38 @@
                         {
                             _Cents -= ButtonOffice.Data.ITTechHireCost;
 
-                            Person Person = new Person(_EntityPrototype.Type);
+                            ButtonOffice.ITTech ITTech = new ButtonOffice.ITTech();
                             System.Random Random = new System.Random();
 
-                            Person.ArrivesAtDayMinute = Random.NextUInt32(ButtonOffice.Data.ITTechStartMinute, 300) % 1440;
-                            Person.WorkMinutes = ButtonOffice.Data.ITTechWorkMinutes;
-                            _PlanNextWorkDay(Person);
-                            Person.ActionState = ButtonOffice.ActionState.AtHome;
-                            Person.AnimationState = ButtonOffice.AnimationState.Hidden;
-                            Person.AnimationFraction = 0.0f;
-                            Person.BackgroundColor = _EntityPrototype.BackgroundColor;
-                            Person.BorderColor = _EntityPrototype.BorderColor;
-                            Person.Wage = ButtonOffice.Data.ITTechWage;
-                            Person.SetHeight(Random.NextSingle(ButtonOffice.Data.PersonHeight, 0.3f));
-                            Person.SetWidth(Random.NextSingle(ButtonOffice.Data.PersonWidth, 0.8f));
+                            ITTech.ArrivesAtDayMinute = Random.NextUInt32(ButtonOffice.Data.ITTechStartMinute, 300) % 1440;
+                            ITTech.WorkMinutes = ButtonOffice.Data.ITTechWorkMinutes;
+                            _PlanNextWorkDay(ITTech);
+                            ITTech.ActionState = ButtonOffice.ActionState.AtHome;
+                            ITTech.AnimationState = ButtonOffice.AnimationState.Hidden;
+                            ITTech.AnimationFraction = 0.0f;
+                            ITTech.BackgroundColor = _EntityPrototype.BackgroundColor;
+                            ITTech.BorderColor = _EntityPrototype.BorderColor;
+                            ITTech.Wage = ButtonOffice.Data.ITTechWage;
+                            ITTech.SetHeight(Random.NextSingle(ButtonOffice.Data.PersonHeight, 0.3f));
+                            ITTech.SetWidth(Random.NextSingle(ButtonOffice.Data.PersonWidth, 0.8f));
                             if(new System.Random().NextDouble() < 0.5)
                             {
-                                Person.LivingSide = ButtonOffice.LivingSide.Left;
-                                Person.SetLocation(-10.0f, 0.0f);
+                                ITTech.LivingSide = ButtonOffice.LivingSide.Left;
+                                ITTech.SetLocation(-10.0f, 0.0f);
                             }
                             else
                             {
-                                Person.LivingSide = ButtonOffice.LivingSide.Right;
-                                Person.SetLocation(ButtonOffice.Data.WorldBlockWidth + 10.0f, 0.0f);
+                                ITTech.LivingSide = ButtonOffice.LivingSide.Right;
+                                ITTech.SetLocation(ButtonOffice.Data.WorldBlockWidth + 10.0f, 0.0f);
                             }
 
                             ButtonOffice.Desk Desk = Office.GetFreeDesk();
 
-                            Desk.Person = Person;
-                            Person.Desk = Desk;
-                            Person.SetX(Desk.GetX() + (ButtonOffice.Data.DeskWidth - Person.GetWidth()) / 2.0f);
-                            Person.SetY(Desk.GetY());
-                            _Persons.Add(Person);
+                            Desk.Person = ITTech;
+                            ITTech.Desk = Desk;
+                            ITTech.SetX(Desk.GetX() + (ButtonOffice.Data.DeskWidth - ITTech.GetWidth()) / 2.0f);
+                            ITTech.SetY(Desk.GetY());
+                            _Persons.Add(ITTech);
                             if(System.Windows.Forms.Control.ModifierKeys != System.Windows.Forms.Keys.Shift)
                             {
                                 _HireITTechButton.Checked = false;
@@ -551,36 +551,36 @@
                         {
                             _Cents -= ButtonOffice.Data.JanitorHireCost;
 
-                            Person Person = new Person(_EntityPrototype.Type);
+                            ButtonOffice.Janitor Janitor = new ButtonOffice.Janitor();
                             System.Random Random = new System.Random();
 
-                            Person.ArrivesAtDayMinute = Random.NextUInt32(ButtonOffice.Data.JanitorStartMinute, 300) % 1440;
-                            Person.WorkMinutes = ButtonOffice.Data.JanitorWorkMinutes;
-                            _PlanNextWorkDay(Person);
-                            Person.ActionState = ButtonOffice.ActionState.AtHome;
-                            Person.AnimationState = ButtonOffice.AnimationState.Hidden;
-                            Person.AnimationFraction = 0.0f;
-                            Person.BackgroundColor = _EntityPrototype.BackgroundColor;
-                            Person.BorderColor = _EntityPrototype.BorderColor;
-                            Person.Wage = ButtonOffice.Data.JanitorWage;
-                            Person.SetHeight(Random.NextSingle(ButtonOffice.Data.PersonHeight, 0.3f));
-                            Person.SetWidth(Random.NextSingle(ButtonOffice.Data.PersonWidth, 0.5f));
+                            Janitor.ArrivesAtDayMinute = Random.NextUInt32(ButtonOffice.Data.JanitorStartMinute, 300) % 1440;
+                            Janitor.WorkMinutes = ButtonOffice.Data.JanitorWorkMinutes;
+                            _PlanNextWorkDay(Janitor);
+                            Janitor.ActionState = ButtonOffice.ActionState.AtHome;
+                            Janitor.AnimationState = ButtonOffice.AnimationState.Hidden;
+                            Janitor.AnimationFraction = 0.0f;
+                            Janitor.BackgroundColor = _EntityPrototype.BackgroundColor;
+                            Janitor.BorderColor = _EntityPrototype.BorderColor;
+                            Janitor.Wage = ButtonOffice.Data.JanitorWage;
+                            Janitor.SetHeight(Random.NextSingle(ButtonOffice.Data.PersonHeight, 0.3f));
+                            Janitor.SetWidth(Random.NextSingle(ButtonOffice.Data.PersonWidth, 0.5f));
                             if(new System.Random().NextDouble() < 0.5)
                             {
-                                Person.LivingSide = ButtonOffice.LivingSide.Left;
-                                Person.SetLocation(-10.0f, 0.0f);
+                                Janitor.LivingSide = ButtonOffice.LivingSide.Left;
+                                Janitor.SetLocation(-10.0f, 0.0f);
                             }
                             else
                             {
-                                Person.LivingSide = ButtonOffice.LivingSide.Right;
-                                Person.SetLocation(ButtonOffice.Data.WorldBlockWidth + 10.0f, 0.0f);
+                                Janitor.LivingSide = ButtonOffice.LivingSide.Right;
+                                Janitor.SetLocation(ButtonOffice.Data.WorldBlockWidth + 10.0f, 0.0f);
                             }
 
                             ButtonOffice.Desk Desk = Office.GetFreeDesk();
 
-                            Desk.Person = Person;
-                            Person.Desk = Desk;
-                            _Persons.Add(Person);
+                            Desk.Person = Janitor;
+                            Janitor.Desk = Desk;
+                            _Persons.Add(Janitor);
                             if(System.Windows.Forms.Control.ModifierKeys != System.Windows.Forms.Keys.Shift)
                             {
                                 _HireJanitorButton.Checked = false;
@@ -959,19 +959,19 @@
                 {
                 case ButtonOffice.Type.ITTech:
                     {
-                        _MoveITTech(Person, GameMinutes);
+                        _MoveITTech(Person as ButtonOffice.ITTech, GameMinutes);
 
                         break;
                     }
                 case ButtonOffice.Type.Janitor:
                     {
-                        _MoveJanitor(Person, GameMinutes);
+                        _MoveJanitor(Person as ButtonOffice.Janitor, GameMinutes);
 
                         break;
                     }
                 case ButtonOffice.Type.Worker:
                     {
-                        _MoveWorker(Person, GameMinutes);
+                        _MoveWorker(Person as ButtonOffice.Worker, GameMinutes);
 
                         break;
                     }
@@ -979,94 +979,94 @@
             }
         }
 
-        private void _MoveITTech(ButtonOffice.Person Person, System.Single GameMinutes)
+        private void _MoveITTech(ButtonOffice.ITTech ITTech, System.Single GameMinutes)
         {
-            switch(Person.ActionState)
+            switch(ITTech.ActionState)
             {
             case ButtonOffice.ActionState.Working:
                 {
-                    Person.ActionState = ButtonOffice.ActionState.WaitingForBrokenThings;
+                    ITTech.ActionState = ButtonOffice.ActionState.WaitingForBrokenThings;
 
                     break;
                 }
             case ButtonOffice.ActionState.AtHome:
                 {
-                    if(_Minutes > Person.ArrivesAtMinute)
+                    if(_Minutes > ITTech.ArrivesAtMinute)
                     {
-                        Person.ActionState = ButtonOffice.ActionState.Arriving;
-                        Person.AnimationState = ButtonOffice.AnimationState.Walking;
-                        if(Person.LivingSide == ButtonOffice.LivingSide.Left)
+                        ITTech.ActionState = ButtonOffice.ActionState.Arriving;
+                        ITTech.AnimationState = ButtonOffice.AnimationState.Walking;
+                        if(ITTech.LivingSide == ButtonOffice.LivingSide.Left)
                         {
-                            Person.SetLocation(-10.0f, 0.0f);
+                            ITTech.SetLocation(-10.0f, 0.0f);
                         }
                         else
                         {
-                            Person.SetLocation(ButtonOffice.Data.WorldBlockWidth + 10.0f, 0.0f);
+                            ITTech.SetLocation(ButtonOffice.Data.WorldBlockWidth + 10.0f, 0.0f);
                         }
-                        Person.WalkTo = new System.Drawing.PointF(Person.Desk.GetX() + (ButtonOffice.Data.DeskWidth - Person.GetWidth()) / 2.0f, Person.Desk.GetY());
+                        ITTech.WalkTo = new System.Drawing.PointF(ITTech.Desk.GetX() + (ButtonOffice.Data.DeskWidth - ITTech.GetWidth()) / 2.0f, ITTech.Desk.GetY());
                     }
 
                     break;
                 }
             case ButtonOffice.ActionState.Arriving:
                 {
-                    System.Single DeltaX = Person.WalkTo.X - Person.GetX();
-                    System.Single DeltaY = Person.WalkTo.Y - Person.GetY();
+                    System.Single DeltaX = ITTech.WalkTo.X - ITTech.GetX();
+                    System.Single DeltaY = ITTech.WalkTo.Y - ITTech.GetY();
                     System.Single Norm = System.Math.Sqrt(DeltaX * DeltaX + DeltaY * DeltaY).ToSingle();
 
                     if(Norm > 0.1)
                     {
                         DeltaX = DeltaX / Norm * ButtonOffice.Data.PersonSpeed * GameMinutes;
                         DeltaY = DeltaY / Norm * ButtonOffice.Data.PersonSpeed * GameMinutes;
-                        Person.SetLocation(Person.GetX() + DeltaX, Person.GetY() + DeltaY);
+                        ITTech.SetLocation(ITTech.GetX() + DeltaX, ITTech.GetY() + DeltaY);
                     }
                     else
                     {
-                        Person.SetLocation(Person.WalkTo);
-                        Person.ActionState = ButtonOffice.ActionState.Working;
-                        Person.AnimationState = ButtonOffice.AnimationState.Standing;
-                        Person.AnimationFraction = 0.0f;
+                        ITTech.SetLocation(ITTech.WalkTo);
+                        ITTech.ActionState = ButtonOffice.ActionState.Working;
+                        ITTech.AnimationState = ButtonOffice.AnimationState.Standing;
+                        ITTech.AnimationFraction = 0.0f;
                     }
 
                     break;
                 }
             case ButtonOffice.ActionState.Leaving:
                 {
-                    System.Single DeltaX = Person.WalkTo.X - Person.GetX();
-                    System.Single DeltaY = Person.WalkTo.Y - Person.GetY();
+                    System.Single DeltaX = ITTech.WalkTo.X - ITTech.GetX();
+                    System.Single DeltaY = ITTech.WalkTo.Y - ITTech.GetY();
                     System.Single Norm = System.Math.Sqrt(DeltaX * DeltaX + DeltaY * DeltaY).ToSingle();
 
                     if(Norm > 0.1)
                     {
                         DeltaX = DeltaX / Norm * ButtonOffice.Data.PersonSpeed * GameMinutes;
                         DeltaY = DeltaY / Norm * ButtonOffice.Data.PersonSpeed * GameMinutes;
-                        Person.SetLocation(Person.GetX() + DeltaX, Person.GetY() + DeltaY);
+                        ITTech.SetLocation(ITTech.GetX() + DeltaX, ITTech.GetY() + DeltaY);
                     }
                     else
                     {
-                        Person.ActionState = ButtonOffice.ActionState.AtHome;
-                        Person.AnimationState = ButtonOffice.AnimationState.Hidden;
-                        _PlanNextWorkDay(Person);
+                        ITTech.ActionState = ButtonOffice.ActionState.AtHome;
+                        ITTech.AnimationState = ButtonOffice.AnimationState.Hidden;
+                        _PlanNextWorkDay(ITTech);
                     }
 
                     break;
                 }
             case ButtonOffice.ActionState.WaitingForBrokenThings:
                 {
-                    if(_Minutes > Person.LeavesAtMinute)
+                    if(_Minutes > ITTech.LeavesAtMinute)
                     {
-                        if(Person.LivingSide == ButtonOffice.LivingSide.Left)
+                        if(ITTech.LivingSide == ButtonOffice.LivingSide.Left)
                         {
-                            Person.WalkTo = new System.Drawing.PointF(-10.0f, 0.0f);
+                            ITTech.WalkTo = new System.Drawing.PointF(-10.0f, 0.0f);
                         }
                         else
                         {
-                            Person.WalkTo = new System.Drawing.PointF(ButtonOffice.Data.WorldBlockWidth + 10.0f, 0.0f);
+                            ITTech.WalkTo = new System.Drawing.PointF(ButtonOffice.Data.WorldBlockWidth + 10.0f, 0.0f);
                         }
-                        Person.ActionState = ButtonOffice.ActionState.Leaving;
-                        Person.AnimationState = ButtonOffice.AnimationState.Walking;
-                        Person.AnimationFraction = 0.0f;
-                        _Cents -= Person.Wage;
+                        ITTech.ActionState = ButtonOffice.ActionState.Leaving;
+                        ITTech.AnimationState = ButtonOffice.AnimationState.Walking;
+                        ITTech.AnimationFraction = 0.0f;
+                        _Cents -= ITTech.Wage;
                     }
                     else
                     {
@@ -1078,51 +1078,51 @@
                             {
                             case ButtonOffice.BrokenThing.FirstComputer:
                                 {
-                                    Person.WalkTo = new System.Drawing.PointF(BrokenThing.First.FirstDesk.GetX(), BrokenThing.First.GetY());
+                                    ITTech.WalkTo = new System.Drawing.PointF(BrokenThing.First.FirstDesk.GetX(), BrokenThing.First.GetY());
 
                                     break;
                                 }
                             case ButtonOffice.BrokenThing.SecondComputer:
                                 {
-                                    Person.WalkTo = new System.Drawing.PointF(BrokenThing.First.SecondDesk.GetX(), BrokenThing.First.GetY());
+                                    ITTech.WalkTo = new System.Drawing.PointF(BrokenThing.First.SecondDesk.GetX(), BrokenThing.First.GetY());
 
                                     break;
                                 }
                             case ButtonOffice.BrokenThing.ThirdComputer:
                                 {
-                                    Person.WalkTo = new System.Drawing.PointF(BrokenThing.First.ThirdDesk.GetX(), BrokenThing.First.GetY());
+                                    ITTech.WalkTo = new System.Drawing.PointF(BrokenThing.First.ThirdDesk.GetX(), BrokenThing.First.GetY());
 
                                     break;
                                 }
                             case ButtonOffice.BrokenThing.FourthComputer:
                                 {
-                                    Person.WalkTo = new System.Drawing.PointF(BrokenThing.First.FourthDesk.GetX(), BrokenThing.First.GetY());
+                                    ITTech.WalkTo = new System.Drawing.PointF(BrokenThing.First.FourthDesk.GetX(), BrokenThing.First.GetY());
 
                                     break;
                                 }
                             case ButtonOffice.BrokenThing.FirstLamp:
                                 {
-                                    Person.WalkTo = new System.Drawing.PointF(BrokenThing.First.GetX() + ButtonOffice.Data.LampOneX, BrokenThing.First.GetY());
+                                    ITTech.WalkTo = new System.Drawing.PointF(BrokenThing.First.GetX() + ButtonOffice.Data.LampOneX, BrokenThing.First.GetY());
 
                                     break;
                                 }
                             case ButtonOffice.BrokenThing.SecondLamp:
                                 {
-                                    Person.WalkTo = new System.Drawing.PointF(BrokenThing.First.GetX() + ButtonOffice.Data.LampTwoX, BrokenThing.First.GetY());
+                                    ITTech.WalkTo = new System.Drawing.PointF(BrokenThing.First.GetX() + ButtonOffice.Data.LampTwoX, BrokenThing.First.GetY());
 
                                     break;
                                 }
                             case ButtonOffice.BrokenThing.ThirdLamp:
                                 {
-                                    Person.WalkTo = new System.Drawing.PointF(BrokenThing.First.GetX() + ButtonOffice.Data.LampThreeX, BrokenThing.First.GetY());
+                                    ITTech.WalkTo = new System.Drawing.PointF(BrokenThing.First.GetX() + ButtonOffice.Data.LampThreeX, BrokenThing.First.GetY());
 
                                     break;
                                 }
                             }
-                            Person.Repairing = BrokenThing;
-                            Person.ActionState = ButtonOffice.ActionState.GoingToRepair;
-                            Person.AnimationState = ButtonOffice.AnimationState.Walking;
-                            Person.AnimationFraction = 0.0f;
+                            ITTech.SetRepairingTarget(BrokenThing.First, BrokenThing.Second);
+                            ITTech.ActionState = ButtonOffice.ActionState.GoingToRepair;
+                            ITTech.AnimationState = ButtonOffice.AnimationState.Walking;
+                            ITTech.AnimationFraction = 0.0f;
                         }
                     }
 
@@ -1130,105 +1130,106 @@
                 }
             case ButtonOffice.ActionState.GoingToRepair:
                 {
-                    System.Single DeltaX = Person.WalkTo.X - Person.GetX();
-                    System.Single DeltaY = Person.WalkTo.Y - Person.GetY();
+                    System.Single DeltaX = ITTech.WalkTo.X - ITTech.GetX();
+                    System.Single DeltaY = ITTech.WalkTo.Y - ITTech.GetY();
                     System.Single Norm = System.Math.Sqrt(DeltaX * DeltaX + DeltaY * DeltaY).ToSingle();
 
                     if(Norm > 0.1)
                     {
                         DeltaX = DeltaX / Norm * ButtonOffice.Data.PersonSpeed * GameMinutes;
                         DeltaY = DeltaY / Norm * ButtonOffice.Data.PersonSpeed * GameMinutes;
-                        Person.SetLocation(Person.GetX() + DeltaX, Person.GetY() + DeltaY);
+                        ITTech.SetLocation(ITTech.GetX() + DeltaX, ITTech.GetY() + DeltaY);
                     }
                     else
                     {
-                        Person.SetLocation(Person.WalkTo);
-                        Person.ActionState = ButtonOffice.ActionState.Repairing;
-                        Person.AnimationState = ButtonOffice.AnimationState.Repairing;
-                        Person.AnimationFraction = 0.0f;
+                        ITTech.SetLocation(ITTech.WalkTo);
+                        ITTech.ActionState = ButtonOffice.ActionState.Repairing;
+                        ITTech.AnimationState = ButtonOffice.AnimationState.Repairing;
+                        ITTech.AnimationFraction = 0.0f;
                     }
 
                     break;
                 }
             case ButtonOffice.ActionState.Repairing:
                 {
-                    Person.AnimationFraction += ButtonOffice.Data.ITTechRepairSpeed * GameMinutes;
-                    if(Person.AnimationFraction >= 1.0f)
+                    ITTech.AnimationFraction += ButtonOffice.Data.ITTechRepairSpeed * GameMinutes;
+                    if(ITTech.AnimationFraction >= 1.0f)
                     {
                         System.Random Random = new System.Random();
 
-                        switch(Person.Repairing.Second)
+                        switch(ITTech.GetBrokenThing())
                         {
                         case ButtonOffice.BrokenThing.FirstComputer:
                             {
-                                Person.Repairing.First.FirstDesk.SetMinutesUntilComputerBroken(Random.GetSingleFromExponentialDistribution(ButtonOffice.Data.MeanMinutesToBrokenComputer));
+                                ITTech.GetOffice().FirstDesk.SetMinutesUntilComputerBroken(Random.GetSingleFromExponentialDistribution(ButtonOffice.Data.MeanMinutesToBrokenComputer));
 
                                 break;
                             }
                         case ButtonOffice.BrokenThing.SecondComputer:
                             {
-                                Person.Repairing.First.SecondDesk.SetMinutesUntilComputerBroken(Random.GetSingleFromExponentialDistribution(ButtonOffice.Data.MeanMinutesToBrokenComputer));
+                                ITTech.GetOffice().SecondDesk.SetMinutesUntilComputerBroken(Random.GetSingleFromExponentialDistribution(ButtonOffice.Data.MeanMinutesToBrokenComputer));
 
                                 break;
                             }
                         case ButtonOffice.BrokenThing.ThirdComputer:
                             {
-                                Person.Repairing.First.ThirdDesk.SetMinutesUntilComputerBroken(Random.GetSingleFromExponentialDistribution(ButtonOffice.Data.MeanMinutesToBrokenComputer));
+                                ITTech.GetOffice().ThirdDesk.SetMinutesUntilComputerBroken(Random.GetSingleFromExponentialDistribution(ButtonOffice.Data.MeanMinutesToBrokenComputer));
 
                                 break;
                             }
                         case ButtonOffice.BrokenThing.FourthComputer:
                             {
-                                Person.Repairing.First.FourthDesk.SetMinutesUntilComputerBroken(Random.GetSingleFromExponentialDistribution(ButtonOffice.Data.MeanMinutesToBrokenComputer));
+                                ITTech.GetOffice().FourthDesk.SetMinutesUntilComputerBroken(Random.GetSingleFromExponentialDistribution(ButtonOffice.Data.MeanMinutesToBrokenComputer));
 
                                 break;
                             }
                         case ButtonOffice.BrokenThing.FirstLamp:
                             {
-                                Person.Repairing.First.FirstLamp.SetMinutesUntilBroken(Random.GetSingleFromExponentialDistribution(ButtonOffice.Data.MeanMinutesToBrokenLamp));
+                                ITTech.GetOffice().FirstLamp.SetMinutesUntilBroken(Random.GetSingleFromExponentialDistribution(ButtonOffice.Data.MeanMinutesToBrokenLamp));
 
                                 break;
                             }
                         case ButtonOffice.BrokenThing.SecondLamp:
                             {
-                                Person.Repairing.First.SecondLamp.SetMinutesUntilBroken(Random.GetSingleFromExponentialDistribution(ButtonOffice.Data.MeanMinutesToBrokenLamp));
+                                ITTech.GetOffice().SecondLamp.SetMinutesUntilBroken(Random.GetSingleFromExponentialDistribution(ButtonOffice.Data.MeanMinutesToBrokenLamp));
 
                                 break;
                             }
                         case ButtonOffice.BrokenThing.ThirdLamp:
                             {
-                                Person.Repairing.First.ThirdLamp.SetMinutesUntilBroken(Random.GetSingleFromExponentialDistribution(ButtonOffice.Data.MeanMinutesToBrokenLamp));
+                                ITTech.GetOffice().ThirdLamp.SetMinutesUntilBroken(Random.GetSingleFromExponentialDistribution(ButtonOffice.Data.MeanMinutesToBrokenLamp));
 
                                 break;
                             }
                         }
-                        Person.ActionState = ButtonOffice.ActionState.GoingToDesk;
-                        Person.AnimationState = ButtonOffice.AnimationState.Walking;
-                        Person.AnimationFraction = 0.0f;
-                        Person.WalkTo = new System.Drawing.PointF(Person.Desk.GetX() + (ButtonOffice.Data.DeskWidth - Person.GetWidth()) / 2.0f, Person.Desk.GetY());
+                        ITTech.DropRepairingTarget();
+                        ITTech.ActionState = ButtonOffice.ActionState.GoingToDesk;
+                        ITTech.AnimationState = ButtonOffice.AnimationState.Walking;
+                        ITTech.AnimationFraction = 0.0f;
+                        ITTech.WalkTo = new System.Drawing.PointF(ITTech.Desk.GetX() + (ButtonOffice.Data.DeskWidth - ITTech.GetWidth()) / 2.0f, ITTech.Desk.GetY());
                     }
 
                     break;
                 }
             case ButtonOffice.ActionState.GoingToDesk:
                 {
-                    System.Single DeltaX = Person.WalkTo.X - Person.GetX();
-                    System.Single DeltaY = Person.WalkTo.Y - Person.GetY();
+                    System.Single DeltaX = ITTech.WalkTo.X - ITTech.GetX();
+                    System.Single DeltaY = ITTech.WalkTo.Y - ITTech.GetY();
                     System.Single Norm = System.Math.Sqrt(DeltaX * DeltaX + DeltaY * DeltaY).ToSingle();
 
                     if(Norm > 0.1)
                     {
                         DeltaX = DeltaX / Norm * ButtonOffice.Data.PersonSpeed * GameMinutes;
                         DeltaY = DeltaY / Norm * ButtonOffice.Data.PersonSpeed * GameMinutes;
-                        Person.SetLocation(Person.GetX() + DeltaX, Person.GetY() + DeltaY);
+                        ITTech.SetLocation(ITTech.GetX() + DeltaX, ITTech.GetY() + DeltaY);
                     }
                     else
                     {
-                        Person.SetLocation(Person.WalkTo);
-                        Person.ActionState = ButtonOffice.ActionState.WaitingForBrokenThings;
-                        Person.AnimationState = ButtonOffice.AnimationState.Standing;
-                        Person.AnimationFraction = 0.0f;
-                        Person.Desk.TrashLevel += 1.0f;
+                        ITTech.SetLocation(ITTech.WalkTo);
+                        ITTech.ActionState = ButtonOffice.ActionState.WaitingForBrokenThings;
+                        ITTech.AnimationState = ButtonOffice.AnimationState.Standing;
+                        ITTech.AnimationFraction = 0.0f;
+                        ITTech.Desk.TrashLevel += 1.0f;
                     }
 
                     break;
@@ -1236,146 +1237,146 @@
             }
         }
 
-        private void _MoveJanitor(ButtonOffice.Person Person, System.Single GameMinutes)
+        private void _MoveJanitor(ButtonOffice.Janitor Janitor, System.Single GameMinutes)
         {
-            switch(Person.ActionState)
+            switch(Janitor.ActionState)
             {
             case ButtonOffice.ActionState.GoingToClean:
                 {
-                    System.Single DeltaX = Person.WalkTo.X - Person.GetX();
-                    System.Single DeltaY = Person.WalkTo.Y - Person.GetY();
+                    System.Single DeltaX = Janitor.WalkTo.X - Janitor.GetX();
+                    System.Single DeltaY = Janitor.WalkTo.Y - Janitor.GetY();
                     System.Single Norm = System.Math.Sqrt(DeltaX * DeltaX + DeltaY * DeltaY).ToSingle();
 
                     if(Norm > 0.1)
                     {
                         DeltaX = DeltaX / Norm * ButtonOffice.Data.PersonSpeed * GameMinutes;
                         DeltaY = DeltaY / Norm * ButtonOffice.Data.PersonSpeed * GameMinutes;
-                        Person.SetLocation(Person.GetX() + DeltaX, Person.GetY() + DeltaY);
+                        Janitor.SetLocation(Janitor.GetX() + DeltaX, Janitor.GetY() + DeltaY);
                     }
                     else
                     {
-                        Person.SetLocation(Person.WalkTo);
-                        Person.ActionState = ButtonOffice.ActionState.Cleaning;
-                        Person.AnimationState = ButtonOffice.AnimationState.Cleaning;
-                        Person.AnimationFraction = 0.0f;
+                        Janitor.SetLocation(Janitor.WalkTo);
+                        Janitor.ActionState = ButtonOffice.ActionState.Cleaning;
+                        Janitor.AnimationState = ButtonOffice.AnimationState.Cleaning;
+                        Janitor.AnimationFraction = 0.0f;
                     }
 
                     break;
                 }
             case ButtonOffice.ActionState.Cleaning:
                 {
-                    ButtonOffice.Desk Desk = Person.Cleaning.Peek();
+                    ButtonOffice.Desk Desk = Janitor.PeekFirstCleaningTarget();
 
                     if(Desk.Janitor == null)
                     {
-                        Desk.Janitor = Person;
+                        Desk.Janitor = Janitor;
                     }
-                    if(Desk.Janitor == Person)
+                    if(Desk.Janitor == Janitor)
                     {
                         if(Desk.TrashLevel > 0.0f)
                         {
-                            Person.AnimationFraction += ButtonOffice.Data.JanitorCleanSpeed * GameMinutes;
-                            while(Person.AnimationFraction > 1.0f)
+                            Janitor.AnimationFraction += ButtonOffice.Data.JanitorCleanSpeed * GameMinutes;
+                            while(Janitor.AnimationFraction > 1.0f)
                             {
                                 Desk.TrashLevel -= ButtonOffice.Data.JanitorCleanAmount;
-                                Person.AnimationFraction -= 1.0f;
+                                Janitor.AnimationFraction -= 1.0f;
                             }
                         }
                         if(Desk.TrashLevel <= 0.0f)
                         {
                             Desk.Janitor = null;
                             Desk.TrashLevel = 0.0f;
-                            Person.Cleaning.Dequeue();
-                            Person.ActionState = ButtonOffice.ActionState.PickTrash;
-                            Person.AnimationState = ButtonOffice.AnimationState.Standing;
-                            Person.AnimationFraction = 0.0f;
+                            Janitor.DropFirstCleaningTarget();
+                            Janitor.ActionState = ButtonOffice.ActionState.PickTrash;
+                            Janitor.AnimationState = ButtonOffice.AnimationState.Standing;
+                            Janitor.AnimationFraction = 0.0f;
                         }
                     }
                     else
                     {
-                        Person.Cleaning.Dequeue();
-                        Person.ActionState = ButtonOffice.ActionState.PickTrash;
-                        Person.AnimationState = ButtonOffice.AnimationState.Standing;
-                        Person.AnimationFraction = 0.0f;
+                        Janitor.DropFirstCleaningTarget();
+                        Janitor.ActionState = ButtonOffice.ActionState.PickTrash;
+                        Janitor.AnimationState = ButtonOffice.AnimationState.Standing;
+                        Janitor.AnimationFraction = 0.0f;
                     }
 
                     break;
                 }
             case ButtonOffice.ActionState.GoingToDesk:
                 {
-                    System.Single DeltaX = Person.WalkTo.X - Person.GetX();
-                    System.Single DeltaY = Person.WalkTo.Y - Person.GetY();
+                    System.Single DeltaX = Janitor.WalkTo.X - Janitor.GetX();
+                    System.Single DeltaY = Janitor.WalkTo.Y - Janitor.GetY();
                     System.Single Norm = System.Math.Sqrt(DeltaX * DeltaX + DeltaY * DeltaY).ToSingle();
 
                     if(Norm > 0.1)
                     {
                         DeltaX = DeltaX / Norm * ButtonOffice.Data.PersonSpeed * GameMinutes;
                         DeltaY = DeltaY / Norm * ButtonOffice.Data.PersonSpeed * GameMinutes;
-                        Person.SetLocation(Person.GetX() + DeltaX, Person.GetY() + DeltaY);
+                        Janitor.SetLocation(Janitor.GetX() + DeltaX, Janitor.GetY() + DeltaY);
                     }
                     else
                     {
-                        Person.SetLocation(Person.WalkTo);
-                        Person.ActionState = ButtonOffice.ActionState.WaitingToGoHome;
-                        Person.AnimationState = ButtonOffice.AnimationState.Standing;
-                        Person.AnimationFraction = 0.0f;
+                        Janitor.SetLocation(Janitor.WalkTo);
+                        Janitor.ActionState = ButtonOffice.ActionState.WaitingToGoHome;
+                        Janitor.AnimationState = ButtonOffice.AnimationState.Standing;
+                        Janitor.AnimationFraction = 0.0f;
                     }
 
                     break;
                 }
             case ButtonOffice.ActionState.PickTrash:
                 {
-                    if(_Minutes > Person.LeavesAtMinute)
+                    if(_Minutes > Janitor.LeavesAtMinute)
                     {
-                        if(Person.LivingSide == ButtonOffice.LivingSide.Left)
+                        if(Janitor.LivingSide == ButtonOffice.LivingSide.Left)
                         {
-                            Person.WalkTo = new System.Drawing.PointF(-10.0f, 0.0f);
+                            Janitor.WalkTo = new System.Drawing.PointF(-10.0f, 0.0f);
                         }
                         else
                         {
-                            Person.WalkTo = new System.Drawing.PointF(ButtonOffice.Data.WorldBlockWidth + 10.0f, 0.0f);
+                            Janitor.WalkTo = new System.Drawing.PointF(ButtonOffice.Data.WorldBlockWidth + 10.0f, 0.0f);
                         }
-                        Person.ActionState = ButtonOffice.ActionState.Leaving;
-                        Person.AnimationState = ButtonOffice.AnimationState.Walking;
-                        Person.AnimationFraction = 0.0f;
-                        Person.Cleaning.Clear();
-                        _Cents -= Person.Wage;
+                        Janitor.ActionState = ButtonOffice.ActionState.Leaving;
+                        Janitor.AnimationState = ButtonOffice.AnimationState.Walking;
+                        Janitor.AnimationFraction = 0.0f;
+                        Janitor.DropAllCleaningTargets();
+                        _Cents -= Janitor.Wage;
                     }
                     else
                     {
-                        if(Person.Cleaning.Count > 0)
+                        if(Janitor.GetNumberOfCleaningTargets() > 0)
                         {
-                            Person.WalkTo = Person.Cleaning.Peek().GetLocation();
-                            Person.ActionState = ButtonOffice.ActionState.GoingToClean;
+                            Janitor.WalkTo = Janitor.PeekFirstCleaningTarget().GetLocation();
+                            Janitor.ActionState = ButtonOffice.ActionState.GoingToClean;
                         }
                         else
                         {
-                            Person.WalkTo = Person.Desk.GetLocation();
-                            Person.ActionState = ButtonOffice.ActionState.GoingToDesk;
+                            Janitor.WalkTo = Janitor.Desk.GetLocation();
+                            Janitor.ActionState = ButtonOffice.ActionState.GoingToDesk;
                         }
-                        Person.AnimationState = ButtonOffice.AnimationState.Walking;
-                        Person.AnimationFraction = 0.0f;
+                        Janitor.AnimationState = ButtonOffice.AnimationState.Walking;
+                        Janitor.AnimationFraction = 0.0f;
                     }
 
                     break;
                 }
             case ButtonOffice.ActionState.WaitingToGoHome:
                 {
-                    if(_Minutes > Person.LeavesAtMinute)
+                    if(_Minutes > Janitor.LeavesAtMinute)
                     {
-                        if(Person.LivingSide == ButtonOffice.LivingSide.Left)
+                        if(Janitor.LivingSide == ButtonOffice.LivingSide.Left)
                         {
-                            Person.WalkTo = new System.Drawing.PointF(-10.0f, 0.0f);
+                            Janitor.WalkTo = new System.Drawing.PointF(-10.0f, 0.0f);
                         }
                         else
                         {
-                            Person.WalkTo = new System.Drawing.PointF(ButtonOffice.Data.WorldBlockWidth + 10.0f, 0.0f);
+                            Janitor.WalkTo = new System.Drawing.PointF(ButtonOffice.Data.WorldBlockWidth + 10.0f, 0.0f);
                         }
-                        Person.ActionState = ButtonOffice.ActionState.Leaving;
-                        Person.AnimationState = ButtonOffice.AnimationState.Walking;
-                        Person.AnimationFraction = 0.0f;
-                        Person.Cleaning.Clear();
-                        _Cents -= Person.Wage;
+                        Janitor.ActionState = ButtonOffice.ActionState.Leaving;
+                        Janitor.AnimationState = ButtonOffice.AnimationState.Walking;
+                        Janitor.AnimationFraction = 0.0f;
+                        Janitor.DropAllCleaningTargets();
+                        _Cents -= Janitor.Wage;
                     }
 
                     break;
@@ -1384,73 +1385,73 @@
                 {
                     foreach(ButtonOffice.Office Office in _Offices)
                     {
-                        Person.Cleaning.Enqueue(Office.FirstDesk);
-                        Person.Cleaning.Enqueue(Office.SecondDesk);
-                        Person.Cleaning.Enqueue(Office.ThirdDesk);
-                        Person.Cleaning.Enqueue(Office.FourthDesk);
+                        Janitor.EnqueueCleaningTarget(Office.FirstDesk);
+                        Janitor.EnqueueCleaningTarget(Office.SecondDesk);
+                        Janitor.EnqueueCleaningTarget(Office.ThirdDesk);
+                        Janitor.EnqueueCleaningTarget(Office.FourthDesk);
                     }
-                    Person.ActionState = ButtonOffice.ActionState.PickTrash;
+                    Janitor.ActionState = ButtonOffice.ActionState.PickTrash;
 
                     break;
                 }
             case ButtonOffice.ActionState.AtHome:
                 {
-                    if(_Minutes > Person.ArrivesAtMinute)
+                    if(_Minutes > Janitor.ArrivesAtMinute)
                     {
-                        Person.ActionState = ButtonOffice.ActionState.Arriving;
-                        Person.AnimationState = ButtonOffice.AnimationState.Walking;
-                        if(Person.LivingSide == ButtonOffice.LivingSide.Left)
+                        Janitor.ActionState = ButtonOffice.ActionState.Arriving;
+                        Janitor.AnimationState = ButtonOffice.AnimationState.Walking;
+                        if(Janitor.LivingSide == ButtonOffice.LivingSide.Left)
                         {
-                            Person.SetLocation(-10.0f, 0.0f);
+                            Janitor.SetLocation(-10.0f, 0.0f);
                         }
                         else
                         {
-                            Person.SetLocation(ButtonOffice.Data.WorldBlockWidth + 10.0f, 0.0f);
+                            Janitor.SetLocation(ButtonOffice.Data.WorldBlockWidth + 10.0f, 0.0f);
                         }
-                        Person.WalkTo = new System.Drawing.PointF(Person.Desk.GetX() + (ButtonOffice.Data.DeskWidth - Person.GetWidth()) / 2.0f, Person.Desk.GetY());
+                        Janitor.WalkTo = new System.Drawing.PointF(Janitor.Desk.GetX() + (ButtonOffice.Data.DeskWidth - Janitor.GetWidth()) / 2.0f, Janitor.Desk.GetY());
                     }
 
                     break;
                 }
             case ButtonOffice.ActionState.Arriving:
                 {
-                    System.Single DeltaX = Person.WalkTo.X - Person.GetX();
-                    System.Single DeltaY = Person.WalkTo.Y - Person.GetY();
+                    System.Single DeltaX = Janitor.WalkTo.X - Janitor.GetX();
+                    System.Single DeltaY = Janitor.WalkTo.Y - Janitor.GetY();
                     System.Single Norm = System.Math.Sqrt(DeltaX * DeltaX + DeltaY * DeltaY).ToSingle();
 
                     if(Norm > 0.1)
                     {
                         DeltaX = DeltaX / Norm * ButtonOffice.Data.PersonSpeed * GameMinutes;
                         DeltaY = DeltaY / Norm * ButtonOffice.Data.PersonSpeed * GameMinutes;
-                        Person.SetLocation(Person.GetX() + DeltaX, Person.GetY() + DeltaY);
+                        Janitor.SetLocation(Janitor.GetX() + DeltaX, Janitor.GetY() + DeltaY);
                     }
                     else
                     {
-                        Person.SetLocation(Person.WalkTo);
-                        Person.ActionState = ButtonOffice.ActionState.Working;
-                        Person.AnimationState = ButtonOffice.AnimationState.Standing;
-                        Person.AnimationFraction = 0.0f;
+                        Janitor.SetLocation(Janitor.WalkTo);
+                        Janitor.ActionState = ButtonOffice.ActionState.Working;
+                        Janitor.AnimationState = ButtonOffice.AnimationState.Standing;
+                        Janitor.AnimationFraction = 0.0f;
                     }
 
                     break;
                 }
             case ButtonOffice.ActionState.Leaving:
                 {
-                    System.Single DeltaX = Person.WalkTo.X - Person.GetX();
-                    System.Single DeltaY = Person.WalkTo.Y - Person.GetY();
+                    System.Single DeltaX = Janitor.WalkTo.X - Janitor.GetX();
+                    System.Single DeltaY = Janitor.WalkTo.Y - Janitor.GetY();
                     System.Single Norm = System.Math.Sqrt(DeltaX * DeltaX + DeltaY * DeltaY).ToSingle();
 
                     if(Norm > 0.1)
                     {
                         DeltaX = DeltaX / Norm * ButtonOffice.Data.PersonSpeed * GameMinutes;
                         DeltaY = DeltaY / Norm * ButtonOffice.Data.PersonSpeed * GameMinutes;
-                        Person.SetLocation(Person.GetX() + DeltaX, Person.GetY() + DeltaY);
+                        Janitor.SetLocation(Janitor.GetX() + DeltaX, Janitor.GetY() + DeltaY);
                     }
                     else
                     {
-                        Person.ActionState = ButtonOffice.ActionState.AtHome;
-                        Person.AnimationState = ButtonOffice.AnimationState.Hidden;
-                        _PlanNextWorkDay(Person);
+                        Janitor.ActionState = ButtonOffice.ActionState.AtHome;
+                        Janitor.AnimationState = ButtonOffice.AnimationState.Hidden;
+                        _PlanNextWorkDay(Janitor);
                     }
 
                     break;
@@ -1458,60 +1459,60 @@
             }
         }
 
-        private void _MoveWorker(ButtonOffice.Person Person, System.Single GameMinutes)
+        private void _MoveWorker(ButtonOffice.Worker Worker, System.Single GameMinutes)
         {
-            switch(Person.ActionState)
+            switch(Worker.ActionState)
             {
             case ButtonOffice.ActionState.PushingButton:
                 {
-                    if(_Minutes > Person.LeavesAtMinute)
+                    if(_Minutes > Worker.LeavesAtMinute)
                     {
-                        if(Person.LivingSide == ButtonOffice.LivingSide.Left)
+                        if(Worker.LivingSide == ButtonOffice.LivingSide.Left)
                         {
-                            Person.WalkTo = new System.Drawing.PointF(-10.0f, 0.0f);
+                            Worker.WalkTo = new System.Drawing.PointF(-10.0f, 0.0f);
                         }
                         else
                         {
-                            Person.WalkTo = new System.Drawing.PointF(ButtonOffice.Data.WorldBlockWidth + 10.0f, 0.0f);
+                            Worker.WalkTo = new System.Drawing.PointF(ButtonOffice.Data.WorldBlockWidth + 10.0f, 0.0f);
                         }
-                        Person.ActionState = ButtonOffice.ActionState.Leaving;
-                        Person.AnimationState = ButtonOffice.AnimationState.Walking;
-                        Person.AnimationFraction = 0.0f;
-                        _Cents -= Person.Wage;
+                        Worker.ActionState = ButtonOffice.ActionState.Leaving;
+                        Worker.AnimationState = ButtonOffice.AnimationState.Walking;
+                        Worker.AnimationFraction = 0.0f;
+                        _Cents -= Worker.Wage;
                     }
                     else
                     {
-                        if(Person.Desk.IsComputerBroken() == false)
+                        if(Worker.Desk.IsComputerBroken() == false)
                         {
-                            Person.Desk.SetMinutesUntilComputerBroken(Person.Desk.GetMinutesUntilComputerBroken() - GameMinutes);
-                            if(Person.Desk.IsComputerBroken() == true)
+                            Worker.Desk.SetMinutesUntilComputerBroken(Worker.Desk.GetMinutesUntilComputerBroken() - GameMinutes);
+                            if(Worker.Desk.IsComputerBroken() == true)
                             {
-                                Person.AnimationState = ButtonOffice.AnimationState.Standing;
-                                Person.AnimationFraction = 0.0f;
-                                if(Person.Desk == Person.Desk.Office.FirstDesk)
+                                Worker.AnimationState = ButtonOffice.AnimationState.Standing;
+                                Worker.AnimationFraction = 0.0f;
+                                if(Worker.Desk == Worker.Desk.Office.FirstDesk)
                                 {
-                                    _BrokenThings.Enqueue(new System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing>(Person.Desk.Office, ButtonOffice.BrokenThing.FirstComputer));
+                                    _BrokenThings.Enqueue(new System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing>(Worker.Desk.Office, ButtonOffice.BrokenThing.FirstComputer));
                                 }
-                                else if(Person.Desk == Person.Desk.Office.SecondDesk)
+                                else if(Worker.Desk == Worker.Desk.Office.SecondDesk)
                                 {
-                                    _BrokenThings.Enqueue(new System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing>(Person.Desk.Office, ButtonOffice.BrokenThing.SecondComputer));
+                                    _BrokenThings.Enqueue(new System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing>(Worker.Desk.Office, ButtonOffice.BrokenThing.SecondComputer));
                                 }
-                                else if(Person.Desk == Person.Desk.Office.ThirdDesk)
+                                else if(Worker.Desk == Worker.Desk.Office.ThirdDesk)
                                 {
-                                    _BrokenThings.Enqueue(new System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing>(Person.Desk.Office, ButtonOffice.BrokenThing.ThirdComputer));
+                                    _BrokenThings.Enqueue(new System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing>(Worker.Desk.Office, ButtonOffice.BrokenThing.ThirdComputer));
                                 }
-                                else if(Person.Desk == Person.Desk.Office.FourthDesk)
+                                else if(Worker.Desk == Worker.Desk.Office.FourthDesk)
                                 {
-                                    _BrokenThings.Enqueue(new System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing>(Person.Desk.Office, ButtonOffice.BrokenThing.FourthComputer));
+                                    _BrokenThings.Enqueue(new System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing>(Worker.Desk.Office, ButtonOffice.BrokenThing.FourthComputer));
                                 }
                             }
                             else
                             {
-                                Person.AnimationFraction += ButtonOffice.Data.WorkerWorkSpeed * GameMinutes;
-                                while(Person.AnimationFraction >= 1.0f)
+                                Worker.AnimationFraction += ButtonOffice.Data.WorkerWorkSpeed * GameMinutes;
+                                while(Worker.AnimationFraction >= 1.0f)
                                 {
-                                    Person.AnimationFraction -= 1.0f;
-                                    Person.Desk.TrashLevel += 1.0f;
+                                    Worker.AnimationFraction -= 1.0f;
+                                    Worker.Desk.TrashLevel += 1.0f;
                                     _Cents += 100;
                                 }
                             }
@@ -1522,70 +1523,70 @@
                 }
             case ButtonOffice.ActionState.Working:
                 {
-                    Person.ActionState = ButtonOffice.ActionState.PushingButton;
-                    Person.AnimationState = ButtonOffice.AnimationState.PushingButton;
-                    Person.AnimationFraction = 0.0f;
+                    Worker.ActionState = ButtonOffice.ActionState.PushingButton;
+                    Worker.AnimationState = ButtonOffice.AnimationState.PushingButton;
+                    Worker.AnimationFraction = 0.0f;
 
                     break;
                 }
             case ButtonOffice.ActionState.AtHome:
                 {
-                    if(_Minutes > Person.ArrivesAtMinute)
+                    if(_Minutes > Worker.ArrivesAtMinute)
                     {
-                        Person.ActionState = ButtonOffice.ActionState.Arriving;
-                        Person.AnimationState = ButtonOffice.AnimationState.Walking;
-                        if(Person.LivingSide == ButtonOffice.LivingSide.Left)
+                        Worker.ActionState = ButtonOffice.ActionState.Arriving;
+                        Worker.AnimationState = ButtonOffice.AnimationState.Walking;
+                        if(Worker.LivingSide == ButtonOffice.LivingSide.Left)
                         {
-                            Person.SetLocation(-10.0f, 0.0f);
+                            Worker.SetLocation(-10.0f, 0.0f);
                         }
                         else
                         {
-                            Person.SetLocation(ButtonOffice.Data.WorldBlockWidth + 10.0f, 0.0f);
+                            Worker.SetLocation(ButtonOffice.Data.WorldBlockWidth + 10.0f, 0.0f);
                         }
-                        Person.WalkTo = new System.Drawing.PointF(Person.Desk.GetX() + (ButtonOffice.Data.DeskWidth - Person.GetWidth()) / 2.0f, Person.Desk.GetY());
+                        Worker.WalkTo = new System.Drawing.PointF(Worker.Desk.GetX() + (ButtonOffice.Data.DeskWidth - Worker.GetWidth()) / 2.0f, Worker.Desk.GetY());
                     }
 
                     break;
                 }
             case ButtonOffice.ActionState.Arriving:
                 {
-                    System.Single DeltaX = Person.WalkTo.X - Person.GetX();
-                    System.Single DeltaY = Person.WalkTo.Y - Person.GetY();
+                    System.Single DeltaX = Worker.WalkTo.X - Worker.GetX();
+                    System.Single DeltaY = Worker.WalkTo.Y - Worker.GetY();
                     System.Single Norm = System.Math.Sqrt(DeltaX * DeltaX + DeltaY * DeltaY).ToSingle();
 
                     if(Norm > 0.1)
                     {
                         DeltaX = DeltaX / Norm * ButtonOffice.Data.PersonSpeed * GameMinutes;
                         DeltaY = DeltaY / Norm * ButtonOffice.Data.PersonSpeed * GameMinutes;
-                        Person.SetLocation(Person.GetX() + DeltaX, Person.GetY() + DeltaY);
+                        Worker.SetLocation(Worker.GetX() + DeltaX, Worker.GetY() + DeltaY);
                     }
                     else
                     {
-                        Person.SetLocation(Person.WalkTo);
-                        Person.ActionState = ButtonOffice.ActionState.Working;
-                        Person.AnimationState = ButtonOffice.AnimationState.Standing;
-                        Person.AnimationFraction = 0.0f;
+                        Worker.SetLocation(Worker.WalkTo);
+                        Worker.ActionState = ButtonOffice.ActionState.Working;
+                        Worker.AnimationState = ButtonOffice.AnimationState.Standing;
+                        Worker.AnimationFraction = 0.0f;
                     }
 
                     break;
                 }
             case ButtonOffice.ActionState.Leaving:
                 {
-                    System.Single DeltaX = Person.WalkTo.X - Person.GetX();
-                    System.Single DeltaY = Person.WalkTo.Y - Person.GetY();
+                    System.Single DeltaX = Worker.WalkTo.X - Worker.GetX();
+                    System.Single DeltaY = Worker.WalkTo.Y - Worker.GetY();
                     System.Single Norm = System.Math.Sqrt(DeltaX * DeltaX + DeltaY * DeltaY).ToSingle();
 
                     if(Norm > 0.1)
                     {
                         DeltaX = DeltaX / Norm * ButtonOffice.Data.PersonSpeed * GameMinutes;
                         DeltaY = DeltaY / Norm * ButtonOffice.Data.PersonSpeed * GameMinutes;
-                        Person.SetLocation(Person.GetX() + DeltaX, Person.GetY() + DeltaY);
+                        Worker.SetLocation(Worker.GetX() + DeltaX, Worker.GetY() + DeltaY);
                     }
                     else
                     {
-                        Person.ActionState = ButtonOffice.ActionState.AtHome;
-                        Person.AnimationState = ButtonOffice.AnimationState.Hidden;
-                        _PlanNextWorkDay(Person);
+                        Worker.ActionState = ButtonOffice.ActionState.AtHome;
+                        Worker.AnimationState = ButtonOffice.AnimationState.Hidden;
+                        _PlanNextWorkDay(Worker);
                     }
 
                     break;
