@@ -1,0 +1,3 @@
+syntax: glob
+ButtonOffice/bin
+ButtonOffice/obj
