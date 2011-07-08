@@ -536,7 +536,7 @@
             }
             foreach(Person Person in _Game.Persons)
             {
-                if(Person.IsHidden() == true)
+                if(Person.IsHidden() == false)
                 {
                     _DrawRectangle(EventArguments.Graphics, Person.GetRectangle(), _MixToWhite(Person.BackgroundColor, Person.GetAnimationFraction()), Person.BorderColor);
                 }
