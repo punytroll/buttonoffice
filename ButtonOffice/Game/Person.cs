@@ -1,38 +1,5 @@
 ﻿namespace ButtonOffice
 {
-    internal enum ActionState
-    {
-        Arriving,
-        AtHome,
-        Cleaning,
-        GoingToClean,
-        GoingToDesk,
-        GoingToRepair,
-        Leaving,
-        PickTrash,
-        PushingButton,
-        Repairing,
-        WaitingForBrokenThings,
-        WaitingToGoHome,
-        Working
-    }
-
-    internal enum AnimationState
-    {
-        Cleaning,
-        Hidden,
-        PushingButton,
-        Repairing,
-        Standing,
-        Walking
-    }
-
-    internal enum LivingSide
-    {
-        Left,
-        Right
-    }
-
     internal class Person
     {
         private ButtonOffice.ActionState _ActionState;

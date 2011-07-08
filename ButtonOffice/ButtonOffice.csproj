@@ -94,6 +94,7 @@
   <ItemGroup>
     <Compile Include="Application.cs" />
     <Compile Include="Data\Data.cs" />
+    <Compile Include="Game\Enumerations.cs" />
     <Compile Include="Game\ITTech.cs" />
     <Compile Include="Game\Janitor.cs" />
     <Compile Include="Game\Worker.cs" />
@@ -144,5 +145,8 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Ideas.txt" />
   </ItemGroup>
 </Project>

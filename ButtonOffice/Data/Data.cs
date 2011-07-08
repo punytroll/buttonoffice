@@ -1,32 +1,5 @@
 ﻿namespace ButtonOffice
 {
-    internal enum Type
-    {
-        Office,
-        ITTech,
-        Janitor,
-        Worker
-    }
-
-    internal enum BrokenThing
-    {
-        FirstComputer,
-        SecondComputer,
-        ThirdComputer,
-        FourthComputer,
-        FirstLamp,
-        SecondLamp,
-        ThirdLamp
-    }
-
-    internal enum Trash
-    {
-        FirstTrash,
-        SecondTrash,
-        ThirdTrash,
-        FourthTrash
-    }
-
     internal class Data
     {
         public static System.Drawing.Color BackgroundColor

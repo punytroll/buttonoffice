@@ -2,14 +2,14 @@
 {
     internal class Desk
     {
-        private ButtonOffice.Person _Janitor;
+        private ButtonOffice.Janitor _Janitor;
         private System.Single _MinutesUntilComputerBroken;
         private System.Drawing.RectangleF _Rectangle ;
         private ButtonOffice.Office _Office;
         private ButtonOffice.Person _Person;
         private System.Single _TrashLevel;
 
-        public ButtonOffice.Person Janitor
+        public ButtonOffice.Janitor Janitor
         {
             get
             {
