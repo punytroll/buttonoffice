@@ -1,1 +1,2 @@
 ﻿- floating point placement of buildings
+- repair costs
