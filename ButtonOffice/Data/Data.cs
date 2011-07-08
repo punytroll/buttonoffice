@@ -370,6 +370,14 @@
             }
         }
 
+        public static System.UInt64 StartMinutes
+        {
+            get
+            {
+                return 480;
+            }
+        }
+
         public static System.Drawing.Color WorkerBackgroundColor
         {
             get

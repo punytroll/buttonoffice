@@ -95,12 +95,14 @@
     <Compile Include="Application.cs" />
     <Compile Include="Data\Data.cs" />
     <Compile Include="Game\Enumerations.cs" />
+    <Compile Include="Game\Game.cs" />
     <Compile Include="Game\ITTech.cs" />
     <Compile Include="Game\Janitor.cs" />
     <Compile Include="Game\Worker.cs" />
     <Compile Include="GUI\DrawingBoard.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="GUI\EntityPrototype.cs" />
     <Compile Include="System\Extensions.cs" />
     <Compile Include="Game\Desk.cs" />
     <Compile Include="Game\Lamp.cs" />

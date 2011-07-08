@@ -64,4 +64,14 @@
     {
         return MeanInterval * System.Convert.ToUInt64(-System.Math.Log(Random.NextDouble()));
     }
+
+    public static System.Single GetInteger(this System.Single Single)
+    {
+        return System.Convert.ToSingle(System.Math.Truncate(System.Convert.ToDouble(Single)));
+    }
+
+    public static System.Drawing.PointF GetTruncated(this System.Drawing.PointF Point)
+    {
+        return new System.Drawing.PointF(System.Convert.ToSingle(System.Math.Truncate(System.Convert.ToDouble(Point.X))), System.Convert.ToSingle(System.Math.Truncate(System.Convert.ToDouble(Point.Y))));
+    }
 }

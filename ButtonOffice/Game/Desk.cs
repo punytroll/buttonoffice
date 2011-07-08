@@ -106,6 +106,12 @@
             _Rectangle.Height = Height;
         }
 
+        public void SetLocation(System.Single X, System.Single Y)
+        {
+            _Rectangle.X = X;
+            _Rectangle.Y = Y;
+        }
+
         public void SetMinutesUntilComputerBroken(System.Single MinutesUntilComputerBroken)
         {
             _MinutesUntilComputerBroken = MinutesUntilComputerBroken;
