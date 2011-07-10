@@ -146,9 +146,6 @@
                 Office Office = new Office();
 
                 Office.SetRectangle(Rectangle);
-
-                System.Random Random = new System.Random();
-
                 Office.FirstDesk.SetMinutesUntilComputerBroken(ButtonOffice.RandomNumberGenerator.GetSingleFromExponentialDistribution(ButtonOffice.Data.MeanMinutesToBrokenComputer));
                 Office.SecondDesk.SetMinutesUntilComputerBroken(ButtonOffice.RandomNumberGenerator.GetSingleFromExponentialDistribution(ButtonOffice.Data.MeanMinutesToBrokenComputer));
                 Office.ThirdDesk.SetMinutesUntilComputerBroken(ButtonOffice.RandomNumberGenerator.GetSingleFromExponentialDistribution(ButtonOffice.Data.MeanMinutesToBrokenComputer));
@@ -168,83 +165,89 @@
 
         public System.Boolean HireWorker(System.Drawing.RectangleF Rectangle)
         {
-            Office Office = _GetOffice(Rectangle.Location);
-
-            if((_Cents >= ButtonOffice.Data.WorkerHireCost) && (Office != null) && (Office.HasFreeDesk() == true))
+            if(_Cents >= ButtonOffice.Data.WorkerHireCost)
             {
-                _Cents -= ButtonOffice.Data.WorkerHireCost;
+                ButtonOffice.Office Office = _GetOffice(Rectangle.Location);
 
-                ButtonOffice.Worker Worker = new ButtonOffice.Worker();
-                System.Random Random = new System.Random();
+                if(Office != null)
+                {
+                    ButtonOffice.Desk Desk = _GetDesk(Office, Rectangle.Location);
 
-                Worker.ArrivesAtDayMinute = ButtonOffice.RandomNumberGenerator.GetUInt32(ButtonOffice.Data.WorkerStartMinute, 300) % 1440;
+                    if(Desk != null)
+                    {
+                        _Cents -= ButtonOffice.Data.WorkerHireCost;
 
-                ButtonOffice.Desk Desk = Office.GetFreeDesk();
+                        ButtonOffice.Worker Worker = new ButtonOffice.Worker();
 
-                Desk.Person = Worker;
-                Worker.Desk = Desk;
-                _Persons.Add(Worker);
+                        Worker.ArrivesAtDayMinute = ButtonOffice.RandomNumberGenerator.GetUInt32(ButtonOffice.Data.WorkerStartMinute, 300) % 1440;
+                        Desk.Person = Worker;
+                        Worker.Desk = Desk;
+                        _Persons.Add(Worker);
 
-                return true;
+                        return true;
+                    }
+                }
             }
-            else
-            {
-                return false;
-            }
+            
+            return false;
         }
 
         public System.Boolean HireITTech(System.Drawing.RectangleF Rectangle)
         {
-            Office Office = _GetOffice(Rectangle.Location);
-
-            if((_Cents >= ButtonOffice.Data.ITTechHireCost) && (Office != null) && (Office.HasFreeDesk() == true))
+            if(_Cents >= ButtonOffice.Data.ITTechHireCost)
             {
-                _Cents -= ButtonOffice.Data.ITTechHireCost;
+                ButtonOffice.Office Office = _GetOffice(Rectangle.Location);
 
-                ButtonOffice.ITTech ITTech = new ButtonOffice.ITTech();
-                System.Random Random = new System.Random();
+                if(Office != null)
+                {
+                    ButtonOffice.Desk Desk = _GetDesk(Office, Rectangle.Location);
 
-                ITTech.ArrivesAtDayMinute = ButtonOffice.RandomNumberGenerator.GetUInt32(ButtonOffice.Data.ITTechStartMinute, 300) % 1440;
+                    if(Desk != null)
+                    {
+                        _Cents -= ButtonOffice.Data.ITTechHireCost;
 
-                ButtonOffice.Desk Desk = Office.GetFreeDesk();
+                        ButtonOffice.ITTech ITTech = new ButtonOffice.ITTech();
 
-                Desk.Person = ITTech;
-                ITTech.Desk = Desk;
-                _Persons.Add(ITTech);
+                        ITTech.ArrivesAtDayMinute = ButtonOffice.RandomNumberGenerator.GetUInt32(ButtonOffice.Data.ITTechStartMinute, 300) % 1440;
+                        Desk.Person = ITTech;
+                        ITTech.Desk = Desk;
+                        _Persons.Add(ITTech);
 
-                return true;
+                        return true;
+                    }
+                }
             }
-            else
-            {
-                return false;
-            }
+
+            return false;
         }
 
         public System.Boolean HireJanitor(System.Drawing.RectangleF Rectangle)
         {
-            Office Office = _GetOffice(Rectangle.Location);
-
-            if((_Cents >= ButtonOffice.Data.JanitorHireCost) && (Office != null) && (Office.HasFreeDesk() == true))
+            if(_Cents >= ButtonOffice.Data.JanitorHireCost)
             {
-                _Cents -= ButtonOffice.Data.JanitorHireCost;
+                ButtonOffice.Office Office = _GetOffice(Rectangle.Location);
 
-                ButtonOffice.Janitor Janitor = new ButtonOffice.Janitor();
-                System.Random Random = new System.Random();
+                if(Office != null)
+                {
+                    ButtonOffice.Desk Desk = _GetDesk(Office, Rectangle.Location);
 
-                Janitor.ArrivesAtDayMinute = ButtonOffice.RandomNumberGenerator.GetUInt32(ButtonOffice.Data.JanitorStartMinute, 300) % 1440;
+                    if(Desk != null)
+                    {
+                        _Cents -= ButtonOffice.Data.JanitorHireCost;
 
-                ButtonOffice.Desk Desk = Office.GetFreeDesk();
+                        ButtonOffice.Janitor Janitor = new ButtonOffice.Janitor();
 
-                Desk.Person = Janitor;
-                Janitor.Desk = Desk;
-                _Persons.Add(Janitor);
+                        Janitor.ArrivesAtDayMinute = ButtonOffice.RandomNumberGenerator.GetUInt32(ButtonOffice.Data.JanitorStartMinute, 300) % 1440;
+                        Desk.Person = Janitor;
+                        Janitor.Desk = Desk;
+                        _Persons.Add(Janitor);
 
-                return true;
+                        return true;
+                    }
+                }
             }
-            else
-            {
-                return false;
-            }
+
+            return false;
         }
 
         public System.Boolean PlaceCat(System.Drawing.RectangleF Rectangle)
@@ -278,6 +281,42 @@
             }
 
             return null;
+        }
+
+        private ButtonOffice.Desk _GetDesk(ButtonOffice.Office Office, System.Drawing.PointF Location)
+        {
+            System.Diagnostics.Debug.Assert(Office != null);
+
+            System.Single NearestDeskDistanceSquared = System.Single.MaxValue;
+            ButtonOffice.Desk NearestDesk = null;
+            System.Single DeskDistanceSquared;
+
+            DeskDistanceSquared = Office.FirstDesk.GetMidLocation().GetDistanceSquared(Location);
+            if(DeskDistanceSquared < NearestDeskDistanceSquared)
+            {
+                NearestDesk = Office.FirstDesk;
+                NearestDeskDistanceSquared = DeskDistanceSquared;
+            }
+            DeskDistanceSquared = Office.SecondDesk.GetMidLocation().GetDistanceSquared(Location);
+            if(DeskDistanceSquared < NearestDeskDistanceSquared)
+            {
+                NearestDesk = Office.SecondDesk;
+                NearestDeskDistanceSquared = DeskDistanceSquared;
+            }
+            DeskDistanceSquared = Office.ThirdDesk.GetMidLocation().GetDistanceSquared(Location);
+            if(DeskDistanceSquared < NearestDeskDistanceSquared)
+            {
+                NearestDesk = Office.ThirdDesk;
+                NearestDeskDistanceSquared = DeskDistanceSquared;
+            }
+            DeskDistanceSquared = Office.FourthDesk.GetMidLocation().GetDistanceSquared(Location);
+            if(DeskDistanceSquared < NearestDeskDistanceSquared)
+            {
+                NearestDesk = Office.FourthDesk;
+                NearestDeskDistanceSquared = DeskDistanceSquared;
+            }
+
+            return NearestDesk;
         }
     }
 }

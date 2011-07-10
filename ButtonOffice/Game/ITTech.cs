@@ -205,8 +205,6 @@
                     _AnimationFraction += ButtonOffice.Data.ITTechRepairSpeed * GameMinutes;
                     if(_AnimationFraction >= 1.0f)
                     {
-                        System.Random Random = new System.Random();
-
                         switch(_RepairingTarget.Second)
                         {
                         case ButtonOffice.BrokenThing.FirstComputer:

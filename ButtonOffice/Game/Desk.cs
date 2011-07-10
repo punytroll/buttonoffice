@@ -71,6 +71,11 @@
             return _Rectangle.Location;
         }
 
+        public System.Drawing.PointF GetMidLocation()
+        {
+            return new System.Drawing.PointF(_Rectangle.X + _Rectangle.Width / 2.0f, _Rectangle.Y + _Rectangle.Height / 2.0f);
+        }
+
         public System.Single GetMinutesUntilComputerBroken()
         {
             return _MinutesUntilComputerBroken;

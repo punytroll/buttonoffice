@@ -101,12 +101,10 @@
 
         protected Person(ButtonOffice.Type Type)
         {
-            System.Random Random = new System.Random();
-
             _ActionState = ButtonOffice.ActionState.New;
             _AnimationState = ButtonOffice.AnimationState.Hidden;
             _AnimationFraction = 0.0f;
-            if(Random.NextDouble() < 0.5)
+            if(ButtonOffice.RandomNumberGenerator.GetBoolean() == true)
             {
                 _LivingSide = ButtonOffice.LivingSide.Left;
                 SetLocation(-10.0f, 0.0f);
