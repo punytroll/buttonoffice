@@ -1,2 +1,3 @@
 ﻿- floating point placement of buildings
 - repair costs
+- cats can jump (and stay) on desks if no person is sitting there
