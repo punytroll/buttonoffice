@@ -26,6 +26,38 @@
             }
         }
 
+        public static System.Drawing.Color CatBackgroundColor
+        {
+            get
+            {
+                return System.Drawing.Color.Black;
+            }
+        }
+
+        public static System.Drawing.Color CatBorderColor
+        {
+            get
+            {
+                return System.Drawing.Color.Black;
+            }
+        }
+
+        public static System.Single CatHeight
+        {
+            get
+            {
+                return 0.3f;
+            }
+        }
+
+        public static System.Single CatWidth
+        {
+            get
+            {
+                return 1.0f;
+            }
+        }
+
         public static System.Single ComputerHeight
         {
             get

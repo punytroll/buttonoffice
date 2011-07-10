@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{5B2B5EED-3E0E-4ED3-ABB4-01761FD02D0B}</ProjectGuid>
     <OutputType>WinExe</OutputType>
@@ -94,6 +94,7 @@
   <ItemGroup>
     <Compile Include="Application.cs" />
     <Compile Include="Data\Data.cs" />
+    <Compile Include="Game\Cat.cs" />
     <Compile Include="Game\Enumerations.cs" />
     <Compile Include="Game\Game.cs" />
     <Compile Include="Game\ITTech.cs" />

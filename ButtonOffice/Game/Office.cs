@@ -2,6 +2,7 @@
 {
     internal class Office
     {
+        private ButtonOffice.Cat _Cat;
         private System.Drawing.RectangleF _Rectangle;
         private ButtonOffice.Desk _FirstDesk;
         private ButtonOffice.Desk _SecondDesk;
@@ -10,6 +11,18 @@
         private ButtonOffice.Lamp _FirstLamp;
         private ButtonOffice.Lamp _SecondLamp;
         private ButtonOffice.Lamp _ThirdLamp;
+
+        public ButtonOffice.Cat Cat
+        {
+            get
+            {
+                return _Cat;
+            }
+            set
+            {
+                _Cat = value;
+            }
+        }
 
         public ButtonOffice.Desk FirstDesk
         {

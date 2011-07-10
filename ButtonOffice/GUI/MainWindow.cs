@@ -25,6 +25,7 @@
         private System.Windows.Forms.ToolStripButton _HireITTechButton;
         private ButtonOffice.Person _SelectedPerson;
         private System.Windows.Forms.ToolStripButton _HireJanitorButton;
+        private System.Windows.Forms.ToolStripButton _PlaceCatButton;
         private ButtonOffice.Office _SelectedOffice;
     
         public MainWindow()
@@ -41,12 +42,12 @@
             _ToolButtons.Add(_HireJanitorButton);
             _ToolButtons.Add(_HireWorkerButton);
             _ToolButtons.Add(_BuildOfficeButton);
+            _ToolButtons.Add(_PlaceCatButton);
         }
 
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
             this._Timer = new System.Windows.Forms.Timer(this.components);
             this._ToolStripContainer = new System.Windows.Forms.ToolStripContainer();
             this._StatusBar = new System.Windows.Forms.StatusStrip();
@@ -61,6 +62,7 @@
             this._HireWorkerButton = new System.Windows.Forms.ToolStripButton();
             this._HireITTechButton = new System.Windows.Forms.ToolStripButton();
             this._HireJanitorButton = new System.Windows.Forms.ToolStripButton();
+            this._PlaceCatButton = new System.Windows.Forms.ToolStripButton();
             this._ToolStripContainer.BottomToolStripPanel.SuspendLayout();
             this._ToolStripContainer.ContentPanel.SuspendLayout();
             this._ToolStripContainer.TopToolStripPanel.SuspendLayout();
@@ -171,12 +173,13 @@
             this._BuildOfficeButton,
             this._HireWorkerButton,
             this._HireITTechButton,
-            this._HireJanitorButton});
+            this._HireJanitorButton,
+            this._PlaceCatButton});
             this._MainTools.Location = new System.Drawing.Point(3, 0);
             this._MainTools.Name = "_MainTools";
             this._MainTools.Padding = new System.Windows.Forms.Padding(0);
             this._MainTools.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this._MainTools.Size = new System.Drawing.Size(230, 25);
+            this._MainTools.Size = new System.Drawing.Size(228, 25);
             this._MainTools.TabIndex = 1;
             this._MainTools.Text = "MainTools";
             // 
@@ -193,7 +196,6 @@
             // _HireWorkerButton
             // 
             this._HireWorkerButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this._HireWorkerButton.Image = ((System.Drawing.Image)(resources.GetObject("_HireWorkerButton.Image")));
             this._HireWorkerButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._HireWorkerButton.Name = "_HireWorkerButton";
             this._HireWorkerButton.Size = new System.Drawing.Size(49, 22);
@@ -204,7 +206,6 @@
             // _HireITTechButton
             // 
             this._HireITTechButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this._HireITTechButton.Image = ((System.Drawing.Image)(resources.GetObject("_HireITTechButton.Image")));
             this._HireITTechButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._HireITTechButton.Name = "_HireITTechButton";
             this._HireITTechButton.Size = new System.Drawing.Size(50, 22);
@@ -215,13 +216,22 @@
             // _HireJanitorButton
             // 
             this._HireJanitorButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this._HireJanitorButton.Image = ((System.Drawing.Image)(resources.GetObject("_HireJanitorButton.Image")));
             this._HireJanitorButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._HireJanitorButton.Name = "_HireJanitorButton";
             this._HireJanitorButton.Size = new System.Drawing.Size(46, 22);
             this._HireJanitorButton.Text = "Janitor";
             this._HireJanitorButton.CheckedChanged += new System.EventHandler(this._OnHireJanitorButtonCheckedChanged);
             this._HireJanitorButton.Click += new System.EventHandler(this._OnHireJanitorButtonClicked);
+            // 
+            // _PlaceCatButton
+            // 
+            this._PlaceCatButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this._PlaceCatButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this._PlaceCatButton.Name = "_PlaceCatButton";
+            this._PlaceCatButton.Size = new System.Drawing.Size(29, 22);
+            this._PlaceCatButton.Text = "Cat";
+            this._PlaceCatButton.CheckedChanged += new System.EventHandler(this._OnPlaceCatButtonCheckedChanged);
+            this._PlaceCatButton.Click += new System.EventHandler(this._OnPlaceCatButtonClicked);
             // 
             // MainWindow
             // 
@@ -355,6 +365,27 @@
             }
         }
 
+        private void _OnPlaceCatButtonClicked(System.Object Sender, System.EventArgs EventArguments)
+        {
+            _ToggleOneToolButton(_ToolButtons, _PlaceCatButton);
+        }
+
+        private void _OnPlaceCatButtonCheckedChanged(object sender, System.EventArgs e)
+        {
+            if(_EntityPrototype != null)
+            {
+                _EntityPrototype = null;
+            }
+            if(_PlaceCatButton.Checked == true)
+            {
+                _EntityPrototype = new EntityPrototype(ButtonOffice.Type.Cat);
+                _EntityPrototype.BackgroundColor = ButtonOffice.Data.CatBackgroundColor;
+                _EntityPrototype.BorderColor = ButtonOffice.Data.CatBorderColor;
+                _EntityPrototype.SetHeight(ButtonOffice.Data.CatHeight);
+                _EntityPrototype.SetWidth(ButtonOffice.Data.CatWidth);
+            }
+        }
+
         private void _OnDrawingBoardMouseMoved(System.Object Sender, System.Windows.Forms.MouseEventArgs EventArguments)
         {
             if(_DragPoint.HasValue == true)
@@ -424,6 +455,16 @@
                             if(System.Windows.Forms.Control.ModifierKeys != System.Windows.Forms.Keys.Shift)
                             {
                                 _HireJanitorButton.Checked = false;
+                            }
+                        }
+                    }
+                    else if(_EntityPrototype.Type == ButtonOffice.Type.Cat)
+                    {
+                        if(_Game.PlaceCat(_EntityPrototype.Rectangle) == true)
+                        {
+                            if(System.Windows.Forms.Control.ModifierKeys != System.Windows.Forms.Keys.Shift)
+                            {
+                                _PlaceCatButton.Checked = false;
                             }
                         }
                     }
@@ -602,11 +643,36 @@
                 _DrawRectangle(EventArguments.Graphics, Office.FourthDesk.GetRectangle(), ButtonOffice.Data.DeskBackgroundColor, System.Drawing.Color.Black);
                 _DrawRectangle(EventArguments.Graphics, Office.FourthDesk.GetX() + (Office.FourthDesk.GetWidth() - ButtonOffice.Data.PersonTagWidth) / 2.0f, Office.FourthDesk.GetY() + (Office.FourthDesk.GetHeight() - ButtonOffice.Data.PersonTagHeight) / 2.0f, ButtonOffice.Data.PersonTagWidth, ButtonOffice.Data.PersonTagHeight, PersonColor, System.Drawing.Color.Black);
                 _DrawRectangle(EventArguments.Graphics, Office.FourthDesk.GetX() + (Office.FourthDesk.GetWidth() - ButtonOffice.Data.ComputerWidth) / 2.0f, Office.FourthDesk.GetY() + Office.FourthDesk.GetHeight() + 0.04f, ButtonOffice.Data.ComputerWidth, ButtonOffice.Data.ComputerHeight, ComputerColor, System.Drawing.Color.Black);
+                // cat
+                if(Office.Cat != null)
+                {
+                    _DrawEllipse(EventArguments.Graphics, Office.Cat.GetRectangle(), Office.Cat.BackgroundColor, Office.Cat.BorderColor);
+                }
             }
             if((_EntityPrototype != null) && (_EntityPrototype.HasLocation() == true))
             {
-                _DrawRectangle(EventArguments.Graphics, _EntityPrototype.Rectangle, System.Drawing.Color.FromArgb(150, _EntityPrototype.BackgroundColor), System.Drawing.Color.FromArgb(150, _EntityPrototype.BorderColor));
+                if(_EntityPrototype.Type == ButtonOffice.Type.Cat)
+                {
+                    _DrawEllipse(EventArguments.Graphics, _EntityPrototype.Rectangle, System.Drawing.Color.FromArgb(150, _EntityPrototype.BackgroundColor), System.Drawing.Color.FromArgb(150, _EntityPrototype.BorderColor));
+                }
+                else
+                {
+                    _DrawRectangle(EventArguments.Graphics, _EntityPrototype.Rectangle, System.Drawing.Color.FromArgb(150, _EntityPrototype.BackgroundColor), System.Drawing.Color.FromArgb(150, _EntityPrototype.BorderColor));
+                }
             }
+        }
+
+        private void _DrawEllipse(System.Drawing.Graphics Graphics, System.Drawing.RectangleF GameRectangle, System.Drawing.Color BackgroundColor, System.Drawing.Color BorderColor)
+        {
+            System.Drawing.Rectangle BackgroundRectangle = _GetDrawingRectangle(GameRectangle);
+
+            Graphics.FillEllipse(new System.Drawing.SolidBrush(BackgroundColor), BackgroundRectangle);
+
+            System.Drawing.Rectangle ForegroundRectangle = BackgroundRectangle;
+
+            ForegroundRectangle.Width -= 1;
+            ForegroundRectangle.Height -= 1;
+            Graphics.DrawEllipse(new System.Drawing.Pen(BorderColor), ForegroundRectangle);
         }
 
         private void _DrawRectangle(System.Drawing.Graphics Graphics, System.Drawing.RectangleF GameRectangle, System.Drawing.Color BackgroundColor, System.Drawing.Color BorderColor)

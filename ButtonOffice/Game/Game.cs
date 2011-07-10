@@ -270,6 +270,26 @@
             }
         }
 
+        public System.Boolean PlaceCat(System.Drawing.RectangleF Rectangle)
+        {
+            ButtonOffice.Office Office = _GetOffice(Rectangle.Location);
+
+            if((Office != null) && (Office.Cat == null))
+            {
+                ButtonOffice.Cat Cat = new ButtonOffice.Cat();
+
+                Cat.SetRectangle(Rectangle);
+                Office.Cat = Cat;
+                Cat.Office = Office;
+
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         private ButtonOffice.Office _GetOffice(System.Drawing.PointF GameCoordinates)
         {
             foreach(ButtonOffice.Office Office in _Offices)

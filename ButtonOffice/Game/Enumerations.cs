@@ -55,9 +55,10 @@
 
     internal enum Type
     {
-        Office,
+        Cat,
         ITTech,
         Janitor,
+        Office,
         Worker
     }
 }
