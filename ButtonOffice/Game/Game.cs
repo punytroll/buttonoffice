@@ -66,30 +66,7 @@
             }
             foreach(ButtonOffice.Office Office in _Offices)
             {
-                if(Office.FirstLamp.IsBroken() == false)
-                {
-                    Office.FirstLamp.SetMinutesUntilBroken(Office.FirstLamp.GetMinutesUntilBroken() - GameMinutes);
-                    if(Office.FirstLamp.IsBroken() == true)
-                    {
-                        _BrokenThings.Enqueue(new System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing>(Office, ButtonOffice.BrokenThing.FirstLamp));
-                    }
-                }
-                if(Office.SecondLamp.IsBroken() == false)
-                {
-                    Office.SecondLamp.SetMinutesUntilBroken(Office.SecondLamp.GetMinutesUntilBroken() - GameMinutes);
-                    if(Office.SecondLamp.IsBroken() == true)
-                    {
-                        _BrokenThings.Enqueue(new System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing>(Office, ButtonOffice.BrokenThing.SecondLamp));
-                    }
-                }
-                if(Office.ThirdLamp.IsBroken() == false)
-                {
-                    Office.ThirdLamp.SetMinutesUntilBroken(Office.ThirdLamp.GetMinutesUntilBroken() - GameMinutes);
-                    if(Office.ThirdLamp.IsBroken() == true)
-                    {
-                        _BrokenThings.Enqueue(new System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing>(Office, ButtonOffice.BrokenThing.ThirdLamp));
-                    }
-                }
+                Office.Move(this, GameMinutes);
             }
             foreach(ButtonOffice.Person Person in _Persons)
             {

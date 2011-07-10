@@ -203,5 +203,33 @@
             _SecondLamp.SetLocation(_Rectangle.X + ButtonOffice.Data.LampTwoX, _Rectangle.Y + _Rectangle.Height - _SecondLamp.GetHeight());
             _ThirdLamp.SetLocation(_Rectangle.X + ButtonOffice.Data.LampThreeX, _Rectangle.Y + _Rectangle.Height - _ThirdLamp.GetHeight());
         }
+
+        public void Move(ButtonOffice.Game Game, System.Single GameMinutes)
+        {
+            if(_FirstLamp.IsBroken() == false)
+            {
+                _FirstLamp.SetMinutesUntilBroken(_FirstLamp.GetMinutesUntilBroken() - GameMinutes);
+                if(_FirstLamp.IsBroken() == true)
+                {
+                    Game.BrokenThings.Enqueue(new System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing>(this, ButtonOffice.BrokenThing.FirstLamp));
+                }
+            }
+            if(_SecondLamp.IsBroken() == false)
+            {
+                _SecondLamp.SetMinutesUntilBroken(_SecondLamp.GetMinutesUntilBroken() - GameMinutes);
+                if(_SecondLamp.IsBroken() == true)
+                {
+                    Game.BrokenThings.Enqueue(new System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing>(this, ButtonOffice.BrokenThing.SecondLamp));
+                }
+            }
+            if(_ThirdLamp.IsBroken() == false)
+            {
+                _ThirdLamp.SetMinutesUntilBroken(_ThirdLamp.GetMinutesUntilBroken() - GameMinutes);
+                if(_ThirdLamp.IsBroken() == true)
+                {
+                    Game.BrokenThings.Enqueue(new System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing>(this, ButtonOffice.BrokenThing.ThirdLamp));
+                }
+            }
+        }
     }
 }
