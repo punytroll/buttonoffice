@@ -179,7 +179,7 @@
             this._MainTools.Name = "_MainTools";
             this._MainTools.Padding = new System.Windows.Forms.Padding(0);
             this._MainTools.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this._MainTools.Size = new System.Drawing.Size(228, 25);
+            this._MainTools.Size = new System.Drawing.Size(259, 25);
             this._MainTools.TabIndex = 1;
             this._MainTools.Text = "MainTools";
             // 
@@ -196,7 +196,6 @@
             // _HireWorkerButton
             // 
             this._HireWorkerButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this._HireWorkerButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._HireWorkerButton.Name = "_HireWorkerButton";
             this._HireWorkerButton.Size = new System.Drawing.Size(49, 22);
             this._HireWorkerButton.Text = "Worker";
@@ -206,7 +205,6 @@
             // _HireITTechButton
             // 
             this._HireITTechButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this._HireITTechButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._HireITTechButton.Name = "_HireITTechButton";
             this._HireITTechButton.Size = new System.Drawing.Size(50, 22);
             this._HireITTechButton.Text = "IT Tech";
@@ -216,7 +214,6 @@
             // _HireJanitorButton
             // 
             this._HireJanitorButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this._HireJanitorButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._HireJanitorButton.Name = "_HireJanitorButton";
             this._HireJanitorButton.Size = new System.Drawing.Size(46, 22);
             this._HireJanitorButton.Text = "Janitor";
@@ -226,7 +223,6 @@
             // _PlaceCatButton
             // 
             this._PlaceCatButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this._PlaceCatButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._PlaceCatButton.Name = "_PlaceCatButton";
             this._PlaceCatButton.Size = new System.Drawing.Size(29, 22);
             this._PlaceCatButton.Text = "Cat";
