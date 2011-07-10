@@ -109,5 +109,10 @@
         {
             _Rectangle.Y = Y;
         }
+
+        public void Move(ButtonOffice.Game Game, System.Single GameMinutes)
+        {
+
+        }
     }
 }

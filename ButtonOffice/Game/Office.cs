@@ -230,6 +230,10 @@
                     Game.BrokenThings.Enqueue(new System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing>(this, ButtonOffice.BrokenThing.ThirdLamp));
                 }
             }
+            if(_Cat != null)
+            {
+                _Cat.Move(Game, GameMinutes);
+            }
         }
     }
 }
