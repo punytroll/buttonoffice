@@ -48,7 +48,7 @@
         public Cat()
         {
             _ActionState = ButtonOffice.ActionState.Stay;
-            _MinutesToActionStateChange = new System.Random().NextSingle(10.0f, 15.0f);
+            _MinutesToActionStateChange = ButtonOffice.RandomNumberGenerator.GetSingle(10.0f, 15.0f);
             _BackgroundColor = ButtonOffice.Data.CatBackgroundColor;
             _BorderColor = ButtonOffice.Data.CatBorderColor;
         }
@@ -122,7 +122,7 @@
                 {
                     if(_MinutesToActionStateChange < 0.0f)
                     {
-                        if(new System.Random().NextSingle() <= 0.5f)
+                        if(ButtonOffice.RandomNumberGenerator.GetBoolean() == true)
                         {
                             _ActionState = ButtonOffice.ActionState.WalkLeft;
                         }
@@ -130,7 +130,7 @@
                         {
                             _ActionState = ButtonOffice.ActionState.WalkRight;
                         }
-                        _MinutesToActionStateChange = new System.Random().NextSingle(20.0f, 20.0f);
+                        _MinutesToActionStateChange = ButtonOffice.RandomNumberGenerator.GetSingle(20.0f, 20.0f);
                     }
                     _MinutesToActionStateChange -= GameMinutes;
 
@@ -140,15 +140,15 @@
                 {
                     if(_MinutesToActionStateChange < 0.0f)
                     {
-                        if(new System.Random().NextSingle() <= 0.25f)
+                        if(ButtonOffice.RandomNumberGenerator.GetBoolean(0.25) == true)
                         {
                             _ActionState = ButtonOffice.ActionState.Stay;
-                            _MinutesToActionStateChange = new System.Random().NextSingle(30.0f, 30.0f);
+                            _MinutesToActionStateChange = ButtonOffice.RandomNumberGenerator.GetSingle(30.0f, 30.0f);
                         }
                         else
                         {
                             _ActionState = ButtonOffice.ActionState.WalkRight;
-                            _MinutesToActionStateChange = new System.Random().NextSingle(10.0f, 8.0f);
+                            _MinutesToActionStateChange = ButtonOffice.RandomNumberGenerator.GetSingle(10.0f, 8.0f);
                         }
                     }
                     _Rectangle.X -= GameMinutes * ButtonOffice.Data.CatWalkSpeed;
@@ -165,15 +165,15 @@
 
                     if(_MinutesToActionStateChange < 0.0f)
                     {
-                        if(new System.Random().NextSingle() <= 0.25f)
+                        if(ButtonOffice.RandomNumberGenerator.GetBoolean(0.25) == true)
                         {
                             _ActionState = ButtonOffice.ActionState.Stay;
-                            _MinutesToActionStateChange = new System.Random().NextSingle(30.0f, 30.0f);
+                            _MinutesToActionStateChange = ButtonOffice.RandomNumberGenerator.GetSingle(30.0f, 30.0f);
                         }
                         else
                         {
                             _ActionState = ButtonOffice.ActionState.WalkLeft;
-                            _MinutesToActionStateChange = new System.Random().NextSingle(10.0f, 8.0f);
+                            _MinutesToActionStateChange = ButtonOffice.RandomNumberGenerator.GetSingle(10.0f, 8.0f);
                         }
                     }
                     _Rectangle.X += GameMinutes * ButtonOffice.Data.CatWalkSpeed;

@@ -116,8 +116,8 @@
                 _LivingSide = ButtonOffice.LivingSide.Right;
                 SetLocation(ButtonOffice.Data.WorldBlockWidth + 10.0f, 0.0f);
             }
-            _Rectangle.Height = Random.NextSingle(ButtonOffice.Data.PersonHeight, ButtonOffice.Data.PersonHeightSpread);
-            _Rectangle.Width = Random.NextSingle(ButtonOffice.Data.PersonWidth, ButtonOffice.Data.PersonWidthSpread);
+            _Rectangle.Height = ButtonOffice.RandomNumberGenerator.GetSingle(ButtonOffice.Data.PersonHeight, ButtonOffice.Data.PersonHeightSpread);
+            _Rectangle.Width = ButtonOffice.RandomNumberGenerator.GetSingle(ButtonOffice.Data.PersonWidth, ButtonOffice.Data.PersonWidthSpread);
             _Name = "Hagen";
             _Type = Type;
         }

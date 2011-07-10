@@ -149,13 +149,13 @@
 
                 System.Random Random = new System.Random();
 
-                Office.FirstDesk.SetMinutesUntilComputerBroken(Random.GetSingleFromExponentialDistribution(ButtonOffice.Data.MeanMinutesToBrokenComputer));
-                Office.SecondDesk.SetMinutesUntilComputerBroken(Random.GetSingleFromExponentialDistribution(ButtonOffice.Data.MeanMinutesToBrokenComputer));
-                Office.ThirdDesk.SetMinutesUntilComputerBroken(Random.GetSingleFromExponentialDistribution(ButtonOffice.Data.MeanMinutesToBrokenComputer));
-                Office.FourthDesk.SetMinutesUntilComputerBroken(Random.GetSingleFromExponentialDistribution(ButtonOffice.Data.MeanMinutesToBrokenComputer));
-                Office.FirstLamp.SetMinutesUntilBroken(Random.GetSingleFromExponentialDistribution(ButtonOffice.Data.MeanMinutesToBrokenLamp));
-                Office.SecondLamp.SetMinutesUntilBroken(Random.GetSingleFromExponentialDistribution(ButtonOffice.Data.MeanMinutesToBrokenLamp));
-                Office.ThirdLamp.SetMinutesUntilBroken(Random.GetSingleFromExponentialDistribution(ButtonOffice.Data.MeanMinutesToBrokenLamp));
+                Office.FirstDesk.SetMinutesUntilComputerBroken(ButtonOffice.RandomNumberGenerator.GetSingleFromExponentialDistribution(ButtonOffice.Data.MeanMinutesToBrokenComputer));
+                Office.SecondDesk.SetMinutesUntilComputerBroken(ButtonOffice.RandomNumberGenerator.GetSingleFromExponentialDistribution(ButtonOffice.Data.MeanMinutesToBrokenComputer));
+                Office.ThirdDesk.SetMinutesUntilComputerBroken(ButtonOffice.RandomNumberGenerator.GetSingleFromExponentialDistribution(ButtonOffice.Data.MeanMinutesToBrokenComputer));
+                Office.FourthDesk.SetMinutesUntilComputerBroken(ButtonOffice.RandomNumberGenerator.GetSingleFromExponentialDistribution(ButtonOffice.Data.MeanMinutesToBrokenComputer));
+                Office.FirstLamp.SetMinutesUntilBroken(ButtonOffice.RandomNumberGenerator.GetSingleFromExponentialDistribution(ButtonOffice.Data.MeanMinutesToBrokenLamp));
+                Office.SecondLamp.SetMinutesUntilBroken(ButtonOffice.RandomNumberGenerator.GetSingleFromExponentialDistribution(ButtonOffice.Data.MeanMinutesToBrokenLamp));
+                Office.ThirdLamp.SetMinutesUntilBroken(ButtonOffice.RandomNumberGenerator.GetSingleFromExponentialDistribution(ButtonOffice.Data.MeanMinutesToBrokenLamp));
                 _Offices.Add(Office);
 
                 return true;
@@ -177,7 +177,7 @@
                 ButtonOffice.Worker Worker = new ButtonOffice.Worker();
                 System.Random Random = new System.Random();
 
-                Worker.ArrivesAtDayMinute = Random.NextUInt32(ButtonOffice.Data.WorkerStartMinute, 300) % 1440;
+                Worker.ArrivesAtDayMinute = ButtonOffice.RandomNumberGenerator.GetUInt32(ButtonOffice.Data.WorkerStartMinute, 300) % 1440;
 
                 ButtonOffice.Desk Desk = Office.GetFreeDesk();
 
@@ -204,7 +204,7 @@
                 ButtonOffice.ITTech ITTech = new ButtonOffice.ITTech();
                 System.Random Random = new System.Random();
 
-                ITTech.ArrivesAtDayMinute = Random.NextUInt32(ButtonOffice.Data.ITTechStartMinute, 300) % 1440;
+                ITTech.ArrivesAtDayMinute = ButtonOffice.RandomNumberGenerator.GetUInt32(ButtonOffice.Data.ITTechStartMinute, 300) % 1440;
 
                 ButtonOffice.Desk Desk = Office.GetFreeDesk();
 
@@ -231,7 +231,7 @@
                 ButtonOffice.Janitor Janitor = new ButtonOffice.Janitor();
                 System.Random Random = new System.Random();
 
-                Janitor.ArrivesAtDayMinute = Random.NextUInt32(ButtonOffice.Data.JanitorStartMinute, 300) % 1440;
+                Janitor.ArrivesAtDayMinute = ButtonOffice.RandomNumberGenerator.GetUInt32(ButtonOffice.Data.JanitorStartMinute, 300) % 1440;
 
                 ButtonOffice.Desk Desk = Office.GetFreeDesk();
 
