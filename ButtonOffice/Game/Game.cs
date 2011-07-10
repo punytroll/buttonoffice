@@ -173,7 +173,7 @@
                 {
                     ButtonOffice.Desk Desk = _GetDesk(Office, Rectangle.Location);
 
-                    if(Desk != null)
+                    if((Desk != null) && (Desk.Person == null))
                     {
                         _Cents -= ButtonOffice.Data.WorkerHireCost;
 
@@ -202,7 +202,7 @@
                 {
                     ButtonOffice.Desk Desk = _GetDesk(Office, Rectangle.Location);
 
-                    if(Desk != null)
+                    if((Desk != null) && (Desk.Person == null))
                     {
                         _Cents -= ButtonOffice.Data.ITTechHireCost;
 
@@ -231,7 +231,7 @@
                 {
                     ButtonOffice.Desk Desk = _GetDesk(Office, Rectangle.Location);
 
-                    if(Desk != null)
+                    if((Desk != null) && (Desk.Person == null))
                     {
                         _Cents -= ButtonOffice.Data.JanitorHireCost;
 
