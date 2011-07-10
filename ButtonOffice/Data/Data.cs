@@ -162,6 +162,14 @@
             }
         }
 
+        public static System.Drawing.Color GroundColor
+        {
+            get
+            {
+                return System.Drawing.Color.FromArgb(64, 52, 18);
+            }
+        }
+
         public static System.Drawing.Color ITTechBackgroundColor
         {
             get

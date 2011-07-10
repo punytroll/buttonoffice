@@ -545,7 +545,7 @@
 
         private void _OnDrawingBoardPaint(System.Object Sender, System.Windows.Forms.PaintEventArgs EventArguments)
         {
-            EventArguments.Graphics.FillRectangle(new System.Drawing.SolidBrush(System.Drawing.Color.BurlyWood), 0, _GetDrawingY(0), _DrawingBoard.Width, _DrawingBoard.Height);
+            EventArguments.Graphics.FillRectangle(new System.Drawing.SolidBrush(ButtonOffice.Data.GroundColor), 0, _GetDrawingY(0), _DrawingBoard.Width, _DrawingBoard.Height);
             foreach(Office Office in _Game.Offices)
             {
                 _DrawRectangle(EventArguments.Graphics, Office.GetRectangle(), ButtonOffice.Data.OfficeBackgroundColor, ButtonOffice.Data.OfficeBorderColor);
