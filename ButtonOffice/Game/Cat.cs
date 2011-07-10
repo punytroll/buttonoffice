@@ -2,10 +2,12 @@
 {
     internal class Cat
     {
+        private ButtonOffice.ActionState _ActionState;
         private System.Drawing.Color _BackgroundColor;
         private System.Drawing.Color _BorderColor;
         private ButtonOffice.Office _Office;
         private System.Drawing.RectangleF _Rectangle;
+        private System.Single _MinutesToActionStateChange;
 
         public System.Drawing.Color BackgroundColor
         {
@@ -45,6 +47,8 @@
 
         public Cat()
         {
+            _ActionState = ButtonOffice.ActionState.Stay;
+            _MinutesToActionStateChange = new System.Random().NextSingle(10.0f, 15.0f);
             _BackgroundColor = ButtonOffice.Data.CatBackgroundColor;
             _BorderColor = ButtonOffice.Data.CatBorderColor;
         }
@@ -112,7 +116,76 @@
 
         public void Move(ButtonOffice.Game Game, System.Single GameMinutes)
         {
+            switch(_ActionState)
+            {
+            case ButtonOffice.ActionState.Stay:
+                {
+                    if(_MinutesToActionStateChange < 0.0f)
+                    {
+                        if(new System.Random().NextSingle() <= 0.5f)
+                        {
+                            _ActionState = ButtonOffice.ActionState.WalkLeft;
+                        }
+                        else
+                        {
+                            _ActionState = ButtonOffice.ActionState.WalkRight;
+                        }
+                        _MinutesToActionStateChange = new System.Random().NextSingle(20.0f, 20.0f);
+                    }
+                    _MinutesToActionStateChange -= GameMinutes;
 
+                    break;
+                }
+            case ButtonOffice.ActionState.WalkLeft:
+                {
+                    if(_MinutesToActionStateChange < 0.0f)
+                    {
+                        if(new System.Random().NextSingle() <= 0.25f)
+                        {
+                            _ActionState = ButtonOffice.ActionState.Stay;
+                            _MinutesToActionStateChange = new System.Random().NextSingle(30.0f, 30.0f);
+                        }
+                        else
+                        {
+                            _ActionState = ButtonOffice.ActionState.WalkRight;
+                            _MinutesToActionStateChange = new System.Random().NextSingle(10.0f, 8.0f);
+                        }
+                    }
+                    _Rectangle.X -= GameMinutes * ButtonOffice.Data.CatWalkSpeed;
+                    if(_Rectangle.X <= _Office.GetX())
+                    {
+                        _ActionState = ButtonOffice.ActionState.WalkRight;
+                    }
+                    _MinutesToActionStateChange -= GameMinutes;
+
+                    break;
+                }
+            case ButtonOffice.ActionState.WalkRight:
+                {
+
+                    if(_MinutesToActionStateChange < 0.0f)
+                    {
+                        if(new System.Random().NextSingle() <= 0.25f)
+                        {
+                            _ActionState = ButtonOffice.ActionState.Stay;
+                            _MinutesToActionStateChange = new System.Random().NextSingle(30.0f, 30.0f);
+                        }
+                        else
+                        {
+                            _ActionState = ButtonOffice.ActionState.WalkLeft;
+                            _MinutesToActionStateChange = new System.Random().NextSingle(10.0f, 8.0f);
+                        }
+                    }
+                    _Rectangle.X += GameMinutes * ButtonOffice.Data.CatWalkSpeed;
+                    if(_Rectangle.Right >= _Office.GetRight())
+                    {
+                        _ActionState = ButtonOffice.ActionState.WalkLeft;
+                    }
+                    _MinutesToActionStateChange -= GameMinutes;
+
+                    break;
+                }
+            }
         }
     }
 }

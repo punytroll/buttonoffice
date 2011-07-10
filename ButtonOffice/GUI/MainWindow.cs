@@ -585,7 +585,7 @@
 
                 // first desk
                 PersonColor = System.Drawing.Color.White;
-                ComputerColor = System.Drawing.Color.Black;
+                ComputerColor = ButtonOffice.Data.ComputerBackgroundColor;
                 if(Office.FirstDesk.Person != null)
                 {
                     PersonColor = Office.FirstDesk.Person.BackgroundColor;
@@ -596,10 +596,10 @@
                 }
                 _DrawRectangle(EventArguments.Graphics, Office.FirstDesk.GetRectangle(), ButtonOffice.Data.DeskBackgroundColor, System.Drawing.Color.Black);
                 _DrawRectangle(EventArguments.Graphics, Office.FirstDesk.GetX() + (Office.FirstDesk.GetWidth() - ButtonOffice.Data.PersonTagWidth) / 2.0f, Office.FirstDesk.GetY() + (Office.FirstDesk.GetHeight() - ButtonOffice.Data.PersonTagHeight) / 2.0f, ButtonOffice.Data.PersonTagWidth, ButtonOffice.Data.PersonTagHeight, PersonColor, System.Drawing.Color.Black);
-                _DrawRectangle(EventArguments.Graphics, Office.FirstDesk.GetX() + (Office.FirstDesk.GetWidth() - ButtonOffice.Data.ComputerWidth) / 2.0f, Office.FirstDesk.GetY() + Office.FirstDesk.GetHeight() + 0.04f, ButtonOffice.Data.ComputerWidth, ButtonOffice.Data.ComputerHeight, ComputerColor, System.Drawing.Color.Black);
+                _DrawRectangle(EventArguments.Graphics, Office.FirstDesk.GetX() + (Office.FirstDesk.GetWidth() - ButtonOffice.Data.ComputerWidth) / 2.0f, Office.FirstDesk.GetY() + Office.FirstDesk.GetHeight() + 0.04f, ButtonOffice.Data.ComputerWidth, ButtonOffice.Data.ComputerHeight, ComputerColor, ButtonOffice.Data.ComputerBorderColor);
                 // second desk
                 PersonColor = System.Drawing.Color.White;
-                ComputerColor = System.Drawing.Color.Black;
+                ComputerColor = ButtonOffice.Data.ComputerBackgroundColor;
                 if(Office.SecondDesk.Person != null)
                 {
                     PersonColor = Office.SecondDesk.Person.BackgroundColor;
@@ -610,10 +610,10 @@
                 }
                 _DrawRectangle(EventArguments.Graphics, Office.SecondDesk.GetRectangle(), ButtonOffice.Data.DeskBackgroundColor, System.Drawing.Color.Black);
                 _DrawRectangle(EventArguments.Graphics, Office.SecondDesk.GetX() + (Office.SecondDesk.GetWidth() - ButtonOffice.Data.PersonTagWidth) / 2.0f, Office.SecondDesk.GetY() + (Office.SecondDesk.GetHeight() - ButtonOffice.Data.PersonTagHeight) / 2.0f, ButtonOffice.Data.PersonTagWidth, ButtonOffice.Data.PersonTagHeight, PersonColor, System.Drawing.Color.Black);
-                _DrawRectangle(EventArguments.Graphics, Office.SecondDesk.GetX() + (Office.SecondDesk.GetWidth() - ButtonOffice.Data.ComputerWidth) / 2.0f, Office.SecondDesk.GetY() + Office.SecondDesk.GetHeight() + 0.04f, ButtonOffice.Data.ComputerWidth, ButtonOffice.Data.ComputerHeight, ComputerColor, System.Drawing.Color.Black);
+                _DrawRectangle(EventArguments.Graphics, Office.SecondDesk.GetX() + (Office.SecondDesk.GetWidth() - ButtonOffice.Data.ComputerWidth) / 2.0f, Office.SecondDesk.GetY() + Office.SecondDesk.GetHeight() + 0.04f, ButtonOffice.Data.ComputerWidth, ButtonOffice.Data.ComputerHeight, ComputerColor, ButtonOffice.Data.ComputerBorderColor);
                 // third desk
                 PersonColor = System.Drawing.Color.White;
-                ComputerColor = System.Drawing.Color.Black;
+                ComputerColor = ButtonOffice.Data.ComputerBackgroundColor;
                 if(Office.ThirdDesk.Person != null)
                 {
                     PersonColor = Office.ThirdDesk.Person.BackgroundColor;
@@ -624,10 +624,10 @@
                 }
                 _DrawRectangle(EventArguments.Graphics, Office.ThirdDesk.GetRectangle(), ButtonOffice.Data.DeskBackgroundColor, System.Drawing.Color.Black);
                 _DrawRectangle(EventArguments.Graphics, Office.ThirdDesk.GetX() + (Office.ThirdDesk.GetWidth() - ButtonOffice.Data.PersonTagWidth) / 2.0f, Office.ThirdDesk.GetY() + (Office.ThirdDesk.GetHeight() - ButtonOffice.Data.PersonTagHeight) / 2.0f, ButtonOffice.Data.PersonTagWidth, ButtonOffice.Data.PersonTagHeight, PersonColor, System.Drawing.Color.Black);
-                _DrawRectangle(EventArguments.Graphics, Office.ThirdDesk.GetX() + (Office.ThirdDesk.GetWidth() - ButtonOffice.Data.ComputerWidth) / 2.0f, Office.ThirdDesk.GetY() + Office.ThirdDesk.GetHeight() + 0.04f, ButtonOffice.Data.ComputerWidth, ButtonOffice.Data.ComputerHeight, ComputerColor, System.Drawing.Color.Black);
+                _DrawRectangle(EventArguments.Graphics, Office.ThirdDesk.GetX() + (Office.ThirdDesk.GetWidth() - ButtonOffice.Data.ComputerWidth) / 2.0f, Office.ThirdDesk.GetY() + Office.ThirdDesk.GetHeight() + 0.04f, ButtonOffice.Data.ComputerWidth, ButtonOffice.Data.ComputerHeight, ComputerColor, ButtonOffice.Data.ComputerBorderColor);
                 // fourth desk
                 PersonColor = System.Drawing.Color.White;
-                ComputerColor = System.Drawing.Color.Black;
+                ComputerColor = ButtonOffice.Data.ComputerBackgroundColor;
                 if(Office.FourthDesk.Person != null)
                 {
                     PersonColor = Office.FourthDesk.Person.BackgroundColor;
@@ -638,7 +638,7 @@
                 }
                 _DrawRectangle(EventArguments.Graphics, Office.FourthDesk.GetRectangle(), ButtonOffice.Data.DeskBackgroundColor, System.Drawing.Color.Black);
                 _DrawRectangle(EventArguments.Graphics, Office.FourthDesk.GetX() + (Office.FourthDesk.GetWidth() - ButtonOffice.Data.PersonTagWidth) / 2.0f, Office.FourthDesk.GetY() + (Office.FourthDesk.GetHeight() - ButtonOffice.Data.PersonTagHeight) / 2.0f, ButtonOffice.Data.PersonTagWidth, ButtonOffice.Data.PersonTagHeight, PersonColor, System.Drawing.Color.Black);
-                _DrawRectangle(EventArguments.Graphics, Office.FourthDesk.GetX() + (Office.FourthDesk.GetWidth() - ButtonOffice.Data.ComputerWidth) / 2.0f, Office.FourthDesk.GetY() + Office.FourthDesk.GetHeight() + 0.04f, ButtonOffice.Data.ComputerWidth, ButtonOffice.Data.ComputerHeight, ComputerColor, System.Drawing.Color.Black);
+                _DrawRectangle(EventArguments.Graphics, Office.FourthDesk.GetX() + (Office.FourthDesk.GetWidth() - ButtonOffice.Data.ComputerWidth) / 2.0f, Office.FourthDesk.GetY() + Office.FourthDesk.GetHeight() + 0.04f, ButtonOffice.Data.ComputerWidth, ButtonOffice.Data.ComputerHeight, ComputerColor, ButtonOffice.Data.ComputerBorderColor);
                 // cat
                 if(Office.Cat != null)
                 {

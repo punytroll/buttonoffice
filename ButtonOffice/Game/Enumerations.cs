@@ -13,8 +13,11 @@
         PickTrash,
         PushingButton,
         Repairing,
+        Stay,
         WaitingForBrokenThings,
         WaitingToGoHome,
+        WalkLeft,
+        WalkRight,
         Working
     }
 

@@ -50,11 +50,35 @@
             }
         }
 
+        public static System.Single CatWalkSpeed
+        {
+            get
+            {
+                return 0.5f;
+            }
+        }
+
         public static System.Single CatWidth
         {
             get
             {
                 return 1.0f;
+            }
+        }
+
+        public static System.Drawing.Color ComputerBackgroundColor
+        {
+            get
+            {
+                return System.Drawing.Color.Beige;
+            }
+        }
+
+        public static System.Drawing.Color ComputerBorderColor
+        {
+            get
+            {
+                return System.Drawing.Color.Black;
             }
         }
 

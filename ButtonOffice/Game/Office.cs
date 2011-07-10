@@ -143,6 +143,11 @@
             return _Rectangle;
         }
 
+        public System.Single GetRight()
+        {
+            return _Rectangle.Right;
+        }
+
         public System.Single GetWidth()
         {
             return _Rectangle.Width;
