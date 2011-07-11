@@ -1,3 +1,7 @@
 ﻿- floating point placement of buildings
 - repair costs
 - cats can jump (and stay) on desks if no person is sitting there
+- better offices do not provide a big payout bonus but will decrease unhappiness per button push, have bigger trash cans, more robust computers, more robust lamps, plus a small payout bonus
+- promoted workers provide faster button pushing
+- accountants only effect payout if they are working at their desk
+- supervisors only makes people faster, not better, maybe even more reckless and unhappy
