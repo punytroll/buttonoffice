@@ -3,9 +3,11 @@
     internal class Game
     {
         private System.Collections.Generic.Queue<System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing>> _BrokenThings;
+        private System.UInt32 _CatStock;
         private System.UInt64 _Cents;
         private System.Collections.Generic.List<System.Collections.BitArray> _FreeSpace;
         private System.UInt64 _Minutes;
+        private System.UInt32 _NextCatAtNumberOfEmployees;
         private System.Collections.Generic.List<ButtonOffice.Office> _Offices;
         private System.Collections.Generic.List<ButtonOffice.Person> _Persons;
         private System.Single _SubMinute;
@@ -38,6 +40,7 @@
         public Game()
         {
             _BrokenThings = new System.Collections.Generic.Queue<System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing>>();
+            _CatStock = 0;
             _Cents = ButtonOffice.Data.StartCents;
             _FreeSpace = new System.Collections.Generic.List<System.Collections.BitArray>();
             for(System.Int32 Index = 0; Index < ButtonOffice.Data.WorldBlockHeight; ++Index)
@@ -45,6 +48,7 @@
                 _FreeSpace.Add(new System.Collections.BitArray(ButtonOffice.Data.WorldBlockWidth, true));
             }
             _Minutes = ButtonOffice.Data.StartMinutes;
+            _NextCatAtNumberOfEmployees = 20;
             _Offices = new System.Collections.Generic.List<ButtonOffice.Office>();
             _Persons = new System.Collections.Generic.List<ButtonOffice.Person>();
             _SubMinute = 0.0f;
@@ -77,6 +81,11 @@
         public System.UInt64 GetEuros()
         {
             return _Cents / 100;
+        }
+
+        public System.UInt32 GetCatStock()
+        {
+            return _CatStock;
         }
 
         public System.UInt64 GetCents()
@@ -184,6 +193,11 @@
                 Desk.Person = Worker;
                 Worker.Desk = Desk;
                 _Persons.Add(Worker);
+                if(_Persons.Count == _NextCatAtNumberOfEmployees)
+                {
+                    _NextCatAtNumberOfEmployees += 20;
+                    _CatStock += 1;
+                }
 
                 return true;
             }
@@ -211,6 +225,11 @@
                 Desk.Person = ITTech;
                 ITTech.Desk = Desk;
                 _Persons.Add(ITTech);
+                if(_Persons.Count == _NextCatAtNumberOfEmployees)
+                {
+                    _NextCatAtNumberOfEmployees += 20;
+                    _CatStock += 1;
+                }
 
                 return true;
             }
@@ -238,6 +257,11 @@
                 Desk.Person = Janitor;
                 Janitor.Desk = Desk;
                 _Persons.Add(Janitor);
+                if(_Persons.Count == _NextCatAtNumberOfEmployees)
+                {
+                    _NextCatAtNumberOfEmployees += 20;
+                    _CatStock += 1;
+                }
 
                 return true;
             }
@@ -249,22 +273,24 @@
 
         public System.Boolean PlaceCat(System.Drawing.RectangleF Rectangle)
         {
-            ButtonOffice.Office Office = _GetOffice(Rectangle.Location);
-
-            if((Office != null) && (Office.Cat == null))
+            if(_CatStock > 0)
             {
-                ButtonOffice.Cat Cat = new ButtonOffice.Cat();
+                ButtonOffice.Office Office = _GetOffice(Rectangle.Location);
 
-                Cat.SetRectangle(Rectangle);
-                Office.Cat = Cat;
-                Cat.Office = Office;
+                if((Office != null) && (Office.Cat == null))
+                {
+                    ButtonOffice.Cat Cat = new ButtonOffice.Cat();
 
-                return true;
+                    Cat.SetRectangle(Rectangle);
+                    Office.Cat = Cat;
+                    Cat.Office = Office;
+                    _CatStock -= 1;
+
+                    return true;
+                }
             }
-            else
-            {
-                return false;
-            }
+            
+            return false;
         }
 
         private ButtonOffice.Office _GetOffice(System.Drawing.PointF GameCoordinates)

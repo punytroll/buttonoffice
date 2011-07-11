@@ -774,6 +774,29 @@
             _TimeLabel.Text = "Day && Time: " + new System.TimeSpan(_Game.GetDay().ToInt32(), 0, _Game.GetMinuteOfDay().ToInt32(), 0).ToString();
             _MoneyLabel.Text = "Money: " + _Game.GetEuros().ToString() + "." + _Game.GetCents().ToString("00") + "€";
             _EmployeesLabel.Text = "Employees: " + _Game.Persons.Count.ToString();
+            if(_Game.GetCatStock() > 0)
+            {
+                if(_PlaceCatButton.Enabled == false)
+                {
+                    _PlaceCatButton.Enabled = true;
+                }
+                if(_Game.GetCatStock() == 1)
+                {
+                    _PlaceCatButton.Text = "Cat (1)";
+                }
+                else
+                {
+                    _PlaceCatButton.Text = "Cat (" + _Game.GetCatStock().ToString() + ")";
+                }
+            }
+            else
+            {
+                _PlaceCatButton.Text = "Cat";
+                if(_PlaceCatButton.Enabled == true)
+                {
+                    _PlaceCatButton.Enabled = false;
+                }
+            }
             _LastTick = Now;
             _DrawingBoard.Invalidate();
         }
