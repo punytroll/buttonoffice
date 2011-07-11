@@ -192,17 +192,17 @@
                         Desk.Person = Worker;
                         Worker.Desk = Desk;
                         _Persons.Add(Worker);
-                if(_Persons.Count == _NextCatAtNumberOfEmployees)
-                {
-                    _NextCatAtNumberOfEmployees += 20;
-                    _CatStock += 1;
-                }
+                        if(_Persons.Count == _NextCatAtNumberOfEmployees)
+                        {
+                            _NextCatAtNumberOfEmployees += 20;
+                            _CatStock += 1;
+                        }
 
                         return true;
                     }
                 }
             }
-            
+
             return false;
         }
 
@@ -226,11 +226,11 @@
                         Desk.Person = ITTech;
                         ITTech.Desk = Desk;
                         _Persons.Add(ITTech);
-                if(_Persons.Count == _NextCatAtNumberOfEmployees)
-                {
-                    _NextCatAtNumberOfEmployees += 20;
-                    _CatStock += 1;
-                }
+                        if(_Persons.Count == _NextCatAtNumberOfEmployees)
+                        {
+                            _NextCatAtNumberOfEmployees += 20;
+                            _CatStock += 1;
+                        }
 
                         return true;
                     }
@@ -260,11 +260,11 @@
                         Desk.Person = Janitor;
                         Janitor.Desk = Desk;
                         _Persons.Add(Janitor);
-                if(_Persons.Count == _NextCatAtNumberOfEmployees)
-                {
-                    _NextCatAtNumberOfEmployees += 20;
-                    _CatStock += 1;
-                }
+                        if(_Persons.Count == _NextCatAtNumberOfEmployees)
+                        {
+                            _NextCatAtNumberOfEmployees += 20;
+                            _CatStock += 1;
+                        }
 
                         return true;
                     }
@@ -292,7 +292,7 @@
                     return true;
                 }
             }
-            
+
             return false;
         }
 
