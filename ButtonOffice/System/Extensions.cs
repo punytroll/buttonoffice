@@ -39,4 +39,12 @@
     {
         return new System.Drawing.PointF(System.Convert.ToSingle(System.Math.Truncate(System.Convert.ToDouble(Point.X))), System.Convert.ToSingle(System.Math.Truncate(System.Convert.ToDouble(Point.Y))));
     }
+
+    public static System.Single GetDistanceSquared(this System.Drawing.PointF Point, System.Drawing.PointF OtherPoint)
+    {
+        System.Single DeltaX = OtherPoint.X - Point.X;
+        System.Single DeltaY = OtherPoint.Y - Point.Y;
+
+        return DeltaX * DeltaX + DeltaY * DeltaY;
+    }
 }
