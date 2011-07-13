@@ -2,6 +2,10 @@
 {
     internal class Game
     {
+        public delegate void MoneyChangeDelegate(System.UInt64 Cents, System.Drawing.PointF Location);
+        public event MoneyChangeDelegate OnEarnMoney;
+        public event MoneyChangeDelegate OnSpendMoney;
+
         private System.Collections.Generic.Queue<System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing>> _BrokenThings;
         private System.UInt32 _CatStock;
         private System.UInt64 _Cents;
@@ -78,19 +82,9 @@
             }
         }
 
-        public System.UInt64 GetEuros()
-        {
-            return _Cents / 100;
-        }
-
         public System.UInt32 GetCatStock()
         {
             return _CatStock;
-        }
-
-        public System.UInt64 GetCents()
-        {
-            return _Cents % 100;
         }
 
         public void AddCents(System.UInt64 Cents)
@@ -163,6 +157,7 @@
                 Office.SecondLamp.SetMinutesUntilBroken(ButtonOffice.RandomNumberGenerator.GetSingleFromExponentialDistribution(ButtonOffice.Data.MeanMinutesToBrokenLamp));
                 Office.ThirdLamp.SetMinutesUntilBroken(ButtonOffice.RandomNumberGenerator.GetSingleFromExponentialDistribution(ButtonOffice.Data.MeanMinutesToBrokenLamp));
                 _Offices.Add(Office);
+                FireSpendMoney(ButtonOffice.Data.OfficeBuildCost, Office.GetMidLocation());
 
                 return true;
             }
@@ -197,6 +192,7 @@
                             _NextCatAtNumberOfEmployees += 20;
                             _CatStock += 1;
                         }
+                        FireSpendMoney(ButtonOffice.Data.WorkerHireCost, Desk.GetMidLocation());
 
                         return true;
                     }
@@ -231,6 +227,7 @@
                             _NextCatAtNumberOfEmployees += 20;
                             _CatStock += 1;
                         }
+                        FireSpendMoney(ButtonOffice.Data.ITTechHireCost, Desk.GetMidLocation());
 
                         return true;
                     }
@@ -265,6 +262,7 @@
                             _NextCatAtNumberOfEmployees += 20;
                             _CatStock += 1;
                         }
+                        FireSpendMoney(ButtonOffice.Data.JanitorHireCost, Desk.GetMidLocation());
 
                         return true;
                     }
@@ -343,6 +341,42 @@
             }
 
             return NearestDesk;
+        }
+
+        public void FireEarnMoney(System.UInt64 Cents, System.Drawing.PointF Location)
+        {
+            if(OnEarnMoney != null)
+            {
+                OnEarnMoney(Cents, Location);
+            }
+        }
+
+        public void FireSpendMoney(System.UInt64 Cents, System.Drawing.PointF Location)
+        {
+            if(OnSpendMoney != null)
+            {
+                OnSpendMoney(Cents, Location);
+            }
+        }
+
+        public System.UInt64 GetCents()
+        {
+            return _Cents;
+        }
+
+        private System.UInt64 _GetEuros(System.UInt64 Cents)
+        {
+            return Cents / 100;
+        }
+
+        private System.UInt64 _GetCents(System.UInt64 Cents)
+        {
+            return Cents % 100;
+        }
+
+        public System.String GetMoneyString(System.UInt64 Cents)
+        {
+            return _GetEuros(Cents).ToString() + "." + _GetCents(Cents).ToString("00") + "€";
         }
     }
 }

@@ -154,6 +154,22 @@
             }
         }
 
+        public static System.Drawing.Color EarnMoneyFloatingTextColor
+        {
+            get
+            {
+                return System.Drawing.Color.FromArgb(220, 20, 220, 20);
+            }
+        }
+
+        public static System.Single FloatingTextSpeed
+        {
+            get
+            {
+                return 30.0f;
+            }
+        }
+
         public static System.Single GameMinutesPerSecond
         {
             get
@@ -439,6 +455,14 @@
             get
             {
                 return 0.5f;
+            }
+        }
+
+        public static System.Drawing.Color SpendMoneyFloatingTextColor
+        {
+            get
+            {
+                return System.Drawing.Color.FromArgb(220, 220, 20, 20);
             }
         }
 

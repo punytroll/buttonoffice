@@ -73,6 +73,7 @@
                                     _AnimationFraction -= 1.0f;
                                     _Desk.TrashLevel += 1.0f;
                                     Game.AddCents(100);
+                                    Game.FireEarnMoney(100, GetMidLocation());
                                 }
                             }
                         }

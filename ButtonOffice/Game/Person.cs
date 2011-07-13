@@ -130,6 +130,11 @@
             return _Rectangle.Height;
         }
 
+        public System.Drawing.PointF GetMidLocation()
+        {
+            return new System.Drawing.PointF(_Rectangle.X + _Rectangle.Width / 2.0f, _Rectangle.Y + _Rectangle.Height / 2.0f);
+        }
+
         public System.Drawing.RectangleF GetRectangle()
         {
             return _Rectangle;

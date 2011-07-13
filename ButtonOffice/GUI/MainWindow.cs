@@ -2,6 +2,7 @@
 {
     internal class MainWindow : System.Windows.Forms.Form
     {
+        private System.Collections.Generic.List<ButtonOffice.FloatingText> _FloatingTexts;
         private ButtonOffice.Game _Game;
         private System.Collections.Generic.List<System.Windows.Forms.ToolStripButton> _ToolButtons;
         private System.Nullable<System.Drawing.Point> _DragPoint;
@@ -18,7 +19,7 @@
         private System.Windows.Forms.ToolStripStatusLabel _MoneyLabel;
         private System.Windows.Forms.ToolStripStatusLabel _EmployeesLabel;
         private System.DateTime _LastTick;
-        private System.DateTime _NextMinute;
+        private System.DateTime _LastPaint;
         private System.Windows.Forms.SplitContainer _MainSplitContainer;
         private DrawingBoard _DrawingBoard;
         private System.Windows.Forms.ToolStripStatusLabel _PositionLabel;
@@ -30,11 +31,32 @@
     
         public MainWindow()
         {
+            _FloatingTexts = new System.Collections.Generic.List<ButtonOffice.FloatingText>();
             _Game = new Game();
+            _Game.OnEarnMoney += delegate(System.UInt64 Cents, System.Drawing.PointF Location)
+            {
+                ButtonOffice.FloatingText FloatingText = new ButtonOffice.FloatingText();
+
+                FloatingText.SetColor(ButtonOffice.Data.EarnMoneyFloatingTextColor);
+                FloatingText.SetLocation(_GetDrawingLocation(Location));
+                FloatingText.SetText(_Game.GetMoneyString(Cents));
+                FloatingText.SetTimeout(System.DateTime.Now.AddSeconds(1.2));
+                _FloatingTexts.Add(FloatingText);
+            };
+            _Game.OnSpendMoney += delegate(System.UInt64 Cents, System.Drawing.PointF Location)
+            {
+                ButtonOffice.FloatingText FloatingText = new ButtonOffice.FloatingText();
+
+                FloatingText.SetColor(ButtonOffice.Data.SpendMoneyFloatingTextColor);
+                FloatingText.SetLocation(_GetDrawingLocation(Location));
+                FloatingText.SetText(_Game.GetMoneyString(Cents));
+                FloatingText.SetTimeout(System.DateTime.Now.AddSeconds(1.2));
+                _FloatingTexts.Add(FloatingText);
+            };
             _EntityPrototype = null;
             _DragPoint = new System.Nullable<System.Drawing.Point>();
             _DrawingOffset = new System.Drawing.Point(-ButtonOffice.Data.WorldBlockWidth * ButtonOffice.Data.BlockWidth / 2, 2 * ButtonOffice.Data.BlockHeight);
-            _NextMinute = System.DateTime.Now;
+            _LastPaint = System.DateTime.Now;
             _LastTick = System.DateTime.Now;
             InitializeComponent();
             _ToolButtons = new System.Collections.Generic.List<System.Windows.Forms.ToolStripButton>();
@@ -545,6 +567,10 @@
 
         private void _OnDrawingBoardPaint(System.Object Sender, System.Windows.Forms.PaintEventArgs EventArguments)
         {
+            System.DateTime Now = System.DateTime.Now;
+            System.Single Seconds = (Now - _LastPaint).TotalSeconds.ToSingle();
+
+            _LastPaint = Now;
             EventArguments.Graphics.FillRectangle(new System.Drawing.SolidBrush(ButtonOffice.Data.GroundColor), 0, _GetDrawingY(0), _DrawingBoard.Width, _DrawingBoard.Height);
             foreach(Office Office in _Game.Offices)
             {
@@ -645,6 +671,25 @@
                     _DrawEllipse(EventArguments.Graphics, Office.Cat.GetRectangle(), Office.Cat.BackgroundColor, Office.Cat.BorderColor);
                 }
             }
+
+            System.Int32 Index = 0;
+            System.Drawing.Font Font = new System.Drawing.Font("Arial", 16.0f);
+            System.Drawing.StringFormat Format = new System.Drawing.StringFormat();
+
+            Format.Alignment = System.Drawing.StringAlignment.Center;
+            while(Index < _FloatingTexts.Count)
+            {
+                if(_FloatingTexts[Index].Timeout > System.DateTime.Now)
+                {
+                    EventArguments.Graphics.DrawString(_FloatingTexts[Index].Text, Font, new System.Drawing.SolidBrush(_FloatingTexts[Index].Color), _FloatingTexts[Index].Location, Format);
+                    _FloatingTexts[Index].SetLocation(new System.Drawing.PointF(_FloatingTexts[Index].Location.X, _FloatingTexts[Index].Location.Y - Seconds * ButtonOffice.Data.FloatingTextSpeed));
+                    ++Index;
+                }
+                else
+                {
+                    _FloatingTexts.RemoveAt(Index);
+                }
+            }
             if((_EntityPrototype != null) && (_EntityPrototype.HasLocation() == true))
             {
                 if(_EntityPrototype.Type == ButtonOffice.Type.Cat)
@@ -720,7 +765,7 @@
 
         private System.Drawing.Rectangle _GetDrawingRectangle(System.Drawing.RectangleF GamingRectangle)
         {
-            System.Drawing.Point DrawingPoint = _GetDrawingPoint(GamingRectangle.Location);
+            System.Drawing.Point DrawingPoint = _GetDrawingLocation(GamingRectangle.Location);
             System.Drawing.Size DrawingSize = _GetDrawingSize(GamingRectangle.Size);
 
             return new System.Drawing.Rectangle(DrawingPoint.X, DrawingPoint.Y - DrawingSize.Height, DrawingSize.Width, DrawingSize.Height);
@@ -738,9 +783,9 @@
             return new System.Drawing.Size(_GetDrawingWidth(GamingSize.Width), _GetDrawingHeight(GamingSize.Height));
         }
 
-        private System.Drawing.Point _GetDrawingPoint(System.Drawing.PointF GamingPoint)
+        private System.Drawing.Point _GetDrawingLocation(System.Drawing.PointF GamingLocation)
         {
-            return new System.Drawing.Point(_GetDrawingX(GamingPoint.X), _GetDrawingY(GamingPoint.Y));
+            return new System.Drawing.Point(_GetDrawingX(GamingLocation.X), _GetDrawingY(GamingLocation.Y));
         }
         #endregion
 
@@ -772,7 +817,7 @@
 
             _Game.Move(ButtonOffice.Data.GameMinutesPerSecond * (Now - _LastTick).TotalSeconds.ToSingle());
             _TimeLabel.Text = "Day && Time: " + new System.TimeSpan(_Game.GetDay().ToInt32(), 0, _Game.GetMinuteOfDay().ToInt32(), 0).ToString();
-            _MoneyLabel.Text = "Money: " + _Game.GetEuros().ToString() + "." + _Game.GetCents().ToString("00") + "€";
+            _MoneyLabel.Text = "Money: " + _Game.GetMoneyString(_Game.GetCents());
             _EmployeesLabel.Text = "Employees: " + _Game.Persons.Count.ToString();
             if(_Game.GetCatStock() > 0)
             {
