@@ -1,4 +1,43 @@
-﻿- floating point placement of buildings
+﻿Before 1.0:
+===========
+- floors between offices
+- save a game to an xml file
+- load a game form an xml file
+- fire people
+- move people
+- destroy offices
+- supervisors
+- researchers
+- research branches and topics
+- accountant
+- hr
+- upgrades to offices
+- promotions to people
+- budget
+- elevators
+- extra elevators
+- upgrade elevators
+- fire pole
+- skyhook
+- lift tube
+- people go to the toilet
+- people go to eat
+- people go to the gym
+- toilet
+- gym
+- cafeteria
+- upgrades to toilet, gym, cafeteria
+- building height
+- hapiness
+- noise from elevators
+- decor
+- day and night
+- tutorial
+- game end
+
+After 1.0:
+==========
+- floating point placement of buildings
 - repair costs
 - cats can jump (and stay) on desks if no person is sitting there
 - better offices do not provide a big payout bonus but will decrease unhappiness per button push, have bigger trash cans, more robust computers, more robust lamps, plus a small payout bonus
