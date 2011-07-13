@@ -1,6 +1,5 @@
 ﻿Before 1.0:
 ===========
-- floors between offices
 - save a game to an xml file
 - load a game form an xml file
 - fire people
@@ -34,6 +33,7 @@
 - day and night
 - tutorial
 - game end
+- main menu before game starts
 
 After 1.0:
 ==========
