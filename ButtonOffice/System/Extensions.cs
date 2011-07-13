@@ -10,6 +10,11 @@
         return System.Convert.ToUInt32(Int32);
     }
 
+    public static System.Int64 ToInt64(this System.Int32 Int32)
+    {
+        return System.Convert.ToInt64(Int32);
+    }
+
     public static System.Int32 GetIntegerAsInt32(this System.Single Single)
     {
         return System.Convert.ToInt32(System.Math.Truncate(Single));

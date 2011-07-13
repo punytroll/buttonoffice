@@ -26,6 +26,22 @@
             }
         }
 
+        public static System.Drawing.Color BuildingBackgroundColor
+        {
+            get
+            {
+                return System.Drawing.Color.FromArgb(220, 220, 230);
+            }
+        }
+
+        public static System.Drawing.Color BuildingBorderColor
+        {
+            get
+            {
+                return System.Drawing.Color.FromArgb(0, 0, 0);
+            }
+        }
+
         public static System.Drawing.Color CatBackgroundColor
         {
             get

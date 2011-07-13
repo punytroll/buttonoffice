@@ -571,6 +571,19 @@
             System.Single Seconds = (Now - _LastPaint).TotalSeconds.ToSingle();
 
             _LastPaint = Now;
+            for(System.Int32 Row = 0; Row < ButtonOffice.Data.WorldBlockHeight; ++Row)
+            {
+                System.Pair<System.Int32, System.Int32> BuildingMinimumMaximum = _Game.GetBuildingMinimumMaximum(Row);
+
+                if(BuildingMinimumMaximum.Second.ToInt64() - BuildingMinimumMaximum.First.ToInt64() > 0)
+                {
+                    _DrawRectangle(EventArguments.Graphics, new System.Drawing.RectangleF(BuildingMinimumMaximum.First.ToSingle(), Row.ToSingle(), (BuildingMinimumMaximum.Second - BuildingMinimumMaximum.First).ToSingle(), 1.0f), ButtonOffice.Data.BuildingBackgroundColor, ButtonOffice.Data.BuildingBorderColor);
+                }
+                else
+                {
+                    break;
+                }
+            }
             EventArguments.Graphics.FillRectangle(new System.Drawing.SolidBrush(ButtonOffice.Data.GroundColor), 0, _GetDrawingY(0), _DrawingBoard.Width, _DrawingBoard.Height);
             foreach(Office Office in _Game.Offices)
             {

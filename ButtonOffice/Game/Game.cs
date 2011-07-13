@@ -10,12 +10,12 @@
         private System.UInt32 _CatStock;
         private System.UInt64 _Cents;
         private System.Collections.Generic.List<System.Collections.BitArray> _FreeSpace;
+        private System.Collections.Generic.List<System.Pair<System.Int32, System.Int32>> _BuildingMinimumMaximum;
         private System.UInt64 _Minutes;
         private System.UInt32 _NextCatAtNumberOfEmployees;
         private System.Collections.Generic.List<ButtonOffice.Office> _Offices;
         private System.Collections.Generic.List<ButtonOffice.Person> _Persons;
         private System.Single _SubMinute;
-        private System.Collections.Generic.List<System.Collections.BitArray> _WalkSpace;
 
         public System.Collections.Generic.Queue<System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing>> BrokenThings
         {
@@ -51,17 +51,16 @@
             {
                 _FreeSpace.Add(new System.Collections.BitArray(ButtonOffice.Data.WorldBlockWidth, true));
             }
+            _BuildingMinimumMaximum = new System.Collections.Generic.List<System.Pair<System.Int32, System.Int32>>();
+            for(System.Int32 Index = 0; Index < ButtonOffice.Data.WorldBlockHeight; ++Index)
+            {
+                _BuildingMinimumMaximum.Add(new System.Pair<System.Int32, System.Int32>(System.Int32.MaxValue, System.Int32.MinValue));
+            }
             _Minutes = ButtonOffice.Data.StartMinutes;
             _NextCatAtNumberOfEmployees = 20;
             _Offices = new System.Collections.Generic.List<ButtonOffice.Office>();
             _Persons = new System.Collections.Generic.List<ButtonOffice.Person>();
             _SubMinute = 0.0f;
-            _WalkSpace = new System.Collections.Generic.List<System.Collections.BitArray>();
-            _WalkSpace.Add(new System.Collections.BitArray(ButtonOffice.Data.WorldBlockWidth, true));
-            for(System.Int32 Index = 1; Index < ButtonOffice.Data.WorldBlockHeight; ++Index)
-            {
-                _WalkSpace.Add(new System.Collections.BitArray(ButtonOffice.Data.WorldBlockWidth, false));
-            }
         }
 
         public void Move(System.Single GameMinutes)
@@ -129,10 +128,11 @@
             for(System.Int32 Column = 0; Column < Rectangle.Width; ++Column)
             {
                 BuildAllowed &= _FreeSpace[Rectangle.Y.GetIntegerAsInt32()][Rectangle.X.GetIntegerAsInt32() + Column];
-                if(Rectangle.Y > 0)
-                {
-                    BuildAllowed &= !_FreeSpace[Rectangle.Y.GetIntegerAsInt32() - 1][Rectangle.X.GetIntegerAsInt32() + Column];
-                }
+            }
+            if(Rectangle.Y.GetIntegerAsInt32() > 0)
+            {
+                BuildAllowed &= _BuildingMinimumMaximum[Rectangle.Y.GetIntegerAsInt32() - 1].First <= Rectangle.X.GetIntegerAsInt32();
+                BuildAllowed &= _BuildingMinimumMaximum[Rectangle.Y.GetIntegerAsInt32() - 1].Second >= Rectangle.Right.GetIntegerAsInt32();
             }
             if((BuildAllowed == true) && (_Cents >= ButtonOffice.Data.OfficeBuildCost))
             {
@@ -141,9 +141,13 @@
                 {
                     _FreeSpace[Rectangle.Y.GetIntegerAsInt32()][Rectangle.X.GetIntegerAsInt32() + Column] = false;
                 }
-                for(System.Int32 Column = 0; Column < Rectangle.Width; ++Column)
+                if(_BuildingMinimumMaximum[Rectangle.Y.GetIntegerAsInt32()].First > Rectangle.X)
                 {
-                    _WalkSpace[Rectangle.Y.GetIntegerAsInt32()][Rectangle.X.GetIntegerAsInt32() + Column] = true;
+                    _BuildingMinimumMaximum[Rectangle.Y.GetIntegerAsInt32()].First = Rectangle.X.GetIntegerAsInt32();
+                }
+                if(_BuildingMinimumMaximum[Rectangle.Y.GetIntegerAsInt32()].Second < Rectangle.Right.GetIntegerAsInt32())
+                {
+                    _BuildingMinimumMaximum[Rectangle.Y.GetIntegerAsInt32()].Second = Rectangle.Right.GetIntegerAsInt32();
                 }
 
                 Office Office = new Office();
@@ -377,6 +381,11 @@
         public System.String GetMoneyString(System.UInt64 Cents)
         {
             return _GetEuros(Cents).ToString() + "." + _GetCents(Cents).ToString("00") + "€";
+        }
+
+        public System.Pair<System.Int32, System.Int32> GetBuildingMinimumMaximum(System.Int32 Row)
+        {
+            return _BuildingMinimumMaximum[Row];
         }
     }
 }
