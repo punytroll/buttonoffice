@@ -2,7 +2,6 @@
 ===========
 - save a game to an xml file
 - load a game form an xml file
-- fire people
 - move people
 - destroy offices
 - supervisors
