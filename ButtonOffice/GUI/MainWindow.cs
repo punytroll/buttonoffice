@@ -2,6 +2,7 @@
 {
     internal class MainWindow : System.Windows.Forms.Form
     {
+        private System.Drawing.PointF _CameraVelocity;
         private System.Collections.Generic.List<ButtonOffice.FloatingText> _FloatingTexts;
         private ButtonOffice.Game _Game;
         private System.Collections.Generic.List<System.Windows.Forms.ToolStripButton> _ToolButtons;
@@ -31,6 +32,7 @@
     
         public MainWindow()
         {
+            _CameraVelocity = new System.Drawing.PointF(0.0f, 0.0f);
             _FloatingTexts = new System.Collections.Generic.List<ButtonOffice.FloatingText>();
             _Game = new Game();
             _Game.OnEarnMoney += delegate(System.UInt64 Cents, System.Drawing.PointF Location)
@@ -184,9 +186,10 @@
             this._DrawingBoard.TabIndex = 4;
             this._DrawingBoard.Paint += new System.Windows.Forms.PaintEventHandler(this._OnDrawingBoardPaint);
             this._DrawingBoard.MouseMove += new System.Windows.Forms.MouseEventHandler(this._OnDrawingBoardMouseMoved);
+            this._DrawingBoard.KeyUp += new System.Windows.Forms.KeyEventHandler(this._DrawingBoardKeyUp);
             this._DrawingBoard.MouseDown += new System.Windows.Forms.MouseEventHandler(this._OnDrawingBoardMouseDown);
-            this._DrawingBoard.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this._OnDrawingBoardKeyPressed);
             this._DrawingBoard.MouseUp += new System.Windows.Forms.MouseEventHandler(this._OnDrawingBoardMouseUp);
+            this._DrawingBoard.KeyDown += new System.Windows.Forms.KeyEventHandler(this._DrawingBoardKeyDown);
             // 
             // _MainTools
             // 
@@ -201,7 +204,7 @@
             this._MainTools.Name = "_MainTools";
             this._MainTools.Padding = new System.Windows.Forms.Padding(0);
             this._MainTools.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this._MainTools.Size = new System.Drawing.Size(259, 25);
+            this._MainTools.Size = new System.Drawing.Size(228, 25);
             this._MainTools.TabIndex = 1;
             this._MainTools.Text = "MainTools";
             // 
@@ -571,6 +574,8 @@
             System.Single Seconds = (Now - _LastPaint).TotalSeconds.ToSingle();
 
             _LastPaint = Now;
+            _DrawingOffset.X += _CameraVelocity.X.GetIntegerAsInt32();
+            _DrawingOffset.Y += _CameraVelocity.Y.GetIntegerAsInt32();
             for(System.Int32 Row = 0; Row < ButtonOffice.Data.WorldBlockHeight; ++Row)
             {
                 System.Pair<System.Int32, System.Int32> BuildingMinimumMaximum = _Game.GetBuildingMinimumMaximum(Row);
@@ -864,23 +869,43 @@
             _DrawingBoard.BackColor = ButtonOffice.Data.BackgroundColor;
         }
 
-        private void _OnDrawingBoardKeyPressed(System.Object Sender, System.Windows.Forms.KeyPressEventArgs EventArguments)
+        private void _DrawingBoardKeyDown(System.Object Sender, System.Windows.Forms.KeyEventArgs EventArguments)
         {
-            if(EventArguments.KeyChar == 'w')
+            if(EventArguments.KeyCode == System.Windows.Forms.Keys.W)
             {
-                _DrawingOffset.Y -= 50;
+                _CameraVelocity.Y = -10;
             }
-            else if(EventArguments.KeyChar == 'a')
+            else if(EventArguments.KeyCode == System.Windows.Forms.Keys.A)
             {
-                _DrawingOffset.X += 50;
+                _CameraVelocity.X = 10;
             }
-            else if(EventArguments.KeyChar == 's')
+            else if(EventArguments.KeyCode == System.Windows.Forms.Keys.S)
             {
-                _DrawingOffset.Y += 50;
+                _CameraVelocity.Y = 10;
             }
-            else if(EventArguments.KeyChar == 'd')
+            else if(EventArguments.KeyCode == System.Windows.Forms.Keys.D)
             {
-                _DrawingOffset.X -= 50;
+                _CameraVelocity.X = -10;
+            }
+        }
+
+        private void _DrawingBoardKeyUp(System.Object Sender, System.Windows.Forms.KeyEventArgs EventArguments)
+        {
+            if(EventArguments.KeyCode == System.Windows.Forms.Keys.W)
+            {
+                _CameraVelocity.Y = 0;
+            }
+            else if(EventArguments.KeyCode == System.Windows.Forms.Keys.A)
+            {
+                _CameraVelocity.X = 0;
+            }
+            else if(EventArguments.KeyCode == System.Windows.Forms.Keys.S)
+            {
+                _CameraVelocity.Y = 0;
+            }
+            else if(EventArguments.KeyCode == System.Windows.Forms.Keys.D)
+            {
+                _CameraVelocity.X = 0;
             }
         }
     }
