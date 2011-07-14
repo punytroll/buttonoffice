@@ -21,6 +21,11 @@
             return _RepairingTarget.First;
         }
 
+        public System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing> GetRepairingTarget()
+        {
+            return _RepairingTarget;
+        }
+
         public override void Move(ButtonOffice.Game Game, System.Single GameMinutes)
         {
             switch(_ActionState)

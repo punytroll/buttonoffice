@@ -528,6 +528,18 @@
                                 NameLabel.Text = Person.Name;
                                 _MainSplitContainer.Panel2.Controls.Add(NameLabel);
 
+                                System.Windows.Forms.Button FireButton = new System.Windows.Forms.Button();
+
+                                FireButton.Location = new System.Drawing.Point(10, 80);
+                                FireButton.Size = new System.Drawing.Size(100, 20);
+                                FireButton.Text = "Fire";
+                                FireButton.Click += delegate(System.Object DelegateSender, System.EventArgs EventsArguments)
+                                {
+                                    _Game.FirePerson(Person);
+                                    _MainSplitContainer.Panel2Collapsed = true;
+                                };
+                                _MainSplitContainer.Panel2.Controls.Add(FireButton);
+
                                 break;
                             }
                         }

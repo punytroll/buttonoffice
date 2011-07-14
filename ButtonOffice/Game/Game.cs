@@ -276,6 +276,23 @@
             return false;
         }
 
+        public void FirePerson(ButtonOffice.Person Person)
+        {
+            Person.Desk.Person = null;
+            Person.Desk = null;
+            _Persons.Remove(Person);
+            if(Person.Type == ButtonOffice.Type.ITTech)
+            {
+                ButtonOffice.ITTech ITTech = Person as ITTech;
+                System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing> BrokenThing = ITTech.GetRepairingTarget();
+
+                if(BrokenThing != null)
+                {
+                    _BrokenThings.Enqueue(BrokenThing);
+                }
+            }
+        }
+
         public System.Boolean PlaceCat(System.Drawing.RectangleF Rectangle)
         {
             if(_CatStock > 0)
