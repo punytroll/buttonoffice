@@ -74,7 +74,7 @@
 
         public void SetLocationFromGamingLocation(System.Drawing.PointF Location)
         {
-            _Rectangle.Location = new System.Drawing.PointF(Location.X - (_Rectangle.Width / 2.0f).GetInteger(), Location.Y - (_Rectangle.Height / 2.0f).GetInteger());
+            _Rectangle.Location = new System.Drawing.PointF(Location.X - (_Rectangle.Width / 2.0f).GetFloored(), Location.Y - (_Rectangle.Height / 2.0f).GetFloored());
             _HasLocation = true;
         }
 

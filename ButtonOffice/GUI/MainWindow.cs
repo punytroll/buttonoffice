@@ -421,14 +421,14 @@
             {
                 if(_EntityPrototype != null)
                 {
-                    _EntityPrototype.SetLocationFromGamingLocation(_GetGamingLocation(EventArguments.Location).GetTruncated());
+                    _EntityPrototype.SetLocationFromGamingLocation(_GetGamingLocation(EventArguments.Location).GetFloored());
                     _DrawingBoard.Invalidate();
                 }
             }
 
             System.Drawing.PointF GamingLocation = _GetGamingLocation(EventArguments.Location);
 
-            _PositionLabel.Text = "Location: " + GamingLocation.X.GetIntegerAsInt32().ToString() + " / " + GamingLocation.Y.GetIntegerAsInt32().ToString();
+            _PositionLabel.Text = "Location: " + GamingLocation.X.GetFlooredAsInt32().ToString() + " / " + GamingLocation.Y.GetFlooredAsInt32().ToString();
         }
 
         private void _OnDrawingBoardMouseDown(System.Object Sender, System.Windows.Forms.MouseEventArgs EventArguments)
@@ -579,7 +579,7 @@
 
         private System.Drawing.Color _MixToWhite(System.Drawing.Color Color, System.Single Fraction)
         {
-            return System.Drawing.Color.FromArgb((Color.R + (255 - Color.R) * Fraction).GetIntegerAsInt32(), (Color.G + (255 - Color.G) * Fraction).GetIntegerAsInt32(), (Color.B + (255 - Color.B) * Fraction).GetIntegerAsInt32());
+            return System.Drawing.Color.FromArgb((Color.R + (255 - Color.R) * Fraction).GetTruncatedAsInt32(), (Color.G + (255 - Color.G) * Fraction).GetTruncatedAsInt32(), (Color.B + (255 - Color.B) * Fraction).GetTruncatedAsInt32());
         }
 
         private void _OnDrawingBoardPaint(System.Object Sender, System.Windows.Forms.PaintEventArgs EventArguments)
@@ -588,8 +588,8 @@
             System.Single Seconds = (Now - _LastPaint).TotalSeconds.ToSingle();
 
             _LastPaint = Now;
-            _DrawingOffset.X += _CameraVelocity.X.GetIntegerAsInt32();
-            _DrawingOffset.Y += _CameraVelocity.Y.GetIntegerAsInt32();
+            _DrawingOffset.X += _CameraVelocity.X.GetFlooredAsInt32();
+            _DrawingOffset.Y += _CameraVelocity.Y.GetFlooredAsInt32();
             for(System.Int32 Row = 0; Row < ButtonOffice.Data.WorldBlockHeight; ++Row)
             {
                 System.Pair<System.Int32, System.Int32> BuildingMinimumMaximum = _Game.GetBuildingMinimumMaximum(Row);
@@ -777,22 +777,22 @@
         #region Coordinate system transformations: Game -> Draw
         private System.Int32 _GetDrawingHeight(System.Single GamingHeight)
         {
-            return (GamingHeight * ButtonOffice.Data.BlockHeight.ToSingle()).GetIntegerAsInt32();
+            return (GamingHeight * ButtonOffice.Data.BlockHeight.ToSingle()).GetFlooredAsInt32();
         }
 
         private System.Int32 _GetDrawingWidth(System.Single GamingWidth)
         {
-            return (GamingWidth * ButtonOffice.Data.BlockWidth.ToSingle()).GetIntegerAsInt32();
+            return (GamingWidth * ButtonOffice.Data.BlockWidth.ToSingle()).GetFlooredAsInt32();
         }
 
         private System.Int32 _GetDrawingY(System.Single GamingY)
         {
-            return (_DrawingBoard.Height.ToSingle() - (GamingY * ButtonOffice.Data.BlockHeight.ToSingle()) - _DrawingOffset.Y.ToSingle()).GetIntegerAsInt32();
+            return (_DrawingBoard.Height.ToSingle() - (GamingY * ButtonOffice.Data.BlockHeight.ToSingle()) - _DrawingOffset.Y.ToSingle()).GetFlooredAsInt32();
         }
 
         private System.Int32 _GetDrawingX(System.Single GamingX)
         {
-            return (GamingX * ButtonOffice.Data.BlockWidth.ToSingle() + _DrawingOffset.X.ToSingle()).GetIntegerAsInt32();
+            return (GamingX * ButtonOffice.Data.BlockWidth.ToSingle() + _DrawingOffset.X.ToSingle()).GetFlooredAsInt32();
         }
 
         private System.Drawing.Rectangle _GetDrawingRectangle(System.Drawing.RectangleF GamingRectangle)

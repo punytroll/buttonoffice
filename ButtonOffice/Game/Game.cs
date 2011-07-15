@@ -123,47 +123,54 @@
 
         public System.Boolean BuildOffice(System.Drawing.RectangleF Rectangle)
         {
-            System.Boolean BuildAllowed = true;
+            if((Rectangle.Y.GetFloored() >= 0.0f) && (Rectangle.X.GetFloored() >= 0.0f) && (Rectangle.X.GetFlooredAsInt32() < ButtonOffice.Data.WorldBlockWidth))
+            {
+                System.Boolean BuildAllowed = true;
 
-            for(System.Int32 Column = 0; Column < Rectangle.Width; ++Column)
-            {
-                BuildAllowed &= _FreeSpace[Rectangle.Y.GetIntegerAsInt32()][Rectangle.X.GetIntegerAsInt32() + Column];
-            }
-            if(Rectangle.Y.GetIntegerAsInt32() > 0)
-            {
-                BuildAllowed &= _BuildingMinimumMaximum[Rectangle.Y.GetIntegerAsInt32() - 1].First <= Rectangle.X.GetIntegerAsInt32();
-                BuildAllowed &= _BuildingMinimumMaximum[Rectangle.Y.GetIntegerAsInt32() - 1].Second >= Rectangle.Right.GetIntegerAsInt32();
-            }
-            if((BuildAllowed == true) && (_Cents >= ButtonOffice.Data.OfficeBuildCost))
-            {
-                _Cents -= ButtonOffice.Data.OfficeBuildCost;
                 for(System.Int32 Column = 0; Column < Rectangle.Width; ++Column)
                 {
-                    _FreeSpace[Rectangle.Y.GetIntegerAsInt32()][Rectangle.X.GetIntegerAsInt32() + Column] = false;
+                    BuildAllowed &= _FreeSpace[Rectangle.Y.GetFlooredAsInt32()][Rectangle.X.GetFlooredAsInt32() + Column];
                 }
-                if(_BuildingMinimumMaximum[Rectangle.Y.GetIntegerAsInt32()].First > Rectangle.X)
+                if(Rectangle.Y.GetFlooredAsInt32() > 0)
                 {
-                    _BuildingMinimumMaximum[Rectangle.Y.GetIntegerAsInt32()].First = Rectangle.X.GetIntegerAsInt32();
+                    BuildAllowed &= _BuildingMinimumMaximum[Rectangle.Y.GetFlooredAsInt32() - 1].First <= Rectangle.X.GetFlooredAsInt32();
+                    BuildAllowed &= _BuildingMinimumMaximum[Rectangle.Y.GetFlooredAsInt32() - 1].Second >= Rectangle.Right.GetFlooredAsInt32();
                 }
-                if(_BuildingMinimumMaximum[Rectangle.Y.GetIntegerAsInt32()].Second < Rectangle.Right.GetIntegerAsInt32())
+                if((BuildAllowed == true) && (_Cents >= ButtonOffice.Data.OfficeBuildCost))
                 {
-                    _BuildingMinimumMaximum[Rectangle.Y.GetIntegerAsInt32()].Second = Rectangle.Right.GetIntegerAsInt32();
+                    _Cents -= ButtonOffice.Data.OfficeBuildCost;
+                    for(System.Int32 Column = 0; Column < Rectangle.Width; ++Column)
+                    {
+                        _FreeSpace[Rectangle.Y.GetFlooredAsInt32()][Rectangle.X.GetFlooredAsInt32() + Column] = false;
+                    }
+                    if(_BuildingMinimumMaximum[Rectangle.Y.GetFlooredAsInt32()].First > Rectangle.X)
+                    {
+                        _BuildingMinimumMaximum[Rectangle.Y.GetFlooredAsInt32()].First = Rectangle.X.GetFlooredAsInt32();
+                    }
+                    if(_BuildingMinimumMaximum[Rectangle.Y.GetFlooredAsInt32()].Second < Rectangle.Right.GetFlooredAsInt32())
+                    {
+                        _BuildingMinimumMaximum[Rectangle.Y.GetFlooredAsInt32()].Second = Rectangle.Right.GetFlooredAsInt32();
+                    }
+
+                    Office Office = new Office();
+
+                    Office.SetRectangle(Rectangle);
+                    Office.FirstDesk.SetMinutesUntilComputerBroken(ButtonOffice.RandomNumberGenerator.GetSingleFromExponentialDistribution(ButtonOffice.Data.MeanMinutesToBrokenComputer));
+                    Office.SecondDesk.SetMinutesUntilComputerBroken(ButtonOffice.RandomNumberGenerator.GetSingleFromExponentialDistribution(ButtonOffice.Data.MeanMinutesToBrokenComputer));
+                    Office.ThirdDesk.SetMinutesUntilComputerBroken(ButtonOffice.RandomNumberGenerator.GetSingleFromExponentialDistribution(ButtonOffice.Data.MeanMinutesToBrokenComputer));
+                    Office.FourthDesk.SetMinutesUntilComputerBroken(ButtonOffice.RandomNumberGenerator.GetSingleFromExponentialDistribution(ButtonOffice.Data.MeanMinutesToBrokenComputer));
+                    Office.FirstLamp.SetMinutesUntilBroken(ButtonOffice.RandomNumberGenerator.GetSingleFromExponentialDistribution(ButtonOffice.Data.MeanMinutesToBrokenLamp));
+                    Office.SecondLamp.SetMinutesUntilBroken(ButtonOffice.RandomNumberGenerator.GetSingleFromExponentialDistribution(ButtonOffice.Data.MeanMinutesToBrokenLamp));
+                    Office.ThirdLamp.SetMinutesUntilBroken(ButtonOffice.RandomNumberGenerator.GetSingleFromExponentialDistribution(ButtonOffice.Data.MeanMinutesToBrokenLamp));
+                    _Offices.Add(Office);
+                    FireSpendMoney(ButtonOffice.Data.OfficeBuildCost, Office.GetMidLocation());
+
+                    return true;
                 }
-
-                Office Office = new Office();
-
-                Office.SetRectangle(Rectangle);
-                Office.FirstDesk.SetMinutesUntilComputerBroken(ButtonOffice.RandomNumberGenerator.GetSingleFromExponentialDistribution(ButtonOffice.Data.MeanMinutesToBrokenComputer));
-                Office.SecondDesk.SetMinutesUntilComputerBroken(ButtonOffice.RandomNumberGenerator.GetSingleFromExponentialDistribution(ButtonOffice.Data.MeanMinutesToBrokenComputer));
-                Office.ThirdDesk.SetMinutesUntilComputerBroken(ButtonOffice.RandomNumberGenerator.GetSingleFromExponentialDistribution(ButtonOffice.Data.MeanMinutesToBrokenComputer));
-                Office.FourthDesk.SetMinutesUntilComputerBroken(ButtonOffice.RandomNumberGenerator.GetSingleFromExponentialDistribution(ButtonOffice.Data.MeanMinutesToBrokenComputer));
-                Office.FirstLamp.SetMinutesUntilBroken(ButtonOffice.RandomNumberGenerator.GetSingleFromExponentialDistribution(ButtonOffice.Data.MeanMinutesToBrokenLamp));
-                Office.SecondLamp.SetMinutesUntilBroken(ButtonOffice.RandomNumberGenerator.GetSingleFromExponentialDistribution(ButtonOffice.Data.MeanMinutesToBrokenLamp));
-                Office.ThirdLamp.SetMinutesUntilBroken(ButtonOffice.RandomNumberGenerator.GetSingleFromExponentialDistribution(ButtonOffice.Data.MeanMinutesToBrokenLamp));
-                _Offices.Add(Office);
-                FireSpendMoney(ButtonOffice.Data.OfficeBuildCost, Office.GetMidLocation());
-
-                return true;
+                else
+                {
+                    return false;
+                }
             }
             else
             {

@@ -15,9 +15,19 @@
         return System.Convert.ToInt64(Int32);
     }
 
-    public static System.Int32 GetIntegerAsInt32(this System.Single Single)
+    public static System.Int32 GetTruncatedAsInt32(this System.Single Single)
     {
         return System.Convert.ToInt32(System.Math.Truncate(Single));
+    }
+
+    public static System.Int32 GetFlooredAsInt32(this System.Single Single)
+    {
+        return System.Convert.ToInt32(System.Math.Floor(System.Convert.ToDouble(Single)));
+    }
+
+    public static System.Single GetFloored(this System.Single Single)
+    {
+        return System.Convert.ToSingle(System.Math.Floor(System.Convert.ToDouble(Single)));
     }
 
     public static System.Int32 ToInt32(this System.UInt32 UInt32)
@@ -40,9 +50,9 @@
         return System.Convert.ToSingle(System.Math.Truncate(System.Convert.ToDouble(Single)));
     }
 
-    public static System.Drawing.PointF GetTruncated(this System.Drawing.PointF Point)
+    public static System.Drawing.PointF GetFloored(this System.Drawing.PointF Point)
     {
-        return new System.Drawing.PointF(System.Convert.ToSingle(System.Math.Truncate(System.Convert.ToDouble(Point.X))), System.Convert.ToSingle(System.Math.Truncate(System.Convert.ToDouble(Point.Y))));
+        return new System.Drawing.PointF(System.Convert.ToSingle(System.Math.Floor(System.Convert.ToDouble(Point.X))), System.Convert.ToSingle(System.Math.Floor(System.Convert.ToDouble(Point.Y))));
     }
 
     public static System.Single GetDistanceSquared(this System.Drawing.PointF Point, System.Drawing.PointF OtherPoint)
