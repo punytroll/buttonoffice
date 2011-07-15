@@ -33,18 +33,6 @@
             }
         }
 
-        public ButtonOffice.Person Person
-        {
-            get
-            {
-                return _Person;
-            }
-            set
-            {
-                _Person = value;
-            }
-        }
-
         public System.Single TrashLevel
         {
             get
@@ -81,6 +69,11 @@
             return _MinutesUntilComputerBroken;
         }
 
+        public ButtonOffice.Person GetPerson()
+        {
+            return _Person;
+        }
+
         public System.Drawing.RectangleF GetRectangle()
         {
             return _Rectangle;
@@ -106,6 +99,11 @@
             return _MinutesUntilComputerBroken < 0.0f;
         }
 
+        public System.Boolean IsFree()
+        {
+            return _Person == null;
+        }
+
         public void SetHeight(System.Single Height)
         {
             _Rectangle.Height = Height;
@@ -120,6 +118,20 @@
         public void SetMinutesUntilComputerBroken(System.Single MinutesUntilComputerBroken)
         {
             _MinutesUntilComputerBroken = MinutesUntilComputerBroken;
+        }
+
+        public void SetPerson(ButtonOffice.Person Person)
+        {
+            if(Person == null)
+            {
+                System.Diagnostics.Debug.Assert(_Person != null);
+                _Person = null;
+            }
+            else
+            {
+                System.Diagnostics.Debug.Assert(_Person == null);
+                _Person = Person;
+            }
         }
 
         public void SetWidth(System.Single Width)

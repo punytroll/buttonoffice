@@ -642,9 +642,9 @@
                 // first desk
                 PersonColor = System.Drawing.Color.White;
                 ComputerColor = ButtonOffice.Data.ComputerBackgroundColor;
-                if(Office.FirstDesk.Person != null)
+                if(Office.FirstDesk.IsFree() == false)
                 {
-                    PersonColor = Office.FirstDesk.Person.BackgroundColor;
+                    PersonColor = Office.FirstDesk.GetPerson().BackgroundColor;
                 }
                 if(Office.FirstDesk.IsComputerBroken() == true)
                 {
@@ -656,9 +656,9 @@
                 // second desk
                 PersonColor = System.Drawing.Color.White;
                 ComputerColor = ButtonOffice.Data.ComputerBackgroundColor;
-                if(Office.SecondDesk.Person != null)
+                if(Office.SecondDesk.IsFree() == false)
                 {
-                    PersonColor = Office.SecondDesk.Person.BackgroundColor;
+                    PersonColor = Office.SecondDesk.GetPerson().BackgroundColor;
                 }
                 if(Office.SecondDesk.IsComputerBroken() == true)
                 {
@@ -670,9 +670,9 @@
                 // third desk
                 PersonColor = System.Drawing.Color.White;
                 ComputerColor = ButtonOffice.Data.ComputerBackgroundColor;
-                if(Office.ThirdDesk.Person != null)
+                if(Office.ThirdDesk.IsFree() == false)
                 {
-                    PersonColor = Office.ThirdDesk.Person.BackgroundColor;
+                    PersonColor = Office.ThirdDesk.GetPerson().BackgroundColor;
                 }
                 if(Office.ThirdDesk.IsComputerBroken() == true)
                 {
@@ -684,9 +684,9 @@
                 // fourth desk
                 PersonColor = System.Drawing.Color.White;
                 ComputerColor = ButtonOffice.Data.ComputerBackgroundColor;
-                if(Office.FourthDesk.Person != null)
+                if(Office.FourthDesk.IsFree() == false)
                 {
-                    PersonColor = Office.FourthDesk.Person.BackgroundColor;
+                    PersonColor = Office.FourthDesk.GetPerson().BackgroundColor;
                 }
                 if(Office.FourthDesk.IsComputerBroken() == true)
                 {

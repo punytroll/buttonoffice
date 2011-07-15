@@ -181,15 +181,13 @@
                 {
                     ButtonOffice.Desk Desk = _GetDesk(Office, Rectangle.Location);
 
-                    if((Desk != null) && (Desk.Person == null))
+                    if((Desk != null) && (Desk.IsFree() == true))
                     {
                         _Cents -= ButtonOffice.Data.WorkerHireCost;
 
                         ButtonOffice.Worker Worker = new ButtonOffice.Worker();
 
-                        Worker.ArrivesAtDayMinute = ButtonOffice.RandomNumberGenerator.GetUInt32(ButtonOffice.Data.WorkerStartMinute, 300) % 1440;
-                        Desk.Person = Worker;
-                        Worker.Desk = Desk;
+                        Worker.AssignDesk(Desk);
                         _Persons.Add(Worker);
                         if(_Persons.Count == _NextCatAtNumberOfEmployees)
                         {
@@ -216,15 +214,13 @@
                 {
                     ButtonOffice.Desk Desk = _GetDesk(Office, Rectangle.Location);
 
-                    if((Desk != null) && (Desk.Person == null))
+                    if((Desk != null) && (Desk.IsFree() == true))
                     {
                         _Cents -= ButtonOffice.Data.ITTechHireCost;
 
                         ButtonOffice.ITTech ITTech = new ButtonOffice.ITTech();
 
-                        ITTech.ArrivesAtDayMinute = ButtonOffice.RandomNumberGenerator.GetUInt32(ButtonOffice.Data.ITTechStartMinute, 300) % 1440;
-                        Desk.Person = ITTech;
-                        ITTech.Desk = Desk;
+                        ITTech.AssignDesk(Desk);
                         _Persons.Add(ITTech);
                         if(_Persons.Count == _NextCatAtNumberOfEmployees)
                         {
@@ -251,15 +247,13 @@
                 {
                     ButtonOffice.Desk Desk = _GetDesk(Office, Rectangle.Location);
 
-                    if((Desk != null) && (Desk.Person == null))
+                    if((Desk != null) && (Desk.IsFree() == true))
                     {
                         _Cents -= ButtonOffice.Data.JanitorHireCost;
 
                         ButtonOffice.Janitor Janitor = new ButtonOffice.Janitor();
 
-                        Janitor.ArrivesAtDayMinute = ButtonOffice.RandomNumberGenerator.GetUInt32(ButtonOffice.Data.JanitorStartMinute, 300) % 1440;
-                        Desk.Person = Janitor;
-                        Janitor.Desk = Desk;
+                        Janitor.AssignDesk(Desk);
                         _Persons.Add(Janitor);
                         if(_Persons.Count == _NextCatAtNumberOfEmployees)
                         {
@@ -278,8 +272,7 @@
 
         public void FirePerson(ButtonOffice.Person Person)
         {
-            Person.Desk.Person = null;
-            Person.Desk = null;
+            Person.Fire();
             _Persons.Remove(Person);
             if(Person.Type == ButtonOffice.Type.ITTech)
             {

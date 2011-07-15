@@ -7,9 +7,10 @@
         public ITTech() :
             base(ButtonOffice.Type.ITTech)
         {
-            _RepairingTarget = null;
+            _ArrivesAtDayMinute = ButtonOffice.RandomNumberGenerator.GetUInt32(ButtonOffice.Data.ITTechStartMinute, 300) % 1440;
             _BackgroundColor = ButtonOffice.Data.ITTechBackgroundColor;
             _BorderColor = ButtonOffice.Data.ITTechBorderColor;
+            _RepairingTarget = null;
             _Wage = ButtonOffice.Data.ITTechWage;
             _WorkMinutes = ButtonOffice.Data.ITTechWorkMinutes;
         }

@@ -111,19 +111,19 @@
 
         public ButtonOffice.Desk GetFreeDesk()
         {
-            if(_FirstDesk.Person == null)
+            if(_FirstDesk.IsFree() == true)
             {
                 return _FirstDesk;
             }
-            else if(_SecondDesk.Person == null)
+            else if(_SecondDesk.IsFree() == true)
             {
                 return _SecondDesk;
             }
-            else if(_ThirdDesk.Person == null)
+            else if(_ThirdDesk.IsFree() == true)
             {
                 return _ThirdDesk;
             }
-            else if(_FourthDesk.Person == null)
+            else if(_FourthDesk.IsFree() == true)
             {
                 return _FourthDesk;
             }
@@ -170,7 +170,7 @@
 
         public System.Boolean HasFreeDesk()
         {
-            return (_FirstDesk.Person == null) || (_SecondDesk.Person == null) || (_ThirdDesk.Person == null) || (_FourthDesk.Person == null);
+            return (_FirstDesk.IsFree() == true) || (_SecondDesk.IsFree() == true) || (_ThirdDesk.IsFree() == true) || (_FourthDesk.IsFree() == true);
         }
 
         public void SetHeight(System.Single Height)

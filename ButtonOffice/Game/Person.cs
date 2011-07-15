@@ -6,7 +6,7 @@
         protected System.Single _AnimationFraction;
         protected ButtonOffice.AnimationState _AnimationState;
         protected System.UInt64 _ArrivesAtMinute;
-        private System.UInt64 _ArrivesAtDayMinute;
+        protected System.UInt64 _ArrivesAtDayMinute;
         protected System.Drawing.Color _BackgroundColor;
         protected System.Drawing.Color _BorderColor;
         protected ButtonOffice.Desk _Desk;
@@ -18,30 +18,6 @@
         protected System.Drawing.PointF _WalkTo;
         protected System.UInt64 _WorkMinutes;
         private ButtonOffice.Type _Type;
-
-        public System.UInt64 ArrivesAtMinute
-        {
-            get
-            {
-                return _ArrivesAtMinute;
-            }
-            set
-            {
-                _ArrivesAtMinute = value;
-            }
-        }
-
-        public System.UInt64 ArrivesAtDayMinute
-        {
-            get
-            {
-                return _ArrivesAtDayMinute;
-            }
-            set
-            {
-                _ArrivesAtDayMinute = value;
-            }
-        }
 
         public System.Drawing.Color BackgroundColor
         {
@@ -56,30 +32,6 @@
             get
             {
                 return _BorderColor;
-            }
-        }
-
-        public ButtonOffice.Desk Desk
-        {
-            get
-            {
-                return _Desk;
-            }
-            set
-            {
-                _Desk = value;
-            }
-        }
-
-        public System.UInt64 LeavesAtMinute
-        {
-            get
-            {
-                return _LeavesAtMinute;
-            }
-            set
-            {
-                _LeavesAtMinute = value;
             }
         }
 
@@ -118,6 +70,26 @@
             _Rectangle.Width = ButtonOffice.RandomNumberGenerator.GetSingle(ButtonOffice.Data.PersonWidth, ButtonOffice.Data.PersonWidthSpread);
             _Name = "Hagen";
             _Type = Type;
+        }
+
+        public void AssignDesk(ButtonOffice.Desk Desk)
+        {
+            System.Diagnostics.Debug.Assert(Desk != null);
+            System.Diagnostics.Debug.Assert(Desk.IsFree() == true);
+            if(_Desk != null)
+            {
+                System.Diagnostics.Debug.Assert(_Desk.GetPerson() == this);
+                _Desk.SetPerson(null);
+            }
+            _Desk = Desk;
+            _Desk.SetPerson(this);
+        }
+
+        public void Fire()
+        {
+            System.Diagnostics.Debug.Assert(_Desk != null);
+            _Desk.SetPerson(null);
+            _Desk = null;
         }
 
         public System.Single GetAnimationFraction()

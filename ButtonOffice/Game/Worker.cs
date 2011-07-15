@@ -5,6 +5,7 @@
         public Worker() :
             base(ButtonOffice.Type.Worker)
         {
+            _ArrivesAtDayMinute = ButtonOffice.RandomNumberGenerator.GetUInt32(ButtonOffice.Data.WorkerStartMinute, 300) % 1440;
             _BackgroundColor = ButtonOffice.Data.WorkerBackgroundColor;
             _BorderColor = ButtonOffice.Data.WorkerBorderColor;
             _Wage = ButtonOffice.Data.WorkerWage;

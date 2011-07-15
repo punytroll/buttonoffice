@@ -7,9 +7,10 @@
         public Janitor() :
             base(ButtonOffice.Type.Janitor)
         {
-            _CleaningTargets = new System.Collections.Generic.Queue<ButtonOffice.Desk>();
+            _ArrivesAtDayMinute = ButtonOffice.RandomNumberGenerator.GetUInt32(ButtonOffice.Data.JanitorStartMinute, 300) % 1440;
             _BackgroundColor = ButtonOffice.Data.JanitorBackgroundColor;
             _BorderColor = ButtonOffice.Data.JanitorBorderColor;
+            _CleaningTargets = new System.Collections.Generic.Queue<ButtonOffice.Desk>();
             _Wage = ButtonOffice.Data.JanitorWage;
             _WorkMinutes = ButtonOffice.Data.JanitorWorkMinutes;
         }
