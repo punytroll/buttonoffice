@@ -63,6 +63,7 @@
             _DrawingOffset = new System.Drawing.Point(-ButtonOffice.Data.WorldBlockWidth * ButtonOffice.Data.BlockWidth / 2, 2 * ButtonOffice.Data.BlockHeight);
             _LastPaint = System.DateTime.Now;
             _LastTick = System.DateTime.Now;
+            _Zoom = 1.0f;
             InitializeComponent();
             _ToolButtons = new System.Collections.Generic.List<System.Windows.Forms.ToolStripButton>();
             _ToolButtons.Add(_HireITTechButton);
@@ -70,7 +71,21 @@
             _ToolButtons.Add(_HireWorkerButton);
             _ToolButtons.Add(_BuildOfficeButton);
             _ToolButtons.Add(_PlaceCatButton);
-            _Zoom = 1.0f;
+            _DrawingBoard.MouseWheel += delegate(System.Object Sender, System.Windows.Forms.MouseEventArgs EventArguments)
+            {
+                if(EventArguments.Delta > 0)
+                {
+                    _Zoom *= 1.2f;
+                    _DrawingOffset.X = ((_DrawingOffset.X - EventArguments.X).ToSingle() * 1.2f).GetFlooredAsInt32() + EventArguments.X;
+                    _DrawingOffset.Y = ((_DrawingOffset.Y - (_DrawingBoard.Height - EventArguments.Y)).ToSingle() * 1.2f).GetFlooredAsInt32() + (_DrawingBoard.Height - EventArguments.Y);
+                }
+                else
+                {
+                    _Zoom /= 1.2f;
+                    _DrawingOffset.X = ((_DrawingOffset.X - EventArguments.X).ToSingle() / 1.2f).GetFlooredAsInt32() + EventArguments.X;
+                    _DrawingOffset.Y = ((_DrawingOffset.Y - (_DrawingBoard.Height - EventArguments.Y)).ToSingle() / 1.2f).GetFlooredAsInt32() + (_DrawingBoard.Height - EventArguments.Y);
+                }
+            };
         }
 
         private void InitializeComponent()
