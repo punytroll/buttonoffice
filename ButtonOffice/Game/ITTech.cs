@@ -49,8 +49,9 @@
                     if(Game.GetTotalMinutes() > _ArrivesAtMinute)
                     {
                         _ActionState = ButtonOffice.ActionState.Arriving;
-                        _AnimationFraction = 0.0f;
+                        _ActionFraction = 0.0f;
                         _AnimationState = ButtonOffice.AnimationState.Walking;
+                        _AnimationFraction = 0.0f;
                         if(_LivingSide == ButtonOffice.LivingSide.Left)
                         {
                             SetLocation(-10.0f, 0.0f);
@@ -80,6 +81,7 @@
                     {
                         SetLocation(_WalkTo);
                         _ActionState = ButtonOffice.ActionState.Working;
+                        _ActionFraction = 0.0f;
                         _AnimationState = ButtonOffice.AnimationState.Standing;
                         _AnimationFraction = 0.0f;
                     }
@@ -101,7 +103,9 @@
                     else
                     {
                         _ActionState = ButtonOffice.ActionState.AtHome;
+                        _ActionFraction = 0.0f;
                         _AnimationState = ButtonOffice.AnimationState.Hidden;
+                        _AnimationFraction = 0.0f;
                         _PlanNextWorkDay(Game);
                     }
 
@@ -120,6 +124,7 @@
                             _WalkTo = new System.Drawing.PointF(ButtonOffice.Data.WorldBlockWidth + 10.0f, 0.0f);
                         }
                         _ActionState = ButtonOffice.ActionState.Leaving;
+                        _ActionFraction = 0.0f;
                         _AnimationState = ButtonOffice.AnimationState.Walking;
                         _AnimationFraction = 0.0f;
                         Game.SubtractCents(_Wage);
@@ -177,6 +182,7 @@
                             }
                             _RepairingTarget = BrokenThing;
                             _ActionState = ButtonOffice.ActionState.GoingToRepair;
+                            _ActionFraction = 0.0f;
                             _AnimationState = ButtonOffice.AnimationState.Walking;
                             _AnimationFraction = 0.0f;
                         }
@@ -200,6 +206,7 @@
                     {
                         SetLocation(_WalkTo);
                         _ActionState = ButtonOffice.ActionState.Repairing;
+                        _ActionFraction = 0.0f;
                         _AnimationState = ButtonOffice.AnimationState.Repairing;
                         _AnimationFraction = 0.0f;
                     }
@@ -208,8 +215,15 @@
                 }
             case ButtonOffice.ActionState.Repairing:
                 {
-                    _AnimationFraction += ButtonOffice.Data.ITTechRepairSpeed * GameMinutes;
-                    if(_AnimationFraction >= 1.0f)
+                    if((_RepairingTarget.Second == ButtonOffice.BrokenThing.FirstComputer) || (_RepairingTarget.Second == ButtonOffice.BrokenThing.SecondComputer) || (_RepairingTarget.Second == ButtonOffice.BrokenThing.ThirdComputer) ||(_RepairingTarget.Second == ButtonOffice.BrokenThing.FourthComputer))
+                    {
+                        _ActionFraction += ButtonOffice.Data.ITTechRepairComputerSpeed * GameMinutes;
+                    }
+                    else if((_RepairingTarget.Second == ButtonOffice.BrokenThing.FirstLamp) || (_RepairingTarget.Second == ButtonOffice.BrokenThing.SecondLamp) || (_RepairingTarget.Second == ButtonOffice.BrokenThing.ThirdLamp))
+                    {
+                        _ActionFraction += ButtonOffice.Data.ITTechRepairLampSpeed * GameMinutes;
+                    }
+                    if(_ActionFraction >= 1.0f)
                     {
                         switch(_RepairingTarget.Second)
                         {
@@ -258,9 +272,18 @@
                         }
                         _RepairingTarget = null;
                         _ActionState = ButtonOffice.ActionState.GoingToDesk;
+                        _ActionFraction = 0.0f;
                         _AnimationState = ButtonOffice.AnimationState.Walking;
                         _AnimationFraction = 0.0f;
                         _WalkTo = new System.Drawing.PointF(_Desk.GetX() + (ButtonOffice.Data.DeskWidth - GetWidth()) / 2.0f, _Desk.GetY());
+                    }
+                    else
+                    {
+                        _AnimationFraction += ButtonOffice.Data.ITTechRepairSpeed * GameMinutes;
+                        while(_AnimationFraction >= 1.0f)
+                        {
+                            _AnimationFraction -= 1.0f;
+                        }
                     }
 
                     break;
@@ -281,6 +304,7 @@
                     {
                         SetLocation(_WalkTo);
                         _ActionState = ButtonOffice.ActionState.WaitingForBrokenThings;
+                        _ActionFraction = 0.0f;
                         _AnimationState = ButtonOffice.AnimationState.Standing;
                         _AnimationFraction = 0.0f;
                         _Desk.TrashLevel += 1.0f;

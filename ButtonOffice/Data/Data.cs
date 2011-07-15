@@ -230,7 +230,23 @@
         {
             get
             {
+                return 0.2f;
+            }
+        }
+
+        public static System.Single ITTechRepairComputerSpeed
+        {
+            get
+            {
                 return 0.06f;
+            }
+        }
+
+        public static System.Single ITTechRepairLampSpeed
+        {
+            get
+            {
+                return 0.1f;
             }
         }
 
@@ -278,7 +294,7 @@
         {
             get
             {
-                return 3.0f;
+                return 4.0f;
             }
         }
 
@@ -286,7 +302,7 @@
         {
             get
             {
-                return 1.0f;
+                return 0.5f;
             }
         }
 

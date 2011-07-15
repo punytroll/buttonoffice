@@ -631,7 +631,7 @@
             {
                 if(Person.IsHidden() == false)
                 {
-                    _DrawRectangle(EventArguments.Graphics, Person.GetRectangle(), _MixToWhite(Person.BackgroundColor, Person.GetAnimationFraction()), Person.BorderColor);
+                    _DrawRectangle(EventArguments.Graphics, Person.GetRectangle(), _MixToWhite(Person.BackgroundColor, Person.GetActionFraction()), _MixToWhite(Person.BorderColor, Person.GetAnimationFraction()));
                 }
             }
             foreach(ButtonOffice.Office Office in _Game.Offices)

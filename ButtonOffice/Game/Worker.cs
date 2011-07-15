@@ -36,6 +36,7 @@
                             _WalkTo = new System.Drawing.PointF(ButtonOffice.Data.WorldBlockWidth + 10.0f, 0.0f);
                         }
                         _ActionState = ButtonOffice.ActionState.Leaving;
+                        _ActionFraction = 0.0f;
                         _AnimationState = ButtonOffice.AnimationState.Walking;
                         _AnimationFraction = 0.0f;
                         Game.SubtractCents(_Wage);
@@ -47,6 +48,7 @@
                             _Desk.SetMinutesUntilComputerBroken(_Desk.GetMinutesUntilComputerBroken() - GameMinutes);
                             if(_Desk.IsComputerBroken() == true)
                             {
+                                _ActionFraction = 0.0f;
                                 _AnimationState = ButtonOffice.AnimationState.Standing;
                                 _AnimationFraction = 0.0f;
                                 if(_Desk == _Desk.Office.FirstDesk)
@@ -68,13 +70,18 @@
                             }
                             else
                             {
+                                _ActionFraction += ButtonOffice.Data.WorkerWorkSpeed * GameMinutes;
+                                while(_ActionFraction >= 1.0f)
+                                {
+                                    _ActionFraction -= 1.0f;
+                                    _Desk.TrashLevel += 1.0f;
+                                    Game.AddCents(100);
+                                    Game.FireEarnMoney(100, GetMidLocation());
+                                }
                                 _AnimationFraction += ButtonOffice.Data.WorkerWorkSpeed * GameMinutes;
                                 while(_AnimationFraction >= 1.0f)
                                 {
                                     _AnimationFraction -= 1.0f;
-                                    _Desk.TrashLevel += 1.0f;
-                                    Game.AddCents(100);
-                                    Game.FireEarnMoney(100, GetMidLocation());
                                 }
                             }
                         }
@@ -85,6 +92,7 @@
             case ButtonOffice.ActionState.Working:
                 {
                     _ActionState = ButtonOffice.ActionState.PushingButton;
+                    _ActionFraction = 0.0f;
                     _AnimationState = ButtonOffice.AnimationState.PushingButton;
                     _AnimationFraction = 0.0f;
 

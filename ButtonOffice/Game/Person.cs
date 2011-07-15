@@ -2,6 +2,7 @@
 {
     internal abstract class Person
     {
+        protected System.Single _ActionFraction;
         protected ButtonOffice.ActionState _ActionState;
         protected System.Single _AnimationFraction;
         protected ButtonOffice.AnimationState _AnimationState;
@@ -53,6 +54,7 @@
 
         protected Person(ButtonOffice.Type Type)
         {
+            _ActionFraction = 0.0f;
             _ActionState = ButtonOffice.ActionState.New;
             _AnimationState = ButtonOffice.AnimationState.Hidden;
             _AnimationFraction = 0.0f;
@@ -75,7 +77,6 @@
         public void AssignDesk(ButtonOffice.Desk Desk)
         {
             System.Diagnostics.Debug.Assert(Desk != null);
-            System.Diagnostics.Debug.Assert(Desk.IsFree() == true);
             if(_Desk != null)
             {
                 System.Diagnostics.Debug.Assert(_Desk.GetPerson() == this);
@@ -90,6 +91,11 @@
             System.Diagnostics.Debug.Assert(_Desk != null);
             _Desk.SetPerson(null);
             _Desk = null;
+        }
+
+        public System.Single GetActionFraction()
+        {
+            return _ActionFraction;
         }
 
         public System.Single GetAnimationFraction()

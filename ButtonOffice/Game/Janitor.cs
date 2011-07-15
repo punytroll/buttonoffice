@@ -3,6 +3,7 @@
     internal class Janitor : ButtonOffice.Person
     {
         private System.Collections.Generic.Queue<ButtonOffice.Desk> _CleaningTargets;
+        private System.Single _StartTrashLevel;
 
         public Janitor() :
             base(ButtonOffice.Type.Janitor)
@@ -11,6 +12,7 @@
             _BackgroundColor = ButtonOffice.Data.JanitorBackgroundColor;
             _BorderColor = ButtonOffice.Data.JanitorBorderColor;
             _CleaningTargets = new System.Collections.Generic.Queue<ButtonOffice.Desk>();
+            _StartTrashLevel = 0.0f;
             _Wage = ButtonOffice.Data.JanitorWage;
             _WorkMinutes = ButtonOffice.Data.JanitorWorkMinutes;
         }
@@ -42,6 +44,7 @@
                     {
                         SetLocation(_WalkTo);
                         _ActionState = ButtonOffice.ActionState.Cleaning;
+                        _ActionFraction = 0.0f;
                         _AnimationState = ButtonOffice.AnimationState.Cleaning;
                         _AnimationFraction = 0.0f;
                     }
@@ -52,35 +55,43 @@
                 {
                     ButtonOffice.Desk Desk = _CleaningTargets.Peek();
 
-                    if(Desk.Janitor == null)
+                    if((Desk.Janitor == null) && (Desk.TrashLevel > 0.0f))
                     {
                         Desk.Janitor = this;
+                        _StartTrashLevel = Desk.TrashLevel;
                     }
                     if(Desk.Janitor == this)
                     {
                         if(Desk.TrashLevel > 0.0f)
                         {
-                            _AnimationFraction += ButtonOffice.Data.JanitorCleanSpeed * GameMinutes;
-                            while(_AnimationFraction > 1.0f)
+                            Desk.TrashLevel -= ButtonOffice.Data.JanitorCleanAmount * ButtonOffice.Data.JanitorCleanSpeed * GameMinutes;
+                            if(Desk.TrashLevel <= 0.0f)
                             {
-                                Desk.TrashLevel -= ButtonOffice.Data.JanitorCleanAmount;
-                                _AnimationFraction -= 1.0f;
+                                Desk.TrashLevel = 0.0f;
                             }
+                            _ActionFraction = 1.0f - Desk.TrashLevel / _StartTrashLevel;
                         }
-                        if(Desk.TrashLevel <= 0.0f)
+                        _AnimationFraction += ButtonOffice.Data.JanitorCleanSpeed * GameMinutes;
+                        if(((_AnimationFraction > 1.0f) || (_AnimationFraction == 0.0f)) && (Desk.TrashLevel == 0.0f))
                         {
                             Desk.Janitor = null;
-                            Desk.TrashLevel = 0.0f;
+                            _StartTrashLevel = 0.0f;
                             _CleaningTargets.Dequeue();
                             _ActionState = ButtonOffice.ActionState.PickTrash;
+                            _ActionFraction = 0.0f;
                             _AnimationState = ButtonOffice.AnimationState.Standing;
                             _AnimationFraction = 0.0f;
+                        }
+                        while(_AnimationFraction > 1.0f)
+                        {
+                            _AnimationFraction -= 1.0f;
                         }
                     }
                     else
                     {
                         _CleaningTargets.Dequeue();
                         _ActionState = ButtonOffice.ActionState.PickTrash;
+                        _ActionFraction = 0.0f;
                         _AnimationState = ButtonOffice.AnimationState.Standing;
                         _AnimationFraction = 0.0f;
                     }
@@ -103,6 +114,7 @@
                     {
                         SetLocation(_WalkTo);
                         _ActionState = ButtonOffice.ActionState.WaitingToGoHome;
+                        _ActionFraction = 0.0f;
                         _AnimationState = ButtonOffice.AnimationState.Standing;
                         _AnimationFraction = 0.0f;
                     }
@@ -122,6 +134,7 @@
                             _WalkTo = new System.Drawing.PointF(ButtonOffice.Data.WorldBlockWidth + 10.0f, 0.0f);
                         }
                         _ActionState = ButtonOffice.ActionState.Leaving;
+                        _ActionFraction = 0.0f;
                         _AnimationState = ButtonOffice.AnimationState.Walking;
                         _AnimationFraction = 0.0f;
                         _CleaningTargets.Clear();
@@ -133,11 +146,13 @@
                         {
                             _WalkTo = _CleaningTargets.Peek().GetLocation();
                             _ActionState = ButtonOffice.ActionState.GoingToClean;
+                            _ActionFraction = 0.0f;
                         }
                         else
                         {
                             _WalkTo = _Desk.GetLocation();
                             _ActionState = ButtonOffice.ActionState.GoingToDesk;
+                            _ActionFraction = 0.0f;
                         }
                         _AnimationState = ButtonOffice.AnimationState.Walking;
                         _AnimationFraction = 0.0f;
@@ -158,6 +173,7 @@
                             _WalkTo = new System.Drawing.PointF(ButtonOffice.Data.WorldBlockWidth + 10.0f, 0.0f);
                         }
                         _ActionState = ButtonOffice.ActionState.Leaving;
+                        _ActionFraction = 0.0f;
                         _AnimationState = ButtonOffice.AnimationState.Walking;
                         _AnimationFraction = 0.0f;
                         _CleaningTargets.Clear();
@@ -176,6 +192,7 @@
                         _CleaningTargets.Enqueue(Office.FourthDesk);
                     }
                     _ActionState = ButtonOffice.ActionState.PickTrash;
+                    _ActionFraction = 0.0f;
 
                     break;
                 }
@@ -184,7 +201,9 @@
                     if(Game.GetTotalMinutes() > _ArrivesAtMinute)
                     {
                         _ActionState = ButtonOffice.ActionState.Arriving;
+                        _ActionFraction = 0.0f;
                         _AnimationState = ButtonOffice.AnimationState.Walking;
+                        _AnimationFraction = 0.0f;
                         if(_LivingSide == ButtonOffice.LivingSide.Left)
                         {
                             SetLocation(-10.0f, 0.0f);
@@ -214,6 +233,7 @@
                     {
                         SetLocation(_WalkTo);
                         _ActionState = ButtonOffice.ActionState.Working;
+                        _ActionFraction = 0.0f;
                         _AnimationState = ButtonOffice.AnimationState.Standing;
                         _AnimationFraction = 0.0f;
                     }
@@ -235,6 +255,7 @@
                     else
                     {
                         _ActionState = ButtonOffice.ActionState.AtHome;
+                        _ActionFraction = 0.0f;
                         _AnimationState = ButtonOffice.AnimationState.Hidden;
                         _PlanNextWorkDay(Game);
                     }
