@@ -3,7 +3,8 @@
     internal class FloatingText
     {
         private System.Drawing.Color _Color;
-        private System.Drawing.PointF _Location;
+        private System.Drawing.PointF _Offset;
+        private System.Drawing.PointF _Origin;
         private System.String _Text;
         private System.DateTime _Timeout;
 
@@ -15,11 +16,19 @@
             }
         }
 
-        public System.Drawing.PointF Location
+        public System.Drawing.PointF Offset
         {
             get
             {
-                return _Location;
+                return _Offset;
+            }
+        }
+
+        public System.Drawing.PointF Origin
+        {
+            get
+            {
+                return _Origin;
             }
         }
 
@@ -48,9 +57,14 @@
             _Color = Color;
         }
 
-        public void SetLocation(System.Drawing.PointF Location)
+        public void SetOffset(System.Drawing.PointF Offset)
         {
-            _Location = Location;
+            _Offset = Offset;
+        }
+
+        public void SetOrigin(System.Drawing.PointF Origin)
+        {
+            _Origin = Origin;
         }
 
         public void SetText(System.String Text)

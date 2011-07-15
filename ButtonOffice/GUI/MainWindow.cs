@@ -40,7 +40,8 @@
                 ButtonOffice.FloatingText FloatingText = new ButtonOffice.FloatingText();
 
                 FloatingText.SetColor(ButtonOffice.Data.EarnMoneyFloatingTextColor);
-                FloatingText.SetLocation(_GetDrawingLocation(Location));
+                FloatingText.SetOffset(new System.Drawing.PointF(0.0f, 0.0f));
+                FloatingText.SetOrigin(Location);
                 FloatingText.SetText(_Game.GetMoneyString(Cents));
                 FloatingText.SetTimeout(System.DateTime.Now.AddSeconds(1.2));
                 _FloatingTexts.Add(FloatingText);
@@ -50,7 +51,8 @@
                 ButtonOffice.FloatingText FloatingText = new ButtonOffice.FloatingText();
 
                 FloatingText.SetColor(ButtonOffice.Data.SpendMoneyFloatingTextColor);
-                FloatingText.SetLocation(_GetDrawingLocation(Location));
+                FloatingText.SetOffset(new System.Drawing.PointF(0.0f, 0.0f));
+                FloatingText.SetOrigin(Location);
                 FloatingText.SetText(_Game.GetMoneyString(Cents));
                 FloatingText.SetTimeout(System.DateTime.Now.AddSeconds(1.2));
                 _FloatingTexts.Add(FloatingText);
@@ -711,8 +713,8 @@
             {
                 if(_FloatingTexts[Index].Timeout > System.DateTime.Now)
                 {
-                    EventArguments.Graphics.DrawString(_FloatingTexts[Index].Text, Font, new System.Drawing.SolidBrush(_FloatingTexts[Index].Color), _FloatingTexts[Index].Location, Format);
-                    _FloatingTexts[Index].SetLocation(new System.Drawing.PointF(_FloatingTexts[Index].Location.X, _FloatingTexts[Index].Location.Y - Seconds * ButtonOffice.Data.FloatingTextSpeed));
+                    EventArguments.Graphics.DrawString(_FloatingTexts[Index].Text, Font, new System.Drawing.SolidBrush(_FloatingTexts[Index].Color), _MovePointByOffset(_GetDrawingLocation(_FloatingTexts[Index].Origin), _FloatingTexts[Index].Offset), Format);
+                    _FloatingTexts[Index].SetOffset(new System.Drawing.PointF(_FloatingTexts[Index].Offset.X, _FloatingTexts[Index].Offset.Y - Seconds * ButtonOffice.Data.FloatingTextSpeed));
                     ++Index;
                 }
                 else
@@ -833,6 +835,13 @@
         private System.Drawing.PointF _GetGamingLocation(System.Drawing.Point DrawingLocation)
         {
             return new System.Drawing.PointF(_GetGamingX(DrawingLocation.X), _GetGamingY(DrawingLocation.Y));
+        }
+        #endregion
+
+        #region Coordinate system helper functions
+        private System.Drawing.PointF _MovePointByOffset(System.Drawing.PointF Point, System.Drawing.PointF Offset)
+        {
+            return new System.Drawing.PointF(Point.X + Offset.X, Point.Y + Offset.Y);
         }
         #endregion
 
