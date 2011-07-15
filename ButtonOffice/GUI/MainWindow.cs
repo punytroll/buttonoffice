@@ -29,6 +29,7 @@
         private System.Windows.Forms.ToolStripButton _HireJanitorButton;
         private System.Windows.Forms.ToolStripButton _PlaceCatButton;
         private ButtonOffice.Office _SelectedOffice;
+        private System.Single _Zoom;
     
         public MainWindow()
         {
@@ -69,6 +70,7 @@
             _ToolButtons.Add(_HireWorkerButton);
             _ToolButtons.Add(_BuildOfficeButton);
             _ToolButtons.Add(_PlaceCatButton);
+            _Zoom = 1.0f;
         }
 
         private void InitializeComponent()
@@ -777,22 +779,22 @@
         #region Coordinate system transformations: Game -> Draw
         private System.Int32 _GetDrawingHeight(System.Single GamingHeight)
         {
-            return (GamingHeight * ButtonOffice.Data.BlockHeight.ToSingle()).GetFlooredAsInt32();
+            return (GamingHeight * ButtonOffice.Data.BlockHeight.ToSingle() * _Zoom).GetFlooredAsInt32();
         }
 
         private System.Int32 _GetDrawingWidth(System.Single GamingWidth)
         {
-            return (GamingWidth * ButtonOffice.Data.BlockWidth.ToSingle()).GetFlooredAsInt32();
+            return (GamingWidth * ButtonOffice.Data.BlockWidth.ToSingle() * _Zoom).GetFlooredAsInt32();
         }
 
         private System.Int32 _GetDrawingY(System.Single GamingY)
         {
-            return (_DrawingBoard.Height.ToSingle() - (GamingY * ButtonOffice.Data.BlockHeight.ToSingle()) - _DrawingOffset.Y.ToSingle()).GetFlooredAsInt32();
+            return (_DrawingBoard.Height.ToSingle() - (GamingY * ButtonOffice.Data.BlockHeight.ToSingle() * _Zoom) - _DrawingOffset.Y.ToSingle()).GetFlooredAsInt32();
         }
 
         private System.Int32 _GetDrawingX(System.Single GamingX)
         {
-            return (GamingX * ButtonOffice.Data.BlockWidth.ToSingle() + _DrawingOffset.X.ToSingle()).GetFlooredAsInt32();
+            return (GamingX * ButtonOffice.Data.BlockWidth.ToSingle() * _Zoom + _DrawingOffset.X.ToSingle()).GetFlooredAsInt32();
         }
 
         private System.Drawing.Rectangle _GetDrawingRectangle(System.Drawing.RectangleF GamingRectangle)
@@ -824,12 +826,12 @@
         #region Coordinate system transformations: Draw -> Game
         private System.Single _GetGamingX(System.Int32 DrawingX)
         {
-            return (DrawingX - _DrawingOffset.X).ToSingle() / ButtonOffice.Data.BlockWidth.ToSingle();
+            return (DrawingX - _DrawingOffset.X).ToSingle() / ButtonOffice.Data.BlockWidth.ToSingle() / _Zoom;
         }
 
         private System.Single _GetGamingY(System.Int32 DrawingY)
         {
-            return (_DrawingBoard.Height - DrawingY - _DrawingOffset.Y).ToSingle() / ButtonOffice.Data.BlockHeight.ToSingle();
+            return (_DrawingBoard.Height - DrawingY - _DrawingOffset.Y).ToSingle() / ButtonOffice.Data.BlockHeight.ToSingle() / _Zoom;
         }
 
         private System.Drawing.PointF _GetGamingLocation(System.Drawing.Point DrawingLocation)
