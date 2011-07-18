@@ -62,6 +62,27 @@
             return Result;
         }
 
+        public static ButtonOffice.Game LoadFromFileName(System.String FileName)
+        {
+            ButtonOffice.Game Result = new ButtonOffice.Game();
+
+            Result._CatStock = 0;
+            Result._Cents = ButtonOffice.Data.StartCents;
+            for(System.Int32 Index = 0; Index < ButtonOffice.Data.WorldBlockHeight; ++Index)
+            {
+                Result._FreeSpace.Add(new System.Collections.BitArray(ButtonOffice.Data.WorldBlockWidth, true));
+            }
+            for(System.Int32 Index = 0; Index < ButtonOffice.Data.WorldBlockHeight; ++Index)
+            {
+                Result._BuildingMinimumMaximum.Add(new System.Pair<System.Int32, System.Int32>(System.Int32.MaxValue, System.Int32.MinValue));
+            }
+            Result._Minutes = ButtonOffice.Data.StartMinutes;
+            Result._NextCatAtNumberOfEmployees = 20;
+            Result._SubMinute = 0.0f;
+
+            return Result;
+        }
+
         private Game()
         {
             _BrokenThings = new System.Collections.Generic.Queue<System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing>>();

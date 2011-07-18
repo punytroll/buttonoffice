@@ -28,40 +28,12 @@
         private System.Windows.Forms.ToolStripButton _HireJanitorButton;
         private System.Windows.Forms.ToolStripButton _PlaceCatButton;
         private ButtonOffice.Office _SelectedOffice;
+        private System.Windows.Forms.ToolStrip _SystemTools;
+        private System.Windows.Forms.ToolStripButton _LoadButton;
         private System.Single _Zoom;
     
         public MainWindow()
         {
-            _CameraVelocity = new System.Drawing.PointF(0.0f, 0.0f);
-            _FloatingTexts = new System.Collections.Generic.List<ButtonOffice.FloatingText>();
-            _Game = ButtonOffice.Game.CreateNew();
-            _Game.OnEarnMoney += delegate(System.UInt64 Cents, System.Drawing.PointF Location)
-            {
-                ButtonOffice.FloatingText FloatingText = new ButtonOffice.FloatingText();
-
-                FloatingText.SetColor(ButtonOffice.Data.EarnMoneyFloatingTextColor);
-                FloatingText.SetOffset(new System.Drawing.PointF(0.0f, 0.0f));
-                FloatingText.SetOrigin(Location);
-                FloatingText.SetText(_Game.GetMoneyString(Cents));
-                FloatingText.SetTimeout(1.2f);
-                _FloatingTexts.Add(FloatingText);
-            };
-            _Game.OnSpendMoney += delegate(System.UInt64 Cents, System.Drawing.PointF Location)
-            {
-                ButtonOffice.FloatingText FloatingText = new ButtonOffice.FloatingText();
-
-                FloatingText.SetColor(ButtonOffice.Data.SpendMoneyFloatingTextColor);
-                FloatingText.SetOffset(new System.Drawing.PointF(0.0f, 0.0f));
-                FloatingText.SetOrigin(Location);
-                FloatingText.SetText(_Game.GetMoneyString(Cents));
-                FloatingText.SetTimeout(1.2f);
-                _FloatingTexts.Add(FloatingText);
-            };
-            _EntityPrototype = null;
-            _DragPoint = new System.Nullable<System.Drawing.Point>();
-            _DrawingOffset = new System.Drawing.Point(-ButtonOffice.Data.WorldBlockWidth * ButtonOffice.Data.BlockWidth / 2, 2 * ButtonOffice.Data.BlockHeight);
-            _LastTick = System.DateTime.MinValue;
-            _Zoom = 1.0f;
             InitializeComponent();
             _ToolButtons = new System.Collections.Generic.List<System.Windows.Forms.ToolStripButton>();
             _ToolButtons.Add(_HireITTechButton);
@@ -69,6 +41,9 @@
             _ToolButtons.Add(_HireWorkerButton);
             _ToolButtons.Add(_BuildOfficeButton);
             _ToolButtons.Add(_PlaceCatButton);
+            _FloatingTexts = new System.Collections.Generic.List<ButtonOffice.FloatingText>();
+            _Game = ButtonOffice.Game.CreateNew();
+            _OnNewGame();
             _DrawingBoard.MouseWheel += delegate(System.Object Sender, System.Windows.Forms.MouseEventArgs EventArguments)
             {
                 if(EventArguments.Delta > 0)
@@ -104,6 +79,8 @@
             this._HireITTechButton = new System.Windows.Forms.ToolStripButton();
             this._HireJanitorButton = new System.Windows.Forms.ToolStripButton();
             this._PlaceCatButton = new System.Windows.Forms.ToolStripButton();
+            this._SystemTools = new System.Windows.Forms.ToolStrip();
+            this._LoadButton = new System.Windows.Forms.ToolStripButton();
             this._ToolStripContainer.BottomToolStripPanel.SuspendLayout();
             this._ToolStripContainer.ContentPanel.SuspendLayout();
             this._ToolStripContainer.TopToolStripPanel.SuspendLayout();
@@ -112,6 +89,7 @@
             this._MainSplitContainer.Panel1.SuspendLayout();
             this._MainSplitContainer.SuspendLayout();
             this._GameTools.SuspendLayout();
+            this._SystemTools.SuspendLayout();
             this.SuspendLayout();
             // 
             // _Timer
@@ -139,6 +117,7 @@
             // 
             // _ToolStripContainer.TopToolStripPanel
             // 
+            this._ToolStripContainer.TopToolStripPanel.Controls.Add(this._SystemTools);
             this._ToolStripContainer.TopToolStripPanel.Controls.Add(this._GameTools);
             // 
             // _StatusBar
@@ -216,7 +195,7 @@
             this._HireITTechButton,
             this._HireJanitorButton,
             this._PlaceCatButton});
-            this._GameTools.Location = new System.Drawing.Point(3, 0);
+            this._GameTools.Location = new System.Drawing.Point(52, 0);
             this._GameTools.Name = "_GameTools";
             this._GameTools.Padding = new System.Windows.Forms.Padding(0);
             this._GameTools.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
@@ -269,6 +248,25 @@
             this._PlaceCatButton.CheckedChanged += new System.EventHandler(this._OnPlaceCatButtonCheckedChanged);
             this._PlaceCatButton.Click += new System.EventHandler(this._OnPlaceCatButtonClicked);
             // 
+            // _SystemTools
+            // 
+            this._SystemTools.Dock = System.Windows.Forms.DockStyle.None;
+            this._SystemTools.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this._LoadButton});
+            this._SystemTools.Location = new System.Drawing.Point(3, 0);
+            this._SystemTools.Name = "_SystemTools";
+            this._SystemTools.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+            this._SystemTools.Size = new System.Drawing.Size(49, 25);
+            this._SystemTools.TabIndex = 2;
+            // 
+            // _LoadButton
+            // 
+            this._LoadButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this._LoadButton.Name = "_LoadButton";
+            this._LoadButton.Size = new System.Drawing.Size(37, 22);
+            this._LoadButton.Text = "Load";
+            this._LoadButton.Click += new System.EventHandler(this._LoadButtonClicked);
+            // 
             // MainWindow
             // 
             this.ClientSize = new System.Drawing.Size(910, 528);
@@ -289,6 +287,8 @@
             this._MainSplitContainer.ResumeLayout(false);
             this._GameTools.ResumeLayout(false);
             this._GameTools.PerformLayout();
+            this._SystemTools.ResumeLayout(false);
+            this._SystemTools.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -958,6 +958,58 @@
         private void _StartGame()
         {
             _Timer.Start();
+        }
+
+        private void _LoadButtonClicked(System.Object Sender, System.EventArgs EventArguments)
+        {
+            _StopGame();
+
+            System.Windows.Forms.OpenFileDialog OpenFileDialog = new System.Windows.Forms.OpenFileDialog();
+
+            if(OpenFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                _Game = ButtonOffice.Game.LoadFromFileName(OpenFileDialog.FileName);
+                _OnNewGame();
+            }
+            _StartGame();
+        }
+
+        private void _OnNewGame()
+        {
+            // uncheck all buttons
+            foreach(System.Windows.Forms.ToolStripButton Button in _ToolButtons)
+            {
+                Button.Checked = false;
+            }
+            _CameraVelocity = new System.Drawing.PointF(0.0f, 0.0f);
+            _FloatingTexts.Clear();
+            _Game.OnEarnMoney += delegate(System.UInt64 Cents, System.Drawing.PointF Location)
+            {
+                ButtonOffice.FloatingText FloatingText = new ButtonOffice.FloatingText();
+
+                FloatingText.SetColor(ButtonOffice.Data.EarnMoneyFloatingTextColor);
+                FloatingText.SetOffset(new System.Drawing.PointF(0.0f, 0.0f));
+                FloatingText.SetOrigin(Location);
+                FloatingText.SetText(_Game.GetMoneyString(Cents));
+                FloatingText.SetTimeout(1.2f);
+                _FloatingTexts.Add(FloatingText);
+            };
+            _Game.OnSpendMoney += delegate(System.UInt64 Cents, System.Drawing.PointF Location)
+            {
+                ButtonOffice.FloatingText FloatingText = new ButtonOffice.FloatingText();
+
+                FloatingText.SetColor(ButtonOffice.Data.SpendMoneyFloatingTextColor);
+                FloatingText.SetOffset(new System.Drawing.PointF(0.0f, 0.0f));
+                FloatingText.SetOrigin(Location);
+                FloatingText.SetText(_Game.GetMoneyString(Cents));
+                FloatingText.SetTimeout(1.2f);
+                _FloatingTexts.Add(FloatingText);
+            };
+            _EntityPrototype = null;
+            _DragPoint = new System.Nullable<System.Drawing.Point>();
+            _DrawingOffset = new System.Drawing.Point(-ButtonOffice.Data.WorldBlockWidth * ButtonOffice.Data.BlockWidth / 2, 2 * ButtonOffice.Data.BlockHeight);
+            _LastTick = System.DateTime.MinValue;
+            _Zoom = 1.0f;
         }
     }
 }
