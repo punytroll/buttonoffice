@@ -84,29 +84,15 @@
         {
             _FirstDesk = new Desk();
             _FirstDesk.Office = this;
-            _FirstDesk.SetHeight(ButtonOffice.Data.DeskHeight);
-            _FirstDesk.SetWidth(ButtonOffice.Data.DeskWidth);
             _SecondDesk = new Desk();
             _SecondDesk.Office = this;
-            _SecondDesk.SetHeight(ButtonOffice.Data.DeskHeight);
-            _SecondDesk.SetWidth(ButtonOffice.Data.DeskWidth);
             _ThirdDesk = new Desk();
             _ThirdDesk.Office = this;
-            _ThirdDesk.SetHeight(ButtonOffice.Data.DeskHeight);
-            _ThirdDesk.SetWidth(ButtonOffice.Data.DeskWidth);
             _FourthDesk = new Desk();
             _FourthDesk.Office = this;
-            _FourthDesk.SetHeight(ButtonOffice.Data.DeskHeight);
-            _FourthDesk.SetWidth(ButtonOffice.Data.DeskWidth);
             _FirstLamp = new ButtonOffice.Lamp();
-            _FirstLamp.SetHeight(ButtonOffice.Data.LampHeight);
-            _FirstLamp.SetWidth(ButtonOffice.Data.LampWidth);
             _SecondLamp = new ButtonOffice.Lamp();
-            _SecondLamp.SetHeight(ButtonOffice.Data.LampHeight);
-            _SecondLamp.SetWidth(ButtonOffice.Data.LampWidth);
             _ThirdLamp = new ButtonOffice.Lamp();
-            _ThirdLamp.SetHeight(ButtonOffice.Data.LampHeight);
-            _ThirdLamp.SetWidth(ButtonOffice.Data.LampWidth);
         }
 
         public ButtonOffice.Desk GetFreeDesk()

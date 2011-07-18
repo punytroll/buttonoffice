@@ -7,6 +7,8 @@
 
         public Lamp()
         {
+            _Rectangle.Height = ButtonOffice.Data.LampHeight;
+            _Rectangle.Width = ButtonOffice.Data.LampWidth;
         }
 
         public System.Single GetHeight()

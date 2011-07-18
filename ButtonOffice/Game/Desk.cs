@@ -47,6 +47,8 @@
 
         public Desk()
         {
+            _Rectangle.Height = ButtonOffice.Data.DeskHeight;
+            _Rectangle.Width = ButtonOffice.Data.DeskWidth;
         }
 
         public System.Single GetHeight()
