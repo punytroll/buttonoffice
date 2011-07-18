@@ -35,7 +35,7 @@
         {
             _CameraVelocity = new System.Drawing.PointF(0.0f, 0.0f);
             _FloatingTexts = new System.Collections.Generic.List<ButtonOffice.FloatingText>();
-            _Game = new Game();
+            _Game = ButtonOffice.Game.CreateNew();
             _Game.OnEarnMoney += delegate(System.UInt64 Cents, System.Drawing.PointF Location)
             {
                 ButtonOffice.FloatingText FloatingText = new ButtonOffice.FloatingText();

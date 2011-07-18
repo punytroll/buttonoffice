@@ -41,26 +41,34 @@
             }
         }
 
-        public Game()
+        public static ButtonOffice.Game CreateNew()
+        {
+            ButtonOffice.Game Result = new ButtonOffice.Game();
+
+            Result._CatStock = 0;
+            Result._Cents = ButtonOffice.Data.StartCents;
+            for(System.Int32 Index = 0; Index < ButtonOffice.Data.WorldBlockHeight; ++Index)
+            {
+                Result._FreeSpace.Add(new System.Collections.BitArray(ButtonOffice.Data.WorldBlockWidth, true));
+            }
+            for(System.Int32 Index = 0; Index < ButtonOffice.Data.WorldBlockHeight; ++Index)
+            {
+                Result._BuildingMinimumMaximum.Add(new System.Pair<System.Int32, System.Int32>(System.Int32.MaxValue, System.Int32.MinValue));
+            }
+            Result._Minutes = ButtonOffice.Data.StartMinutes;
+            Result._NextCatAtNumberOfEmployees = 20;
+            Result._SubMinute = 0.0f;
+
+            return Result;
+        }
+
+        private Game()
         {
             _BrokenThings = new System.Collections.Generic.Queue<System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing>>();
-            _CatStock = 0;
-            _Cents = ButtonOffice.Data.StartCents;
             _FreeSpace = new System.Collections.Generic.List<System.Collections.BitArray>();
-            for(System.Int32 Index = 0; Index < ButtonOffice.Data.WorldBlockHeight; ++Index)
-            {
-                _FreeSpace.Add(new System.Collections.BitArray(ButtonOffice.Data.WorldBlockWidth, true));
-            }
             _BuildingMinimumMaximum = new System.Collections.Generic.List<System.Pair<System.Int32, System.Int32>>();
-            for(System.Int32 Index = 0; Index < ButtonOffice.Data.WorldBlockHeight; ++Index)
-            {
-                _BuildingMinimumMaximum.Add(new System.Pair<System.Int32, System.Int32>(System.Int32.MaxValue, System.Int32.MinValue));
-            }
-            _Minutes = ButtonOffice.Data.StartMinutes;
-            _NextCatAtNumberOfEmployees = 20;
             _Offices = new System.Collections.Generic.List<ButtonOffice.Office>();
             _Persons = new System.Collections.Generic.List<ButtonOffice.Person>();
-            _SubMinute = 0.0f;
         }
 
         public void Move(System.Single GameMinutes)
