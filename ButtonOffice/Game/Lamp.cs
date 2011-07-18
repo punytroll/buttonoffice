@@ -31,6 +31,16 @@
             return _Rectangle.Width;
         }
 
+        public System.Single GetX()
+        {
+            return _Rectangle.X;
+        }
+
+        public System.Single GetY()
+        {
+            return _Rectangle.Y;
+        }
+
         public System.Boolean IsBroken()
         {
             return _MinutesUntilBroken < 0.0f;

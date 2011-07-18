@@ -2,6 +2,8 @@
 {
     internal class Office
     {
+        private System.Drawing.Color _BackgroundColor;
+        private System.Drawing.Color _BorderColor;
         private ButtonOffice.Cat _Cat;
         private System.Drawing.RectangleF _Rectangle;
         private ButtonOffice.Desk _FirstDesk;
@@ -11,6 +13,22 @@
         private ButtonOffice.Lamp _FirstLamp;
         private ButtonOffice.Lamp _SecondLamp;
         private ButtonOffice.Lamp _ThirdLamp;
+
+        public System.Drawing.Color BackgroundColor
+        {
+            get
+            {
+                return _BackgroundColor;
+            }
+        }
+
+        public System.Drawing.Color BorderColor
+        {
+            get
+            {
+                return _BorderColor;
+            }
+        }
 
         public ButtonOffice.Cat Cat
         {
@@ -82,6 +100,8 @@
 
         public Office()
         {
+            _BackgroundColor = ButtonOffice.Data.OfficeBackgroundColor;
+            _BorderColor = ButtonOffice.Data.OfficeBorderColor;
             _FirstDesk = new Desk();
             _FirstDesk.Office = this;
             _SecondDesk = new Desk();

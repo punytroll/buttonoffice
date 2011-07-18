@@ -15,10 +15,6 @@
             {
                 return _BackgroundColor;
             }
-            set
-            {
-                _BackgroundColor = value;
-            }
         }
 
         public System.Drawing.Color BorderColor
@@ -26,22 +22,6 @@
             get
             {
                 return _BorderColor;
-            }
-            set
-            {
-                _BorderColor = value;
-            }
-        }
-
-        public ButtonOffice.Office Office
-        {
-            get
-            {
-                return _Office;
-            }
-            set
-            {
-                _Office = value;
             }
         }
 
@@ -51,6 +31,23 @@
             _MinutesToActionStateChange = ButtonOffice.RandomNumberGenerator.GetSingle(10.0f, 15.0f);
             _BackgroundColor = ButtonOffice.Data.CatBackgroundColor;
             _BorderColor = ButtonOffice.Data.CatBorderColor;
+        }
+
+        public void AssignOffice(ButtonOffice.Office Office)
+        {
+            System.Diagnostics.Debug.Assert(Office != null);
+            if(_Office != null)
+            {
+                System.Diagnostics.Debug.Assert(_Office.Cat == this);
+                _Office.Cat = null;
+            }
+            _Office = Office;
+            _Office.Cat = this;
+        }
+
+        public ButtonOffice.ActionState GetActionState()
+        {
+            return _ActionState;
         }
 
         public System.Single GetHeight()

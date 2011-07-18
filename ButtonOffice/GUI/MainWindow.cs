@@ -33,6 +33,7 @@
         private System.Windows.Forms.ToolStripMenuItem _LoadGameButton;
         private System.Windows.Forms.ToolStripMenuItem _NewGameButton;
         private System.Windows.Forms.ToolStripMenuItem _QuitApplicationButton;
+        private System.Windows.Forms.ToolStripMenuItem _SaveGameButton;
         private System.Single _Zoom;
     
         public MainWindow()
@@ -80,6 +81,7 @@
             this._SystemTools = new System.Windows.Forms.ToolStrip();
             this._LoadButton = new System.Windows.Forms.ToolStripDropDownButton();
             this._NewGameButton = new System.Windows.Forms.ToolStripMenuItem();
+            this._SaveGameButton = new System.Windows.Forms.ToolStripMenuItem();
             this._LoadGameButton = new System.Windows.Forms.ToolStripMenuItem();
             this._QuitApplicationButton = new System.Windows.Forms.ToolStripMenuItem();
             this._GameTools = new System.Windows.Forms.ToolStrip();
@@ -99,6 +101,11 @@
             this._SystemTools.SuspendLayout();
             this._GameTools.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // Separator1
+            // 
+            Separator1.Name = "Separator1";
+            Separator1.Size = new System.Drawing.Size(97, 6);
             // 
             // _Timer
             // 
@@ -210,6 +217,7 @@
             this._LoadButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this._LoadButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this._NewGameButton,
+            this._SaveGameButton,
             this._LoadGameButton,
             Separator1,
             this._QuitApplicationButton});
@@ -221,26 +229,28 @@
             // _NewGameButton
             // 
             this._NewGameButton.Name = "_NewGameButton";
-            this._NewGameButton.Size = new System.Drawing.Size(152, 22);
+            this._NewGameButton.Size = new System.Drawing.Size(100, 22);
             this._NewGameButton.Text = "New";
             this._NewGameButton.Click += new System.EventHandler(this._OnNewGameButtonClicked);
+            // 
+            // _SaveGameButton
+            // 
+            this._SaveGameButton.Name = "_SaveGameButton";
+            this._SaveGameButton.Size = new System.Drawing.Size(100, 22);
+            this._SaveGameButton.Text = "Save";
+            this._SaveGameButton.Click += new System.EventHandler(this._OnSaveGameButtonClicked);
             // 
             // _LoadGameButton
             // 
             this._LoadGameButton.Name = "_LoadGameButton";
-            this._LoadGameButton.Size = new System.Drawing.Size(152, 22);
+            this._LoadGameButton.Size = new System.Drawing.Size(100, 22);
             this._LoadGameButton.Text = "Load";
             this._LoadGameButton.Click += new System.EventHandler(this._OnLoadGameButtonClicked);
-            // 
-            // Separator1
-            // 
-            Separator1.Name = "Separator1";
-            Separator1.Size = new System.Drawing.Size(149, 6);
             // 
             // _QuitApplicationButton
             // 
             this._QuitApplicationButton.Name = "_QuitApplicationButton";
-            this._QuitApplicationButton.Size = new System.Drawing.Size(152, 22);
+            this._QuitApplicationButton.Size = new System.Drawing.Size(100, 22);
             this._QuitApplicationButton.Text = "Quit";
             this._QuitApplicationButton.Click += new System.EventHandler(this._OnQuitApplicationButtonClicked);
             // 
@@ -257,7 +267,7 @@
             this._GameTools.Name = "_GameTools";
             this._GameTools.Padding = new System.Windows.Forms.Padding(0);
             this._GameTools.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this._GameTools.Size = new System.Drawing.Size(228, 25);
+            this._GameTools.Size = new System.Drawing.Size(259, 25);
             this._GameTools.TabIndex = 1;
             // 
             // _BuildOfficeButton
@@ -654,7 +664,7 @@
             EventArguments.Graphics.FillRectangle(new System.Drawing.SolidBrush(ButtonOffice.Data.GroundColor), 0, _GetDrawingY(0), _DrawingBoard.Width, _DrawingBoard.Height);
             foreach(Office Office in _Game.Offices)
             {
-                _DrawRectangle(EventArguments.Graphics, Office.GetRectangle(), ButtonOffice.Data.OfficeBackgroundColor, ButtonOffice.Data.OfficeBorderColor);
+                _DrawRectangle(EventArguments.Graphics, Office.GetRectangle(), Office.BackgroundColor, Office.BorderColor);
 
                 System.Drawing.Color LampColor;
 
@@ -1004,6 +1014,19 @@
             _StopGame();
             _Game = ButtonOffice.Game.CreateNew();
             _OnNewGame();
+            _StartGame();
+        }
+
+        private void _OnSaveGameButtonClicked(System.Object Sender, System.EventArgs EventArguments)
+        {
+            _StopGame();
+
+            System.Windows.Forms.SaveFileDialog SaveFileDialog = new System.Windows.Forms.SaveFileDialog();
+
+            if(SaveFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                _Game.SaveToFile(SaveFileDialog.FileName);
+            }
             _StartGame();
         }
 

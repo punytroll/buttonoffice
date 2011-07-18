@@ -333,8 +333,7 @@
                     ButtonOffice.Cat Cat = new ButtonOffice.Cat();
 
                     Cat.SetRectangle(Rectangle);
-                    Office.Cat = Cat;
-                    Cat.Office = Office;
+                    Cat.AssignOffice(Office);
                     _CatStock -= 1;
 
                     return true;
@@ -432,6 +431,178 @@
         public System.Pair<System.Int32, System.Int32> GetBuildingMinimumMaximum(System.Int32 Row)
         {
             return _BuildingMinimumMaximum[Row];
+        }
+
+        public void SaveToFile(System.String FileName)
+        {
+            System.IO.StreamWriter Writer = new System.IO.StreamWriter(FileName);
+            System.Globalization.CultureInfo Format = System.Globalization.CultureInfo.InvariantCulture;
+
+            Writer.WriteLine("<?xml version=\"1.0\" encoding=\"utf-8\"?>");
+            Writer.WriteLine();
+            Writer.WriteLine("<button-office version=\"1.0\">");
+            Writer.WriteLine("  <cat-stock type=\"System.UInt32\">" + _CatStock.ToString() + "</cat-stock>");
+            Writer.WriteLine("  <cents type=\"System.UInt64\">" + _Cents.ToString() + "</cents>");
+            Writer.WriteLine("  <minute type=\"System.UInt64\">" + _Minutes.ToString() + "</minutes>");
+            Writer.WriteLine("  <next-cat-at-number-of-employees type=\"Ssytem.UInt32\">" + _NextCatAtNumberOfEmployees.ToString(Format) + "</next-cat-at-number-of-employees>");
+
+            System.Collections.Generic.Dictionary<ButtonOffice.Person, System.UInt32> PersonMap = new System.Collections.Generic.Dictionary<ButtonOffice.Person, System.UInt32>();
+
+            for(System.UInt32 Identifier = 0; Identifier < _Persons.Count; ++Identifier)
+            {
+                PersonMap.Add(_Persons[Identifier.ToInt32()], Identifier);
+            }
+
+            System.Collections.Generic.Dictionary<ButtonOffice.Office, System.UInt32> OfficeMap = new System.Collections.Generic.Dictionary<ButtonOffice.Office, System.UInt32>();
+
+            for(System.UInt32 Identifier = 0; Identifier < _Offices.Count; ++Identifier)
+            {
+                OfficeMap.Add(_Offices[Identifier.ToInt32()], Identifier);
+            }
+            for(System.UInt32 Identifier = 0; Identifier < _Offices.Count; ++Identifier)
+            {
+                ButtonOffice.Office Office = _Offices[Identifier.ToInt32()];
+
+                Writer.WriteLine("  <office>");
+                Writer.WriteLine("    <background-color type=\"System.Drawing.Color\">");
+                Writer.WriteLine("      <red type=\"System.Byte\">" + Office.BackgroundColor.R.ToString(Format) + "</red>");
+                Writer.WriteLine("      <green type=\"System.Byte\">" + Office.BackgroundColor.G.ToString(Format) + "</green>");
+                Writer.WriteLine("      <blue type=\"System.Byte\">" + Office.BackgroundColor.B.ToString(Format) + "</blue>");
+                Writer.WriteLine("      <alpha type=\"System.Byte\">" + Office.BackgroundColor.A.ToString(Format) + "</alpha>");
+                Writer.WriteLine("    </baclground-color>");
+                Writer.WriteLine("    <border-color type=\"System.Drawing.Color\">");
+                Writer.WriteLine("      <red type=\"System.Byte\">" + Office.BorderColor.R.ToString(Format) + "</red>");
+                Writer.WriteLine("      <green type=\"System.Byte\">" + Office.BorderColor.G.ToString(Format) + "</green>");
+                Writer.WriteLine("      <blue type=\"System.Byte\">" + Office.BorderColor.B.ToString(Format) + "</blue>");
+                Writer.WriteLine("      <alpha type=\"System.Byte\">" + Office.BorderColor.A.ToString(Format) + "</alpha>");
+                Writer.WriteLine("    </border-color>");
+                Writer.WriteLine("    <identifier type=\"System.UInt32\">" + Identifier.ToString(Format) + "</identifier>");
+                Writer.WriteLine("    <rectangle>");
+                Writer.WriteLine("      <x type=\"System.Single\">" + Office.GetX().ToString(Format) + "</x>");
+                Writer.WriteLine("      <y type=\"System.Single\">" + Office.GetY().ToString(Format) + "</y>");
+                Writer.WriteLine("      <width type=\"System.Single\">" + Office.GetWidth().ToString(Format) + "</width>");
+                Writer.WriteLine("      <height type=\"System.Single\">" + Office.GetHeight().ToString(Format) + "</height>");
+                Writer.WriteLine("    </rectangle>");
+                Writer.WriteLine("    <first-desk>");
+                Writer.WriteLine("      <trash-level type=\"System.Single\">" + Office.FirstDesk.TrashLevel.ToString(Format) + "</trash-level>");
+                Writer.WriteLine("      <minutes-until-computer-broken type=\"System.Single\">" + Office.FirstDesk.GetMinutesUntilComputerBroken().ToString(Format) + "</minutes-until-computer-broken>");
+                if(Office.FirstDesk.Janitor != null)
+                {
+                    Writer.WriteLine("      <janitor-identifier type=\"System.UInt32\">" + PersonMap[Office.FirstDesk.Janitor].ToString(Format) + "</janitor-identifier>");
+                }
+                Writer.WriteLine("    </first-desk>");
+                Writer.WriteLine("    <second-desk>");
+                Writer.WriteLine("      <trash-level type=\"System.Single\">" + Office.SecondDesk.TrashLevel.ToString(Format) + "</trash-level>");
+                Writer.WriteLine("      <minutes-until-computer-broken type=\"System.Single\">" + Office.SecondDesk.GetMinutesUntilComputerBroken().ToString(Format) + "</minutes-until-computer-broken>");
+                if(Office.SecondDesk.Janitor != null)
+                {
+                    Writer.WriteLine("      <janitor-identifier type=\"System.UInt32\">" + PersonMap[Office.SecondDesk.Janitor].ToString(Format) + "</janitor-identifier>");
+                }
+                Writer.WriteLine("    </second-desk>");
+                Writer.WriteLine("    <third-desk>");
+                Writer.WriteLine("      <trash-level type=\"System.Single\">" + Office.ThirdDesk.TrashLevel.ToString(Format) + "</trash-level>");
+                Writer.WriteLine("      <minutes-until-computer-broken type=\"System.Single\">" + Office.ThirdDesk.GetMinutesUntilComputerBroken().ToString(Format) + "</minutes-until-computer-broken>");
+                if(Office.ThirdDesk.Janitor != null)
+                {
+                    Writer.WriteLine("      <janitor-identifier type=\"System.UInt32\">" + PersonMap[Office.ThirdDesk.Janitor].ToString(Format) + "</janitor-identifier>");
+                }
+                Writer.WriteLine("    </third-desk>");
+                Writer.WriteLine("    <fourth-desk>");
+                Writer.WriteLine("      <trash-level type=\"System.Single\">" + Office.FourthDesk.TrashLevel.ToString(Format) + "</trash-level>");
+                Writer.WriteLine("      <minutes-until-computer-broken type=\"System.Single\">" + Office.FourthDesk.GetMinutesUntilComputerBroken().ToString(Format) + "</minutes-until-computer-broken>");
+                if(Office.FourthDesk.Janitor != null)
+                {
+                    Writer.WriteLine("      <janitor-identifier type=\"System.UInt32\">" + PersonMap[Office.FourthDesk.Janitor].ToString(Format) + "</janitor-identifier>");
+                }
+                Writer.WriteLine("    </fourth-desk>");
+                Writer.WriteLine("    <first-lamp>");
+                Writer.WriteLine("      <minutes-until-broken type=\"System.Single\">" + Office.FirstLamp.GetMinutesUntilBroken().ToString(Format) + "</minutes-until-broken>");
+                Writer.WriteLine("      <rectangle>");
+                Writer.WriteLine("        <x type=\"System.Single\">" + Office.FirstLamp.GetX().ToString(Format) + "</x>");
+                Writer.WriteLine("        <y type=\"System.Single\">" + Office.FirstLamp.GetY().ToString(Format) + "</y>");
+                Writer.WriteLine("        <width type=\"System.Single\">" + Office.FirstLamp.GetWidth().ToString(Format) + "</width>");
+                Writer.WriteLine("        <height type=\"System.Single\">" + Office.FirstLamp.GetHeight().ToString(Format) + "</height>");
+                Writer.WriteLine("      </rectangle>");
+                Writer.WriteLine("    </first-lamp>");
+                Writer.WriteLine("    <second-lamp>");
+                Writer.WriteLine("      <minutes-until-broken type=\"System.Single\">" + Office.SecondLamp.GetMinutesUntilBroken().ToString(Format) + "</minutes-until-broken>");
+                Writer.WriteLine("      <rectangle>");
+                Writer.WriteLine("        <x type=\"System.Single\">" + Office.SecondLamp.GetX().ToString(Format) + "</x>");
+                Writer.WriteLine("        <y type=\"System.Single\">" + Office.SecondLamp.GetY().ToString(Format) + "</y>");
+                Writer.WriteLine("        <width type=\"System.Single\">" + Office.SecondLamp.GetWidth().ToString(Format) + "</width>");
+                Writer.WriteLine("        <height type=\"System.Single\">" + Office.SecondLamp.GetHeight().ToString(Format) + "</height>");
+                Writer.WriteLine("      </rectangle>");
+                Writer.WriteLine("    </second-lamp>");
+                Writer.WriteLine("    <third-lamp>");
+                Writer.WriteLine("      <minutes-until-broken type=\"System.Single\">" + Office.ThirdLamp.GetMinutesUntilBroken().ToString(Format) + "</minutes-until-broken>");
+                Writer.WriteLine("      <rectangle>");
+                Writer.WriteLine("        <x type=\"System.Single\">" + Office.ThirdLamp.GetX().ToString(Format) + "</x>");
+                Writer.WriteLine("        <y type=\"System.Single\">" + Office.ThirdLamp.GetY().ToString(Format) + "</y>");
+                Writer.WriteLine("        <width type=\"System.Single\">" + Office.ThirdLamp.GetWidth().ToString(Format) + "</width>");
+                Writer.WriteLine("        <height type=\"System.Single\">" + Office.ThirdLamp.GetHeight().ToString(Format) + "</height>");
+                Writer.WriteLine("      </rectangle>");
+                Writer.WriteLine("    </third-lamp>");
+                if(Office.Cat != null)
+                {
+                    Writer.WriteLine("  <cat>");
+                    Writer.WriteLine("    <action-state type=\"ButtonOffice.ActionState\">" + Office.Cat.GetActionState().ToString() + "</action-state>");
+                    Writer.WriteLine("    <background-color type=\"System.Drawing.Color\">");
+                    Writer.WriteLine("      <red type=\"System.Byte\">" + Office.Cat.BackgroundColor.R.ToString(Format) + "</red>");
+                    Writer.WriteLine("      <green type=\"System.Byte\">" + Office.Cat.BackgroundColor.G.ToString(Format) + "</green>");
+                    Writer.WriteLine("      <blue type=\"System.Byte\">" + Office.Cat.BackgroundColor.B.ToString(Format) + "</blue>");
+                    Writer.WriteLine("      <alpha type=\"System.Byte\">" + Office.Cat.BackgroundColor.A.ToString(Format) + "</alpha>");
+                    Writer.WriteLine("    </baclground-color>");
+                    Writer.WriteLine("    <border-color type=\"System.Drawing.Color\">");
+                    Writer.WriteLine("      <red type=\"System.Byte\">" + Office.Cat.BorderColor.R.ToString(Format) + "</red>");
+                    Writer.WriteLine("      <green type=\"System.Byte\">" + Office.Cat.BorderColor.G.ToString(Format) + "</green>");
+                    Writer.WriteLine("      <blue type=\"System.Byte\">" + Office.Cat.BorderColor.B.ToString(Format) + "</blue>");
+                    Writer.WriteLine("      <alpha type=\"System.Byte\">" + Office.Cat.BorderColor.A.ToString(Format) + "</alpha>");
+                    Writer.WriteLine("    </border-color>");
+                    Writer.WriteLine("    <rectangle>");
+                    Writer.WriteLine("      <x type=\"System.Single\">" + Office.Cat.GetX().ToString(Format) + "</x>");
+                    Writer.WriteLine("      <y type=\"System.Single\">" + Office.Cat.GetY().ToString(Format) + "</y>");
+                    Writer.WriteLine("      <width type=\"System.Single\">" + Office.Cat.GetWidth().ToString(Format) + "</width>");
+                    Writer.WriteLine("      <height type=\"System.Single\">" + Office.Cat.GetHeight().ToString(Format) + "</height>");
+                    Writer.WriteLine("    </rectangle>");
+                    Writer.WriteLine("  </cat>");
+                }
+                Writer.WriteLine("  </office>");
+            }
+            for(System.UInt32 Identifier = 0; Identifier < _Persons.Count; ++Identifier)
+            {
+                ButtonOffice.Person Person = _Persons[Identifier.ToInt32()];
+
+                Writer.WriteLine("  <person>");
+                Writer.WriteLine("    <type type=\"ButtonOffice.Type\">" + Person.Type.ToString() + "</type>");
+                Writer.WriteLine("    <background-color type=\"System.Drawing.Color\">");
+                Writer.WriteLine("      <red type=\"System.Byte\">" + Person.BackgroundColor.R.ToString(Format) + "</red>");
+                Writer.WriteLine("      <green type=\"System.Byte\">" + Person.BackgroundColor.G.ToString(Format) + "</green>");
+                Writer.WriteLine("      <blue type=\"System.Byte\">" + Person.BackgroundColor.B.ToString(Format) + "</blue>");
+                Writer.WriteLine("      <alpha type=\"System.Byte\">" + Person.BackgroundColor.A.ToString(Format) + "</alpha>");
+                Writer.WriteLine("    </baclground-color>");
+                Writer.WriteLine("    <border-color type=\"System.Drawing.Color\">");
+                Writer.WriteLine("      <red type=\"System.Byte\">" + Person.BorderColor.R.ToString(Format) + "</red>");
+                Writer.WriteLine("      <green type=\"System.Byte\">" + Person.BorderColor.G.ToString(Format) + "</green>");
+                Writer.WriteLine("      <blue type=\"System.Byte\">" + Person.BorderColor.B.ToString(Format) + "</blue>");
+                Writer.WriteLine("      <alpha type=\"System.Byte\">" + Person.BorderColor.A.ToString(Format) + "</alpha>");
+                Writer.WriteLine("    </border-color>");
+                Writer.WriteLine("    <rectangle type=\"System.Drawing.RectangleF\">");
+                Writer.WriteLine("      <x type=\"System.Single\">" + Person.GetX().ToString(Format) + "</x>");
+                Writer.WriteLine("      <y type=\"System.Single\">" + Person.GetY().ToString(Format) + "</y>");
+                Writer.WriteLine("      <width type=\"System.Single\">" + Person.GetWidth().ToString(Format) + "</width>");
+                Writer.WriteLine("      <height type=\"System.Single\">" + Person.GetHeight().ToString(Format) + "</height>");
+                Writer.WriteLine("    </rectangle>");
+                Writer.WriteLine("  </person>");
+            }
+            foreach(System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing> BrokenThing in _BrokenThings)
+            {
+                Writer.WriteLine("  <broken-thing>");
+                Writer.WriteLine("    <office-identifier type=\"System.UInt32\">" + OfficeMap[BrokenThing.First].ToString(Format) + "</office-identifier>");
+                Writer.WriteLine("    <broken-thing type=\"ButtonOffice.BrokenThing\">" + BrokenThing.Second.ToString() + "</Broken-thing>");
+                Writer.WriteLine("  </broken-thing>");
+            }
+            Writer.WriteLine("</button-office>");
+            Writer.Close();
         }
     }
 }
