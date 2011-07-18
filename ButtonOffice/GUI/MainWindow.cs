@@ -29,7 +29,10 @@
         private System.Windows.Forms.ToolStripButton _PlaceCatButton;
         private ButtonOffice.Office _SelectedOffice;
         private System.Windows.Forms.ToolStrip _SystemTools;
-        private System.Windows.Forms.ToolStripButton _LoadButton;
+        private System.Windows.Forms.ToolStripDropDownButton _LoadButton;
+        private System.Windows.Forms.ToolStripMenuItem _LoadGameButton;
+        private System.Windows.Forms.ToolStripMenuItem _NewGameButton;
+        private System.Windows.Forms.ToolStripMenuItem _QuitApplicationButton;
         private System.Single _Zoom;
     
         public MainWindow()
@@ -64,6 +67,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.ToolStripSeparator Separator1;
             this._Timer = new System.Windows.Forms.Timer(this.components);
             this._ToolStripContainer = new System.Windows.Forms.ToolStripContainer();
             this._StatusBar = new System.Windows.Forms.StatusStrip();
@@ -73,14 +77,18 @@
             this._PositionLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this._MainSplitContainer = new System.Windows.Forms.SplitContainer();
             this._DrawingBoard = new ButtonOffice.DrawingBoard();
+            this._SystemTools = new System.Windows.Forms.ToolStrip();
+            this._LoadButton = new System.Windows.Forms.ToolStripDropDownButton();
+            this._NewGameButton = new System.Windows.Forms.ToolStripMenuItem();
+            this._LoadGameButton = new System.Windows.Forms.ToolStripMenuItem();
+            this._QuitApplicationButton = new System.Windows.Forms.ToolStripMenuItem();
             this._GameTools = new System.Windows.Forms.ToolStrip();
             this._BuildOfficeButton = new System.Windows.Forms.ToolStripButton();
             this._HireWorkerButton = new System.Windows.Forms.ToolStripButton();
             this._HireITTechButton = new System.Windows.Forms.ToolStripButton();
             this._HireJanitorButton = new System.Windows.Forms.ToolStripButton();
             this._PlaceCatButton = new System.Windows.Forms.ToolStripButton();
-            this._SystemTools = new System.Windows.Forms.ToolStrip();
-            this._LoadButton = new System.Windows.Forms.ToolStripButton();
+            Separator1 = new System.Windows.Forms.ToolStripSeparator();
             this._ToolStripContainer.BottomToolStripPanel.SuspendLayout();
             this._ToolStripContainer.ContentPanel.SuspendLayout();
             this._ToolStripContainer.TopToolStripPanel.SuspendLayout();
@@ -88,8 +96,8 @@
             this._StatusBar.SuspendLayout();
             this._MainSplitContainer.Panel1.SuspendLayout();
             this._MainSplitContainer.SuspendLayout();
-            this._GameTools.SuspendLayout();
             this._SystemTools.SuspendLayout();
+            this._GameTools.SuspendLayout();
             this.SuspendLayout();
             // 
             // _Timer
@@ -186,6 +194,56 @@
             this._DrawingBoard.MouseUp += new System.Windows.Forms.MouseEventHandler(this._OnDrawingBoardMouseUp);
             this._DrawingBoard.KeyDown += new System.Windows.Forms.KeyEventHandler(this._DrawingBoardKeyDown);
             // 
+            // _SystemTools
+            // 
+            this._SystemTools.Dock = System.Windows.Forms.DockStyle.None;
+            this._SystemTools.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this._LoadButton});
+            this._SystemTools.Location = new System.Drawing.Point(3, 0);
+            this._SystemTools.Name = "_SystemTools";
+            this._SystemTools.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+            this._SystemTools.Size = new System.Drawing.Size(54, 25);
+            this._SystemTools.TabIndex = 2;
+            // 
+            // _LoadButton
+            // 
+            this._LoadButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this._LoadButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this._NewGameButton,
+            this._LoadGameButton,
+            Separator1,
+            this._QuitApplicationButton});
+            this._LoadButton.Name = "_LoadButton";
+            this._LoadButton.ShowDropDownArrow = false;
+            this._LoadButton.Size = new System.Drawing.Size(42, 22);
+            this._LoadButton.Text = "Game";
+            // 
+            // _NewGameButton
+            // 
+            this._NewGameButton.Name = "_NewGameButton";
+            this._NewGameButton.Size = new System.Drawing.Size(152, 22);
+            this._NewGameButton.Text = "New";
+            this._NewGameButton.Click += new System.EventHandler(this._OnNewGameButtonClicked);
+            // 
+            // _LoadGameButton
+            // 
+            this._LoadGameButton.Name = "_LoadGameButton";
+            this._LoadGameButton.Size = new System.Drawing.Size(152, 22);
+            this._LoadGameButton.Text = "Load";
+            this._LoadGameButton.Click += new System.EventHandler(this._OnLoadGameButtonClicked);
+            // 
+            // Separator1
+            // 
+            Separator1.Name = "Separator1";
+            Separator1.Size = new System.Drawing.Size(149, 6);
+            // 
+            // _QuitApplicationButton
+            // 
+            this._QuitApplicationButton.Name = "_QuitApplicationButton";
+            this._QuitApplicationButton.Size = new System.Drawing.Size(152, 22);
+            this._QuitApplicationButton.Text = "Quit";
+            this._QuitApplicationButton.Click += new System.EventHandler(this._OnQuitApplicationButtonClicked);
+            // 
             // _GameTools
             // 
             this._GameTools.Dock = System.Windows.Forms.DockStyle.None;
@@ -195,7 +253,7 @@
             this._HireITTechButton,
             this._HireJanitorButton,
             this._PlaceCatButton});
-            this._GameTools.Location = new System.Drawing.Point(52, 0);
+            this._GameTools.Location = new System.Drawing.Point(57, 0);
             this._GameTools.Name = "_GameTools";
             this._GameTools.Padding = new System.Windows.Forms.Padding(0);
             this._GameTools.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
@@ -248,25 +306,6 @@
             this._PlaceCatButton.CheckedChanged += new System.EventHandler(this._OnPlaceCatButtonCheckedChanged);
             this._PlaceCatButton.Click += new System.EventHandler(this._OnPlaceCatButtonClicked);
             // 
-            // _SystemTools
-            // 
-            this._SystemTools.Dock = System.Windows.Forms.DockStyle.None;
-            this._SystemTools.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this._LoadButton});
-            this._SystemTools.Location = new System.Drawing.Point(3, 0);
-            this._SystemTools.Name = "_SystemTools";
-            this._SystemTools.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this._SystemTools.Size = new System.Drawing.Size(49, 25);
-            this._SystemTools.TabIndex = 2;
-            // 
-            // _LoadButton
-            // 
-            this._LoadButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this._LoadButton.Name = "_LoadButton";
-            this._LoadButton.Size = new System.Drawing.Size(37, 22);
-            this._LoadButton.Text = "Load";
-            this._LoadButton.Click += new System.EventHandler(this._LoadButtonClicked);
-            // 
             // MainWindow
             // 
             this.ClientSize = new System.Drawing.Size(910, 528);
@@ -285,10 +324,10 @@
             this._StatusBar.PerformLayout();
             this._MainSplitContainer.Panel1.ResumeLayout(false);
             this._MainSplitContainer.ResumeLayout(false);
-            this._GameTools.ResumeLayout(false);
-            this._GameTools.PerformLayout();
             this._SystemTools.ResumeLayout(false);
             this._SystemTools.PerformLayout();
+            this._GameTools.ResumeLayout(false);
+            this._GameTools.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -960,7 +999,15 @@
             _Timer.Start();
         }
 
-        private void _LoadButtonClicked(System.Object Sender, System.EventArgs EventArguments)
+        private void _OnNewGameButtonClicked(System.Object Sender, System.EventArgs EventArguments)
+        {
+            _StopGame();
+            _Game = ButtonOffice.Game.CreateNew();
+            _OnNewGame();
+            _StartGame();
+        }
+
+        private void _OnLoadGameButtonClicked(System.Object Sender, System.EventArgs EventArguments)
         {
             _StopGame();
 
@@ -972,6 +1019,12 @@
                 _OnNewGame();
             }
             _StartGame();
+        }
+
+        private void _OnQuitApplicationButtonClicked(System.Object Sender, System.EventArgs EventArguments)
+        {
+            _StopGame();
+            Close();
         }
 
         private void _OnNewGame()
