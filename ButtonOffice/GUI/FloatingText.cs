@@ -6,7 +6,7 @@
         private System.Drawing.PointF _Offset;
         private System.Drawing.PointF _Origin;
         private System.String _Text;
-        private System.DateTime _Timeout;
+        private System.Single _Timeout;
 
         public System.Drawing.Color Color
         {
@@ -40,7 +40,7 @@
             }
         }
 
-        public System.DateTime Timeout
+        public System.Single Timeout
         {
             get
             {
@@ -72,7 +72,7 @@
             _Text = Text;
         }
 
-        public void SetTimeout(System.DateTime Timeout)
+        public void SetTimeout(System.Single Timeout)
         {
             _Timeout = Timeout;
         }

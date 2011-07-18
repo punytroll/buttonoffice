@@ -20,7 +20,6 @@
         private System.Windows.Forms.ToolStripStatusLabel _MoneyLabel;
         private System.Windows.Forms.ToolStripStatusLabel _EmployeesLabel;
         private System.DateTime _LastTick;
-        private System.DateTime _LastPaint;
         private System.Windows.Forms.SplitContainer _MainSplitContainer;
         private DrawingBoard _DrawingBoard;
         private System.Windows.Forms.ToolStripStatusLabel _PositionLabel;
@@ -44,7 +43,7 @@
                 FloatingText.SetOffset(new System.Drawing.PointF(0.0f, 0.0f));
                 FloatingText.SetOrigin(Location);
                 FloatingText.SetText(_Game.GetMoneyString(Cents));
-                FloatingText.SetTimeout(System.DateTime.Now.AddSeconds(1.2));
+                FloatingText.SetTimeout(1.2f);
                 _FloatingTexts.Add(FloatingText);
             };
             _Game.OnSpendMoney += delegate(System.UInt64 Cents, System.Drawing.PointF Location)
@@ -55,14 +54,13 @@
                 FloatingText.SetOffset(new System.Drawing.PointF(0.0f, 0.0f));
                 FloatingText.SetOrigin(Location);
                 FloatingText.SetText(_Game.GetMoneyString(Cents));
-                FloatingText.SetTimeout(System.DateTime.Now.AddSeconds(1.2));
+                FloatingText.SetTimeout(1.2f);
                 _FloatingTexts.Add(FloatingText);
             };
             _EntityPrototype = null;
             _DragPoint = new System.Nullable<System.Drawing.Point>();
             _DrawingOffset = new System.Drawing.Point(-ButtonOffice.Data.WorldBlockWidth * ButtonOffice.Data.BlockWidth / 2, 2 * ButtonOffice.Data.BlockHeight);
-            _LastPaint = System.DateTime.Now;
-            _LastTick = System.DateTime.Now;
+            _LastTick = System.DateTime.MinValue;
             _Zoom = 1.0f;
             InitializeComponent();
             _ToolButtons = new System.Collections.Generic.List<System.Windows.Forms.ToolStripButton>();
@@ -118,7 +116,6 @@
             // 
             // _Timer
             // 
-            this._Timer.Enabled = true;
             this._Timer.Interval = 10;
             this._Timer.Tick += new System.EventHandler(this._OnTimerTicked);
             // 
@@ -223,7 +220,7 @@
             this._GameTools.Name = "_GameTools";
             this._GameTools.Padding = new System.Windows.Forms.Padding(0);
             this._GameTools.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this._GameTools.Size = new System.Drawing.Size(259, 25);
+            this._GameTools.Size = new System.Drawing.Size(228, 25);
             this._GameTools.TabIndex = 1;
             // 
             // _BuildOfficeButton
@@ -600,10 +597,6 @@
 
         private void _OnDrawingBoardPaint(System.Object Sender, System.Windows.Forms.PaintEventArgs EventArguments)
         {
-            System.DateTime Now = System.DateTime.Now;
-            System.Single Seconds = (Now - _LastPaint).TotalSeconds.ToSingle();
-
-            _LastPaint = Now;
             _DrawingOffset.X += _CameraVelocity.X.GetFlooredAsInt32();
             _DrawingOffset.Y += _CameraVelocity.Y.GetFlooredAsInt32();
             for(System.Int32 Row = 0; Row < ButtonOffice.Data.WorldBlockHeight; ++Row)
@@ -720,23 +713,13 @@
                 }
             }
 
-            System.Int32 Index = 0;
             System.Drawing.Font Font = new System.Drawing.Font("Arial", 16.0f);
             System.Drawing.StringFormat Format = new System.Drawing.StringFormat();
 
             Format.Alignment = System.Drawing.StringAlignment.Center;
-            while(Index < _FloatingTexts.Count)
+            foreach(ButtonOffice.FloatingText FloatingText in _FloatingTexts)
             {
-                if(_FloatingTexts[Index].Timeout > System.DateTime.Now)
-                {
-                    EventArguments.Graphics.DrawString(_FloatingTexts[Index].Text, Font, new System.Drawing.SolidBrush(_FloatingTexts[Index].Color), _MovePointByOffset(_GetDrawingLocation(_FloatingTexts[Index].Origin), _FloatingTexts[Index].Offset), Format);
-                    _FloatingTexts[Index].SetOffset(new System.Drawing.PointF(_FloatingTexts[Index].Offset.X, _FloatingTexts[Index].Offset.Y - Seconds * ButtonOffice.Data.FloatingTextSpeed));
-                    ++Index;
-                }
-                else
-                {
-                    _FloatingTexts.RemoveAt(Index);
-                }
+                EventArguments.Graphics.DrawString(FloatingText.Text, Font, new System.Drawing.SolidBrush(FloatingText.Color), _MovePointByOffset(_GetDrawingLocation(FloatingText.Origin), FloatingText.Offset), Format);
             }
             if((_EntityPrototype != null) && (_EntityPrototype.HasLocation() == true))
             {
@@ -869,41 +852,62 @@
         private void _OnTimerTicked(System.Object Sender, System.EventArgs EventArguments)
         {
             System.DateTime Now = System.DateTime.Now;
+            System.Single Seconds = (Now - _LastTick).TotalSeconds.ToSingle();
 
-            _Game.Move(ButtonOffice.Data.GameMinutesPerSecond * (Now - _LastTick).TotalSeconds.ToSingle());
-            _TimeLabel.Text = "Day && Time: " + new System.TimeSpan(_Game.GetDay().ToInt32(), 0, _Game.GetMinuteOfDay().ToInt32(), 0).ToString();
-            _MoneyLabel.Text = "Money: " + _Game.GetMoneyString(_Game.GetCents());
-            _EmployeesLabel.Text = "Employees: " + _Game.Persons.Count.ToString();
-            if(_Game.GetCatStock() > 0)
+            if((Seconds > 0.0f) && (Seconds < 0.05f))
             {
-                if(_PlaceCatButton.Enabled == false)
+                _Game.Move(ButtonOffice.Data.GameMinutesPerSecond * Seconds);
+
+                System.Int32 Index = 0;
+
+                while(Index < _FloatingTexts.Count)
                 {
-                    _PlaceCatButton.Enabled = true;
+                    _FloatingTexts[Index].SetTimeout(_FloatingTexts[Index].Timeout - Seconds);
+                    if(_FloatingTexts[Index].Timeout > 0.0f)
+                    {
+                        _FloatingTexts[Index].SetOffset(new System.Drawing.PointF(_FloatingTexts[Index].Offset.X, _FloatingTexts[Index].Offset.Y - Seconds * ButtonOffice.Data.FloatingTextSpeed));
+                        ++Index;
+                    }
+                    else
+                    {
+                        _FloatingTexts.RemoveAt(Index);
+                    }
                 }
-                if(_Game.GetCatStock() == 1)
+                _TimeLabel.Text = "Day && Time: " + new System.TimeSpan(_Game.GetDay().ToInt32(), 0, _Game.GetMinuteOfDay().ToInt32(), 0).ToString();
+                _MoneyLabel.Text = "Money: " + _Game.GetMoneyString(_Game.GetCents());
+                _EmployeesLabel.Text = "Employees: " + _Game.Persons.Count.ToString();
+                if(_Game.GetCatStock() > 0)
                 {
-                    _PlaceCatButton.Text = "Cat (1)";
+                    if(_PlaceCatButton.Enabled == false)
+                    {
+                        _PlaceCatButton.Enabled = true;
+                    }
+                    if(_Game.GetCatStock() == 1)
+                    {
+                        _PlaceCatButton.Text = "Cat (1)";
+                    }
+                    else
+                    {
+                        _PlaceCatButton.Text = "Cat (" + _Game.GetCatStock().ToString() + ")";
+                    }
                 }
                 else
                 {
-                    _PlaceCatButton.Text = "Cat (" + _Game.GetCatStock().ToString() + ")";
+                    _PlaceCatButton.Text = "Cat";
+                    if(_PlaceCatButton.Enabled == true)
+                    {
+                        _PlaceCatButton.Enabled = false;
+                    }
                 }
-            }
-            else
-            {
-                _PlaceCatButton.Text = "Cat";
-                if(_PlaceCatButton.Enabled == true)
-                {
-                    _PlaceCatButton.Enabled = false;
-                }
+                _DrawingBoard.Invalidate();
             }
             _LastTick = Now;
-            _DrawingBoard.Invalidate();
         }
 
         private void _OnMainWindowLoaded(System.Object Sender, System.EventArgs EventArguments)
         {
             _DrawingBoard.BackColor = ButtonOffice.Data.BackgroundColor;
+            _StartGame();
         }
 
         private void _DrawingBoardKeyDown(System.Object Sender, System.Windows.Forms.KeyEventArgs EventArguments)
@@ -944,6 +948,16 @@
             {
                 _CameraVelocity.X = 0;
             }
+        }
+
+        private void _StopGame()
+        {
+            _Timer.Stop();
+        }
+
+        private void _StartGame()
+        {
+            _Timer.Start();
         }
     }
 }
