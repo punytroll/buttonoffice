@@ -12,7 +12,7 @@
         private System.Windows.Forms.Timer _Timer;
         private System.ComponentModel.IContainer components;
         private System.Windows.Forms.ToolStripContainer _ToolStripContainer;
-        private System.Windows.Forms.ToolStrip _MainTools;
+        private System.Windows.Forms.ToolStrip _GameTools;
         private System.Windows.Forms.ToolStripButton _BuildOfficeButton;
         private System.Windows.Forms.ToolStripButton _HireWorkerButton;
         private System.Windows.Forms.StatusStrip _StatusBar;
@@ -100,7 +100,7 @@
             this._PositionLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this._MainSplitContainer = new System.Windows.Forms.SplitContainer();
             this._DrawingBoard = new ButtonOffice.DrawingBoard();
-            this._MainTools = new System.Windows.Forms.ToolStrip();
+            this._GameTools = new System.Windows.Forms.ToolStrip();
             this._BuildOfficeButton = new System.Windows.Forms.ToolStripButton();
             this._HireWorkerButton = new System.Windows.Forms.ToolStripButton();
             this._HireITTechButton = new System.Windows.Forms.ToolStripButton();
@@ -113,7 +113,7 @@
             this._StatusBar.SuspendLayout();
             this._MainSplitContainer.Panel1.SuspendLayout();
             this._MainSplitContainer.SuspendLayout();
-            this._MainTools.SuspendLayout();
+            this._GameTools.SuspendLayout();
             this.SuspendLayout();
             // 
             // _Timer
@@ -142,7 +142,7 @@
             // 
             // _ToolStripContainer.TopToolStripPanel
             // 
-            this._ToolStripContainer.TopToolStripPanel.Controls.Add(this._MainTools);
+            this._ToolStripContainer.TopToolStripPanel.Controls.Add(this._GameTools);
             // 
             // _StatusBar
             // 
@@ -210,22 +210,21 @@
             this._DrawingBoard.MouseUp += new System.Windows.Forms.MouseEventHandler(this._OnDrawingBoardMouseUp);
             this._DrawingBoard.KeyDown += new System.Windows.Forms.KeyEventHandler(this._DrawingBoardKeyDown);
             // 
-            // _MainTools
+            // _GameTools
             // 
-            this._MainTools.Dock = System.Windows.Forms.DockStyle.None;
-            this._MainTools.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this._GameTools.Dock = System.Windows.Forms.DockStyle.None;
+            this._GameTools.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this._BuildOfficeButton,
             this._HireWorkerButton,
             this._HireITTechButton,
             this._HireJanitorButton,
             this._PlaceCatButton});
-            this._MainTools.Location = new System.Drawing.Point(3, 0);
-            this._MainTools.Name = "_MainTools";
-            this._MainTools.Padding = new System.Windows.Forms.Padding(0);
-            this._MainTools.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this._MainTools.Size = new System.Drawing.Size(228, 25);
-            this._MainTools.TabIndex = 1;
-            this._MainTools.Text = "MainTools";
+            this._GameTools.Location = new System.Drawing.Point(3, 0);
+            this._GameTools.Name = "_GameTools";
+            this._GameTools.Padding = new System.Windows.Forms.Padding(0);
+            this._GameTools.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+            this._GameTools.Size = new System.Drawing.Size(259, 25);
+            this._GameTools.TabIndex = 1;
             // 
             // _BuildOfficeButton
             // 
@@ -291,8 +290,8 @@
             this._StatusBar.PerformLayout();
             this._MainSplitContainer.Panel1.ResumeLayout(false);
             this._MainSplitContainer.ResumeLayout(false);
-            this._MainTools.ResumeLayout(false);
-            this._MainTools.PerformLayout();
+            this._GameTools.ResumeLayout(false);
+            this._GameTools.PerformLayout();
             this.ResumeLayout(false);
 
         }
