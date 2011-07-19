@@ -48,14 +48,6 @@
         Right
     }
 
-    internal enum Trash
-    {
-        FirstTrash,
-        SecondTrash,
-        ThirdTrash,
-        FourthTrash
-    }
-
     internal enum Type
     {
         Cat,
