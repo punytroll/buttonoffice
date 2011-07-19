@@ -1,6 +1,6 @@
 ﻿namespace ButtonOffice
 {
-    internal class Game : ButtonOffice.ISaveable
+    internal class Game : ButtonOffice.IPersistentObject
     {
         public delegate void MoneyChangeDelegate(System.UInt64 Cents, System.Drawing.PointF Location);
         public event MoneyChangeDelegate OnEarnMoney;
@@ -451,6 +451,10 @@
             {
                 SaveGameProcessor.Save(Person);
             }
+            foreach(System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing> BrokenThing in _BrokenThings)
+            {
+                SaveGameProcessor.Save(BrokenThing.First);
+            }
 
             // save own properties
             System.Xml.XmlElement Result = SaveGameProcessor.CreateElement("game");
@@ -460,13 +464,19 @@
             Result.AppendChild(SaveGameProcessor.CreateProperty("minutes", _Minutes));
             Result.AppendChild(SaveGameProcessor.CreateProperty("next-cat-at-number-of-employees", _NextCatAtNumberOfEmployees));
             Result.AppendChild(SaveGameProcessor.CreateProperty("sub-minute", _SubMinute));
+            Result.AppendChild(SaveGameProcessor.CreateProperty("world-width", ButtonOffice.Data.WorldBlockWidth));
+            Result.AppendChild(SaveGameProcessor.CreateProperty("world-height", ButtonOffice.Data.WorldBlockHeight));
             foreach(System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing> BrokenThing in _BrokenThings)
             {
-                System.Xml.XmlElement BrokenThingElement = SaveGameProcessor.CreateElement("broken-thing");
-
-                BrokenThingElement.AppendChild(SaveGameProcessor.CreateProperty("office-identifier", BrokenThing.First));
-                BrokenThingElement.AppendChild(SaveGameProcessor.CreateProperty("broken-thing", BrokenThing.Second));
-                Result.AppendChild(BrokenThingElement);
+                Result.AppendChild(SaveGameProcessor.CreateProperty("broken-thing", BrokenThing));
+            }
+            foreach(ButtonOffice.Office Office in _Offices)
+            {
+                Result.AppendChild(SaveGameProcessor.CreateProperty("office-identifier", Office));
+            }
+            foreach(ButtonOffice.Person Person in _Persons)
+            {
+                Result.AppendChild(SaveGameProcessor.CreateProperty("person-identifier", Person));
             }
 
             return Result;

@@ -4,17 +4,15 @@
     {
         private System.Globalization.CultureInfo _CultureInfo;
         private System.Xml.XmlDocument _Document;
-        private System.Collections.Generic.Dictionary<System.Object, System.Xml.XmlElement> _Elements;
         private System.String _FileName;
-        private System.Collections.Generic.Dictionary<System.Object, System.UInt32> _LookupTable;
+        private System.Collections.Generic.Dictionary<System.Object, System.Pair<System.Boolean, System.UInt32>> _Objects;
 
         public SaveGameProcessor(System.String FileName)
         {
             _CultureInfo = System.Globalization.CultureInfo.InvariantCulture;
             _Document = new System.Xml.XmlDocument();
-            _Elements = new System.Collections.Generic.Dictionary<System.Object, System.Xml.XmlElement>();
             _FileName = FileName;
-            _LookupTable = new System.Collections.Generic.Dictionary<System.Object, System.UInt32>();
+            _Objects = new System.Collections.Generic.Dictionary<System.Object, System.Pair<System.Boolean, System.UInt32>>();
         }
 
         private System.Xml.XmlAttribute _CreateAttribute(System.String Name, System.String Value)
@@ -121,6 +119,17 @@
             return Result;
         }
 
+        public System.Xml.XmlElement CreateProperty(System.String Name, System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing> BrokenThing)
+        {
+            System.Xml.XmlElement Result = _Document.CreateElement(Name);
+
+            Result.Attributes.Append(_CreateAttribute("type", "System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing>"));
+            Result.AppendChild(CreateProperty("office-identifier", BrokenThing.First));
+            Result.AppendChild(CreateProperty("broken-thing", BrokenThing.Second));
+
+            return Result;
+        }
+
         public System.Xml.XmlElement CreateProperty(System.String Name, System.Drawing.PointF PointF)
         {
             System.Xml.XmlElement Result = _Document.CreateElement(Name);
@@ -167,14 +176,14 @@
 
         private System.UInt32 _GetIdentifier(System.Object Object)
         {
-            if(_LookupTable.ContainsKey(Object) == false)
+            if(_Objects.ContainsKey(Object) == false)
             {
-                System.UInt32 Identifier = _LookupTable.Count.ToUInt32();
+                System.UInt32 Identifier = _Objects.Count.ToUInt32();
 
-                _LookupTable.Add(Object, Identifier);
+                _Objects.Add(Object, new System.Pair<System.Boolean, System.UInt32>(false, Identifier));
             }
 
-            return _LookupTable[Object];
+            return _Objects[Object].Second;
         }
 
         public void Save(ButtonOffice.Game Game)
@@ -185,24 +194,29 @@
             System.Xml.XmlElement GameElement = Game.Save(this);
 
             GameElement.Attributes.Append(_CreateAttribute("version", "1.0"));
-            foreach(System.Xml.XmlElement Element in _Elements.Values)
-            {
-                GameElement.AppendChild(Element);
-            }
             _Document.DocumentElement.AppendChild(GameElement);
             _Document.Save(_FileName);
         }
 
-        public void Save(ButtonOffice.ISaveable Saveable)
+        public void Save(ButtonOffice.IPersistentObject Saveable)
         {
-            if((Saveable != null) && (_Elements.ContainsKey(Saveable) == false))
+            if(Saveable != null)
             {
-                _Elements.Add(Saveable, null);
+                if(_Objects.ContainsKey(Saveable) == false)
+                {
+                    System.UInt32 Identifier = _Objects.Count.ToUInt32();
 
-                System.Xml.XmlElement Element = Saveable.Save(this);
+                    _Objects.Add(Saveable, new System.Pair<System.Boolean, System.UInt32>(false, Identifier));
+                }
+                if(_Objects[Saveable].First == false)
+                {
+                    _Objects[Saveable].First = true;
 
-                Element.Attributes.Append(_CreateAttribute("identifier", _GetIdentifier(Saveable).ToString(_CultureInfo)));
-                _Elements[Saveable] = Element;
+                    System.Xml.XmlElement Element = Saveable.Save(this);
+
+                    Element.Attributes.Append(_CreateAttribute("identifier", _GetIdentifier(Saveable).ToString(_CultureInfo)));
+                    _Document.DocumentElement.AppendChild(Element);
+                }
             }
         }
     }

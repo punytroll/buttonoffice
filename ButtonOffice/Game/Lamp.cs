@@ -1,6 +1,6 @@
 ﻿namespace ButtonOffice
 {
-    internal class Lamp : ButtonOffice.ISaveable
+    internal class Lamp : ButtonOffice.IPersistentObject
     {
         private System.Single _MinutesUntilBroken;
         private System.Drawing.RectangleF _Rectangle;

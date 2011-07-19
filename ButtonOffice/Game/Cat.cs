@@ -1,6 +1,6 @@
 ﻿namespace ButtonOffice
 {
-    internal class Cat : ButtonOffice.ISaveable
+    internal class Cat : ButtonOffice.IPersistentObject
     {
         private ButtonOffice.ActionState _ActionState;
         private System.Drawing.Color _BackgroundColor;
