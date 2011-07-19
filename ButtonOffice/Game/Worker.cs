@@ -5,7 +5,7 @@
         public Worker() :
             base(ButtonOffice.Type.Worker)
         {
-            _ArrivesAtDayMinute = ButtonOffice.RandomNumberGenerator.GetUInt32(ButtonOffice.Data.WorkerStartMinute, 300) % 1440;
+            _ArrivesAtMinuteOfDay = ButtonOffice.RandomNumberGenerator.GetUInt32(ButtonOffice.Data.WorkerStartMinute, 300) % 1440;
             _BackgroundColor = ButtonOffice.Data.WorkerBackgroundColor;
             _BorderColor = ButtonOffice.Data.WorkerBorderColor;
             _Wage = ButtonOffice.Data.WorkerWage;
@@ -161,6 +161,16 @@
                     break;
                 }
             }
+        }
+
+        public override System.Xml.XmlElement Save(ButtonOffice.SaveGameProcessor SaveGameProcessor)
+        {
+            System.Xml.XmlElement Result = base.Save(SaveGameProcessor);
+            System.Xml.XmlElement Element = SaveGameProcessor.CreateElement("worker");
+
+            Result.AppendChild(Element);
+
+            return Result;
         }
     }
 }

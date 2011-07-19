@@ -1,6 +1,6 @@
 ﻿namespace ButtonOffice
 {
-    internal class Desk
+    internal class Desk : ButtonOffice.ISaveable
     {
         private ButtonOffice.Janitor _Janitor;
         private System.Single _MinutesUntilComputerBroken;
@@ -149,6 +149,26 @@
         public void SetY(System.Single Y)
         {
             _Rectangle.Y = Y;
+        }
+
+        public virtual System.Xml.XmlElement Save(ButtonOffice.SaveGameProcessor SaveGameProcessor)
+        {
+            // save referenced objects
+            SaveGameProcessor.Save(_Janitor);
+            SaveGameProcessor.Save(_Office);
+            SaveGameProcessor.Save(_Person);
+
+            // save own properties
+            System.Xml.XmlElement Result = SaveGameProcessor.CreateElement("desk");
+
+            Result.AppendChild(SaveGameProcessor.CreateProperty("janitor-identifier", _Janitor));
+            Result.AppendChild(SaveGameProcessor.CreateProperty("minutes-until-computer-broken", _MinutesUntilComputerBroken));
+            Result.AppendChild(SaveGameProcessor.CreateProperty("office-identifier", _Office));
+            Result.AppendChild(SaveGameProcessor.CreateProperty("person-identifier", _Person));
+            Result.AppendChild(SaveGameProcessor.CreateProperty("rectangle", _Rectangle));
+            Result.AppendChild(SaveGameProcessor.CreateProperty("trash-level", _TrashLevel));
+
+            return Result;
         }
     }
 }

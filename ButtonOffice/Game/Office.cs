@@ -1,17 +1,17 @@
 ﻿namespace ButtonOffice
 {
-    internal class Office
+    internal class Office : ButtonOffice.ISaveable
     {
         private System.Drawing.Color _BackgroundColor;
         private System.Drawing.Color _BorderColor;
         private ButtonOffice.Cat _Cat;
-        private System.Drawing.RectangleF _Rectangle;
         private ButtonOffice.Desk _FirstDesk;
-        private ButtonOffice.Desk _SecondDesk;
-        private ButtonOffice.Desk _ThirdDesk;
-        private ButtonOffice.Desk _FourthDesk;
         private ButtonOffice.Lamp _FirstLamp;
+        private ButtonOffice.Desk _FourthDesk;
+        private System.Drawing.RectangleF _Rectangle;
+        private ButtonOffice.Desk _SecondDesk;
         private ButtonOffice.Lamp _SecondLamp;
+        private ButtonOffice.Desk _ThirdDesk;
         private ButtonOffice.Lamp _ThirdLamp;
 
         public System.Drawing.Color BackgroundColor
@@ -250,6 +250,36 @@
             {
                 _Cat.Move(Game, GameMinutes);
             }
+        }
+
+        public virtual System.Xml.XmlElement Save(ButtonOffice.SaveGameProcessor SaveGameProcessor)
+        {
+            // save referenced objects
+            SaveGameProcessor.Save(_Cat);
+            SaveGameProcessor.Save(_FirstDesk);
+            SaveGameProcessor.Save(_FirstLamp);
+            SaveGameProcessor.Save(_FourthDesk);
+            SaveGameProcessor.Save(_SecondDesk);
+            SaveGameProcessor.Save(_SecondLamp);
+            SaveGameProcessor.Save(_ThirdDesk);
+            SaveGameProcessor.Save(_ThirdLamp);
+
+            // save own properties
+            System.Xml.XmlElement Result = SaveGameProcessor.CreateElement("office");
+
+            Result.AppendChild(SaveGameProcessor.CreateProperty("background-color", _BackgroundColor));
+            Result.AppendChild(SaveGameProcessor.CreateProperty("border-color", _BorderColor));
+            Result.AppendChild(SaveGameProcessor.CreateProperty("cat", _Cat));
+            Result.AppendChild(SaveGameProcessor.CreateProperty("first-desk", _FirstDesk));
+            Result.AppendChild(SaveGameProcessor.CreateProperty("first-lamp", _FirstLamp));
+            Result.AppendChild(SaveGameProcessor.CreateProperty("fourth-desk", _FourthDesk));
+            Result.AppendChild(SaveGameProcessor.CreateProperty("rectangle", _Rectangle));
+            Result.AppendChild(SaveGameProcessor.CreateProperty("second-desk", _SecondDesk));
+            Result.AppendChild(SaveGameProcessor.CreateProperty("second-lamp", _SecondLamp));
+            Result.AppendChild(SaveGameProcessor.CreateProperty("third-desk", _ThirdDesk));
+            Result.AppendChild(SaveGameProcessor.CreateProperty("third-lamp", _ThirdLamp));
+            
+            return Result;
         }
     }
 }

@@ -8,7 +8,7 @@
         public Janitor() :
             base(ButtonOffice.Type.Janitor)
         {
-            _ArrivesAtDayMinute = ButtonOffice.RandomNumberGenerator.GetUInt32(ButtonOffice.Data.JanitorStartMinute, 300) % 1440;
+            _ArrivesAtMinuteOfDay = ButtonOffice.RandomNumberGenerator.GetUInt32(ButtonOffice.Data.JanitorStartMinute, 300) % 1440;
             _BackgroundColor = ButtonOffice.Data.JanitorBackgroundColor;
             _BorderColor = ButtonOffice.Data.JanitorBorderColor;
             _CleaningTargets = new System.Collections.Generic.Queue<ButtonOffice.Desk>();
@@ -263,6 +263,32 @@
                     break;
                 }
             }
+        }
+
+        public override System.Xml.XmlElement Save(ButtonOffice.SaveGameProcessor SaveGameProcessor)
+        {
+            // save referenced objects
+            foreach(ButtonOffice.Desk Desk in _CleaningTargets)
+            {
+                SaveGameProcessor.Save(Desk);
+            }
+
+            // save own properties
+            System.Xml.XmlElement Result = base.Save(SaveGameProcessor);
+            System.Xml.XmlElement Element = SaveGameProcessor.CreateElement("janitor");
+
+            Result.AppendChild(Element);
+
+            System.Xml.XmlElement CleaningTargetsElement = SaveGameProcessor.CreateElement("cleaning-targets");
+
+            foreach(ButtonOffice.Desk Desk in _CleaningTargets)
+            {
+                CleaningTargetsElement.AppendChild(SaveGameProcessor.CreateProperty("desk-identifier", Desk));
+            }
+            Element.AppendChild(CleaningTargetsElement);
+            Element.AppendChild(SaveGameProcessor.CreateProperty("start-trash-level", _StartTrashLevel));
+
+            return Result;
         }
     }
 }

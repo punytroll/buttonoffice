@@ -1,6 +1,6 @@
 ﻿namespace ButtonOffice
 {
-    internal class Lamp
+    internal class Lamp : ButtonOffice.ISaveable
     {
         private System.Single _MinutesUntilBroken;
         private System.Drawing.RectangleF _Rectangle;
@@ -75,6 +75,17 @@
         public void SetY(System.Single Y)
         {
             _Rectangle.Y = Y;
+        }
+
+        public virtual System.Xml.XmlElement Save(ButtonOffice.SaveGameProcessor SaveGameProcessor)
+        {
+            // save own properties
+            System.Xml.XmlElement Result = SaveGameProcessor.CreateElement("lamp");
+
+            Result.AppendChild(SaveGameProcessor.CreateProperty("minutes-until-broken", _MinutesUntilBroken));
+            Result.AppendChild(SaveGameProcessor.CreateProperty("rectangle", _Rectangle));
+
+            return Result;
         }
     }
 }

@@ -1,13 +1,13 @@
 ﻿namespace ButtonOffice
 {
-    internal abstract class Person
+    internal abstract class Person : ButtonOffice.ISaveable
     {
         protected System.Single _ActionFraction;
         protected ButtonOffice.ActionState _ActionState;
         protected System.Single _AnimationFraction;
         protected ButtonOffice.AnimationState _AnimationState;
         protected System.UInt64 _ArrivesAtMinute;
-        protected System.UInt64 _ArrivesAtDayMinute;
+        protected System.UInt64 _ArrivesAtMinuteOfDay;
         protected System.Drawing.Color _BackgroundColor;
         protected System.Drawing.Color _BorderColor;
         protected ButtonOffice.Desk _Desk;
@@ -181,7 +181,7 @@
         {
             System.UInt64 MinuteOfDay = Game.GetMinuteOfDay();
 
-            _ArrivesAtMinute = Game.GetFirstMinuteOfToday() + _ArrivesAtDayMinute;
+            _ArrivesAtMinute = Game.GetFirstMinuteOfToday() + _ArrivesAtMinuteOfDay;
             if(_ArrivesAtMinute + _WorkMinutes < Game.GetTotalMinutes())
             {
                 _ArrivesAtMinute += 1440;
@@ -190,5 +190,34 @@
         }
 
         public abstract void Move(ButtonOffice.Game Game, System.Single GameMinutes);
+
+        public virtual System.Xml.XmlElement Save(ButtonOffice.SaveGameProcessor SaveGameProcessor)
+        {
+            // save referenced objects
+            SaveGameProcessor.Save(_Desk);
+
+            // save own properties
+            System.Xml.XmlElement Result = SaveGameProcessor.CreateElement("person");
+
+            Result.AppendChild(SaveGameProcessor.CreateProperty("action-fraction", _ActionFraction));
+            Result.AppendChild(SaveGameProcessor.CreateProperty("action-state", _ActionState));
+            Result.AppendChild(SaveGameProcessor.CreateProperty("animation-fraction", _AnimationFraction));
+            Result.AppendChild(SaveGameProcessor.CreateProperty("animation-state", _AnimationState));
+            Result.AppendChild(SaveGameProcessor.CreateProperty("arrives-at-minute", _ArrivesAtMinute));
+            Result.AppendChild(SaveGameProcessor.CreateProperty("arrives-at-minute-of-day", _ArrivesAtMinuteOfDay));
+            Result.AppendChild(SaveGameProcessor.CreateProperty("background-color", _BackgroundColor));
+            Result.AppendChild(SaveGameProcessor.CreateProperty("border-color", _BorderColor));
+            Result.AppendChild(SaveGameProcessor.CreateProperty("desk-identifier", _Desk));
+            Result.AppendChild(SaveGameProcessor.CreateProperty("leaves-at-minute", _LeavesAtMinute));
+            Result.AppendChild(SaveGameProcessor.CreateProperty("living-side", _LivingSide));
+            Result.AppendChild(SaveGameProcessor.CreateProperty("name", _Name));
+            Result.AppendChild(SaveGameProcessor.CreateProperty("rectangle", _Rectangle));
+            Result.AppendChild(SaveGameProcessor.CreateProperty("type", _Type));
+            Result.AppendChild(SaveGameProcessor.CreateProperty("wage", _Wage));
+            Result.AppendChild(SaveGameProcessor.CreateProperty("walk-to", _WalkTo));
+            Result.AppendChild(SaveGameProcessor.CreateProperty("work-minutes", _WorkMinutes));
+
+            return Result;
+        }
     }
 }

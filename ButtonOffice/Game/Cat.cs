@@ -1,6 +1,6 @@
 ﻿namespace ButtonOffice
 {
-    internal class Cat
+    internal class Cat : ButtonOffice.ISaveable
     {
         private ButtonOffice.ActionState _ActionState;
         private System.Drawing.Color _BackgroundColor;
@@ -183,6 +183,24 @@
                     break;
                 }
             }
+        }
+
+        public virtual System.Xml.XmlElement Save(ButtonOffice.SaveGameProcessor SaveGameProcessor)
+        {
+            // save referenced objects
+            SaveGameProcessor.Save(_Office);
+
+            // save own properties
+            System.Xml.XmlElement Result = SaveGameProcessor.CreateElement("cat");
+
+            Result.AppendChild(SaveGameProcessor.CreateProperty("action-state", _ActionState));
+            Result.AppendChild(SaveGameProcessor.CreateProperty("background-color", _BackgroundColor));
+            Result.AppendChild(SaveGameProcessor.CreateProperty("border-color", _BorderColor));
+            Result.AppendChild(SaveGameProcessor.CreateProperty("minutes-until-action-state-changes", _MinutesToActionStateChange));
+            Result.AppendChild(SaveGameProcessor.CreateProperty("office-identifier", _Office));
+            Result.AppendChild(SaveGameProcessor.CreateProperty("rectangle", _Rectangle));
+
+            return Result;
         }
     }
 }

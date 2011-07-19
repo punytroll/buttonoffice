@@ -97,9 +97,11 @@
     <Compile Include="Game\Cat.cs" />
     <Compile Include="Game\Enumerations.cs" />
     <Compile Include="Game\Game.cs" />
+    <Compile Include="Game\ISaveable.cs" />
     <Compile Include="Game\ITTech.cs" />
     <Compile Include="Game\Janitor.cs" />
     <Compile Include="Game\RandomNumberGenerator.cs" />
+    <Compile Include="Game\SaveGameProcessor.cs" />
     <Compile Include="Game\Worker.cs" />
     <Compile Include="GUI\DrawingBoard.cs">
       <SubType>Component</SubType>
@@ -123,6 +125,7 @@
     </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="GUI\MainWindow.resx">

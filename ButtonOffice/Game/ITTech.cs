@@ -7,7 +7,7 @@
         public ITTech() :
             base(ButtonOffice.Type.ITTech)
         {
-            _ArrivesAtDayMinute = ButtonOffice.RandomNumberGenerator.GetUInt32(ButtonOffice.Data.ITTechStartMinute, 300) % 1440;
+            _ArrivesAtMinuteOfDay = ButtonOffice.RandomNumberGenerator.GetUInt32(ButtonOffice.Data.ITTechStartMinute, 300) % 1440;
             _BackgroundColor = ButtonOffice.Data.ITTechBackgroundColor;
             _BorderColor = ButtonOffice.Data.ITTechBorderColor;
             _RepairingTarget = null;
@@ -313,6 +313,32 @@
                     break;
                 }
             }
+        }
+
+        public override System.Xml.XmlElement Save(ButtonOffice.SaveGameProcessor SaveGameProcessor)
+        {
+            // save referenced objects
+            if(_RepairingTarget != null)
+            {
+                SaveGameProcessor.Save(_RepairingTarget.First);
+            }
+
+            // save own properties
+            System.Xml.XmlElement Result = base.Save(SaveGameProcessor);
+            System.Xml.XmlElement Element = SaveGameProcessor.CreateElement("it-tech");
+
+            Result.AppendChild(Element);
+
+            System.Xml.XmlElement RepairingTargetElement = SaveGameProcessor.CreateElement("repairing-target");
+
+            Element.AppendChild(RepairingTargetElement);
+            if(_RepairingTarget != null)
+            {
+                RepairingTargetElement.AppendChild(SaveGameProcessor.CreateProperty("office-identifier", _RepairingTarget.First));
+                RepairingTargetElement.AppendChild(SaveGameProcessor.CreateProperty("broken-thing", _RepairingTarget.Second));
+            }
+
+            return Result;
         }
     }
 }
