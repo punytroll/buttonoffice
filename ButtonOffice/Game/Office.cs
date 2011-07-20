@@ -273,6 +273,17 @@
 
         public virtual void Load(ButtonOffice.GameLoader GameLoader, System.Xml.XmlElement Element)
         {
+            _BackgroundColor = GameLoader.LoadColorProperty(Element, "background-color");
+            _BorderColor = GameLoader.LoadColorProperty(Element, "border-color");
+            _Cat = GameLoader.LoadCatProperty(Element, "cat");
+            _FirstDesk = GameLoader.LoadDeskProperty(Element, "first-desk");
+            _FirstLamp = GameLoader.LoadLampProperty(Element, "first-lamp");
+            _FourthDesk = GameLoader.LoadDeskProperty(Element, "fourth-desk");
+            _Rectangle = GameLoader.LoadRectangleProperty(Element, "rectangle");
+            _SecondDesk = GameLoader.LoadDeskProperty(Element, "second-desk");
+            _SecondLamp = GameLoader.LoadLampProperty(Element, "second-lamp");
+            _ThirdDesk = GameLoader.LoadDeskProperty(Element, "third-desk");
+            _ThirdLamp = GameLoader.LoadLampProperty(Element, "third-lamp");
         }
     }
 }

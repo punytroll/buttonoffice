@@ -167,6 +167,12 @@
 
         public virtual void Load(ButtonOffice.GameLoader GameLoader, System.Xml.XmlElement Element)
         {
+            _Janitor = GameLoader.LoadJanitorProperty(Element, "janitor");
+            _MinutesUntilComputerBroken = GameLoader.LoadSingleProperty(Element, "minutes-until-computer-broken");
+            _Office = GameLoader.LoadOfficeProperty(Element, "office");
+            _Person = GameLoader.LoadPersonProperty(Element, "person");
+            _Rectangle = GameLoader.LoadRectangleProperty(Element, "rectangle");
+            _TrashLevel = GameLoader.LoadSingleProperty(Element, "trash-level");
         }
     }
 }

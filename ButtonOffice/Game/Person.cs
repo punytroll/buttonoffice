@@ -218,6 +218,23 @@
 
         public virtual void Load(ButtonOffice.GameLoader GameLoader, System.Xml.XmlElement Element)
         {
+            _ActionFraction = GameLoader.LoadSingleProperty(Element, "action-fraction");
+            _ActionState = GameLoader.LoadActionStateProperty(Element, "action-state");
+            _AnimationFraction = GameLoader.LoadSingleProperty(Element, "animation-fraction");
+            _AnimationState = GameLoader.LoadAnimationStateProperty(Element, "animation-state");
+            _ArrivesAtMinute = GameLoader.LoadUInt64Property(Element, "arrives-at-minute");
+            _ArrivesAtMinuteOfDay = GameLoader.LoadUInt64Property(Element, "arrives-at-minute-of-day");
+            _BackgroundColor = GameLoader.LoadColorProperty(Element, "background-color");
+            _BorderColor = GameLoader.LoadColorProperty(Element, "border-color");
+            _Desk = GameLoader.LoadDeskProperty(Element, "desk");
+            _LeavesAtMinute = GameLoader.LoadUInt64Property(Element, "leaves-at-minute");
+            _LivingSide = GameLoader.LoadLivingSideProperty(Element, "living-side");
+            _Name = GameLoader.LoadStringProperty(Element, "name");
+            _Rectangle = GameLoader.LoadRectangleProperty(Element, "rectangle");
+            _Type = GameLoader.LoadTypeProperty(Element, "type");
+            _Wage = GameLoader.LoadUInt64Property(Element, "wage");
+            _WalkTo = GameLoader.LoadPointProperty(Element, "walk-to");
+            _WorkMinutes = GameLoader.LoadUInt64Property(Element, "work-minutes");
         }
     }
 }

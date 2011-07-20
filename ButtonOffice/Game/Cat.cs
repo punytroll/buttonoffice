@@ -201,6 +201,12 @@
 
         public virtual void Load(ButtonOffice.GameLoader GameLoader, System.Xml.XmlElement Element)
         {
+            _ActionState = GameLoader.LoadActionStateProperty(Element, "action-state");
+            _BackgroundColor = GameLoader.LoadColorProperty(Element, "background-color");
+            _BorderColor = GameLoader.LoadColorProperty(Element, "border-color");
+            _MinutesToActionStateChange = GameLoader.LoadSingleProperty(Element, "minutes-until-action-state-changes");
+            _Office = GameLoader.LoadOfficeProperty(Element, "office");
+            _Rectangle = GameLoader.LoadRectangleProperty(Element, "rectangle");
         }
     }
 }

@@ -318,24 +318,16 @@
         public override System.Xml.XmlElement Save(ButtonOffice.GameSaver GameSaver)
         {
             System.Xml.XmlElement Result = base.Save(GameSaver);
-            System.Xml.XmlElement Element = GameSaver.CreateElement("it-tech");
 
-            Result.AppendChild(Element);
-
-            System.Xml.XmlElement RepairingTargetElement = GameSaver.CreateElement("repairing-target");
-
-            Element.AppendChild(RepairingTargetElement);
-            if(_RepairingTarget != null)
-            {
-                RepairingTargetElement.AppendChild(GameSaver.CreateProperty("office", _RepairingTarget.First));
-                RepairingTargetElement.AppendChild(GameSaver.CreateProperty("broken-thing", _RepairingTarget.Second));
-            }
+            Result.AppendChild(GameSaver.CreateProperty("repairing-target", _RepairingTarget));
 
             return Result;
         }
 
         public override void Load(ButtonOffice.GameLoader GameLoader, System.Xml.XmlElement Element)
         {
+            base.Load(GameLoader, Element);
+            _RepairingTarget = GameLoader.LoadBrokenThingProperty(Element, "repairing-target");
         }
     }
 }

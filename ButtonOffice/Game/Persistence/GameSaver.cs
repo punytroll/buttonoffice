@@ -101,13 +101,21 @@
             return Result;
         }
 
+        public System.Xml.XmlElement CreateProperty(System.String Name, System.Int32 Int32)
+        {
+            return _CreateProperty(Name, "System.Int32", Int32.ToString(_CultureInfo));
+        }
+
         public System.Xml.XmlElement CreateProperty(System.String Name, System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing> BrokenThing)
         {
             System.Xml.XmlElement Result = _Document.CreateElement(Name);
 
             Result.Attributes.Append(_CreateAttribute("type", "System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing>"));
-            Result.AppendChild(CreateProperty("office", BrokenThing.First));
-            Result.AppendChild(CreateProperty("broken-thing", BrokenThing.Second));
+            if(BrokenThing != null)
+            {
+                Result.AppendChild(CreateProperty("office", BrokenThing.First));
+                Result.AppendChild(CreateProperty("broken-thing", BrokenThing.Second));
+            }
 
             return Result;
         }

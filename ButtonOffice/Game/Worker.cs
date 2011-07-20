@@ -165,16 +165,12 @@
 
         public override System.Xml.XmlElement Save(ButtonOffice.GameSaver GameSaver)
         {
-            System.Xml.XmlElement Result = base.Save(GameSaver);
-            System.Xml.XmlElement Element = GameSaver.CreateElement("worker");
-
-            Result.AppendChild(Element);
-
-            return Result;
+            return base.Save(GameSaver);
         }
 
         public override void Load(ButtonOffice.GameLoader GameLoader, System.Xml.XmlElement Element)
         {
+            base.Load(GameLoader, Element);
         }
     }
 }

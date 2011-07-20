@@ -89,6 +89,8 @@
 
         public virtual void Load(ButtonOffice.GameLoader GameLoader, System.Xml.XmlElement Element)
         {
+            _MinutesUntilBroken = GameLoader.LoadSingleProperty(Element, "minutes-until-broken");
+            _Rectangle = GameLoader.LoadRectangleProperty(Element, "rectangle");
         }
     }
 }

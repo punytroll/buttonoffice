@@ -440,24 +440,65 @@
             Result.AppendChild(GameSaver.CreateProperty("sub-minute", _SubMinute));
             Result.AppendChild(GameSaver.CreateProperty("world-width", ButtonOffice.Data.WorldBlockWidth));
             Result.AppendChild(GameSaver.CreateProperty("world-height", ButtonOffice.Data.WorldBlockHeight));
+
+            System.Xml.XmlElement BrokenThingsListElement = GameSaver.CreateElement("broken-things");
+
             foreach(System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing> BrokenThing in _BrokenThings)
             {
-                Result.AppendChild(GameSaver.CreateProperty("broken-thing", BrokenThing));
+                BrokenThingsListElement.AppendChild(GameSaver.CreateProperty("broken-thing", BrokenThing));
             }
+            Result.AppendChild(BrokenThingsListElement);
+
+            System.Xml.XmlElement OfficeListElement = GameSaver.CreateElement("offices");
+
             foreach(ButtonOffice.Office Office in _Offices)
             {
-                Result.AppendChild(GameSaver.CreateProperty("office", Office));
+                OfficeListElement.AppendChild(GameSaver.CreateProperty("office", Office));
             }
+            Result.AppendChild(OfficeListElement);
+
+            System.Xml.XmlElement PersonListElement = GameSaver.CreateElement("persons");
+
             foreach(ButtonOffice.Person Person in _Persons)
             {
-                Result.AppendChild(GameSaver.CreateProperty("person", Person));
+                PersonListElement.AppendChild(GameSaver.CreateProperty("person", Person));
             }
+            Result.AppendChild(PersonListElement);
 
             return Result;
         }
 
         public virtual void Load(ButtonOffice.GameLoader GameLoader, System.Xml.XmlElement Element)
         {
+            _CatStock = GameLoader.LoadUInt32Property(Element, "cat-stock");
+            _Cents = GameLoader.LoadUInt64Property(Element, "cents");
+            _Minutes = GameLoader.LoadUInt64Property(Element, "minutes");
+            _NextCatAtNumberOfEmployees = GameLoader.LoadUInt32Property(Element, "next-cat-at-number-of-employees");
+            _SubMinute = GameLoader.LoadSingleProperty(Element, "sub-minute");
+
+            System.Int32 WorldWidth = GameLoader.LoadInt32Property(Element, "world-width");
+            System.Int32 WorldHeight = GameLoader.LoadInt32Property(Element, "world-height");
+
+            for(System.Int32 Index = 0; Index < WorldHeight; ++Index)
+            {
+                _FreeSpace.Add(new System.Collections.BitArray(WorldWidth, true));
+            }
+            for(System.Int32 Index = 0; Index < WorldHeight; ++Index)
+            {
+                _BuildingMinimumMaximum.Add(new System.Pair<System.Int32, System.Int32>(System.Int32.MaxValue, System.Int32.MinValue));
+            }
+            foreach(System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing> BrokenThing in GameLoader.LoadBrokenThingList(Element, "broken-things", "broken-thing"))
+            {
+                _BrokenThings.Enqueue(BrokenThing);
+            }
+            foreach(ButtonOffice.Office Office in GameLoader.LoadOfficeList(Element, "offices", "office"))
+            {
+                _Offices.Add(Office);
+            }
+            foreach(ButtonOffice.Person Person in GameLoader.LoadPersonList(Element, "persons", "person"))
+            {
+                _Persons.Add(Person);
+            }
         }
     }
 }
