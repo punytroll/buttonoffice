@@ -193,10 +193,6 @@
 
         public virtual System.Xml.XmlElement Save(ButtonOffice.GameSaver GameSaver)
         {
-            // save referenced objects
-            GameSaver.Save(_Desk);
-
-            // save own properties
             System.Xml.XmlElement Result = GameSaver.CreateElement("person");
 
             Result.AppendChild(GameSaver.CreateProperty("action-fraction", _ActionFraction));
@@ -207,7 +203,7 @@
             Result.AppendChild(GameSaver.CreateProperty("arrives-at-minute-of-day", _ArrivesAtMinuteOfDay));
             Result.AppendChild(GameSaver.CreateProperty("background-color", _BackgroundColor));
             Result.AppendChild(GameSaver.CreateProperty("border-color", _BorderColor));
-            Result.AppendChild(GameSaver.CreateProperty("desk-identifier", _Desk));
+            Result.AppendChild(GameSaver.CreateProperty("desk", _Desk));
             Result.AppendChild(GameSaver.CreateProperty("leaves-at-minute", _LeavesAtMinute));
             Result.AppendChild(GameSaver.CreateProperty("living-side", _LivingSide));
             Result.AppendChild(GameSaver.CreateProperty("name", _Name));
@@ -218,6 +214,10 @@
             Result.AppendChild(GameSaver.CreateProperty("work-minutes", _WorkMinutes));
 
             return Result;
+        }
+
+        public virtual void Load(ButtonOffice.GameLoader GameLoader, System.Xml.XmlElement Element)
+        {
         }
     }
 }

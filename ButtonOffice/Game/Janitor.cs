@@ -267,13 +267,6 @@
 
         public override System.Xml.XmlElement Save(ButtonOffice.GameSaver GameSaver)
         {
-            // save referenced objects
-            foreach(ButtonOffice.Desk Desk in _CleaningTargets)
-            {
-                GameSaver.Save(Desk);
-            }
-
-            // save own properties
             System.Xml.XmlElement Result = base.Save(GameSaver);
             System.Xml.XmlElement Element = GameSaver.CreateElement("janitor");
 
@@ -283,12 +276,16 @@
 
             foreach(ButtonOffice.Desk Desk in _CleaningTargets)
             {
-                CleaningTargetsElement.AppendChild(GameSaver.CreateProperty("desk-identifier", Desk));
+                CleaningTargetsElement.AppendChild(GameSaver.CreateProperty("desk", Desk));
             }
             Element.AppendChild(CleaningTargetsElement);
             Element.AppendChild(GameSaver.CreateProperty("start-trash-level", _StartTrashLevel));
 
             return Result;
+        }
+
+        public override void Load(ButtonOffice.GameLoader GameLoader, System.Xml.XmlElement Element)
+        {
         }
     }
 }

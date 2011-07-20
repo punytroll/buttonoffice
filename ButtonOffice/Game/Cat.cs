@@ -187,20 +187,20 @@
 
         public virtual System.Xml.XmlElement Save(ButtonOffice.GameSaver GameSaver)
         {
-            // save referenced objects
-            GameSaver.Save(_Office);
-
-            // save own properties
             System.Xml.XmlElement Result = GameSaver.CreateElement("cat");
 
             Result.AppendChild(GameSaver.CreateProperty("action-state", _ActionState));
             Result.AppendChild(GameSaver.CreateProperty("background-color", _BackgroundColor));
             Result.AppendChild(GameSaver.CreateProperty("border-color", _BorderColor));
             Result.AppendChild(GameSaver.CreateProperty("minutes-until-action-state-changes", _MinutesToActionStateChange));
-            Result.AppendChild(GameSaver.CreateProperty("office-identifier", _Office));
+            Result.AppendChild(GameSaver.CreateProperty("office", _Office));
             Result.AppendChild(GameSaver.CreateProperty("rectangle", _Rectangle));
 
             return Result;
+        }
+
+        public virtual void Load(ButtonOffice.GameLoader GameLoader, System.Xml.XmlElement Element)
+        {
         }
     }
 }

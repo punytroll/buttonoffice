@@ -79,13 +79,16 @@
 
         public virtual System.Xml.XmlElement Save(ButtonOffice.GameSaver GameSaver)
         {
-            // save own properties
             System.Xml.XmlElement Result = GameSaver.CreateElement("lamp");
 
             Result.AppendChild(GameSaver.CreateProperty("minutes-until-broken", _MinutesUntilBroken));
             Result.AppendChild(GameSaver.CreateProperty("rectangle", _Rectangle));
 
             return Result;
+        }
+
+        public virtual void Load(ButtonOffice.GameLoader GameLoader, System.Xml.XmlElement Element)
+        {
         }
     }
 }

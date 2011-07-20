@@ -153,22 +153,20 @@
 
         public virtual System.Xml.XmlElement Save(ButtonOffice.GameSaver GameSaver)
         {
-            // save referenced objects
-            GameSaver.Save(_Janitor);
-            GameSaver.Save(_Office);
-            GameSaver.Save(_Person);
-
-            // save own properties
             System.Xml.XmlElement Result = GameSaver.CreateElement("desk");
 
-            Result.AppendChild(GameSaver.CreateProperty("janitor-identifier", _Janitor));
+            Result.AppendChild(GameSaver.CreateProperty("janitor", _Janitor));
             Result.AppendChild(GameSaver.CreateProperty("minutes-until-computer-broken", _MinutesUntilComputerBroken));
-            Result.AppendChild(GameSaver.CreateProperty("office-identifier", _Office));
-            Result.AppendChild(GameSaver.CreateProperty("person-identifier", _Person));
+            Result.AppendChild(GameSaver.CreateProperty("office", _Office));
+            Result.AppendChild(GameSaver.CreateProperty("person", _Person));
             Result.AppendChild(GameSaver.CreateProperty("rectangle", _Rectangle));
             Result.AppendChild(GameSaver.CreateProperty("trash-level", _TrashLevel));
 
             return Result;
+        }
+
+        public virtual void Load(ButtonOffice.GameLoader GameLoader, System.Xml.XmlElement Element)
+        {
         }
     }
 }

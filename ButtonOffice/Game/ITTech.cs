@@ -317,13 +317,6 @@
 
         public override System.Xml.XmlElement Save(ButtonOffice.GameSaver GameSaver)
         {
-            // save referenced objects
-            if(_RepairingTarget != null)
-            {
-                GameSaver.Save(_RepairingTarget.First);
-            }
-
-            // save own properties
             System.Xml.XmlElement Result = base.Save(GameSaver);
             System.Xml.XmlElement Element = GameSaver.CreateElement("it-tech");
 
@@ -334,11 +327,15 @@
             Element.AppendChild(RepairingTargetElement);
             if(_RepairingTarget != null)
             {
-                RepairingTargetElement.AppendChild(GameSaver.CreateProperty("office-identifier", _RepairingTarget.First));
+                RepairingTargetElement.AppendChild(GameSaver.CreateProperty("office", _RepairingTarget.First));
                 RepairingTargetElement.AppendChild(GameSaver.CreateProperty("broken-thing", _RepairingTarget.Second));
             }
 
             return Result;
+        }
+
+        public override void Load(ButtonOffice.GameLoader GameLoader, System.Xml.XmlElement Element)
+        {
         }
     }
 }

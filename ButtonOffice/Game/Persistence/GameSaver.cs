@@ -5,14 +5,14 @@
         private System.Globalization.CultureInfo _CultureInfo;
         private System.Xml.XmlDocument _Document;
         private System.String _FileName;
-        private System.Collections.Generic.Dictionary<System.Object, System.Pair<System.Boolean, System.UInt32>> _Objects;
+        private System.Collections.Generic.Dictionary<ButtonOffice.IPersistentObject, System.Pair<System.Boolean, System.UInt32>> _Objects;
 
         public GameSaver(System.String FileName)
         {
             _CultureInfo = System.Globalization.CultureInfo.InvariantCulture;
             _Document = new System.Xml.XmlDocument();
             _FileName = FileName;
-            _Objects = new System.Collections.Generic.Dictionary<System.Object, System.Pair<System.Boolean, System.UInt32>>();
+            _Objects = new System.Collections.Generic.Dictionary<ButtonOffice.IPersistentObject, System.Pair<System.Boolean, System.UInt32>>();
         }
 
         private System.Xml.XmlAttribute _CreateAttribute(System.String Name, System.String Value)
@@ -34,11 +34,11 @@
             return Result;
         }
 
-        private System.Xml.XmlElement _CreateReference(System.String Name, System.Object Object)
+        private System.Xml.XmlElement _CreateReference(System.String Name, ButtonOffice.IPersistentObject PersistentObject)
         {
-            if(Object != null)
+            if(PersistentObject != null)
             {
-                return _CreateProperty(Name, "System.UInt32", _GetIdentifier(Object).ToString(_CultureInfo));
+                return _CreateProperty(Name, "System.UInt32", _GetIdentifier(PersistentObject).ToString(_CultureInfo));
             }
             else
             {
@@ -66,34 +66,16 @@
             return _CreateProperty(Name, "ButtonOffice.BrokenThing", BrokenThing.ToString());
         }
 
-        public System.Xml.XmlElement CreateProperty(System.String Name, ButtonOffice.Cat Cat)
+        public System.Xml.XmlElement CreateProperty(System.String Name, ButtonOffice.IPersistentObject PersistentObject)
         {
-            return _CreateReference(Name, Cat);
-        }
+            _Save(PersistentObject);
 
-        public System.Xml.XmlElement CreateProperty(System.String Name, ButtonOffice.Desk Desk)
-        {
-            return _CreateReference(Name, Desk);
-        }
-
-        public System.Xml.XmlElement CreateProperty(System.String Name, ButtonOffice.Lamp Lamp)
-        {
-            return _CreateReference(Name, Lamp);
+            return _CreateReference(Name, PersistentObject);
         }
 
         public System.Xml.XmlElement CreateProperty(System.String Name, ButtonOffice.LivingSide LivingSide)
         {
             return _CreateProperty(Name, "ButtonOffice.LivingSide", LivingSide.ToString());
-        }
-
-        public System.Xml.XmlElement CreateProperty(System.String Name, ButtonOffice.Office Office)
-        {
-            return _CreateReference(Name, Office);
-        }
-
-        public System.Xml.XmlElement CreateProperty(System.String Name, ButtonOffice.Person Person)
-        {
-            return _CreateReference(Name, Person);
         }
 
         public System.Xml.XmlElement CreateProperty(System.String Name, ButtonOffice.Type Type)
@@ -124,7 +106,7 @@
             System.Xml.XmlElement Result = _Document.CreateElement(Name);
 
             Result.Attributes.Append(_CreateAttribute("type", "System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing>"));
-            Result.AppendChild(CreateProperty("office-identifier", BrokenThing.First));
+            Result.AppendChild(CreateProperty("office", BrokenThing.First));
             Result.AppendChild(CreateProperty("broken-thing", BrokenThing.Second));
 
             return Result;
@@ -174,47 +156,50 @@
             return _CreateProperty(Name, "System.UInt64", UInt64.ToString(_CultureInfo));
         }
 
-        private System.UInt32 _GetIdentifier(System.Object Object)
+        private System.UInt32 _GetIdentifier(ButtonOffice.IPersistentObject PersistentObject)
         {
-            if(_Objects.ContainsKey(Object) == false)
+            if(_Objects.ContainsKey(PersistentObject) == false)
             {
                 System.UInt32 Identifier = _Objects.Count.ToUInt32();
 
-                _Objects.Add(Object, new System.Pair<System.Boolean, System.UInt32>(false, Identifier));
+                _Objects.Add(PersistentObject, new System.Pair<System.Boolean, System.UInt32>(false, Identifier));
             }
 
-            return _Objects[Object].Second;
+            return _Objects[PersistentObject].Second;
         }
 
         public void Save(ButtonOffice.Game Game)
         {
             _Document.AppendChild(_Document.CreateProcessingInstruction("xml", "version=\"1.0\" encoding=\"utf-8\""));
             _Document.AppendChild(_Document.CreateElement("button-office"));
+            _Document.DocumentElement.Attributes.Append(_CreateAttribute("version", "1.0"));
 
             System.Xml.XmlElement GameElement = Game.Save(this);
 
-            GameElement.Attributes.Append(_CreateAttribute("version", "1.0"));
+            GameElement.Attributes.Append(_CreateAttribute("identifier", _GetIdentifier(Game).ToString(_CultureInfo)));
+            GameElement.Attributes.Append(_CreateAttribute("type", "ButtonOffice.Game"));
             _Document.DocumentElement.AppendChild(GameElement);
             _Document.Save(_FileName);
         }
 
-        public void Save(ButtonOffice.IPersistentObject Saveable)
+        private void _Save(ButtonOffice.IPersistentObject PersistentObject)
         {
-            if(Saveable != null)
+            if(PersistentObject != null)
             {
-                if(_Objects.ContainsKey(Saveable) == false)
+                if(_Objects.ContainsKey(PersistentObject) == false)
                 {
                     System.UInt32 Identifier = _Objects.Count.ToUInt32();
 
-                    _Objects.Add(Saveable, new System.Pair<System.Boolean, System.UInt32>(false, Identifier));
+                    _Objects.Add(PersistentObject, new System.Pair<System.Boolean, System.UInt32>(false, Identifier));
                 }
-                if(_Objects[Saveable].First == false)
+                if(_Objects[PersistentObject].First == false)
                 {
-                    _Objects[Saveable].First = true;
+                    _Objects[PersistentObject].First = true;
 
-                    System.Xml.XmlElement Element = Saveable.Save(this);
+                    System.Xml.XmlElement Element = PersistentObject.Save(this);
 
-                    Element.Attributes.Append(_CreateAttribute("identifier", _GetIdentifier(Saveable).ToString(_CultureInfo)));
+                    Element.Attributes.Append(_CreateAttribute("identifier", _GetIdentifier(PersistentObject).ToString(_CultureInfo)));
+                    Element.Attributes.Append(_CreateAttribute("type", PersistentObject.GetType().FullName));
                     _Document.DocumentElement.AppendChild(Element);
                 }
             }

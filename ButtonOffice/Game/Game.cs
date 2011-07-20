@@ -64,21 +64,10 @@
 
         public static ButtonOffice.Game LoadFromFileName(System.String FileName)
         {
+            ButtonOffice.GameLoader GameLoader = new GameLoader(FileName);
             ButtonOffice.Game Result = new ButtonOffice.Game();
 
-            Result._CatStock = 0;
-            Result._Cents = ButtonOffice.Data.StartCents;
-            for(System.Int32 Index = 0; Index < ButtonOffice.Data.WorldBlockHeight; ++Index)
-            {
-                Result._FreeSpace.Add(new System.Collections.BitArray(ButtonOffice.Data.WorldBlockWidth, true));
-            }
-            for(System.Int32 Index = 0; Index < ButtonOffice.Data.WorldBlockHeight; ++Index)
-            {
-                Result._BuildingMinimumMaximum.Add(new System.Pair<System.Int32, System.Int32>(System.Int32.MaxValue, System.Int32.MinValue));
-            }
-            Result._Minutes = ButtonOffice.Data.StartMinutes;
-            Result._NextCatAtNumberOfEmployees = 20;
-            Result._SubMinute = 0.0f;
+            GameLoader.Load(Result);
 
             return Result;
         }
@@ -442,21 +431,6 @@
 
         public virtual System.Xml.XmlElement Save(ButtonOffice.GameSaver GameSaver)
         {
-            // save referenced objects
-            foreach(ButtonOffice.Office Office in _Offices)
-            {
-                GameSaver.Save(Office);
-            }
-            foreach(ButtonOffice.Person Person in _Persons)
-            {
-                GameSaver.Save(Person);
-            }
-            foreach(System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing> BrokenThing in _BrokenThings)
-            {
-                GameSaver.Save(BrokenThing.First);
-            }
-
-            // save own properties
             System.Xml.XmlElement Result = GameSaver.CreateElement("game");
 
             Result.AppendChild(GameSaver.CreateProperty("cat-stock", _CatStock));
@@ -472,14 +446,18 @@
             }
             foreach(ButtonOffice.Office Office in _Offices)
             {
-                Result.AppendChild(GameSaver.CreateProperty("office-identifier", Office));
+                Result.AppendChild(GameSaver.CreateProperty("office", Office));
             }
             foreach(ButtonOffice.Person Person in _Persons)
             {
-                Result.AppendChild(GameSaver.CreateProperty("person-identifier", Person));
+                Result.AppendChild(GameSaver.CreateProperty("person", Person));
             }
 
             return Result;
+        }
+
+        public virtual void Load(ButtonOffice.GameLoader GameLoader, System.Xml.XmlElement Element)
+        {
         }
     }
 }

@@ -172,5 +172,9 @@
 
             return Result;
         }
+
+        public override void Load(ButtonOffice.GameLoader GameLoader, System.Xml.XmlElement Element)
+        {
+        }
     }
 }

@@ -254,17 +254,6 @@
 
         public virtual System.Xml.XmlElement Save(ButtonOffice.GameSaver GameSaver)
         {
-            // save referenced objects
-            GameSaver.Save(_Cat);
-            GameSaver.Save(_FirstDesk);
-            GameSaver.Save(_FirstLamp);
-            GameSaver.Save(_FourthDesk);
-            GameSaver.Save(_SecondDesk);
-            GameSaver.Save(_SecondLamp);
-            GameSaver.Save(_ThirdDesk);
-            GameSaver.Save(_ThirdLamp);
-
-            // save own properties
             System.Xml.XmlElement Result = GameSaver.CreateElement("office");
 
             Result.AppendChild(GameSaver.CreateProperty("background-color", _BackgroundColor));
@@ -280,6 +269,10 @@
             Result.AppendChild(GameSaver.CreateProperty("third-lamp", _ThirdLamp));
             
             return Result;
+        }
+
+        public virtual void Load(ButtonOffice.GameLoader GameLoader, System.Xml.XmlElement Element)
+        {
         }
     }
 }

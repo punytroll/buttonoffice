@@ -99,6 +99,7 @@
     <Compile Include="Game\Game.cs" />
     <Compile Include="Game\ITTech.cs" />
     <Compile Include="Game\Janitor.cs" />
+    <Compile Include="Game\Persistence\GameLoader.cs" />
     <Compile Include="Game\Persistence\GameSaver.cs" />
     <Compile Include="Game\Persistence\IPersistentObject.cs" />
     <Compile Include="Game\RandomNumberGenerator.cs" />
