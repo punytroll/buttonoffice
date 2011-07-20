@@ -265,28 +265,28 @@
             }
         }
 
-        public override System.Xml.XmlElement Save(ButtonOffice.SaveGameProcessor SaveGameProcessor)
+        public override System.Xml.XmlElement Save(ButtonOffice.GameSaver GameSaver)
         {
             // save referenced objects
             foreach(ButtonOffice.Desk Desk in _CleaningTargets)
             {
-                SaveGameProcessor.Save(Desk);
+                GameSaver.Save(Desk);
             }
 
             // save own properties
-            System.Xml.XmlElement Result = base.Save(SaveGameProcessor);
-            System.Xml.XmlElement Element = SaveGameProcessor.CreateElement("janitor");
+            System.Xml.XmlElement Result = base.Save(GameSaver);
+            System.Xml.XmlElement Element = GameSaver.CreateElement("janitor");
 
             Result.AppendChild(Element);
 
-            System.Xml.XmlElement CleaningTargetsElement = SaveGameProcessor.CreateElement("cleaning-targets");
+            System.Xml.XmlElement CleaningTargetsElement = GameSaver.CreateElement("cleaning-targets");
 
             foreach(ButtonOffice.Desk Desk in _CleaningTargets)
             {
-                CleaningTargetsElement.AppendChild(SaveGameProcessor.CreateProperty("desk-identifier", Desk));
+                CleaningTargetsElement.AppendChild(GameSaver.CreateProperty("desk-identifier", Desk));
             }
             Element.AppendChild(CleaningTargetsElement);
-            Element.AppendChild(SaveGameProcessor.CreateProperty("start-trash-level", _StartTrashLevel));
+            Element.AppendChild(GameSaver.CreateProperty("start-trash-level", _StartTrashLevel));
 
             return Result;
         }

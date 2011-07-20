@@ -435,48 +435,48 @@
 
         public void SaveToFile(System.String FileName)
         {
-            ButtonOffice.SaveGameProcessor SaveGameState = new ButtonOffice.SaveGameProcessor(FileName);
+            ButtonOffice.GameSaver SaveGameState = new ButtonOffice.GameSaver(FileName);
 
             SaveGameState.Save(this);
         }
 
-        public virtual System.Xml.XmlElement Save(ButtonOffice.SaveGameProcessor SaveGameProcessor)
+        public virtual System.Xml.XmlElement Save(ButtonOffice.GameSaver GameSaver)
         {
             // save referenced objects
             foreach(ButtonOffice.Office Office in _Offices)
             {
-                SaveGameProcessor.Save(Office);
+                GameSaver.Save(Office);
             }
             foreach(ButtonOffice.Person Person in _Persons)
             {
-                SaveGameProcessor.Save(Person);
+                GameSaver.Save(Person);
             }
             foreach(System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing> BrokenThing in _BrokenThings)
             {
-                SaveGameProcessor.Save(BrokenThing.First);
+                GameSaver.Save(BrokenThing.First);
             }
 
             // save own properties
-            System.Xml.XmlElement Result = SaveGameProcessor.CreateElement("game");
+            System.Xml.XmlElement Result = GameSaver.CreateElement("game");
 
-            Result.AppendChild(SaveGameProcessor.CreateProperty("cat-stock", _CatStock));
-            Result.AppendChild(SaveGameProcessor.CreateProperty("cents", _Cents));
-            Result.AppendChild(SaveGameProcessor.CreateProperty("minutes", _Minutes));
-            Result.AppendChild(SaveGameProcessor.CreateProperty("next-cat-at-number-of-employees", _NextCatAtNumberOfEmployees));
-            Result.AppendChild(SaveGameProcessor.CreateProperty("sub-minute", _SubMinute));
-            Result.AppendChild(SaveGameProcessor.CreateProperty("world-width", ButtonOffice.Data.WorldBlockWidth));
-            Result.AppendChild(SaveGameProcessor.CreateProperty("world-height", ButtonOffice.Data.WorldBlockHeight));
+            Result.AppendChild(GameSaver.CreateProperty("cat-stock", _CatStock));
+            Result.AppendChild(GameSaver.CreateProperty("cents", _Cents));
+            Result.AppendChild(GameSaver.CreateProperty("minutes", _Minutes));
+            Result.AppendChild(GameSaver.CreateProperty("next-cat-at-number-of-employees", _NextCatAtNumberOfEmployees));
+            Result.AppendChild(GameSaver.CreateProperty("sub-minute", _SubMinute));
+            Result.AppendChild(GameSaver.CreateProperty("world-width", ButtonOffice.Data.WorldBlockWidth));
+            Result.AppendChild(GameSaver.CreateProperty("world-height", ButtonOffice.Data.WorldBlockHeight));
             foreach(System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing> BrokenThing in _BrokenThings)
             {
-                Result.AppendChild(SaveGameProcessor.CreateProperty("broken-thing", BrokenThing));
+                Result.AppendChild(GameSaver.CreateProperty("broken-thing", BrokenThing));
             }
             foreach(ButtonOffice.Office Office in _Offices)
             {
-                Result.AppendChild(SaveGameProcessor.CreateProperty("office-identifier", Office));
+                Result.AppendChild(GameSaver.CreateProperty("office-identifier", Office));
             }
             foreach(ButtonOffice.Person Person in _Persons)
             {
-                Result.AppendChild(SaveGameProcessor.CreateProperty("person-identifier", Person));
+                Result.AppendChild(GameSaver.CreateProperty("person-identifier", Person));
             }
 
             return Result;

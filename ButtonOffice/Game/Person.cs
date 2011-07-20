@@ -191,31 +191,31 @@
 
         public abstract void Move(ButtonOffice.Game Game, System.Single GameMinutes);
 
-        public virtual System.Xml.XmlElement Save(ButtonOffice.SaveGameProcessor SaveGameProcessor)
+        public virtual System.Xml.XmlElement Save(ButtonOffice.GameSaver GameSaver)
         {
             // save referenced objects
-            SaveGameProcessor.Save(_Desk);
+            GameSaver.Save(_Desk);
 
             // save own properties
-            System.Xml.XmlElement Result = SaveGameProcessor.CreateElement("person");
+            System.Xml.XmlElement Result = GameSaver.CreateElement("person");
 
-            Result.AppendChild(SaveGameProcessor.CreateProperty("action-fraction", _ActionFraction));
-            Result.AppendChild(SaveGameProcessor.CreateProperty("action-state", _ActionState));
-            Result.AppendChild(SaveGameProcessor.CreateProperty("animation-fraction", _AnimationFraction));
-            Result.AppendChild(SaveGameProcessor.CreateProperty("animation-state", _AnimationState));
-            Result.AppendChild(SaveGameProcessor.CreateProperty("arrives-at-minute", _ArrivesAtMinute));
-            Result.AppendChild(SaveGameProcessor.CreateProperty("arrives-at-minute-of-day", _ArrivesAtMinuteOfDay));
-            Result.AppendChild(SaveGameProcessor.CreateProperty("background-color", _BackgroundColor));
-            Result.AppendChild(SaveGameProcessor.CreateProperty("border-color", _BorderColor));
-            Result.AppendChild(SaveGameProcessor.CreateProperty("desk-identifier", _Desk));
-            Result.AppendChild(SaveGameProcessor.CreateProperty("leaves-at-minute", _LeavesAtMinute));
-            Result.AppendChild(SaveGameProcessor.CreateProperty("living-side", _LivingSide));
-            Result.AppendChild(SaveGameProcessor.CreateProperty("name", _Name));
-            Result.AppendChild(SaveGameProcessor.CreateProperty("rectangle", _Rectangle));
-            Result.AppendChild(SaveGameProcessor.CreateProperty("type", _Type));
-            Result.AppendChild(SaveGameProcessor.CreateProperty("wage", _Wage));
-            Result.AppendChild(SaveGameProcessor.CreateProperty("walk-to", _WalkTo));
-            Result.AppendChild(SaveGameProcessor.CreateProperty("work-minutes", _WorkMinutes));
+            Result.AppendChild(GameSaver.CreateProperty("action-fraction", _ActionFraction));
+            Result.AppendChild(GameSaver.CreateProperty("action-state", _ActionState));
+            Result.AppendChild(GameSaver.CreateProperty("animation-fraction", _AnimationFraction));
+            Result.AppendChild(GameSaver.CreateProperty("animation-state", _AnimationState));
+            Result.AppendChild(GameSaver.CreateProperty("arrives-at-minute", _ArrivesAtMinute));
+            Result.AppendChild(GameSaver.CreateProperty("arrives-at-minute-of-day", _ArrivesAtMinuteOfDay));
+            Result.AppendChild(GameSaver.CreateProperty("background-color", _BackgroundColor));
+            Result.AppendChild(GameSaver.CreateProperty("border-color", _BorderColor));
+            Result.AppendChild(GameSaver.CreateProperty("desk-identifier", _Desk));
+            Result.AppendChild(GameSaver.CreateProperty("leaves-at-minute", _LeavesAtMinute));
+            Result.AppendChild(GameSaver.CreateProperty("living-side", _LivingSide));
+            Result.AppendChild(GameSaver.CreateProperty("name", _Name));
+            Result.AppendChild(GameSaver.CreateProperty("rectangle", _Rectangle));
+            Result.AppendChild(GameSaver.CreateProperty("type", _Type));
+            Result.AppendChild(GameSaver.CreateProperty("wage", _Wage));
+            Result.AppendChild(GameSaver.CreateProperty("walk-to", _WalkTo));
+            Result.AppendChild(GameSaver.CreateProperty("work-minutes", _WorkMinutes));
 
             return Result;
         }

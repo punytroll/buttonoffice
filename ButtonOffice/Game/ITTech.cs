@@ -315,27 +315,27 @@
             }
         }
 
-        public override System.Xml.XmlElement Save(ButtonOffice.SaveGameProcessor SaveGameProcessor)
+        public override System.Xml.XmlElement Save(ButtonOffice.GameSaver GameSaver)
         {
             // save referenced objects
             if(_RepairingTarget != null)
             {
-                SaveGameProcessor.Save(_RepairingTarget.First);
+                GameSaver.Save(_RepairingTarget.First);
             }
 
             // save own properties
-            System.Xml.XmlElement Result = base.Save(SaveGameProcessor);
-            System.Xml.XmlElement Element = SaveGameProcessor.CreateElement("it-tech");
+            System.Xml.XmlElement Result = base.Save(GameSaver);
+            System.Xml.XmlElement Element = GameSaver.CreateElement("it-tech");
 
             Result.AppendChild(Element);
 
-            System.Xml.XmlElement RepairingTargetElement = SaveGameProcessor.CreateElement("repairing-target");
+            System.Xml.XmlElement RepairingTargetElement = GameSaver.CreateElement("repairing-target");
 
             Element.AppendChild(RepairingTargetElement);
             if(_RepairingTarget != null)
             {
-                RepairingTargetElement.AppendChild(SaveGameProcessor.CreateProperty("office-identifier", _RepairingTarget.First));
-                RepairingTargetElement.AppendChild(SaveGameProcessor.CreateProperty("broken-thing", _RepairingTarget.Second));
+                RepairingTargetElement.AppendChild(GameSaver.CreateProperty("office-identifier", _RepairingTarget.First));
+                RepairingTargetElement.AppendChild(GameSaver.CreateProperty("broken-thing", _RepairingTarget.Second));
             }
 
             return Result;

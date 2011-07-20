@@ -163,10 +163,10 @@
             }
         }
 
-        public override System.Xml.XmlElement Save(ButtonOffice.SaveGameProcessor SaveGameProcessor)
+        public override System.Xml.XmlElement Save(ButtonOffice.GameSaver GameSaver)
         {
-            System.Xml.XmlElement Result = base.Save(SaveGameProcessor);
-            System.Xml.XmlElement Element = SaveGameProcessor.CreateElement("worker");
+            System.Xml.XmlElement Result = base.Save(GameSaver);
+            System.Xml.XmlElement Element = GameSaver.CreateElement("worker");
 
             Result.AppendChild(Element);
 

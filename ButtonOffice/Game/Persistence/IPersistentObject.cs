@@ -2,6 +2,6 @@
 {
     internal interface IPersistentObject
     {
-        System.Xml.XmlElement Save(ButtonOffice.SaveGameProcessor SaveGameProcessor);
+        System.Xml.XmlElement Save(ButtonOffice.GameSaver SaveGameProcessor);
     }
 }

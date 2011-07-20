@@ -1,13 +1,13 @@
 ﻿namespace ButtonOffice
 {
-    internal class SaveGameProcessor
+    internal class GameSaver
     {
         private System.Globalization.CultureInfo _CultureInfo;
         private System.Xml.XmlDocument _Document;
         private System.String _FileName;
         private System.Collections.Generic.Dictionary<System.Object, System.Pair<System.Boolean, System.UInt32>> _Objects;
 
-        public SaveGameProcessor(System.String FileName)
+        public GameSaver(System.String FileName)
         {
             _CultureInfo = System.Globalization.CultureInfo.InvariantCulture;
             _Document = new System.Xml.XmlDocument();

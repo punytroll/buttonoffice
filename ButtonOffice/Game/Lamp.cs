@@ -77,13 +77,13 @@
             _Rectangle.Y = Y;
         }
 
-        public virtual System.Xml.XmlElement Save(ButtonOffice.SaveGameProcessor SaveGameProcessor)
+        public virtual System.Xml.XmlElement Save(ButtonOffice.GameSaver GameSaver)
         {
             // save own properties
-            System.Xml.XmlElement Result = SaveGameProcessor.CreateElement("lamp");
+            System.Xml.XmlElement Result = GameSaver.CreateElement("lamp");
 
-            Result.AppendChild(SaveGameProcessor.CreateProperty("minutes-until-broken", _MinutesUntilBroken));
-            Result.AppendChild(SaveGameProcessor.CreateProperty("rectangle", _Rectangle));
+            Result.AppendChild(GameSaver.CreateProperty("minutes-until-broken", _MinutesUntilBroken));
+            Result.AppendChild(GameSaver.CreateProperty("rectangle", _Rectangle));
 
             return Result;
         }

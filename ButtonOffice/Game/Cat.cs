@@ -185,20 +185,20 @@
             }
         }
 
-        public virtual System.Xml.XmlElement Save(ButtonOffice.SaveGameProcessor SaveGameProcessor)
+        public virtual System.Xml.XmlElement Save(ButtonOffice.GameSaver GameSaver)
         {
             // save referenced objects
-            SaveGameProcessor.Save(_Office);
+            GameSaver.Save(_Office);
 
             // save own properties
-            System.Xml.XmlElement Result = SaveGameProcessor.CreateElement("cat");
+            System.Xml.XmlElement Result = GameSaver.CreateElement("cat");
 
-            Result.AppendChild(SaveGameProcessor.CreateProperty("action-state", _ActionState));
-            Result.AppendChild(SaveGameProcessor.CreateProperty("background-color", _BackgroundColor));
-            Result.AppendChild(SaveGameProcessor.CreateProperty("border-color", _BorderColor));
-            Result.AppendChild(SaveGameProcessor.CreateProperty("minutes-until-action-state-changes", _MinutesToActionStateChange));
-            Result.AppendChild(SaveGameProcessor.CreateProperty("office-identifier", _Office));
-            Result.AppendChild(SaveGameProcessor.CreateProperty("rectangle", _Rectangle));
+            Result.AppendChild(GameSaver.CreateProperty("action-state", _ActionState));
+            Result.AppendChild(GameSaver.CreateProperty("background-color", _BackgroundColor));
+            Result.AppendChild(GameSaver.CreateProperty("border-color", _BorderColor));
+            Result.AppendChild(GameSaver.CreateProperty("minutes-until-action-state-changes", _MinutesToActionStateChange));
+            Result.AppendChild(GameSaver.CreateProperty("office-identifier", _Office));
+            Result.AppendChild(GameSaver.CreateProperty("rectangle", _Rectangle));
 
             return Result;
         }

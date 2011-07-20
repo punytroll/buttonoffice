@@ -151,22 +151,22 @@
             _Rectangle.Y = Y;
         }
 
-        public virtual System.Xml.XmlElement Save(ButtonOffice.SaveGameProcessor SaveGameProcessor)
+        public virtual System.Xml.XmlElement Save(ButtonOffice.GameSaver GameSaver)
         {
             // save referenced objects
-            SaveGameProcessor.Save(_Janitor);
-            SaveGameProcessor.Save(_Office);
-            SaveGameProcessor.Save(_Person);
+            GameSaver.Save(_Janitor);
+            GameSaver.Save(_Office);
+            GameSaver.Save(_Person);
 
             // save own properties
-            System.Xml.XmlElement Result = SaveGameProcessor.CreateElement("desk");
+            System.Xml.XmlElement Result = GameSaver.CreateElement("desk");
 
-            Result.AppendChild(SaveGameProcessor.CreateProperty("janitor-identifier", _Janitor));
-            Result.AppendChild(SaveGameProcessor.CreateProperty("minutes-until-computer-broken", _MinutesUntilComputerBroken));
-            Result.AppendChild(SaveGameProcessor.CreateProperty("office-identifier", _Office));
-            Result.AppendChild(SaveGameProcessor.CreateProperty("person-identifier", _Person));
-            Result.AppendChild(SaveGameProcessor.CreateProperty("rectangle", _Rectangle));
-            Result.AppendChild(SaveGameProcessor.CreateProperty("trash-level", _TrashLevel));
+            Result.AppendChild(GameSaver.CreateProperty("janitor-identifier", _Janitor));
+            Result.AppendChild(GameSaver.CreateProperty("minutes-until-computer-broken", _MinutesUntilComputerBroken));
+            Result.AppendChild(GameSaver.CreateProperty("office-identifier", _Office));
+            Result.AppendChild(GameSaver.CreateProperty("person-identifier", _Person));
+            Result.AppendChild(GameSaver.CreateProperty("rectangle", _Rectangle));
+            Result.AppendChild(GameSaver.CreateProperty("trash-level", _TrashLevel));
 
             return Result;
         }
