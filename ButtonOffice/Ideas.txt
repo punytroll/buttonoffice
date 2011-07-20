@@ -1,7 +1,5 @@
 ﻿Before 1.0:
 ===========
-- save a game to an xml file
-- load a game form an xml file
 - move people
 - destroy offices
 - supervisors
