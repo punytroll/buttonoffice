@@ -115,30 +115,6 @@
             _ThirdLamp = new ButtonOffice.Lamp();
         }
 
-        public ButtonOffice.Desk GetFreeDesk()
-        {
-            if(_FirstDesk.IsFree() == true)
-            {
-                return _FirstDesk;
-            }
-            else if(_SecondDesk.IsFree() == true)
-            {
-                return _SecondDesk;
-            }
-            else if(_ThirdDesk.IsFree() == true)
-            {
-                return _ThirdDesk;
-            }
-            else if(_FourthDesk.IsFree() == true)
-            {
-                return _FourthDesk;
-            }
-            else
-            {
-                return null;
-            }
-        }
-
         public System.Single GetHeight()
         {
             return _Rectangle.Height;
@@ -172,11 +148,6 @@
         public System.Single GetY()
         {
             return _Rectangle.Y;
-        }
-
-        public System.Boolean HasFreeDesk()
-        {
-            return (_FirstDesk.IsFree() == true) || (_SecondDesk.IsFree() == true) || (_ThirdDesk.IsFree() == true) || (_FourthDesk.IsFree() == true);
         }
 
         public void SetHeight(System.Single Height)

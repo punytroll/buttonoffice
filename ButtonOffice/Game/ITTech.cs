@@ -15,13 +15,6 @@
             _WorkMinutes = ButtonOffice.Data.ITTechWorkMinutes;
         }
 
-        public ButtonOffice.Office GetOffice()
-        {
-            System.Diagnostics.Debug.Assert(_RepairingTarget != null);
-
-            return _RepairingTarget.First;
-        }
-
         public System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing> GetRepairingTarget()
         {
             return _RepairingTarget;

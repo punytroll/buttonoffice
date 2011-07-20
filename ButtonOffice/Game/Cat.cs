@@ -45,11 +45,6 @@
             _Office.Cat = this;
         }
 
-        public ButtonOffice.ActionState GetActionState()
-        {
-            return _ActionState;
-        }
-
         public System.Single GetHeight()
         {
             return _Rectangle.Height;
