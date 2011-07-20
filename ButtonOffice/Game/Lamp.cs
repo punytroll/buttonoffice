@@ -1,6 +1,6 @@
 ﻿namespace ButtonOffice
 {
-    internal class Lamp : ButtonOffice.IPersistentObject
+    internal class Lamp : ButtonOffice.PersistentObject
     {
         private System.Single _MinutesUntilBroken;
         private System.Drawing.RectangleF _Rectangle;

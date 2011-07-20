@@ -1,6 +1,6 @@
 ﻿namespace ButtonOffice
 {
-    internal class Game : ButtonOffice.IPersistentObject
+    internal class Game : ButtonOffice.PersistentObject
     {
         public delegate void MoneyChangeDelegate(System.UInt64 Cents, System.Drawing.PointF Location);
         public event MoneyChangeDelegate OnEarnMoney;

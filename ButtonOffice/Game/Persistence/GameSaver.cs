@@ -5,14 +5,14 @@
         private System.Globalization.CultureInfo _CultureInfo;
         private System.Xml.XmlDocument _Document;
         private System.String _FileName;
-        private System.Collections.Generic.Dictionary<ButtonOffice.IPersistentObject, System.Pair<System.Boolean, System.UInt32>> _Objects;
+        private System.Collections.Generic.Dictionary<ButtonOffice.PersistentObject, System.Pair<System.Boolean, System.UInt32>> _Objects;
 
         public GameSaver(System.String FileName)
         {
             _CultureInfo = System.Globalization.CultureInfo.InvariantCulture;
             _Document = new System.Xml.XmlDocument();
             _FileName = FileName;
-            _Objects = new System.Collections.Generic.Dictionary<ButtonOffice.IPersistentObject, System.Pair<System.Boolean, System.UInt32>>();
+            _Objects = new System.Collections.Generic.Dictionary<ButtonOffice.PersistentObject, System.Pair<System.Boolean, System.UInt32>>();
         }
 
         private System.Xml.XmlAttribute _CreateAttribute(System.String Name, System.String Value)
@@ -34,7 +34,7 @@
             return Result;
         }
 
-        private System.Xml.XmlElement _CreateReference(System.String Name, ButtonOffice.IPersistentObject PersistentObject)
+        private System.Xml.XmlElement _CreateReference(System.String Name, ButtonOffice.PersistentObject PersistentObject)
         {
             if(PersistentObject != null)
             {
@@ -66,7 +66,7 @@
             return _CreateProperty(Name, "ButtonOffice.BrokenThing", BrokenThing.ToString());
         }
 
-        public System.Xml.XmlElement CreateProperty(System.String Name, ButtonOffice.IPersistentObject PersistentObject)
+        public System.Xml.XmlElement CreateProperty(System.String Name, ButtonOffice.PersistentObject PersistentObject)
         {
             _Save(PersistentObject);
 
@@ -156,7 +156,7 @@
             return _CreateProperty(Name, "System.UInt64", UInt64.ToString(_CultureInfo));
         }
 
-        private System.UInt32 _GetIdentifier(ButtonOffice.IPersistentObject PersistentObject)
+        private System.UInt32 _GetIdentifier(ButtonOffice.PersistentObject PersistentObject)
         {
             if(_Objects.ContainsKey(PersistentObject) == false)
             {
@@ -182,7 +182,7 @@
             _Document.Save(_FileName);
         }
 
-        private void _Save(ButtonOffice.IPersistentObject PersistentObject)
+        private void _Save(ButtonOffice.PersistentObject PersistentObject)
         {
             if(PersistentObject != null)
             {

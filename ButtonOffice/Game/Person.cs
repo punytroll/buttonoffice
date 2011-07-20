@@ -1,6 +1,6 @@
 ﻿namespace ButtonOffice
 {
-    internal abstract class Person : ButtonOffice.IPersistentObject
+    internal abstract class Person : ButtonOffice.PersistentObject
     {
         protected System.Single _ActionFraction;
         protected ButtonOffice.ActionState _ActionState;

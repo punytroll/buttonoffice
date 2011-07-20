@@ -101,7 +101,7 @@
     <Compile Include="Game\Janitor.cs" />
     <Compile Include="Game\Persistence\GameLoader.cs" />
     <Compile Include="Game\Persistence\GameSaver.cs" />
-    <Compile Include="Game\Persistence\IPersistentObject.cs" />
+    <Compile Include="Game\Persistence\PersistentObject.cs" />
     <Compile Include="Game\RandomNumberGenerator.cs" />
     <Compile Include="Game\Worker.cs" />
     <Compile Include="GUI\DrawingBoard.cs">

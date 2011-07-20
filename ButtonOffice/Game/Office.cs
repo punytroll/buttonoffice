@@ -1,6 +1,6 @@
 ﻿namespace ButtonOffice
 {
-    internal class Office : ButtonOffice.IPersistentObject
+    internal class Office : ButtonOffice.PersistentObject
     {
         private System.Drawing.Color _BackgroundColor;
         private System.Drawing.Color _BorderColor;
