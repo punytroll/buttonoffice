@@ -97,6 +97,8 @@
     <Compile Include="Game\Cat.cs" />
     <Compile Include="Game\Enumerations.cs" />
     <Compile Include="Game\Game.cs" />
+    <Compile Include="Game\Goal.cs" />
+    <Compile Include="Game\Goals.cs" />
     <Compile Include="Game\ITTech.cs" />
     <Compile Include="Game\Janitor.cs" />
     <Compile Include="Game\Persistence\GameLoader.cs" />

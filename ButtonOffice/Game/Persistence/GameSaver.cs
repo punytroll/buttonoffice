@@ -66,11 +66,23 @@
             return _CreateProperty(Name, "ButtonOffice.BrokenThing", BrokenThing.ToString());
         }
 
-        public System.Xml.XmlElement CreateProperty(System.String Name, ButtonOffice.PersistentObject PersistentObject)
+        public System.Xml.XmlElement CreateProperty(System.String Name, System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing> BrokenThing)
         {
-            _Save(PersistentObject);
+            System.Xml.XmlElement Result = _Document.CreateElement(Name);
 
-            return _CreateReference(Name, PersistentObject);
+            Result.Attributes.Append(_CreateAttribute("type", "System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing>"));
+            if(BrokenThing != null)
+            {
+                Result.AppendChild(CreateProperty("office", BrokenThing.First));
+                Result.AppendChild(CreateProperty("broken-thing", BrokenThing.Second));
+            }
+
+            return Result;
+        }
+
+        public System.Xml.XmlElement CreateProperty(System.String Name, ButtonOffice.GoalState GoalState)
+        {
+            return _CreateProperty(Name, "ButtonOffice.GoalState", GoalState.ToString());
         }
 
         public System.Xml.XmlElement CreateProperty(System.String Name, ButtonOffice.LivingSide LivingSide)
@@ -106,18 +118,11 @@
             return _CreateProperty(Name, "System.Int32", Int32.ToString(_CultureInfo));
         }
 
-        public System.Xml.XmlElement CreateProperty(System.String Name, System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing> BrokenThing)
+        public System.Xml.XmlElement CreateProperty(System.String Name, ButtonOffice.PersistentObject PersistentObject)
         {
-            System.Xml.XmlElement Result = _Document.CreateElement(Name);
+            _Save(PersistentObject);
 
-            Result.Attributes.Append(_CreateAttribute("type", "System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing>"));
-            if(BrokenThing != null)
-            {
-                Result.AppendChild(CreateProperty("office", BrokenThing.First));
-                Result.AppendChild(CreateProperty("broken-thing", BrokenThing.Second));
-            }
-
-            return Result;
+            return _CreateReference(Name, PersistentObject);
         }
 
         public System.Xml.XmlElement CreateProperty(System.String Name, System.Drawing.PointF PointF)

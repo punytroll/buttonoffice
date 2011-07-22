@@ -42,6 +42,14 @@
         ThirdLamp
     }
 
+    public enum GoalState
+    {
+        Active,
+        Done,
+        Inactive,
+        Terminated
+    }
+
     internal enum LivingSide
     {
         Left,

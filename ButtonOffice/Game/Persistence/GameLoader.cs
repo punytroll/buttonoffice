@@ -109,6 +109,33 @@
             return _LoadPersistentObject(Element) as ButtonOffice.Desk;
         }
 
+        public System.Collections.Generic.List<ButtonOffice.Goal> LoadGoalList(System.Xml.XmlElement ObjectElement, System.String ListName, System.String ListElementName)
+        {
+            System.Collections.Generic.List<ButtonOffice.Goal> Result = new System.Collections.Generic.List<ButtonOffice.Goal>();
+
+            foreach(System.Xml.XmlNode Node in _GetPropertyElements(ObjectElement, ListName, ListElementName))
+            {
+                Result.Add(_LoadGoal(Node as System.Xml.XmlElement));
+            }
+
+            return Result;
+        }
+
+        public ButtonOffice.Goal LoadGoalProperty(System.Xml.XmlElement ObjectElement, System.String PropertyName)
+        {
+            return _LoadGoal(_GetPropertyElement(ObjectElement, PropertyName));
+        }
+
+        private ButtonOffice.Goal _LoadGoal(System.Xml.XmlElement PropertyElement)
+        {
+            return _LoadPersistentObject(PropertyElement) as ButtonOffice.Goal;
+        }
+
+        public ButtonOffice.GoalState LoadGoalState(System.Xml.XmlElement ObjectElement, System.String PropertyName)
+        {
+            return (ButtonOffice.GoalState)System.Enum.Parse(typeof(ButtonOffice.GoalState), _GetPropertyValue(ObjectElement, PropertyName, "ButtonOffice.GoalState"));
+        }
+
         public System.Int32 LoadInt32Property(System.Xml.XmlElement ObjectElement, System.String PropertyName)
         {
             return System.Convert.ToInt32(_GetPropertyValue(ObjectElement, PropertyName, "System.Int32"), _CultureInfo);
@@ -249,11 +276,11 @@
             return _GetTypeSafeValue(_GetPropertyElement(ObjectElement, PropertyName), PropertyType);
         }
 
-        private ButtonOffice.PersistentObject _LoadPersistentObject(System.Xml.XmlElement Element)
+        private ButtonOffice.PersistentObject _LoadPersistentObject(System.Xml.XmlElement PropertyElement)
         {
             try
             {
-                System.UInt32 Identifier = _LoadUInt32(Element);
+                System.UInt32 Identifier = _LoadUInt32(PropertyElement);
 
                 if(_Objects.ContainsKey(Identifier) == false)
                 {

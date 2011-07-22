@@ -62,4 +62,23 @@
 
         return DeltaX * DeltaX + DeltaY * DeltaY;
     }
+
+    public static Type GetFirst<Type>(this System.Collections.Generic.List<Type> List)
+    {
+        return List[0];
+    }
+
+    public static Type GetLast<Type>(this System.Collections.Generic.List<Type> List)
+    {
+        return List[List.Count - 1];
+    }
+
+    public static Type PopFirst<Type>(this System.Collections.Generic.List<Type> List)
+    {
+        Type Result = List[0];
+
+        List.RemoveAt(0);
+
+        return Result;
+    }
 }
