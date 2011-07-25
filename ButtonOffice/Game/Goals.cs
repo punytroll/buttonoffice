@@ -11,14 +11,19 @@
             _StartTrashLevel = 0.0f;
         }
 
+        public void SetCleaningTarget(ButtonOffice.Desk CleaningTarget)
+        {
+            _CleaningTarget = CleaningTarget;
+        }
+
         protected override void _OnActivate(ButtonOffice.Game Game, ButtonOffice.Person Person, System.Single Minutes)
         {
             ButtonOffice.Janitor Janitor = Person as ButtonOffice.Janitor;
 
-            _CleaningTarget = Janitor.GetNextCleaningTarget();
-            if((_CleaningTarget.Janitor == null) && (_CleaningTarget.TrashLevel > 0.0f))
+            System.Diagnostics.Debug.Assert(_CleaningTarget != null);
+            if((_CleaningTarget.GetJanitor() == null) && (_CleaningTarget.TrashLevel > 0.0f))
             {
-                _CleaningTarget.Janitor = Janitor;
+                _CleaningTarget.SetJanitor(Janitor);
                 _StartTrashLevel = _CleaningTarget.TrashLevel;
                 Person.SetActionFraction(0.0f);
                 Person.SetAnimationState(ButtonOffice.AnimationState.Cleaning);
@@ -58,7 +63,11 @@
 
         protected override void _OnTerminate(ButtonOffice.Game Game, ButtonOffice.Person Person, System.Single Minutes)
         {
-            _CleaningTarget.Janitor = null;
+            System.Diagnostics.Debug.Assert(_CleaningTarget != null);
+            if(_CleaningTarget.GetJanitor() == Person)
+            {
+                _CleaningTarget.SetJanitor(null);
+            }
             Person.SetActionFraction(0.0f);
             Person.SetAnimationState(ButtonOffice.AnimationState.Standing);
             Person.SetAnimationFraction(0.0f);
@@ -108,10 +117,17 @@
                 if(SubGoals.Count == 0)
                 {
                     ButtonOffice.Janitor Janitor = Person as ButtonOffice.Janitor;
+                    ButtonOffice.Desk CleaningTarget = Janitor.PeekCleaningTarget();
 
-                    if(Janitor.HasCleaningTargets() == true)
+                    if(CleaningTarget != null)
                     {
-                        AppendSubGoal(new ButtonOffice.Goals.CleanNextCleaningTarget());
+                        Janitor.SetWalkTo(CleaningTarget.GetLocation());
+                        AppendSubGoal(new ButtonOffice.Goals.Walk());
+
+                        ButtonOffice.Goals.CleanDesk CleanDesk = new ButtonOffice.Goals.CleanDesk();
+
+                        CleanDesk.SetCleaningTarget(CleaningTarget);
+                        AppendSubGoal(CleanDesk);
                     }
                     else
                     {
@@ -127,28 +143,6 @@
             ButtonOffice.Janitor Janitor = Person as ButtonOffice.Janitor;
 
             Janitor.ClearCleaningTargets();
-        }
-    }
-
-    internal class CleanNextCleaningTarget : ButtonOffice.Goal
-    {
-        protected override void _OnActivate(ButtonOffice.Game Game, ButtonOffice.Person Person, System.Single Minutes)
-        {
-            ButtonOffice.Janitor Janitor = Person as ButtonOffice.Janitor;
-            ButtonOffice.Desk Desk = Janitor.GetNextCleaningTarget();
-
-            System.Diagnostics.Debug.Assert(Desk != null);
-            Janitor.SetWalkTo(Desk.GetLocation());
-            AppendSubGoal(new ButtonOffice.Goals.Walk());
-            AppendSubGoal(new ButtonOffice.Goals.CleanDesk());
-        }
-
-        protected override void _OnExecute(ButtonOffice.Game Game, ButtonOffice.Person Person, System.Single Minutes)
-        {
-            if(SubGoals.Count == 0)
-            {
-                SetState(ButtonOffice.GoalState.Done);
-            }
         }
     }
 

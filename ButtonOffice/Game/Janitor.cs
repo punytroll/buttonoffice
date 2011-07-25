@@ -31,14 +31,16 @@
             _CleaningTargets.Enqueue(Desk);
         }
 
-        public ButtonOffice.Desk GetNextCleaningTarget()
+        public ButtonOffice.Desk PeekCleaningTarget()
         {
-            return _CleaningTargets.Peek();
-        }
-
-        public System.Boolean HasCleaningTargets()
-        {
-            return _CleaningTargets.Count > 0;
+            if(_CleaningTargets.Count > 0)
+            {
+                return _CleaningTargets.Peek();
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public override System.Xml.XmlElement Save(ButtonOffice.GameSaver GameSaver)

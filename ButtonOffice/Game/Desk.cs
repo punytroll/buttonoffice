@@ -9,18 +9,6 @@
         private ButtonOffice.Person _Person;
         private System.Single _TrashLevel;
 
-        public ButtonOffice.Janitor Janitor
-        {
-            get
-            {
-                return _Janitor;
-            }
-            set
-            {
-                _Janitor = value;
-            }
-        }
-
         public ButtonOffice.Office Office
         {
             get
@@ -60,6 +48,11 @@
         public System.Single GetHeight()
         {
             return _Rectangle.Height;
+        }
+
+        public ButtonOffice.Janitor GetJanitor()
+        {
+            return _Janitor;
         }
 
         public System.Drawing.PointF GetLocation()
@@ -105,6 +98,11 @@
         public void SetHeight(System.Single Height)
         {
             _Rectangle.Height = Height;
+        }
+
+        public void SetJanitor(ButtonOffice.Janitor Janitor)
+        {
+            _Janitor = Janitor;
         }
 
         public void SetLocation(System.Single X, System.Single Y)
