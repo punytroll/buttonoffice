@@ -44,3 +44,4 @@ After 1.0:
 - toilets, cafeterias and gyms must be cleaned
 - toilets, cafeterias and gyms have a capacity and a waiting line
 - make elevator cars and elevator shafts breakable
+- catch some mice
