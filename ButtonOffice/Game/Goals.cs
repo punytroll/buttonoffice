@@ -104,6 +104,7 @@
                 Janitor.EnqueueCleaningTarget(Office.ThirdDesk);
                 Janitor.EnqueueCleaningTarget(Office.FourthDesk);
             }
+            Person.SetAtDesk(false);
         }
 
         protected override void _OnExecute(ButtonOffice.Game Game, ButtonOffice.Person Person, System.Single Minutes)
@@ -160,6 +161,7 @@
             {
                 Person.SetWalkTo(new System.Drawing.PointF(ButtonOffice.Data.WorldBlockWidth + 10.0f, 0.0f));
             }
+            Person.SetAtDesk(false);
             AppendSubGoal(new ButtonOffice.Goals.Walk());
         }
 
@@ -186,6 +188,7 @@
         {
             if(SubGoals.Count == 0)
             {
+                Person.SetAtDesk(true);
                 SetState(ButtonOffice.GoalState.Done);
             }
         }
@@ -475,6 +478,7 @@
                         AppendSubGoal(new ButtonOffice.Goals.Walk());
                         AppendSubGoal(new ButtonOffice.Goals.Repair());
                         AppendSubGoal(new ButtonOffice.Goals.GoToOwnDesk());
+                        Person.SetAtDesk(false);
                     }
                 }
             }

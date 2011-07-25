@@ -7,6 +7,7 @@
         protected ButtonOffice.AnimationState _AnimationState;
         protected System.UInt64 _ArrivesAtMinute;
         protected System.UInt64 _ArrivesAtMinuteOfDay;
+        private System.Boolean _AtDesk;
         protected System.Drawing.Color _BackgroundColor;
         protected System.Drawing.Color _BorderColor;
         protected ButtonOffice.Desk _Desk;
@@ -117,6 +118,11 @@
             return _ArrivesAtMinuteOfDay;
         }
 
+        public System.Boolean GetAtDesk()
+        {
+            return _AtDesk;
+        }
+
         public ButtonOffice.Desk GetDesk()
         {
             return _Desk;
@@ -195,6 +201,11 @@
         public void SetAnimationState(ButtonOffice.AnimationState AnimationState)
         {
             _AnimationState = AnimationState;
+        }
+
+        public void SetAtDesk(System.Boolean AtDesk)
+        {
+            _AtDesk = AtDesk;
         }
 
         public void SetHeight(System.Single Height)
@@ -321,6 +332,7 @@
             Result.AppendChild(GameSaver.CreateProperty("animation-state", _AnimationState));
             Result.AppendChild(GameSaver.CreateProperty("arrives-at-minute", _ArrivesAtMinute));
             Result.AppendChild(GameSaver.CreateProperty("arrives-at-minute-of-day", _ArrivesAtMinuteOfDay));
+            Result.AppendChild(GameSaver.CreateProperty("at-desk", _AtDesk));
             Result.AppendChild(GameSaver.CreateProperty("background-color", _BackgroundColor));
             Result.AppendChild(GameSaver.CreateProperty("border-color", _BorderColor));
             Result.AppendChild(GameSaver.CreateProperty("desk", _Desk));
@@ -344,6 +356,7 @@
             _AnimationState = GameLoader.LoadAnimationStateProperty(Element, "animation-state");
             _ArrivesAtMinute = GameLoader.LoadUInt64Property(Element, "arrives-at-minute");
             _ArrivesAtMinuteOfDay = GameLoader.LoadUInt64Property(Element, "arrives-at-minute-of-day");
+            _AtDesk = GameLoader.LoadBooleanProperty(Element, "at-desk");
             _BackgroundColor = GameLoader.LoadColorProperty(Element, "background-color");
             _BorderColor = GameLoader.LoadColorProperty(Element, "border-color");
             _Desk = GameLoader.LoadDeskProperty(Element, "desk");

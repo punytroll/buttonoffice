@@ -61,6 +61,11 @@
             return _CreateProperty(Name, "ButtonOffice.AnimationState", AnimationState.ToString());
         }
 
+        public System.Xml.XmlElement CreateProperty(System.String PropertyName, System.Boolean Boolean)
+        {
+            return _CreateProperty(PropertyName, "System.Boolean", System.Convert.ToString(Boolean));
+        }
+
         public System.Xml.XmlElement CreateProperty(System.String Name, ButtonOffice.BrokenThing BrokenThing)
         {
             return _CreateProperty(Name, "ButtonOffice.BrokenThing", BrokenThing.ToString());

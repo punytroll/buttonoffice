@@ -33,6 +33,11 @@
             return (ButtonOffice.AnimationState)System.Enum.Parse(typeof(ButtonOffice.AnimationState), _GetPropertyValue(ObjectElement, PropertyName, "ButtonOffice.AnimationState"));
         }
 
+        public System.Boolean LoadBooleanProperty(System.Xml.XmlElement ObjectElement, System.String PropertyName)
+        {
+            return System.Convert.ToBoolean(_GetPropertyValue(ObjectElement, PropertyName, "System.Boolean"));
+        }
+
         public System.Collections.Generic.List<System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing>> LoadBrokenThingList(System.Xml.XmlElement ObjectElement, System.String PropertyName, System.String ElementName)
         {
             System.Collections.Generic.List<System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing>> Result = new System.Collections.Generic.List<System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing>>();
