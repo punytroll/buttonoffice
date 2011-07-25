@@ -157,11 +157,11 @@
                 if((BuildAllowed == true) && (_Cents >= ButtonOffice.Data.OfficeBuildCost))
                 {
                     _Cents -= ButtonOffice.Data.OfficeBuildCost;
-                    for(System.Int32 Column = 0; Column < Rectangle.Width; ++Column)
+                    for(System.Int32 Column = 0; Column < Rectangle.Width.GetFlooredAsInt32(); ++Column)
                     {
                         _FreeSpace[Rectangle.Y.GetFlooredAsInt32()][Rectangle.X.GetFlooredAsInt32() + Column] = false;
                     }
-                    if(_BuildingMinimumMaximum[Rectangle.Y.GetFlooredAsInt32()].First > Rectangle.X)
+                    if(_BuildingMinimumMaximum[Rectangle.Y.GetFlooredAsInt32()].First > Rectangle.X.GetFlooredAsInt32())
                     {
                         _BuildingMinimumMaximum[Rectangle.Y.GetFlooredAsInt32()].First = Rectangle.X.GetFlooredAsInt32();
                     }
@@ -432,15 +432,6 @@
         public virtual System.Xml.XmlElement Save(ButtonOffice.GameSaver GameSaver)
         {
             System.Xml.XmlElement Result = GameSaver.CreateElement("game");
-
-            Result.AppendChild(GameSaver.CreateProperty("cat-stock", _CatStock));
-            Result.AppendChild(GameSaver.CreateProperty("cents", _Cents));
-            Result.AppendChild(GameSaver.CreateProperty("minutes", _Minutes));
-            Result.AppendChild(GameSaver.CreateProperty("next-cat-at-number-of-employees", _NextCatAtNumberOfEmployees));
-            Result.AppendChild(GameSaver.CreateProperty("sub-minute", _SubMinute));
-            Result.AppendChild(GameSaver.CreateProperty("world-width", ButtonOffice.Data.WorldBlockWidth));
-            Result.AppendChild(GameSaver.CreateProperty("world-height", ButtonOffice.Data.WorldBlockHeight));
-
             System.Xml.XmlElement BrokenThingsListElement = GameSaver.CreateElement("broken-things");
 
             foreach(System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing> BrokenThing in _BrokenThings)
@@ -448,6 +439,10 @@
                 BrokenThingsListElement.AppendChild(GameSaver.CreateProperty("broken-thing", BrokenThing));
             }
             Result.AppendChild(BrokenThingsListElement);
+            Result.AppendChild(GameSaver.CreateProperty("cat-stock", _CatStock));
+            Result.AppendChild(GameSaver.CreateProperty("cents", _Cents));
+            Result.AppendChild(GameSaver.CreateProperty("minutes", _Minutes));
+            Result.AppendChild(GameSaver.CreateProperty("next-cat-at-number-of-employees", _NextCatAtNumberOfEmployees));
 
             System.Xml.XmlElement OfficeListElement = GameSaver.CreateElement("offices");
 
@@ -464,16 +459,31 @@
                 PersonListElement.AppendChild(GameSaver.CreateProperty("person", Person));
             }
             Result.AppendChild(PersonListElement);
+            Result.AppendChild(GameSaver.CreateProperty("sub-minute", _SubMinute));
+            Result.AppendChild(GameSaver.CreateProperty("world-width", ButtonOffice.Data.WorldBlockWidth));
+            Result.AppendChild(GameSaver.CreateProperty("world-height", ButtonOffice.Data.WorldBlockHeight));
 
             return Result;
         }
 
         public virtual void Load(ButtonOffice.GameLoader GameLoader, System.Xml.XmlElement Element)
         {
+            foreach(System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing> BrokenThing in GameLoader.LoadBrokenThingList(Element, "broken-things", "broken-thing"))
+            {
+                _BrokenThings.Enqueue(BrokenThing);
+            }
             _CatStock = GameLoader.LoadUInt32Property(Element, "cat-stock");
             _Cents = GameLoader.LoadUInt64Property(Element, "cents");
             _Minutes = GameLoader.LoadUInt64Property(Element, "minutes");
             _NextCatAtNumberOfEmployees = GameLoader.LoadUInt32Property(Element, "next-cat-at-number-of-employees");
+            foreach(ButtonOffice.Office Office in GameLoader.LoadOfficeList(Element, "offices", "office"))
+            {
+                _Offices.Add(Office);
+            }
+            foreach(ButtonOffice.Person Person in GameLoader.LoadPersonList(Element, "persons", "person"))
+            {
+                _Persons.Add(Person);
+            }
             _SubMinute = GameLoader.LoadSingleProperty(Element, "sub-minute");
 
             System.Int32 WorldWidth = GameLoader.LoadInt32Property(Element, "world-width");
@@ -487,17 +497,22 @@
             {
                 _BuildingMinimumMaximum.Add(new System.Pair<System.Int32, System.Int32>(System.Int32.MaxValue, System.Int32.MinValue));
             }
-            foreach(System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing> BrokenThing in GameLoader.LoadBrokenThingList(Element, "broken-things", "broken-thing"))
+            foreach(ButtonOffice.Office Office in _Offices)
             {
-                _BrokenThings.Enqueue(BrokenThing);
-            }
-            foreach(ButtonOffice.Office Office in GameLoader.LoadOfficeList(Element, "offices", "office"))
-            {
-                _Offices.Add(Office);
-            }
-            foreach(ButtonOffice.Person Person in GameLoader.LoadPersonList(Element, "persons", "person"))
-            {
-                _Persons.Add(Person);
+                System.Drawing.RectangleF Rectangle = Office.GetRectangle();
+
+                for(System.Int32 Column = 0; Column < Rectangle.Width.GetFlooredAsInt32(); ++Column)
+                {
+                    _FreeSpace[Rectangle.Y.GetFlooredAsInt32()][Rectangle.X.GetFlooredAsInt32() + Column] = false;
+                }
+                if(_BuildingMinimumMaximum[Rectangle.Y.GetFlooredAsInt32()].First > Rectangle.X.GetFlooredAsInt32())
+                {
+                    _BuildingMinimumMaximum[Rectangle.Y.GetFlooredAsInt32()].First = Rectangle.X.GetFlooredAsInt32();
+                }
+                if(_BuildingMinimumMaximum[Rectangle.Y.GetFlooredAsInt32()].Second < Rectangle.Right.GetFlooredAsInt32())
+                {
+                    _BuildingMinimumMaximum[Rectangle.Y.GetFlooredAsInt32()].Second = Rectangle.Right.GetFlooredAsInt32();
+                }
             }
         }
     }
