@@ -43,3 +43,4 @@ After 1.0:
 - supervisors only makes people faster, not better, maybe even more reckless and unhappy
 - toilets, cafeterias and gyms must be cleaned
 - toilets, cafeterias and gyms have a capacity and a waiting line
+- make elevator cars and elevator shafts breakable
