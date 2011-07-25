@@ -294,7 +294,7 @@
         {
             get
             {
-                return 4.0f;
+                return 2.0f;
             }
         }
 
