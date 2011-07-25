@@ -285,10 +285,10 @@
             }
             else
             {
-                if(Person.GetDesk().IsComputerBroken() == false)
+                if(Person.GetDesk().GetComputer().IsBroken() == false)
                 {
-                    Person.GetDesk().SetMinutesUntilComputerBroken(Person.GetDesk().GetMinutesUntilComputerBroken() - Minutes);
-                    if(Person.GetDesk().IsComputerBroken() == true)
+                    Person.GetDesk().GetComputer().SetMinutesUntilBroken(Person.GetDesk().GetComputer().GetMinutesUntilBroken() - Minutes);
+                    if(Person.GetDesk().GetComputer().IsBroken() == true)
                     {
                         Person.SetActionFraction(0.0f);
                         Person.SetAnimationState(ButtonOffice.AnimationState.Standing);
@@ -363,25 +363,25 @@
                 {
                 case ButtonOffice.BrokenThing.FirstComputer:
                     {
-                        RepairingTarget.First.FirstDesk.SetMinutesUntilComputerBroken(ButtonOffice.RandomNumberGenerator.GetSingleFromExponentialDistribution(ButtonOffice.Data.MeanMinutesToBrokenComputer));
+                        RepairingTarget.First.FirstDesk.GetComputer().SetMinutesUntilBroken(ButtonOffice.RandomNumberGenerator.GetSingleFromExponentialDistribution(ButtonOffice.Data.MeanMinutesToBrokenComputer));
 
                         break;
                     }
                 case ButtonOffice.BrokenThing.SecondComputer:
                     {
-                        RepairingTarget.First.SecondDesk.SetMinutesUntilComputerBroken(ButtonOffice.RandomNumberGenerator.GetSingleFromExponentialDistribution(ButtonOffice.Data.MeanMinutesToBrokenComputer));
+                        RepairingTarget.First.SecondDesk.GetComputer().SetMinutesUntilBroken(ButtonOffice.RandomNumberGenerator.GetSingleFromExponentialDistribution(ButtonOffice.Data.MeanMinutesToBrokenComputer));
 
                         break;
                     }
                 case ButtonOffice.BrokenThing.ThirdComputer:
                     {
-                        RepairingTarget.First.ThirdDesk.SetMinutesUntilComputerBroken(ButtonOffice.RandomNumberGenerator.GetSingleFromExponentialDistribution(ButtonOffice.Data.MeanMinutesToBrokenComputer));
+                        RepairingTarget.First.ThirdDesk.GetComputer().SetMinutesUntilBroken(ButtonOffice.RandomNumberGenerator.GetSingleFromExponentialDistribution(ButtonOffice.Data.MeanMinutesToBrokenComputer));
 
                         break;
                     }
                 case ButtonOffice.BrokenThing.FourthComputer:
                     {
-                        RepairingTarget.First.FourthDesk.SetMinutesUntilComputerBroken(ButtonOffice.RandomNumberGenerator.GetSingleFromExponentialDistribution(ButtonOffice.Data.MeanMinutesToBrokenComputer));
+                        RepairingTarget.First.FourthDesk.GetComputer().SetMinutesUntilBroken(ButtonOffice.RandomNumberGenerator.GetSingleFromExponentialDistribution(ButtonOffice.Data.MeanMinutesToBrokenComputer));
 
                         break;
                     }

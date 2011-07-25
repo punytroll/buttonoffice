@@ -2,8 +2,8 @@
 {
     internal class Desk : ButtonOffice.PersistentObject
     {
+        private ButtonOffice.Computer _Computer;
         private ButtonOffice.Janitor _Janitor;
-        private System.Single _MinutesUntilComputerBroken;
         private System.Drawing.RectangleF _Rectangle ;
         private ButtonOffice.Office _Office;
         private ButtonOffice.Person _Person;
@@ -47,8 +47,14 @@
 
         public Desk()
         {
+            _Computer = new ButtonOffice.Computer();
             _Rectangle.Height = ButtonOffice.Data.DeskHeight;
             _Rectangle.Width = ButtonOffice.Data.DeskWidth;
+        }
+
+        public ButtonOffice.Computer GetComputer()
+        {
+            return _Computer;
         }
 
         public System.Single GetHeight()
@@ -64,11 +70,6 @@
         public System.Drawing.PointF GetMidLocation()
         {
             return new System.Drawing.PointF(_Rectangle.X + _Rectangle.Width / 2.0f, _Rectangle.Y + _Rectangle.Height / 2.0f);
-        }
-
-        public System.Single GetMinutesUntilComputerBroken()
-        {
-            return _MinutesUntilComputerBroken;
         }
 
         public ButtonOffice.Person GetPerson()
@@ -96,11 +97,6 @@
             return _Rectangle.Y;
         }
 
-        public System.Boolean IsComputerBroken()
-        {
-            return _MinutesUntilComputerBroken < 0.0f;
-        }
-
         public System.Boolean IsFree()
         {
             return _Person == null;
@@ -115,11 +111,6 @@
         {
             _Rectangle.X = X;
             _Rectangle.Y = Y;
-        }
-
-        public void SetMinutesUntilComputerBroken(System.Single MinutesUntilComputerBroken)
-        {
-            _MinutesUntilComputerBroken = MinutesUntilComputerBroken;
         }
 
         public void SetPerson(ButtonOffice.Person Person)
@@ -155,8 +146,8 @@
         {
             System.Xml.XmlElement Result = GameSaver.CreateElement("desk");
 
+            Result.AppendChild(GameSaver.CreateProperty("computer", _Computer));
             Result.AppendChild(GameSaver.CreateProperty("janitor", _Janitor));
-            Result.AppendChild(GameSaver.CreateProperty("minutes-until-computer-broken", _MinutesUntilComputerBroken));
             Result.AppendChild(GameSaver.CreateProperty("office", _Office));
             Result.AppendChild(GameSaver.CreateProperty("person", _Person));
             Result.AppendChild(GameSaver.CreateProperty("rectangle", _Rectangle));
@@ -167,8 +158,8 @@
 
         public virtual void Load(ButtonOffice.GameLoader GameLoader, System.Xml.XmlElement Element)
         {
+            _Computer = GameLoader.LoadComputerProperty(Element, "computer");
             _Janitor = GameLoader.LoadJanitorProperty(Element, "janitor");
-            _MinutesUntilComputerBroken = GameLoader.LoadSingleProperty(Element, "minutes-until-computer-broken");
             _Office = GameLoader.LoadOfficeProperty(Element, "office");
             _Person = GameLoader.LoadPersonProperty(Element, "person");
             _Rectangle = GameLoader.LoadRectangleProperty(Element, "rectangle");

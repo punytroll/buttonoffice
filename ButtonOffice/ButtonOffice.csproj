@@ -95,6 +95,7 @@
     <Compile Include="Application.cs" />
     <Compile Include="Data\Data.cs" />
     <Compile Include="Game\Cat.cs" />
+    <Compile Include="Game\Computer.cs" />
     <Compile Include="Game\Enumerations.cs" />
     <Compile Include="Game\Game.cs" />
     <Compile Include="Game\Goal.cs" />

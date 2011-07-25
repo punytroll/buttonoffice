@@ -706,7 +706,7 @@
                 {
                     PersonColor = Office.FirstDesk.GetPerson().BackgroundColor;
                 }
-                if(Office.FirstDesk.IsComputerBroken() == true)
+                if(Office.FirstDesk.GetComputer().IsBroken() == true)
                 {
                     ComputerColor = System.Drawing.Color.Red;
                 }
@@ -720,7 +720,7 @@
                 {
                     PersonColor = Office.SecondDesk.GetPerson().BackgroundColor;
                 }
-                if(Office.SecondDesk.IsComputerBroken() == true)
+                if(Office.SecondDesk.GetComputer().IsBroken() == true)
                 {
                     ComputerColor = System.Drawing.Color.Red;
                 }
@@ -734,7 +734,7 @@
                 {
                     PersonColor = Office.ThirdDesk.GetPerson().BackgroundColor;
                 }
-                if(Office.ThirdDesk.IsComputerBroken() == true)
+                if(Office.ThirdDesk.GetComputer().IsBroken() == true)
                 {
                     ComputerColor = System.Drawing.Color.Red;
                 }
@@ -748,7 +748,7 @@
                 {
                     PersonColor = Office.FourthDesk.GetPerson().BackgroundColor;
                 }
-                if(Office.FourthDesk.IsComputerBroken() == true)
+                if(Office.FourthDesk.GetComputer().IsBroken() == true)
                 {
                     ComputerColor = System.Drawing.Color.Red;
                 }

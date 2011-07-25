@@ -87,6 +87,11 @@
             return System.Drawing.Color.FromArgb(LoadByteProperty(PropertyElement, "alpha"), LoadByteProperty(PropertyElement, "red"), LoadByteProperty(PropertyElement, "green"), LoadByteProperty(PropertyElement, "blue"));
         }
 
+        public ButtonOffice.Computer LoadComputerProperty(System.Xml.XmlElement ObjectElement, System.String PropertyName)
+        {
+            return _LoadPersistentObject(_GetPropertyElement(ObjectElement, PropertyName)) as ButtonOffice.Computer;
+        }
+
         public System.Collections.Generic.List<ButtonOffice.Desk> LoadDeskList(System.Xml.XmlElement ObjectElement, System.String ListName, System.String ElementName)
         {
             System.Collections.Generic.List<ButtonOffice.Desk> Result = new System.Collections.Generic.List<ButtonOffice.Desk>();
