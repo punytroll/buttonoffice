@@ -23,6 +23,7 @@
 
     internal enum AnimationState
     {
+        Accounting,
         Cleaning,
         Hidden,
         PushingButton,
@@ -58,6 +59,7 @@
 
     internal enum Type
     {
+        Accountant,
         Cat,
         ITTech,
         Janitor,

@@ -16,11 +16,39 @@
 
         public void Load(ButtonOffice.Game Game)
         {
-            System.Xml.XmlElement GameElement = (System.Xml.XmlElement)_Document.SelectSingleNode("//button-office/game");
+            System.Xml.XmlElement ButtonOfficeElement = _Document.DocumentElement;
+
+            if(ButtonOfficeElement.Attributes["version"] == null)
+            {
+                throw new System.FormatException();
+            }
+            if(ButtonOfficeElement.Attributes["version"].Value != ButtonOffice.Data.SaveGameFileVersion)
+            {
+                throw new System.FormatException();
+            }
+
+            System.Xml.XmlElement GameElement = ButtonOfficeElement.SelectSingleNode("game") as System.Xml.XmlElement;
 
             _AssertElementAndType(GameElement, "ButtonOffice.Game");
 
             Game.Load(this, GameElement);
+        }
+
+        private ButtonOffice.Accountant _LoadAccountant(System.Xml.XmlElement Element)
+        {
+            return _LoadPersistentObject(Element) as ButtonOffice.Accountant;
+        }
+
+        public System.Collections.Generic.List<ButtonOffice.Accountant> LoadAccountantList(System.Xml.XmlElement ObjectElement, System.String ListName, System.String ListElementName)
+        {
+            System.Collections.Generic.List<ButtonOffice.Accountant> Result = new System.Collections.Generic.List<ButtonOffice.Accountant>();
+
+            foreach(System.Xml.XmlNode Node in _GetPropertyElements(ObjectElement, ListName, ListElementName))
+            {
+                Result.Add(_LoadAccountant(Node as System.Xml.XmlElement));
+            }
+
+            return Result;
         }
 
         public ButtonOffice.ActionState LoadActionStateProperty(System.Xml.XmlElement ObjectElement, System.String PropertyName)

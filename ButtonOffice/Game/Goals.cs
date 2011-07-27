@@ -1,5 +1,86 @@
 ﻿namespace ButtonOffice.Goals
 {
+    internal class AccountantThink : ButtonOffice.Goal
+    {
+        protected override void _OnExecute(ButtonOffice.Game Game, ButtonOffice.Person Person, System.Single Minutes)
+        {
+            if(SubGoals.Count == 0)
+            {
+                AppendSubGoal(new ButtonOffice.Goals.PlanNextWorkDay());
+                AppendSubGoal(new ButtonOffice.Goals.WaitUntilTimeToArrive());
+                AppendSubGoal(new ButtonOffice.Goals.GoToWork());
+                AppendSubGoal(new ButtonOffice.Goals.Accounting());
+                AppendSubGoal(new ButtonOffice.Goals.GoHome());
+            }
+        }
+    }
+
+    internal class Accounting : ButtonOffice.Goal
+    {
+        protected override void _OnActivate(ButtonOffice.Game Game, ButtonOffice.Person Person, System.Single Minutes)
+        {
+            Person.SetAnimationState(ButtonOffice.AnimationState.Accounting);
+            Person.SetAnimationFraction(0.0f);
+        }
+
+        protected override void _OnExecute(ButtonOffice.Game Game, ButtonOffice.Person Person, System.Single Minutes)
+        {
+            if(Game.GetTotalMinutes() > Person.GetLeavesAtMinute())
+            {
+                SetState(ButtonOffice.GoalState.Done);
+            }
+            else
+            {
+                if(Person.GetDesk().GetComputer().IsBroken() == false)
+                {
+                    Person.GetDesk().GetComputer().SetMinutesUntilBroken(Person.GetDesk().GetComputer().GetMinutesUntilBroken() - Minutes);
+                    if(Person.GetDesk().GetComputer().IsBroken() == true)
+                    {
+                        Person.SetActionFraction(0.0f);
+                        Person.SetAnimationState(ButtonOffice.AnimationState.Standing);
+                        Person.SetAnimationFraction(0.0f);
+                        if(Person.GetDesk() == Person.GetDesk().Office.FirstDesk)
+                        {
+                            Game.BrokenThings.Enqueue(new System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing>(Person.GetDesk().Office, ButtonOffice.BrokenThing.FirstComputer));
+                        }
+                        else if(Person.GetDesk() == Person.GetDesk().Office.SecondDesk)
+                        {
+                            Game.BrokenThings.Enqueue(new System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing>(Person.GetDesk().Office, ButtonOffice.BrokenThing.SecondComputer));
+                        }
+                        else if(Person.GetDesk() == Person.GetDesk().Office.ThirdDesk)
+                        {
+                            Game.BrokenThings.Enqueue(new System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing>(Person.GetDesk().Office, ButtonOffice.BrokenThing.ThirdComputer));
+                        }
+                        else if(Person.GetDesk() == Person.GetDesk().Office.FourthDesk)
+                        {
+                            Game.BrokenThings.Enqueue(new System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing>(Person.GetDesk().Office, ButtonOffice.BrokenThing.FourthComputer));
+                        }
+                    }
+                    else
+                    {
+                        Person.SetActionFraction(Person.GetActionFraction() + ButtonOffice.Data.AccountantWorkSpeed * Minutes);
+                        while(Person.GetActionFraction() >= 1.0f)
+                        {
+                            Person.SetActionFraction(Person.GetActionFraction() - 1.0f);
+                            Person.GetDesk().TrashLevel += 2.0f;
+                        }
+                        Person.SetAnimationFraction(Person.GetAnimationFraction() + ButtonOffice.Data.AccountantWorkSpeed * Minutes);
+                        while(Person.GetAnimationFraction() >= 1.0f)
+                        {
+                            Person.SetAnimationFraction(Person.GetAnimationFraction() - 1.0f);
+                        }
+                    }
+                }
+            }
+        }
+
+        protected override void _OnTerminate(ButtonOffice.Game Game, ButtonOffice.Person Person, System.Single Minutes)
+        {
+            Person.SetAnimationState(ButtonOffice.AnimationState.Standing);
+            Person.SetAnimationFraction(0.0f);
+        }
+    }
+
     internal class CleanDesk : ButtonOffice.Goal
     {
         private ButtonOffice.Desk _CleaningTarget;
@@ -132,8 +213,7 @@
                     }
                     else
                     {
-                        AppendSubGoal(new ButtonOffice.Goals.GoToOwnDesk());
-                        AppendSubGoal(new ButtonOffice.Goals.Wait());
+                        SetState(ButtonOffice.GoalState.Done);
                     }
                 }
             }
@@ -274,7 +354,7 @@
             Person.SetAnimationFraction(0.0f);
         }
 
-        protected override void _OnExecute(Game Game, Person Person, float Minutes)
+        protected override void _OnExecute(ButtonOffice.Game Game, ButtonOffice.Person Person, System.Single Minutes)
         {
             if(Game.GetTotalMinutes() > Person.GetLeavesAtMinute())
             {
@@ -312,10 +392,12 @@
                         Person.SetActionFraction(Person.GetActionFraction() + ButtonOffice.Data.WorkerWorkSpeed * Minutes);
                         while(Person.GetActionFraction() >= 1.0f)
                         {
+                            System.UInt64 Revenue = 100L * Game.GetCurrentBonusPromille() / 1000L;
+
                             Person.SetActionFraction(Person.GetActionFraction() - 1.0f);
                             Person.GetDesk().TrashLevel += 1.0f;
-                            Game.AddCents(100);
-                            Game.FireEarnMoney(100, Person.GetMidLocation());
+                            Game.AddCents(Revenue);
+                            Game.FireEarnMoney(Revenue, Person.GetMidLocation());
                         }
                         Person.SetAnimationFraction(Person.GetAnimationFraction() + ButtonOffice.Data.WorkerWorkSpeed * Minutes);
                         while(Person.GetAnimationFraction() >= 1.0f)
@@ -504,6 +586,17 @@
         protected override void _OnExecute(ButtonOffice.Game Game, ButtonOffice.Person Person, System.Single Minutes)
         {
             if(Game.GetTotalMinutes() > Person.GetArrivesAtMinute())
+            {
+                SetState(ButtonOffice.GoalState.Done);
+            }
+        }
+    }
+
+    internal class WaitUntilTimeToLeave : ButtonOffice.Goal
+    {
+        protected override void _OnExecute(ButtonOffice.Game Game, ButtonOffice.Person Person, System.Single Minutes)
+        {
+            if(Game.GetTotalMinutes() > Person.GetLeavesAtMinute())
             {
                 SetState(ButtonOffice.GoalState.Done);
             }

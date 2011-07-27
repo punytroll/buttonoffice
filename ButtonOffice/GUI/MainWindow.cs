@@ -34,6 +34,7 @@
         private System.Windows.Forms.ToolStripMenuItem _NewGameButton;
         private System.Windows.Forms.ToolStripMenuItem _QuitApplicationButton;
         private System.Windows.Forms.ToolStripMenuItem _SaveGameButton;
+        private System.Windows.Forms.ToolStripButton _HireAccountantButton;
         private System.Single _Zoom;
     
         public MainWindow()
@@ -44,6 +45,7 @@
             _ToolButtons.Add(_HireJanitorButton);
             _ToolButtons.Add(_HireWorkerButton);
             _ToolButtons.Add(_BuildOfficeButton);
+            _ToolButtons.Add(_HireAccountantButton);
             _ToolButtons.Add(_PlaceCatButton);
             _FloatingTexts = new System.Collections.Generic.List<ButtonOffice.FloatingText>();
             _Game = ButtonOffice.Game.CreateNew();
@@ -90,6 +92,7 @@
             this._HireITTechButton = new System.Windows.Forms.ToolStripButton();
             this._HireJanitorButton = new System.Windows.Forms.ToolStripButton();
             this._PlaceCatButton = new System.Windows.Forms.ToolStripButton();
+            this._HireAccountantButton = new System.Windows.Forms.ToolStripButton();
             Separator1 = new System.Windows.Forms.ToolStripSeparator();
             this._ToolStripContainer.BottomToolStripPanel.SuspendLayout();
             this._ToolStripContainer.ContentPanel.SuspendLayout();
@@ -262,12 +265,13 @@
             this._HireWorkerButton,
             this._HireITTechButton,
             this._HireJanitorButton,
+            this._HireAccountantButton,
             this._PlaceCatButton});
             this._GameTools.Location = new System.Drawing.Point(57, 0);
             this._GameTools.Name = "_GameTools";
             this._GameTools.Padding = new System.Windows.Forms.Padding(0);
             this._GameTools.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this._GameTools.Size = new System.Drawing.Size(259, 25);
+            this._GameTools.Size = new System.Drawing.Size(332, 25);
             this._GameTools.TabIndex = 1;
             // 
             // _BuildOfficeButton
@@ -315,6 +319,15 @@
             this._PlaceCatButton.Text = "Cat";
             this._PlaceCatButton.CheckedChanged += new System.EventHandler(this._OnPlaceCatButtonCheckedChanged);
             this._PlaceCatButton.Click += new System.EventHandler(this._OnPlaceCatButtonClicked);
+            // 
+            // _HireAccountantButton
+            // 
+            this._HireAccountantButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this._HireAccountantButton.Name = "_HireAccountantButton";
+            this._HireAccountantButton.Size = new System.Drawing.Size(73, 22);
+            this._HireAccountantButton.Text = "Accountant";
+            this._HireAccountantButton.CheckedChanged += new System.EventHandler(this._OnHireAccountantButtonCheckedChanged);
+            this._HireAccountantButton.Click += new System.EventHandler(this._OnHireAccountantButtonClicked);
             // 
             // MainWindow
             // 
@@ -450,6 +463,27 @@
             }
         }
 
+        private void _OnHireAccountantButtonClicked(System.Object Sender, System.EventArgs EventArguments)
+        {
+            _ToggleOneToolButton(_ToolButtons, _HireAccountantButton);
+        }
+
+        private void _OnHireAccountantButtonCheckedChanged(System.Object Sender, System.EventArgs EventArguments)
+        {
+            if(_EntityPrototype != null)
+            {
+                _EntityPrototype = null;
+            }
+            if(_HireAccountantButton.Checked == true)
+            {
+                _EntityPrototype = new EntityPrototype(ButtonOffice.Type.Accountant);
+                _EntityPrototype.BackgroundColor = ButtonOffice.Data.AccountantBackgroundColor;
+                _EntityPrototype.BorderColor = ButtonOffice.Data.AccountantBorderColor;
+                _EntityPrototype.SetHeight(ButtonOffice.Data.PersonHeight);
+                _EntityPrototype.SetWidth(ButtonOffice.Data.PersonWidth);
+            }
+        }
+
         private void _OnPlaceCatButtonClicked(System.Object Sender, System.EventArgs EventArguments)
         {
             _ToggleOneToolButton(_ToolButtons, _PlaceCatButton);
@@ -540,6 +574,16 @@
                             if(System.Windows.Forms.Control.ModifierKeys != System.Windows.Forms.Keys.Shift)
                             {
                                 _HireJanitorButton.Checked = false;
+                            }
+                        }
+                    }
+                    else if(_EntityPrototype.Type == ButtonOffice.Type.Accountant)
+                    {
+                        if(_Game.HireAccountant(_EntityPrototype.Rectangle) == true)
+                        {
+                            if(System.Windows.Forms.Control.ModifierKeys != System.Windows.Forms.Keys.Shift)
+                            {
+                                _HireAccountantButton.Checked = false;
                             }
                         }
                     }

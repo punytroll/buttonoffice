@@ -6,6 +6,7 @@
         public event MoneyChangeDelegate OnEarnMoney;
         public event MoneyChangeDelegate OnSpendMoney;
 
+        private System.Collections.Generic.List<ButtonOffice.Accountant> _Accountants;
         private System.Collections.Generic.Queue<System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing>> _BrokenThings;
         private System.UInt32 _CatStock;
         private System.UInt64 _Cents;
@@ -74,6 +75,7 @@
 
         private Game()
         {
+            _Accountants = new System.Collections.Generic.List<ButtonOffice.Accountant>();
             _BrokenThings = new System.Collections.Generic.Queue<System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing>>();
             _FreeSpace = new System.Collections.Generic.List<System.Collections.BitArray>();
             _BuildingMinimumMaximum = new System.Collections.Generic.List<System.Pair<System.Int32, System.Int32>>();
@@ -97,6 +99,21 @@
             {
                 Person.Move(this, GameMinutes);
             }
+        }
+
+        public System.UInt64 GetCurrentBonusPromille()
+        {
+            System.UInt64 Result = 1000;
+
+            foreach(ButtonOffice.Accountant Accountant in _Accountants)
+            {
+                if((Accountant.GetAtDesk() == true) && (Accountant.GetDesk().GetComputer().IsBroken() == false))
+                {
+                    Result += Accountant.GetBonusPromille();
+                }
+            }
+
+            return Result;
         }
 
         public System.UInt32 GetCatStock()
@@ -194,6 +211,40 @@
             {
                 return false;
             }
+        }
+
+        public System.Boolean HireAccountant(System.Drawing.RectangleF Rectangle)
+        {
+            if(_Cents >= ButtonOffice.Data.AccountantHireCost)
+            {
+                ButtonOffice.Office Office = _GetOffice(Rectangle.Location);
+
+                if(Office != null)
+                {
+                    ButtonOffice.Desk Desk = _GetDesk(Office, Rectangle.Location);
+
+                    if((Desk != null) && (Desk.IsFree() == true))
+                    {
+                        _Cents -= ButtonOffice.Data.AccountantHireCost;
+
+                        ButtonOffice.Accountant Accountant = new ButtonOffice.Accountant();
+
+                        Accountant.AssignDesk(Desk);
+                        _Persons.Add(Accountant);
+                        _Accountants.Add(Accountant);
+                        if(_Persons.Count == _NextCatAtNumberOfEmployees)
+                        {
+                            _NextCatAtNumberOfEmployees += 20;
+                            _CatStock += 1;
+                        }
+                        FireSpendMoney(ButtonOffice.Data.AccountantHireCost, Desk.GetMidLocation());
+
+                        return true;
+                    }
+                }
+            }
+
+            return false;
         }
 
         public System.Boolean HireWorker(System.Drawing.RectangleF Rectangle)
@@ -432,6 +483,14 @@
         public virtual System.Xml.XmlElement Save(ButtonOffice.GameSaver GameSaver)
         {
             System.Xml.XmlElement Result = GameSaver.CreateElement("game");
+            System.Xml.XmlElement AccountantListElement = GameSaver.CreateElement("accountants");
+
+            foreach(ButtonOffice.Accountant Accountant in _Accountants)
+            {
+                AccountantListElement.AppendChild(GameSaver.CreateProperty("accountant", Accountant));
+            }
+            Result.AppendChild(AccountantListElement);
+
             System.Xml.XmlElement BrokenThingsListElement = GameSaver.CreateElement("broken-things");
 
             foreach(System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing> BrokenThing in _BrokenThings)
@@ -468,6 +527,10 @@
 
         public virtual void Load(ButtonOffice.GameLoader GameLoader, System.Xml.XmlElement Element)
         {
+            foreach(ButtonOffice.Accountant Accountant in GameLoader.LoadAccountantList(Element, "accountants", "accountant"))
+            {
+                _Accountants.Add(Accountant);
+            }
             foreach(System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing> BrokenThing in GameLoader.LoadBrokenThingList(Element, "broken-things", "broken-thing"))
             {
                 _BrokenThings.Enqueue(BrokenThing);

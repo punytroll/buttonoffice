@@ -2,6 +2,66 @@
 {
     internal class Data
     {
+
+        public static System.Drawing.Color AccountantBackgroundColor
+        {
+            get
+            {
+                return System.Drawing.Color.FromArgb(220, 220, 120);
+            }
+        }
+
+        public static System.Drawing.Color AccountantBorderColor
+        {
+            get
+            {
+                return System.Drawing.Color.Black;
+            }
+        }
+
+        public static System.UInt64 AccountantHireCost
+        {
+            get
+            {
+                return 45000;
+            }
+        }
+
+        public static System.UInt32 AccountantStartMinute
+        {
+            get
+            {
+                return 500;
+            }
+        }
+
+        public static System.UInt64 AccountantWage
+        {
+            get
+            {
+                return 1500;
+            }
+        }
+
+        public static System.UInt64 AccountantWorkMinutes
+        {
+            get
+            {
+                return 600;
+            }
+        }
+
+        /// <summary>
+        /// Given in actions per game minute.
+        /// </summary>
+        public static System.Single AccountantWorkSpeed
+        {
+            get
+            {
+                return 0.15f;
+            }
+        }
+
         public static System.Drawing.Color BackgroundColor
         {
             get
@@ -487,6 +547,14 @@
             get
             {
                 return 0.5f;
+            }
+        }
+
+        public static System.String SaveGameFileVersion
+        {
+            get
+            {
+                return "0.1";
             }
         }
 
