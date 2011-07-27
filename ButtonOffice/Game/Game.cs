@@ -360,6 +360,10 @@
                     _BrokenThings.Enqueue(BrokenThing);
                 }
             }
+            else if(Person.Type == ButtonOffice.Type.Accountant)
+            {
+                _Accountants.Remove(Person as ButtonOffice.Accountant);
+            }
         }
 
         public System.Boolean PlaceCat(System.Drawing.RectangleF Rectangle)
