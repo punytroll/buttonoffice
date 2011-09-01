@@ -3,17 +3,22 @@
     internal abstract class Goal : ButtonOffice.PersistentObject
     {
         private ButtonOffice.GoalState _State;
-        public System.Collections.Generic.List<ButtonOffice.Goal> SubGoals;
+        private System.Collections.Generic.List<ButtonOffice.Goal> _SubGoals;
 
         public Goal()
         {
-            SubGoals = new System.Collections.Generic.List<ButtonOffice.Goal>();
+            _SubGoals = new System.Collections.Generic.List<ButtonOffice.Goal>();
             _State = ButtonOffice.GoalState.Inactive;
         }
 
         public void AppendSubGoal(ButtonOffice.Goal Goal)
         {
-            SubGoals.Add(Goal);
+            _SubGoals.Add(Goal);
+        }
+
+        public ButtonOffice.Goal GetFirstSubGoal()
+        {
+            return _SubGoals.GetFirst();
         }
 
         public ButtonOffice.GoalState GetState()
@@ -21,9 +26,14 @@
             return _State;
         }
 
-        public void RemoveSubGoal()
+        public System.Boolean HasSubGoals()
         {
-            SubGoals.RemoveAt(0);
+            return _SubGoals.Count > 0;
+        }
+
+        public void RemoveFirstSubGoal()
+        {
+            _SubGoals.RemoveAt(0);
         }
 
         public void SetState(ButtonOffice.GoalState State)
@@ -54,7 +64,7 @@
 
         public void Terminate(ButtonOffice.Game Game, ButtonOffice.Person Person)
         {
-            System.Diagnostics.Debug.Assert(SubGoals.Count == 0);
+            System.Diagnostics.Debug.Assert(_SubGoals.Count == 0);
             _OnTerminate(Game, Person);
             _State = ButtonOffice.GoalState.Terminated;
         }
@@ -71,7 +81,7 @@
 
             System.Xml.XmlElement SubGoalsElement = GameSaver.CreateElement("sub-goals");
 
-            foreach(ButtonOffice.Goal Goal in SubGoals)
+            foreach(ButtonOffice.Goal Goal in _SubGoals)
             {
                 SubGoalsElement.AppendChild(GameSaver.CreateProperty("goal", Goal));
             }
@@ -85,7 +95,7 @@
             _State = GameLoader.LoadGoalState(Element, "state");
             foreach(ButtonOffice.Goal Goal in GameLoader.LoadGoalList(Element, "sub-goals", "goal"))
             {
-                SubGoals.Add(Goal);
+                _SubGoals.Add(Goal);
             }
         }
     }

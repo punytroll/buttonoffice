@@ -267,9 +267,9 @@
             {
                 ButtonOffice.Goal NextGoal = null;
 
-                if(CurrentGoal.SubGoals.Count > 0)
+                if(CurrentGoal.HasSubGoals() == true)
                 {
-                    NextGoal = CurrentGoal.SubGoals.GetFirst();
+                    NextGoal = CurrentGoal.GetFirstSubGoal();
                 }
                 if(CurrentGoal.GetState() == ButtonOffice.GoalState.Inactive)
                 {
@@ -288,11 +288,12 @@
                     {
                         ButtonOffice.Goal TerminateGoal = TerminateGoals.Peek();
 
-                        if(TerminateGoal.SubGoals.Count > 0)
+                        if(TerminateGoal.HasSubGoals() == true)
                         {
-                            while(TerminateGoal.SubGoals.Count > 0)
+                            while(TerminateGoal.HasSubGoals() == true)
                             {
-                                TerminateGoals.Push(TerminateGoal.SubGoals.PopFirst());
+                                TerminateGoals.Push(TerminateGoal.GetFirstSubGoal());
+                                TerminateGoal.RemoveFirstSubGoal();
                             }
                         }
                         else
@@ -302,7 +303,7 @@
                     }
                     if(ParentGoals.Count > 0)
                     {
-                        ParentGoals.GetLast().RemoveSubGoal();
+                        ParentGoals.GetLast().RemoveFirstSubGoal();
                     }
                     else
                     {

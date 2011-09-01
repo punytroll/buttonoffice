@@ -4,7 +4,7 @@
     {
         protected override void _OnExecute(ButtonOffice.Game Game, ButtonOffice.Person Person, System.Single DeltaMinutes)
         {
-            if(SubGoals.Count == 0)
+            if(HasSubGoals() == false)
             {
                 AppendSubGoal(new ButtonOffice.Goals.PlanNextWorkDay());
                 AppendSubGoal(new ButtonOffice.Goals.WaitUntilTimeToArrive());
@@ -196,7 +196,7 @@
             }
             else
             {
-                if(SubGoals.Count == 0)
+                if(HasSubGoals() == false)
                 {
                     ButtonOffice.Janitor Janitor = Person as ButtonOffice.Janitor;
                     ButtonOffice.Desk CleaningTarget = Janitor.PeekCleaningTarget();
@@ -247,7 +247,7 @@
 
         protected override void _OnExecute(ButtonOffice.Game Game, ButtonOffice.Person Person, System.Single DeltaMinutes)
         {
-            if(SubGoals.Count == 0)
+            if(HasSubGoals() == false)
             {
                 Person.SetAnimationState(ButtonOffice.AnimationState.Hidden);
                 Person.SetAnimationFraction(0.0f);
@@ -266,7 +266,7 @@
 
         protected override void _OnExecute(ButtonOffice.Game Game, ButtonOffice.Person Person, System.Single DeltaMinutes)
         {
-            if(SubGoals.Count == 0)
+            if(HasSubGoals() == false)
             {
                 Person.SetAtDesk(true);
                 SetState(ButtonOffice.GoalState.Done);
@@ -294,7 +294,7 @@
 
         protected override void _OnExecute(ButtonOffice.Game Game, ButtonOffice.Person Person, System.Single DeltaMinutes)
         {
-            if(SubGoals.Count == 0)
+            if(HasSubGoals() == false)
             {
                 SetState(ButtonOffice.GoalState.Done);
             }
@@ -305,7 +305,7 @@
     {
         protected override void _OnExecute(ButtonOffice.Game Game, ButtonOffice.Person Person, System.Single DeltaMinutes)
         {
-            if(SubGoals.Count == 0)
+            if(HasSubGoals() == false)
             {
                 AppendSubGoal(new ButtonOffice.Goals.PlanNextWorkDay());
                 AppendSubGoal(new ButtonOffice.Goals.WaitUntilTimeToArrive());
@@ -320,7 +320,7 @@
     {
         protected override void _OnExecute(ButtonOffice.Game Game, ButtonOffice.Person Person, System.Single DeltaMinutes)
         {
-            if(SubGoals.Count == 0)
+            if(HasSubGoals() == false)
             {
                 AppendSubGoal(new ButtonOffice.Goals.PlanNextWorkDay());
                 AppendSubGoal(new ButtonOffice.Goals.WaitUntilTimeToArrive());
@@ -504,7 +504,7 @@
             }
             else
             {
-                if(SubGoals.Count == 0)
+                if(HasSubGoals() == false)
                 {
                     if(Game.BrokenThings.Count > 0)
                     {
@@ -643,7 +643,7 @@
     {
         protected override void _OnExecute(ButtonOffice.Game Game, ButtonOffice.Person Person, System.Single DeltaMinutes)
         {
-            if(SubGoals.Count == 0)
+            if(HasSubGoals() == false)
             {
                 AppendSubGoal(new ButtonOffice.Goals.PlanNextWorkDay());
                 AppendSubGoal(new ButtonOffice.Goals.WaitUntilTimeToArrive());
