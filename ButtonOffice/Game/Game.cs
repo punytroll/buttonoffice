@@ -217,30 +217,25 @@
         {
             if(_Cents >= ButtonOffice.Data.AccountantHireCost)
             {
-                ButtonOffice.Office Office = _GetOffice(Rectangle.Location);
+                ButtonOffice.Desk Desk = GetDesk(Rectangle.Location);
 
-                if(Office != null)
+                if((Desk != null) && (Desk.IsFree() == true))
                 {
-                    ButtonOffice.Desk Desk = _GetDesk(Office, Rectangle.Location);
+                    _Cents -= ButtonOffice.Data.AccountantHireCost;
 
-                    if((Desk != null) && (Desk.IsFree() == true))
+                    ButtonOffice.Accountant Accountant = new ButtonOffice.Accountant();
+
+                    Accountant.AssignDesk(Desk);
+                    _Persons.Add(Accountant);
+                    _Accountants.Add(Accountant);
+                    if(_Persons.Count == _NextCatAtNumberOfEmployees)
                     {
-                        _Cents -= ButtonOffice.Data.AccountantHireCost;
-
-                        ButtonOffice.Accountant Accountant = new ButtonOffice.Accountant();
-
-                        Accountant.AssignDesk(Desk);
-                        _Persons.Add(Accountant);
-                        _Accountants.Add(Accountant);
-                        if(_Persons.Count == _NextCatAtNumberOfEmployees)
-                        {
-                            _NextCatAtNumberOfEmployees += 20;
-                            _CatStock += 1;
-                        }
-                        FireSpendMoney(ButtonOffice.Data.AccountantHireCost, Desk.GetMidLocation());
-
-                        return true;
+                        _NextCatAtNumberOfEmployees += 20;
+                        _CatStock += 1;
                     }
+                    FireSpendMoney(ButtonOffice.Data.AccountantHireCost, Desk.GetMidLocation());
+
+                    return true;
                 }
             }
 
@@ -251,29 +246,24 @@
         {
             if(_Cents >= ButtonOffice.Data.WorkerHireCost)
             {
-                ButtonOffice.Office Office = _GetOffice(Rectangle.Location);
+                ButtonOffice.Desk Desk = GetDesk(Rectangle.Location);
 
-                if(Office != null)
+                if((Desk != null) && (Desk.IsFree() == true))
                 {
-                    ButtonOffice.Desk Desk = _GetDesk(Office, Rectangle.Location);
+                    _Cents -= ButtonOffice.Data.WorkerHireCost;
 
-                    if((Desk != null) && (Desk.IsFree() == true))
+                    ButtonOffice.Worker Worker = new ButtonOffice.Worker();
+
+                    Worker.AssignDesk(Desk);
+                    _Persons.Add(Worker);
+                    if(_Persons.Count == _NextCatAtNumberOfEmployees)
                     {
-                        _Cents -= ButtonOffice.Data.WorkerHireCost;
-
-                        ButtonOffice.Worker Worker = new ButtonOffice.Worker();
-
-                        Worker.AssignDesk(Desk);
-                        _Persons.Add(Worker);
-                        if(_Persons.Count == _NextCatAtNumberOfEmployees)
-                        {
-                            _NextCatAtNumberOfEmployees += 20;
-                            _CatStock += 1;
-                        }
-                        FireSpendMoney(ButtonOffice.Data.WorkerHireCost, Desk.GetMidLocation());
-
-                        return true;
+                        _NextCatAtNumberOfEmployees += 20;
+                        _CatStock += 1;
                     }
+                    FireSpendMoney(ButtonOffice.Data.WorkerHireCost, Desk.GetMidLocation());
+
+                    return true;
                 }
             }
 
@@ -284,29 +274,24 @@
         {
             if(_Cents >= ButtonOffice.Data.ITTechHireCost)
             {
-                ButtonOffice.Office Office = _GetOffice(Rectangle.Location);
+                ButtonOffice.Desk Desk = GetDesk(Rectangle.Location);
 
-                if(Office != null)
+                if((Desk != null) && (Desk.IsFree() == true))
                 {
-                    ButtonOffice.Desk Desk = _GetDesk(Office, Rectangle.Location);
+                    _Cents -= ButtonOffice.Data.ITTechHireCost;
 
-                    if((Desk != null) && (Desk.IsFree() == true))
+                    ButtonOffice.ITTech ITTech = new ButtonOffice.ITTech();
+
+                    ITTech.AssignDesk(Desk);
+                    _Persons.Add(ITTech);
+                    if(_Persons.Count == _NextCatAtNumberOfEmployees)
                     {
-                        _Cents -= ButtonOffice.Data.ITTechHireCost;
-
-                        ButtonOffice.ITTech ITTech = new ButtonOffice.ITTech();
-
-                        ITTech.AssignDesk(Desk);
-                        _Persons.Add(ITTech);
-                        if(_Persons.Count == _NextCatAtNumberOfEmployees)
-                        {
-                            _NextCatAtNumberOfEmployees += 20;
-                            _CatStock += 1;
-                        }
-                        FireSpendMoney(ButtonOffice.Data.ITTechHireCost, Desk.GetMidLocation());
-
-                        return true;
+                        _NextCatAtNumberOfEmployees += 20;
+                        _CatStock += 1;
                     }
+                    FireSpendMoney(ButtonOffice.Data.ITTechHireCost, Desk.GetMidLocation());
+
+                    return true;
                 }
             }
 
@@ -317,29 +302,24 @@
         {
             if(_Cents >= ButtonOffice.Data.JanitorHireCost)
             {
-                ButtonOffice.Office Office = _GetOffice(Rectangle.Location);
+                ButtonOffice.Desk Desk = GetDesk(Rectangle.Location);
 
-                if(Office != null)
+                if((Desk != null) && (Desk.IsFree() == true))
                 {
-                    ButtonOffice.Desk Desk = _GetDesk(Office, Rectangle.Location);
+                    _Cents -= ButtonOffice.Data.JanitorHireCost;
 
-                    if((Desk != null) && (Desk.IsFree() == true))
+                    ButtonOffice.Janitor Janitor = new ButtonOffice.Janitor();
+
+                    Janitor.AssignDesk(Desk);
+                    _Persons.Add(Janitor);
+                    if(_Persons.Count == _NextCatAtNumberOfEmployees)
                     {
-                        _Cents -= ButtonOffice.Data.JanitorHireCost;
-
-                        ButtonOffice.Janitor Janitor = new ButtonOffice.Janitor();
-
-                        Janitor.AssignDesk(Desk);
-                        _Persons.Add(Janitor);
-                        if(_Persons.Count == _NextCatAtNumberOfEmployees)
-                        {
-                            _NextCatAtNumberOfEmployees += 20;
-                            _CatStock += 1;
-                        }
-                        FireSpendMoney(ButtonOffice.Data.JanitorHireCost, Desk.GetMidLocation());
-
-                        return true;
+                        _NextCatAtNumberOfEmployees += 20;
+                        _CatStock += 1;
                     }
+                    FireSpendMoney(ButtonOffice.Data.JanitorHireCost, Desk.GetMidLocation());
+
+                    return true;
                 }
             }
 
@@ -370,7 +350,7 @@
         {
             if(_CatStock > 0)
             {
-                ButtonOffice.Office Office = _GetOffice(Rectangle.Location);
+                ButtonOffice.Office Office = GetOffice(Rectangle.Location);
 
                 if((Office != null) && (Office.Cat == null))
                 {
@@ -387,11 +367,11 @@
             return false;
         }
 
-        private ButtonOffice.Office _GetOffice(System.Drawing.PointF GameCoordinates)
+        public ButtonOffice.Office GetOffice(System.Drawing.PointF Location)
         {
             foreach(ButtonOffice.Office Office in _Offices)
             {
-                if(Office.GetRectangle().Contains(GameCoordinates) == true)
+                if(Office.GetRectangle().Contains(Location) == true)
                 {
                     return Office;
                 }
@@ -581,6 +561,30 @@
                     _BuildingMinimumMaximum[Rectangle.Y.GetFlooredAsInt32()].Second = Rectangle.Right.GetFlooredAsInt32();
                 }
             }
+        }
+
+        public void MovePerson(ButtonOffice.Person Person, ButtonOffice.Desk Desk)
+        {
+            System.Diagnostics.Debug.Assert(Person != null);
+            System.Diagnostics.Debug.Assert(Desk != null);
+            System.Diagnostics.Debug.Assert(Desk.IsFree() == true);
+
+            Person.SetAtDesk(false);
+            Person.AssignDesk(Desk);
+        }
+
+        public ButtonOffice.Desk GetDesk(System.Drawing.PointF Location)
+        {
+            ButtonOffice.Office Office = GetOffice(Location);
+
+            if(Office == null)
+            {
+                return null;
+            }
+
+            ButtonOffice.Desk Desk = _GetDesk(Office, Location);
+
+            return Desk;
         }
     }
 }

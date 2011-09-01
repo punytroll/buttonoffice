@@ -4,6 +4,8 @@
     {
         private System.Drawing.PointF _CameraVelocity;
         private System.Collections.Generic.List<ButtonOffice.FloatingText> _FloatingTexts;
+        private System.Windows.Forms.CheckBox _MoveButton;
+        private ButtonOffice.Person _MovePerson;
         private ButtonOffice.Game _Game;
         private System.Collections.Generic.List<System.Windows.Forms.ToolStripButton> _ToolButtons;
         private System.Nullable<System.Drawing.Point> _DragPoint;
@@ -91,8 +93,8 @@
             this._HireWorkerButton = new System.Windows.Forms.ToolStripButton();
             this._HireITTechButton = new System.Windows.Forms.ToolStripButton();
             this._HireJanitorButton = new System.Windows.Forms.ToolStripButton();
-            this._PlaceCatButton = new System.Windows.Forms.ToolStripButton();
             this._HireAccountantButton = new System.Windows.Forms.ToolStripButton();
+            this._PlaceCatButton = new System.Windows.Forms.ToolStripButton();
             Separator1 = new System.Windows.Forms.ToolStripSeparator();
             this._ToolStripContainer.BottomToolStripPanel.SuspendLayout();
             this._ToolStripContainer.ContentPanel.SuspendLayout();
@@ -271,7 +273,7 @@
             this._GameTools.Name = "_GameTools";
             this._GameTools.Padding = new System.Windows.Forms.Padding(0);
             this._GameTools.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this._GameTools.Size = new System.Drawing.Size(332, 25);
+            this._GameTools.Size = new System.Drawing.Size(301, 25);
             this._GameTools.TabIndex = 1;
             // 
             // _BuildOfficeButton
@@ -311,15 +313,6 @@
             this._HireJanitorButton.CheckedChanged += new System.EventHandler(this._OnHireJanitorButtonCheckedChanged);
             this._HireJanitorButton.Click += new System.EventHandler(this._OnHireJanitorButtonClicked);
             // 
-            // _PlaceCatButton
-            // 
-            this._PlaceCatButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this._PlaceCatButton.Name = "_PlaceCatButton";
-            this._PlaceCatButton.Size = new System.Drawing.Size(29, 22);
-            this._PlaceCatButton.Text = "Cat";
-            this._PlaceCatButton.CheckedChanged += new System.EventHandler(this._OnPlaceCatButtonCheckedChanged);
-            this._PlaceCatButton.Click += new System.EventHandler(this._OnPlaceCatButtonClicked);
-            // 
             // _HireAccountantButton
             // 
             this._HireAccountantButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
@@ -328,6 +321,15 @@
             this._HireAccountantButton.Text = "Accountant";
             this._HireAccountantButton.CheckedChanged += new System.EventHandler(this._OnHireAccountantButtonCheckedChanged);
             this._HireAccountantButton.Click += new System.EventHandler(this._OnHireAccountantButtonClicked);
+            // 
+            // _PlaceCatButton
+            // 
+            this._PlaceCatButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this._PlaceCatButton.Name = "_PlaceCatButton";
+            this._PlaceCatButton.Size = new System.Drawing.Size(29, 22);
+            this._PlaceCatButton.Text = "Cat";
+            this._PlaceCatButton.CheckedChanged += new System.EventHandler(this._OnPlaceCatButtonCheckedChanged);
+            this._PlaceCatButton.Click += new System.EventHandler(this._OnPlaceCatButtonClicked);
             // 
             // MainWindow
             // 
@@ -355,7 +357,15 @@
 
         }
 
-        private void _ToggleOneToolButton(System.Collections.Generic.List<System.Windows.Forms.ToolStripButton> Buttons, System.Windows.Forms.ToolStripButton ToggleButton)
+        private void _UncheckAllToolButtons()
+        {
+            foreach(System.Windows.Forms.ToolStripButton Button in _ToolButtons)
+            {
+                Button.Checked = false;
+            }
+        }
+
+        private void _ToggleOneToolButton(System.Windows.Forms.ToolStripButton ToggleButton)
         {
             if(ToggleButton.Checked == true)
             {
@@ -364,7 +374,7 @@
             else
             {
                 // uncheck all other buttons (if necessary)
-                foreach(System.Windows.Forms.ToolStripButton Button in Buttons)
+                foreach(System.Windows.Forms.ToolStripButton Button in _ToolButtons)
                 {
                     if(Button != ToggleButton)
                     {
@@ -374,6 +384,10 @@
                         }
                     }
                 }
+                if((_MoveButton != null) && (_MoveButton.Checked == true))
+                {
+                    _MoveButton.Checked = false;
+                }
                 // check the new button
                 ToggleButton.Checked = true;
             }
@@ -381,7 +395,7 @@
 
         private void _OnBuildOfficeButtonClicked(System.Object Sender, System.EventArgs EventArguments)
         {
-            _ToggleOneToolButton(_ToolButtons, _BuildOfficeButton);
+            _ToggleOneToolButton(_BuildOfficeButton);
         }
 
         private void _OnBuildOfficeButtonCheckedChanged(System.Object Sender, System.EventArgs EventArguments)
@@ -402,7 +416,7 @@
 
         private void _OnHireITTechButtonClicked(System.Object Sender, System.EventArgs EventArguments)
         {
-            _ToggleOneToolButton(_ToolButtons, _HireITTechButton);
+            _ToggleOneToolButton(_HireITTechButton);
         }
 
         private void _OnHireITTechButtonCheckedChanged(System.Object Sender, System.EventArgs EventArguments)
@@ -423,7 +437,7 @@
 
         private void _OnHireJanitorButtonClicked(System.Object Sender, System.EventArgs EventArguments)
         {
-            _ToggleOneToolButton(_ToolButtons, _HireJanitorButton);
+            _ToggleOneToolButton(_HireJanitorButton);
         }
 
         private void _OnHireJanitorButtonCheckedChanged(System.Object Sender, System.EventArgs EventArguments)
@@ -444,7 +458,7 @@
 
         private void _OnHireWorkerButtonClicked(System.Object Sender, System.EventArgs EventArguments)
         {
-            _ToggleOneToolButton(_ToolButtons, _HireWorkerButton);
+            _ToggleOneToolButton(_HireWorkerButton);
         }
 
         private void _OnHireWorkerButtonCheckedChanged(System.Object Sender, System.EventArgs EventArguments)
@@ -465,7 +479,7 @@
 
         private void _OnHireAccountantButtonClicked(System.Object Sender, System.EventArgs EventArguments)
         {
-            _ToggleOneToolButton(_ToolButtons, _HireAccountantButton);
+            _ToggleOneToolButton(_HireAccountantButton);
         }
 
         private void _OnHireAccountantButtonCheckedChanged(System.Object Sender, System.EventArgs EventArguments)
@@ -486,7 +500,7 @@
 
         private void _OnPlaceCatButtonClicked(System.Object Sender, System.EventArgs EventArguments)
         {
-            _ToggleOneToolButton(_ToolButtons, _PlaceCatButton);
+            _ToggleOneToolButton(_PlaceCatButton);
         }
 
         private void _OnPlaceCatButtonCheckedChanged(object sender, System.EventArgs e)
@@ -598,11 +612,23 @@
                         }
                     }
                 }
+                else if(_MovePerson != null)
+                {
+                    System.Drawing.PointF GamingLocation = _GetGamingLocation(EventArguments.Location);
+                    ButtonOffice.Desk Desk = _Game.GetDesk(GamingLocation);
+
+                    if((Desk != null) && (Desk.IsFree() == true))
+                    {
+                        _Game.MovePerson(_MovePerson, Desk);
+                        _MoveButton.Checked = false;
+                    }
+                }
                 else
                 {
                     System.Drawing.PointF GamingLocation = _GetGamingLocation(EventArguments.Location);
                     System.Boolean Selected = false;
 
+                    _MainSplitContainer.Panel2.Controls.Clear();
                     _SelectedOffice = null;
                     _SelectedPerson = null;
                     if(Selected == false)
@@ -613,7 +639,6 @@
                             {
                                 _SelectedPerson = Person;
                                 Selected = true;
-                                _MainSplitContainer.Panel2.Controls.Clear();
 
                                 System.Windows.Forms.Label TypeLabel = new System.Windows.Forms.Label();
 
@@ -641,12 +666,32 @@
                                 FireButton.Location = new System.Drawing.Point(10, 80);
                                 FireButton.Size = new System.Drawing.Size(100, 20);
                                 FireButton.Text = "Fire";
-                                FireButton.Click += delegate(System.Object DelegateSender, System.EventArgs EventsArguments)
+                                FireButton.Click += delegate(System.Object DelegateSender, System.EventArgs DelegateEventArguments)
                                 {
                                     _Game.FirePerson(Person);
                                     _MainSplitContainer.Panel2Collapsed = true;
+                                    _MainSplitContainer.Panel2.Controls.Clear();
                                 };
                                 _MainSplitContainer.Panel2.Controls.Add(FireButton);
+                                _MoveButton = new System.Windows.Forms.CheckBox();
+                                _MoveButton.Location = new System.Drawing.Point(10, 120);
+                                _MoveButton.Size = new System.Drawing.Size(100, 20);
+                                _MoveButton.Text = "Move";
+                                _MoveButton.Appearance = System.Windows.Forms.Appearance.Button;
+                                _MoveButton.Checked = false;
+                                _MoveButton.CheckedChanged += delegate(System.Object DelegateSender, System.EventArgs DelegateEventArguments)
+                                {
+                                    if(_MoveButton.Checked == true)
+                                    {
+                                        _UncheckAllToolButtons();
+                                        _MovePerson = Person;
+                                    }
+                                    else
+                                    {
+                                        _MovePerson = null;
+                                    }
+                                };
+                                _MainSplitContainer.Panel2.Controls.Add(_MoveButton);
 
                                 break;
                             }
@@ -660,7 +705,6 @@
                             {
                                 _SelectedOffice = Office;
                                 Selected = true;
-                                _MainSplitContainer.Panel2.Controls.Clear();
 
                                 System.Windows.Forms.Label NameCaptionLabel = new System.Windows.Forms.Label();
 
@@ -1134,10 +1178,7 @@
         private void _OnNewGame()
         {
             // uncheck all buttons
-            foreach(System.Windows.Forms.ToolStripButton Button in _ToolButtons)
-            {
-                Button.Checked = false;
-            }
+            _UncheckAllToolButtons();
             _CameraVelocity = new System.Drawing.PointF(0.0f, 0.0f);
             _FloatingTexts.Clear();
             _Game.OnEarnMoney += delegate(System.UInt64 Cents, System.Drawing.PointF Location)
@@ -1166,6 +1207,8 @@
             _DragPoint = new System.Nullable<System.Drawing.Point>();
             _DrawingOffset = new System.Drawing.Point(-ButtonOffice.Data.WorldBlockWidth * ButtonOffice.Data.BlockWidth / 2, 2 * ButtonOffice.Data.BlockHeight);
             _LastTick = System.DateTime.MinValue;
+            _MoveButton = null;
+            _MovePerson = null;
             _Zoom = 1.0f;
         }
     }
