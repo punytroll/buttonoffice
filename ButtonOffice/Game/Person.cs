@@ -258,7 +258,7 @@
             _Rectangle.Y = Y;
         }
 
-        public void Move(ButtonOffice.Game Game, System.Single Minutes)
+        public void Move(ButtonOffice.Game Game, System.Single DeltaMinutes)
         {
             System.Collections.Generic.List<ButtonOffice.Goal> ParentGoals = new System.Collections.Generic.List<ButtonOffice.Goal>();
             ButtonOffice.Goal CurrentGoal = _Goal;
@@ -273,11 +273,11 @@
                 }
                 if(CurrentGoal.GetState() == ButtonOffice.GoalState.Inactive)
                 {
-                    CurrentGoal.Activate(Game, this, Minutes);
+                    CurrentGoal.Activate(Game, this);
                 }
                 if(CurrentGoal.GetState() == ButtonOffice.GoalState.Active)
                 {
-                    CurrentGoal.Execute(Game, this, Minutes);
+                    CurrentGoal.Execute(Game, this, DeltaMinutes);
                 }
                 if(CurrentGoal.GetState() == ButtonOffice.GoalState.Done)
                 {
@@ -297,7 +297,7 @@
                         }
                         else
                         {
-                            TerminateGoals.Pop().Terminate(Game, this, Minutes);
+                            TerminateGoals.Pop().Terminate(Game, this);
                         }
                     }
                     if(ParentGoals.Count > 0)
