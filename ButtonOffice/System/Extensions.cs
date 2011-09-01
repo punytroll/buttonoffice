@@ -81,4 +81,13 @@
 
         return Result;
     }
+
+    public static Type PopLast<Type>(this System.Collections.Generic.List<Type> List)
+    {
+        Type Result = List[List.Count - 1];
+
+        List.RemoveAt(List.Count - 1);
+
+        return Result;
+    }
 }
