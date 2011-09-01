@@ -1,6 +1,6 @@
 ﻿namespace ButtonOffice
 {
-    internal enum ActionState
+    public enum ActionState
     {
         Arriving,
         AtHome,
@@ -21,7 +21,7 @@
         Working
     }
 
-    internal enum AnimationState
+    public enum AnimationState
     {
         Accounting,
         Cleaning,
@@ -32,7 +32,7 @@
         Walking
     }
 
-    internal enum BrokenThing
+    public enum BrokenThing
     {
         FirstComputer,
         SecondComputer,
@@ -51,13 +51,13 @@
         Terminated
     }
 
-    internal enum LivingSide
+    public enum LivingSide
     {
         Left,
         Right
     }
 
-    internal enum Type
+    public enum Type
     {
         Accountant,
         Cat,
