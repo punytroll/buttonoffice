@@ -198,7 +198,7 @@
                 _FirstLamp.SetMinutesUntilBroken(_FirstLamp.GetMinutesUntilBroken() - GameMinutes);
                 if(_FirstLamp.IsBroken() == true)
                 {
-                    Game.BrokenThings.Enqueue(new System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing>(this, ButtonOffice.BrokenThing.FirstLamp));
+                    Game.EnqueueBrokenThing(new System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing>(this, ButtonOffice.BrokenThing.FirstLamp));
                 }
             }
             if(_SecondLamp.IsBroken() == false)
@@ -206,7 +206,7 @@
                 _SecondLamp.SetMinutesUntilBroken(_SecondLamp.GetMinutesUntilBroken() - GameMinutes);
                 if(_SecondLamp.IsBroken() == true)
                 {
-                    Game.BrokenThings.Enqueue(new System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing>(this, ButtonOffice.BrokenThing.SecondLamp));
+                    Game.EnqueueBrokenThing(new System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing>(this, ButtonOffice.BrokenThing.SecondLamp));
                 }
             }
             if(_ThirdLamp.IsBroken() == false)
@@ -214,7 +214,7 @@
                 _ThirdLamp.SetMinutesUntilBroken(_ThirdLamp.GetMinutesUntilBroken() - GameMinutes);
                 if(_ThirdLamp.IsBroken() == true)
                 {
-                    Game.BrokenThings.Enqueue(new System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing>(this, ButtonOffice.BrokenThing.ThirdLamp));
+                    Game.EnqueueBrokenThing(new System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing>(this, ButtonOffice.BrokenThing.ThirdLamp));
                 }
             }
             if(_Cat != null)

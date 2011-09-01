@@ -7,7 +7,7 @@
         public event MoneyChangeDelegate OnSpendMoney;
 
         private System.Collections.Generic.List<ButtonOffice.Accountant> _Accountants;
-        private System.Collections.Generic.Queue<System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing>> _BrokenThings;
+        private System.Collections.Generic.List<System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing>> _BrokenThings;
         private System.UInt32 _CatStock;
         private System.UInt64 _Cents;
         private System.Collections.Generic.List<System.Collections.BitArray> _FreeSpace;
@@ -17,14 +17,6 @@
         private System.Collections.Generic.List<ButtonOffice.Office> _Offices;
         private System.Collections.Generic.List<ButtonOffice.Person> _Persons;
         private System.Single _SubMinute;
-
-        public System.Collections.Generic.Queue<System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing>> BrokenThings
-        {
-            get
-            {
-                return _BrokenThings;
-            }
-        }
 
         public System.Collections.Generic.List<ButtonOffice.Office> Offices
         {
@@ -76,7 +68,7 @@
         private Game()
         {
             _Accountants = new System.Collections.Generic.List<ButtonOffice.Accountant>();
-            _BrokenThings = new System.Collections.Generic.Queue<System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing>>();
+            _BrokenThings = new System.Collections.Generic.List<System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing>>();
             _FreeSpace = new System.Collections.Generic.List<System.Collections.BitArray>();
             _BuildingMinimumMaximum = new System.Collections.Generic.List<System.Pair<System.Int32, System.Int32>>();
             _Offices = new System.Collections.Generic.List<ButtonOffice.Office>();
@@ -337,7 +329,7 @@
 
                 if(BrokenThing != null)
                 {
-                    _BrokenThings.Enqueue(BrokenThing);
+                    _BrokenThings.Add(BrokenThing);
                 }
             }
             else if(Person.Type == ButtonOffice.Type.Accountant)
@@ -517,7 +509,7 @@
             }
             foreach(System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing> BrokenThing in GameLoader.LoadBrokenThingList(Element, "broken-things", "broken-thing"))
             {
-                _BrokenThings.Enqueue(BrokenThing);
+                _BrokenThings.Add(BrokenThing);
             }
             _CatStock = GameLoader.LoadUInt32Property(Element, "cat-stock");
             _Cents = GameLoader.LoadUInt64Property(Element, "cents");
@@ -585,6 +577,23 @@
             ButtonOffice.Desk Desk = _GetDesk(Office, Location);
 
             return Desk;
+        }
+
+        public void EnqueueBrokenThing(System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing> BrokenThing)
+        {
+            _BrokenThings.Add(BrokenThing);
+        }
+
+        public System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing> DequeueBrokenThing()
+        {
+            if(_BrokenThings.Count > 0)
+            {
+                return _BrokenThings.PopFirst();
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }

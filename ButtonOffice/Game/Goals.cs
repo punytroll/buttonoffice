@@ -41,19 +41,19 @@
                         Person.SetAnimationFraction(0.0f);
                         if(Person.GetDesk() == Person.GetDesk().Office.FirstDesk)
                         {
-                            Game.BrokenThings.Enqueue(new System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing>(Person.GetDesk().Office, ButtonOffice.BrokenThing.FirstComputer));
+                            Game.EnqueueBrokenThing(new System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing>(Person.GetDesk().Office, ButtonOffice.BrokenThing.FirstComputer));
                         }
                         else if(Person.GetDesk() == Person.GetDesk().Office.SecondDesk)
                         {
-                            Game.BrokenThings.Enqueue(new System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing>(Person.GetDesk().Office, ButtonOffice.BrokenThing.SecondComputer));
+                            Game.EnqueueBrokenThing(new System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing>(Person.GetDesk().Office, ButtonOffice.BrokenThing.SecondComputer));
                         }
                         else if(Person.GetDesk() == Person.GetDesk().Office.ThirdDesk)
                         {
-                            Game.BrokenThings.Enqueue(new System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing>(Person.GetDesk().Office, ButtonOffice.BrokenThing.ThirdComputer));
+                            Game.EnqueueBrokenThing(new System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing>(Person.GetDesk().Office, ButtonOffice.BrokenThing.ThirdComputer));
                         }
                         else if(Person.GetDesk() == Person.GetDesk().Office.FourthDesk)
                         {
-                            Game.BrokenThings.Enqueue(new System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing>(Person.GetDesk().Office, ButtonOffice.BrokenThing.FourthComputer));
+                            Game.EnqueueBrokenThing(new System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing>(Person.GetDesk().Office, ButtonOffice.BrokenThing.FourthComputer));
                         }
                     }
                     else
@@ -372,19 +372,19 @@
                         Person.SetAnimationFraction(0.0f);
                         if(Person.GetDesk() == Person.GetDesk().Office.FirstDesk)
                         {
-                            Game.BrokenThings.Enqueue(new System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing>(Person.GetDesk().Office, ButtonOffice.BrokenThing.FirstComputer));
+                            Game.EnqueueBrokenThing(new System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing>(Person.GetDesk().Office, ButtonOffice.BrokenThing.FirstComputer));
                         }
                         else if(Person.GetDesk() == Person.GetDesk().Office.SecondDesk)
                         {
-                            Game.BrokenThings.Enqueue(new System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing>(Person.GetDesk().Office, ButtonOffice.BrokenThing.SecondComputer));
+                            Game.EnqueueBrokenThing(new System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing>(Person.GetDesk().Office, ButtonOffice.BrokenThing.SecondComputer));
                         }
                         else if(Person.GetDesk() == Person.GetDesk().Office.ThirdDesk)
                         {
-                            Game.BrokenThings.Enqueue(new System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing>(Person.GetDesk().Office, ButtonOffice.BrokenThing.ThirdComputer));
+                            Game.EnqueueBrokenThing(new System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing>(Person.GetDesk().Office, ButtonOffice.BrokenThing.ThirdComputer));
                         }
                         else if(Person.GetDesk() == Person.GetDesk().Office.FourthDesk)
                         {
-                            Game.BrokenThings.Enqueue(new System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing>(Person.GetDesk().Office, ButtonOffice.BrokenThing.FourthComputer));
+                            Game.EnqueueBrokenThing(new System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing>(Person.GetDesk().Office, ButtonOffice.BrokenThing.FourthComputer));
                         }
                     }
                     else
@@ -506,10 +506,11 @@
             {
                 if(HasSubGoals() == false)
                 {
-                    if(Game.BrokenThings.Count > 0)
+                    System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing> BrokenThing = Game.DequeueBrokenThing();
+
+                    if(BrokenThing != null)
                     {
                         ButtonOffice.ITTech ITTech = Person as ButtonOffice.ITTech;
-                        System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing> BrokenThing = Game.BrokenThings.Dequeue();
 
                         ITTech.SetRepairingTarget(BrokenThing);
                         switch(BrokenThing.Second)
@@ -572,7 +573,7 @@
 
             if(ITTech.GetRepairingTarget() != null)
             {
-                Game.BrokenThings.Enqueue(ITTech.GetRepairingTarget());
+                Game.EnqueueBrokenThing(ITTech.GetRepairingTarget());
             }
         }
     }
