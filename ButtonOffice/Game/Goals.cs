@@ -203,8 +203,10 @@
 
                     if(CleaningTarget != null)
                     {
-                        Janitor.SetWalkTo(CleaningTarget.GetLocation());
-                        AppendSubGoal(new ButtonOffice.Goals.Walk());
+                        ButtonOffice.Goals.WalkTo WalkTo = new ButtonOffice.Goals.WalkTo();
+
+                        WalkTo.SetWalkTo(CleaningTarget.GetLocation());
+                        AppendSubGoal(WalkTo);
 
                         ButtonOffice.Goals.CleanDesk CleanDesk = new ButtonOffice.Goals.CleanDesk();
 
@@ -233,16 +235,19 @@
         {
             Game.SubtractCents(Person.GetWage());
             Game.FireSpendMoney(Person.GetWage(), Person.GetMidLocation());
+
+            ButtonOffice.Goals.WalkTo WalkTo = new ButtonOffice.Goals.WalkTo();
+
             if(Person.GetLivingSide() == ButtonOffice.LivingSide.Left)
             {
-                Person.SetWalkTo(new System.Drawing.PointF(-10.0f, 0.0f));
+                WalkTo.SetWalkTo(new System.Drawing.PointF(-10.0f, 0.0f));
             }
             else
             {
-                Person.SetWalkTo(new System.Drawing.PointF(ButtonOffice.Data.WorldBlockWidth + 10.0f, 0.0f));
+                WalkTo.SetWalkTo(new System.Drawing.PointF(ButtonOffice.Data.WorldBlockWidth + 10.0f, 0.0f));
             }
             Person.SetAtDesk(false);
-            AppendSubGoal(new ButtonOffice.Goals.Walk());
+            AppendSubGoal(WalkTo);
         }
 
         protected override void _OnExecute(ButtonOffice.Game Game, ButtonOffice.Person Person, System.Single DeltaMinutes)
@@ -260,8 +265,10 @@
     {
         protected override void _OnActivate(ButtonOffice.Game Game, ButtonOffice.Person Person)
         {
-            Person.SetWalkTo(new System.Drawing.PointF(Person.GetDesk().GetX() + (Person.GetDesk().GetWidth() - Person.GetWidth()) / 2.0f, Person.GetDesk().GetY()));
-            AppendSubGoal(new ButtonOffice.Goals.Walk());
+            ButtonOffice.Goals.WalkTo WalkTo = new ButtonOffice.Goals.WalkTo();
+
+            WalkTo.SetWalkTo(new System.Drawing.PointF(Person.GetDesk().GetX() + (Person.GetDesk().GetWidth() - Person.GetWidth()) / 2.0f, Person.GetDesk().GetY()));
+            AppendSubGoal(WalkTo);
         }
 
         protected override void _OnExecute(ButtonOffice.Game Game, ButtonOffice.Person Person, System.Single DeltaMinutes)
@@ -511,54 +518,55 @@
                     if(BrokenThing != null)
                     {
                         ButtonOffice.ITTech ITTech = Person as ButtonOffice.ITTech;
+                        ButtonOffice.Goals.WalkTo WalkTo = new ButtonOffice.Goals.WalkTo();
 
                         ITTech.SetRepairingTarget(BrokenThing);
                         switch(BrokenThing.Second)
                         {
                         case ButtonOffice.BrokenThing.FirstComputer:
                             {
-                                Person.SetWalkTo(new System.Drawing.PointF(BrokenThing.First.FirstDesk.GetX(), BrokenThing.First.GetY()));
+                                WalkTo.SetWalkTo(new System.Drawing.PointF(BrokenThing.First.FirstDesk.GetX(), BrokenThing.First.GetY()));
 
                                 break;
                             }
                         case ButtonOffice.BrokenThing.SecondComputer:
                             {
-                                Person.SetWalkTo(new System.Drawing.PointF(BrokenThing.First.SecondDesk.GetX(), BrokenThing.First.GetY()));
+                                WalkTo.SetWalkTo(new System.Drawing.PointF(BrokenThing.First.SecondDesk.GetX(), BrokenThing.First.GetY()));
 
                                 break;
                             }
                         case ButtonOffice.BrokenThing.ThirdComputer:
                             {
-                                Person.SetWalkTo(new System.Drawing.PointF(BrokenThing.First.ThirdDesk.GetX(), BrokenThing.First.GetY()));
+                                WalkTo.SetWalkTo(new System.Drawing.PointF(BrokenThing.First.ThirdDesk.GetX(), BrokenThing.First.GetY()));
 
                                 break;
                             }
                         case ButtonOffice.BrokenThing.FourthComputer:
                             {
-                                Person.SetWalkTo(new System.Drawing.PointF(BrokenThing.First.FourthDesk.GetX(), BrokenThing.First.GetY()));
+                                WalkTo.SetWalkTo(new System.Drawing.PointF(BrokenThing.First.FourthDesk.GetX(), BrokenThing.First.GetY()));
 
                                 break;
                             }
                         case ButtonOffice.BrokenThing.FirstLamp:
                             {
-                                Person.SetWalkTo(new System.Drawing.PointF(BrokenThing.First.FirstLamp.GetX(), BrokenThing.First.GetY()));
+                                WalkTo.SetWalkTo(new System.Drawing.PointF(BrokenThing.First.FirstLamp.GetX(), BrokenThing.First.GetY()));
 
                                 break;
                             }
                         case ButtonOffice.BrokenThing.SecondLamp:
                             {
-                                Person.SetWalkTo(new System.Drawing.PointF(BrokenThing.First.SecondLamp.GetX(), BrokenThing.First.GetY()));
+                                WalkTo.SetWalkTo(new System.Drawing.PointF(BrokenThing.First.SecondLamp.GetX(), BrokenThing.First.GetY()));
 
                                 break;
                             }
                         case ButtonOffice.BrokenThing.ThirdLamp:
                             {
-                                Person.SetWalkTo(new System.Drawing.PointF(BrokenThing.First.ThirdLamp.GetX(), BrokenThing.First.GetY()));
+                                WalkTo.SetWalkTo(new System.Drawing.PointF(BrokenThing.First.ThirdLamp.GetX(), BrokenThing.First.GetY()));
 
                                 break;
                             }
                         }
-                        AppendSubGoal(new ButtonOffice.Goals.Walk());
+                        AppendSubGoal(WalkTo);
                         AppendSubGoal(new ButtonOffice.Goals.Repair());
                         AppendSubGoal(new ButtonOffice.Goals.GoToOwnDesk());
                         Person.SetAtDesk(false);
@@ -604,8 +612,15 @@
         }
     }
 
-    internal class Walk : ButtonOffice.Goal
+    internal class WalkTo : ButtonOffice.Goal
     {
+        private System.Drawing.PointF _WalkTo;
+
+        public void SetWalkTo(System.Drawing.PointF WalkTo)
+        {
+            _WalkTo = WalkTo;
+        }
+
         protected override void _OnActivate(ButtonOffice.Game Game, ButtonOffice.Person Person)
         {
             Person.SetActionFraction(0.0f);
@@ -615,8 +630,8 @@
 
         protected override void _OnExecute(ButtonOffice.Game Game, ButtonOffice.Person Person, System.Single DeltaMinutes)
         {
-            System.Single DeltaX = Person.GetWalkTo().X - Person.GetX();
-            System.Single DeltaY = Person.GetWalkTo().Y - Person.GetY();
+            System.Single DeltaX = _WalkTo.X - Person.GetX();
+            System.Single DeltaY = _WalkTo.Y - Person.GetY();
             System.Single Norm = System.Math.Sqrt(DeltaX * DeltaX + DeltaY * DeltaY).ToSingle();
 
             if(Norm > 0.1)
@@ -627,7 +642,7 @@
             }
             else
             {
-                Person.SetLocation(Person.GetWalkTo());
+                Person.SetLocation(_WalkTo);
                 SetState(ButtonOffice.GoalState.Done);
             }
         }
@@ -637,6 +652,21 @@
             Person.SetActionFraction(0.0f);
             Person.SetAnimationState(ButtonOffice.AnimationState.Standing);
             Person.SetAnimationFraction(0.0f);
+        }
+
+        public override System.Xml.XmlElement Save(ButtonOffice.GameSaver GameSaver)
+        {
+            System.Xml.XmlElement Result = base.Save(GameSaver);
+
+            Result.AppendChild(GameSaver.CreateProperty("walk-to", _WalkTo));
+
+            return Result;
+        }
+
+        public override void Load(ButtonOffice.GameLoader GameLoader, System.Xml.XmlElement Element)
+        {
+            base.Load(GameLoader, Element);
+            _WalkTo = GameLoader.LoadPointProperty(Element, "walk-to");
         }
     }
 

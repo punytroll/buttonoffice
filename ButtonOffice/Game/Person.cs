@@ -17,7 +17,6 @@
         private System.Drawing.RectangleF _Rectangle;
         private System.String _Name;
         protected System.UInt64 _Wage;
-        protected System.Drawing.PointF _WalkTo;
         protected System.UInt64 _WorkMinutes;
         private ButtonOffice.Type _Type;
 
@@ -158,11 +157,6 @@
             return _Wage;
         }
 
-        public System.Drawing.PointF GetWalkTo()
-        {
-            return _WalkTo;
-        }
-
         public System.Single GetWidth()
         {
             return _Rectangle.Width;
@@ -230,11 +224,6 @@
             _Rectangle.Y = Y;
             _Rectangle.Width = Width;
             _Rectangle.Height = Height;
-        }
-
-        public void SetWalkTo(System.Drawing.PointF WalkTo)
-        {
-            _WalkTo = WalkTo;
         }
 
         public void SetWidth(System.Single Width)
@@ -344,7 +333,6 @@
             Result.AppendChild(GameSaver.CreateProperty("rectangle", _Rectangle));
             Result.AppendChild(GameSaver.CreateProperty("type", _Type));
             Result.AppendChild(GameSaver.CreateProperty("wage", _Wage));
-            Result.AppendChild(GameSaver.CreateProperty("walk-to", _WalkTo));
             Result.AppendChild(GameSaver.CreateProperty("work-minutes", _WorkMinutes));
 
             return Result;
@@ -368,7 +356,6 @@
             _Rectangle = GameLoader.LoadRectangleProperty(Element, "rectangle");
             _Type = GameLoader.LoadTypeProperty(Element, "type");
             _Wage = GameLoader.LoadUInt64Property(Element, "wage");
-            _WalkTo = GameLoader.LoadPointProperty(Element, "walk-to");
             _WorkMinutes = GameLoader.LoadUInt64Property(Element, "work-minutes");
         }
     }
