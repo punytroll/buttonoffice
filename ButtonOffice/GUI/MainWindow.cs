@@ -674,6 +674,7 @@
                                 };
                                 _MainSplitContainer.Panel2.Controls.Add(FireButton);
                                 _MoveButton = new System.Windows.Forms.CheckBox();
+                                _MoveButton.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
                                 _MoveButton.Location = new System.Drawing.Point(10, 120);
                                 _MoveButton.Size = new System.Drawing.Size(100, 20);
                                 _MoveButton.Text = "Move";
