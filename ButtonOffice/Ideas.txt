@@ -1,11 +1,9 @@
 ﻿Before 1.0:
 ===========
-- move people
 - destroy offices
 - supervisors
 - researchers
 - research branches and topics
-- accountant
 - hr
 - upgrades to offices
 - promotions to people
