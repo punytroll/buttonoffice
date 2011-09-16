@@ -110,4 +110,14 @@
 
         return Result;
     }
+
+    /// <summary>
+    /// Return a PointF value with the mid point coordinates of the rectangle.
+    /// </summary>
+    /// <param name="Rectangle"></param>
+    /// <returns></returns>
+    public static System.Drawing.PointF GetMidPoint(this System.Drawing.RectangleF Rectangle)
+    {
+        return new System.Drawing.PointF(Rectangle.X + Rectangle.Width / 2.0f, Rectangle.Y + Rectangle.Height / 2.0f);
+    }
 }
