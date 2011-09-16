@@ -2,656 +2,91 @@
 {
     internal class Data
     {
-
-        public static System.Drawing.Color AccountantBackgroundColor
-        {
-            get
-            {
-                return System.Drawing.Color.FromArgb(220, 220, 120);
-            }
-        }
-
-        public static System.Drawing.Color AccountantBorderColor
-        {
-            get
-            {
-                return System.Drawing.Color.Black;
-            }
-        }
-
-        public static System.UInt64 AccountantHireCost
-        {
-            get
-            {
-                return 45000;
-            }
-        }
-
-        public static System.UInt32 AccountantStartMinute
-        {
-            get
-            {
-                return 500;
-            }
-        }
-
-        public static System.UInt64 AccountantWage
-        {
-            get
-            {
-                return 1500;
-            }
-        }
-
-        public static System.UInt64 AccountantWorkMinutes
-        {
-            get
-            {
-                return 600;
-            }
-        }
-
-        /// <summary>
-        /// Given in actions per game minute.
-        /// </summary>
-        public static System.Single AccountantWorkSpeed
-        {
-            get
-            {
-                return 0.15f;
-            }
-        }
-
-        public static System.Drawing.Color BackgroundColor
-        {
-            get
-            {
-                return System.Drawing.Color.SkyBlue;
-            }
-        }
-
-        public static System.Int32 BlockHeight
-        {
-            get
-            {
-                return 50;
-            }
-        }
-
-        public static System.Int32 BlockWidth
-        {
-            get
-            {
-                return 20;
-            }
-        }
-
-        public static System.Drawing.Color BuildingBackgroundColor
-        {
-            get
-            {
-                return System.Drawing.Color.FromArgb(220, 220, 230);
-            }
-        }
-
-        public static System.Drawing.Color BuildingBorderColor
-        {
-            get
-            {
-                return System.Drawing.Color.FromArgb(0, 0, 0);
-            }
-        }
-
-        public static System.Drawing.Color CatBackgroundColor
-        {
-            get
-            {
-                return System.Drawing.Color.Black;
-            }
-        }
-
-        public static System.Drawing.Color CatBorderColor
-        {
-            get
-            {
-                return System.Drawing.Color.Black;
-            }
-        }
-
-        public static System.Single CatHeight
-        {
-            get
-            {
-                return 0.3f;
-            }
-        }
-
-        public static System.Single CatWalkSpeed
-        {
-            get
-            {
-                return 0.5f;
-            }
-        }
-
-        public static System.Single CatWidth
-        {
-            get
-            {
-                return 1.0f;
-            }
-        }
-
-        public static System.Drawing.Color ComputerBackgroundColor
-        {
-            get
-            {
-                return System.Drawing.Color.Beige;
-            }
-        }
-
-        public static System.Drawing.Color ComputerBorderColor
-        {
-            get
-            {
-                return System.Drawing.Color.Black;
-            }
-        }
-
-        public static System.Single ComputerHeight
-        {
-            get
-            {
-                return 0.2f;
-            }
-        }
-
-        public static System.Single ComputerWidth
-        {
-            get
-            {
-                return 1.2f;
-            }
-        }
-
-        public static System.Drawing.Color DeskBackgroundColor
-        {
-            get
-            {
-                return System.Drawing.Color.FromArgb(127, 48, 14);
-            }
-        }
-
-        public static System.Single DeskFourX
-        {
-            get
-            {
-                return 11.825f;
-            }
-        }
-
-        public static System.Single DeskHeight
-        {
-            get
-            {
-                return 0.3f;
-            }
-        }
-
-        public static System.Single DeskOneX
-        {
-            get
-            {
-                return 0.575f;
-            }
-        }
-
-        public static System.Single DeskThreeX
-        {
-            get
-            {
-                return 8.075f;
-            }
-        }
-
-        public static System.Single DeskTwoX
-        {
-            get
-            {
-                return 4.325f;
-            }
-        }
-
-        public static System.Single DeskWidth
-        {
-            get
-            {
-                return 2.6f;
-            }
-        }
-
-        public static System.Drawing.Color EarnMoneyFloatingTextColor
-        {
-            get
-            {
-                return System.Drawing.Color.FromArgb(220, 20, 220, 20);
-            }
-        }
-
-        public static System.Single FloatingTextSpeed
-        {
-            get
-            {
-                return 30.0f;
-            }
-        }
-
-        public static System.Single GameMinutesPerSecond
-        {
-            get
-            {
-                return 5;
-            }
-        }
-
-        public static System.Drawing.Color GroundColor
-        {
-            get
-            {
-                return System.Drawing.Color.FromArgb(64, 52, 18);
-            }
-        }
-
-        public static System.Drawing.Color ITTechBackgroundColor
-        {
-            get
-            {
-                return System.Drawing.Color.FromArgb(255, 120, 255);
-            }
-        }
-
-        public static System.Drawing.Color ITTechBorderColor
-        {
-            get
-            {
-                return System.Drawing.Color.Black; ;
-            }
-        }
-
-        public static System.UInt64 ITTechHireCost
-        {
-            get
-            {
-                return 60000;
-            }
-        }
-
-        public static System.Single ITTechRepairSpeed
-        {
-            get
-            {
-                return 0.2f;
-            }
-        }
-
-        public static System.Single ITTechRepairComputerSpeed
-        {
-            get
-            {
-                return 0.06f;
-            }
-        }
-
-        public static System.Single ITTechRepairLampSpeed
-        {
-            get
-            {
-                return 0.1f;
-            }
-        }
-
-        public static System.UInt32 ITTechStartMinute
-        {
-            get
-            {
-                return 540;
-            }
-        }
-
-        public static System.UInt64 ITTechWage
-        {
-            get
-            {
-                return 2000;
-            }
-        }
-
-        public static System.UInt32 ITTechWorkMinutes
-        {
-            get
-            {
-                return 540;
-            }
-        }
-
-        public static System.Drawing.Color JanitorBackgroundColor
-        {
-            get
-            {
-                return System.Drawing.Color.FromArgb(120, 120, 255);
-            }
-        }
-
-        public static System.Drawing.Color JanitorBorderColor
-        {
-            get
-            {
-                return System.Drawing.Color.Black;
-            }
-        }
-
-        public static System.Single JanitorCleanAmount
-        {
-            get
-            {
-                return 2.0f;
-            }
-        }
-
-        public static System.Single JanitorCleanSpeed
-        {
-            get
-            {
-                return 0.5f;
-            }
-        }
-
-        public static System.UInt64 JanitorHireCost
-        {
-            get
-            {
-                return 30000;
-            }
-        }
-
-        public static System.UInt32 JanitorStartMinute
-        {
-            get
-            {
-                return 1200;
-            }
-        }
-
-        public static System.UInt64 JanitorWage
-        {
-            get
-            {
-                return 1000;
-            }
-        }
-
-        public static System.UInt32 JanitorWorkMinutes
-        {
-            get
-            {
-                return 600;
-            }
-        }
-
-        public static System.Single LampHeight
-        {
-            get
-            {
-                return 0.1f;
-            }
-        }
-
-        public static System.Single LampOneX
-        {
-            get
-            {
-                return 1.0f;
-            }
-        }
-
-        public static System.Single LampThreeX
-        {
-            get
-            {
-                return 11.0f;
-            }
-        }
-
-        public static System.Single LampTwoX
-        {
-            get
-            {
-                return 6.0f;
-            }
-        }
-
-        public static System.Single LampWidth
-        {
-            get
-            {
-                return 3.0f;
-            }
-        }
-
-        public static System.Single MeanMinutesToBrokenComputer
-        {
-            get
-            {
-                return 500.0f;
-            }
-        }
-
-        public static System.Single MeanMinutesToBrokenLamp
-        {
-            get
-            {
-                return 1500.0f;
-            }
-        }
-
-        public static System.Drawing.Color OfficeBackgroundColor
-        {
-            get
-            {
-                return System.Drawing.Color.FromArgb(255, 255, 255);
-            }
-        }
-
-        public static System.Single OfficeBlockHeight
-        {
-            get
-            {
-                return 1.0f;
-            }
-        }
-
-        public static System.Single OfficeBlockWidth
-        {
-            get
-            {
-                return 15.0f;
-            }
-        }
-
-        public static System.Drawing.Color OfficeBorderColor
-        {
-            get
-            {
-                return System.Drawing.Color.Black;
-            }
-        }
-
-        public static System.UInt64 OfficeBuildCost
-        {
-            get
-            {
-                return 250000;
-            }
-        }
-
-        public static System.Single PersonHeight
-        {
-            get
-            {
-                return 0.75f;
-            }
-        }
-
-        public static System.Single PersonHeightSpread
-        {
-            get
-            {
-                return 0.3f;
-            }
-        }
-
-        public static System.Single PersonSpeed
-        {
-            get
-            {
-                return 2.0f;
-            }
-        }
-
-        public static System.Single PersonTagHeight
-        {
-            get
-            {
-                return 0.15f;
-            }
-        }
-
-        public static System.Single PersonTagWidth
-        {
-            get
-            {
-                return 1.0f;
-            }
-        }
-
-        public static System.Single PersonWidth
-        {
-            get
-            {
-                return 1.6f;
-            }
-        }
-
-        public static System.Single PersonWidthSpread
-        {
-            get
-            {
-                return 0.5f;
-            }
-        }
-
-        public static System.String SaveGameFileVersion
-        {
-            get
-            {
-                return "0.1";
-            }
-        }
-
-        public static System.Drawing.Color SpendMoneyFloatingTextColor
-        {
-            get
-            {
-                return System.Drawing.Color.FromArgb(220, 220, 20, 20);
-            }
-        }
-
-        public static System.UInt64 StartCents
-        {
-            get
-            {
-                return 5000000;
-            }
-        }
-
-        public static System.UInt64 StartMinutes
-        {
-            get
-            {
-                return 480;
-            }
-        }
-
-        public static System.Drawing.Color WorkerBackgroundColor
-        {
-            get
-            {
-                return System.Drawing.Color.FromArgb(120, 120, 120);
-            }
-        }
-
-        public static System.Drawing.Color WorkerBorderColor
-        {
-            get
-            {
-                return System.Drawing.Color.Black;
-            }
-        }
-
-        public static System.UInt64 WorkerHireCost
-        {
-            get
-            {
-                return 30000;
-            }
-        }
-
-        public static System.UInt32 WorkerStartMinute
-        {
-            get
-            {
-                return 540;
-            }
-        }
-
-        public static System.UInt64 WorkerWage
-        {
-            get
-            {
-                return 1000;
-            }
-        }
-
-        public static System.UInt32 WorkerWorkMinutes
-        {
-            get
-            {
-                return 540;
-            }
-        }
-
-        public static System.Single WorkerWorkSpeed
-        {
-            get
-            {
-                return 0.22f;
-            }
-        }
-
-        public static System.Int32 WorldBlockHeight
-        {
-            get
-            {
-                return 136;
-            }
-        }
-
-        public static System.Int32 WorldBlockWidth
-        {
-            get
-            {
-                return 132;
-            }
-        }
+        public static readonly System.Drawing.Color AccountantBackgroundColor = System.Drawing.Color.FromArgb(255, 220, 220, 120);
+        public static readonly System.Drawing.Color AccountantBorderColor = System.Drawing.Color.FromArgb(255, 0, 0, 0);
+        public static readonly System.UInt64 AccountantHireCost = 45000ul;
+        public static readonly System.UInt32 AccountantStartMinute = 500u;
+        public static readonly System.UInt64 AccountantWage = 1500ul;
+        public static readonly System.UInt64 AccountantWorkMinutes = 600ul;
+        public static readonly System.Single AccountantWorkSpeed = 0.15f;
+        public static readonly System.Drawing.Color BackgroundColor = System.Drawing.Color.FromArgb(255, 135, 205, 235);
+        public static readonly System.Drawing.Color BathroomBackgroundColor = System.Drawing.Color.FromArgb(255, 210, 240, 255);
+        public static readonly System.Single BathroomBlockHeight = 1.0f;
+        public static readonly System.Single BathroomBlockWidth = 10.0f;
+        public static readonly System.Drawing.Color BathroomBorderColor = System.Drawing.Color.FromArgb(255, 0, 0, 0);
+        public static readonly System.UInt64 BathroomBuildCost = 250000ul;
+        public static readonly System.Int32 BlockHeight = 50;
+        public static readonly System.Int32 BlockWidth = 20;
+        public static readonly System.Drawing.Color BuildingBackgroundColor = System.Drawing.Color.FromArgb(255, 220, 220, 230);
+        public static readonly System.Drawing.Color BuildingBorderColor = System.Drawing.Color.FromArgb(255, 0, 0, 0);
+        public static readonly System.Drawing.Color CatBackgroundColor = System.Drawing.Color.FromArgb(255, 0, 0, 0);
+        public static readonly System.Drawing.Color CatBorderColor = System.Drawing.Color.FromArgb(255, 0, 0, 0);
+        public static readonly System.Single CatHeight = 0.3f;
+        public static readonly System.Single CatWalkSpeed = 0.5f;
+        public static readonly System.Single CatWidth = 1.0f;
+        public static readonly System.Drawing.Color ComputerBackgroundColor = System.Drawing.Color.FromArgb(255, 245, 245, 220);
+        public static readonly System.Drawing.Color ComputerBorderColor = System.Drawing.Color.FromArgb(255, 0, 0, 0);
+        public static readonly System.Single ComputerHeight = 0.2f;
+        public static readonly System.Single ComputerWidth = 1.2f;
+        public static readonly System.Drawing.Color DeskBackgroundColor = System.Drawing.Color.FromArgb(255, 127, 48, 14);
+        public static readonly System.Single DeskFourX = 11.825f;
+        public static readonly System.Single DeskHeight = 0.3f;
+        public static readonly System.Single DeskOneX = 0.575f;
+        public static readonly System.Single DeskThreeX = 8.075f;
+        public static readonly System.Single DeskTwoX = 4.325f;
+        public static readonly System.Single DeskWidth = 2.6f;
+        public static readonly System.Drawing.Color EarnMoneyFloatingTextColor = System.Drawing.Color.FromArgb(220, 20, 220, 20);
+        public static readonly System.Single FloatingTextSpeed = 30.0f;
+        public static readonly System.Single GameMinutesPerSecond = 5;
+        public static readonly System.Drawing.Color GroundColor = System.Drawing.Color.FromArgb(255, 64, 52, 18);
+        public static readonly System.Drawing.Color ITTechBackgroundColor = System.Drawing.Color.FromArgb(255, 255, 120, 255);
+        public static readonly System.Drawing.Color ITTechBorderColor = System.Drawing.Color.FromArgb(255, 0, 0, 0);
+        public static readonly System.UInt64 ITTechHireCost = 60000ul;
+        public static readonly System.Single ITTechRepairSpeed = 0.2f;
+        public static readonly System.Single ITTechRepairComputerSpeed = 0.06f;
+        public static readonly System.Single ITTechRepairLampSpeed = 0.1f;
+        public static readonly System.UInt32 ITTechStartMinute = 540u;
+        public static readonly System.UInt64 ITTechWage = 2000ul;
+        public static readonly System.UInt32 ITTechWorkMinutes = 540u;
+        public static readonly System.Drawing.Color JanitorBackgroundColor = System.Drawing.Color.FromArgb(255, 120, 120, 255);
+        public static readonly System.Drawing.Color JanitorBorderColor = System.Drawing.Color.FromArgb(255, 0, 0, 0);
+        public static readonly System.Single JanitorCleanAmount = 2.0f;
+        public static readonly System.Single JanitorCleanSpeed = 0.5f;
+        public static readonly System.UInt64 JanitorHireCost = 30000ul;
+        public static readonly System.UInt32 JanitorStartMinute = 1200u;
+        public static readonly System.UInt64 JanitorWage = 1000ul;
+        public static readonly System.UInt32 JanitorWorkMinutes = 600u;
+        public static readonly System.Single LampHeight = 0.1f;
+        public static readonly System.Single LampOneX = 1.0f;
+        public static readonly System.Single LampThreeX = 11.0f;
+        public static readonly System.Single LampTwoX = 6.0f;
+        public static readonly System.Single LampWidth = 3.0f;
+        public static readonly System.Single MeanMinutesToBrokenComputer = 500.0f;
+        public static readonly System.Single MeanMinutesToBrokenLamp = 1500.0f;
+        public static readonly System.Drawing.Color OfficeBackgroundColor = System.Drawing.Color.FromArgb(255, 255, 255, 255);
+        public static readonly System.Single OfficeBlockHeight = 1.0f;
+        public static readonly System.Single OfficeBlockWidth = 15.0f;
+        public static readonly System.Drawing.Color OfficeBorderColor = System.Drawing.Color.FromArgb(255, 0, 0, 0);
+        public static readonly System.UInt64 OfficeBuildCost = 250000ul;
+        public static readonly System.Single PersonHeight = 0.75f;
+        public static readonly System.Single PersonHeightSpread = 0.3f;
+        public static readonly System.Single PersonSpeed = 2.0f;
+        public static readonly System.Single PersonTagHeight = 0.15f;
+        public static readonly System.Single PersonTagWidth = 1.0f;
+        public static readonly System.Single PersonWidth = 1.6f;
+        public static readonly System.Single PersonWidthSpread = 0.5f;
+        public static readonly System.String SaveGameFileVersion = "0.1";
+        public static readonly System.Drawing.Color SpendMoneyFloatingTextColor = System.Drawing.Color.FromArgb(220, 220, 20, 20);
+        public static readonly System.UInt64 StartCents = 5000000ul;
+        public static readonly System.UInt64 StartMinutes = 480ul;
+        public static readonly System.Drawing.Color WorkerBackgroundColor = System.Drawing.Color.FromArgb(255, 120, 120, 120);
+        public static readonly System.Drawing.Color WorkerBorderColor = System.Drawing.Color.FromArgb(255, 0, 0, 0);
+        public static readonly System.UInt64 WorkerHireCost = 30000ul;
+        public static readonly System.UInt32 WorkerStartMinute = 540u;
+        public static readonly System.UInt64 WorkerWage = 1000ul;
+        public static readonly System.UInt32 WorkerWorkMinutes = 540u;
+        public static readonly System.Single WorkerWorkSpeed = 0.22f;
+        public static readonly System.Int32 WorldBlockHeight = 136;
+        public static readonly System.Int32 WorldBlockWidth = 132;
     }
 }

@@ -4,6 +4,11 @@
     {
         private System.Single _MinutesUntilBroken;
 
+        public Computer()
+        {
+            _MinutesUntilBroken = ButtonOffice.RandomNumberGenerator.GetSingleFromExponentialDistribution(ButtonOffice.Data.MeanMinutesToBrokenComputer);
+        }
+
         public System.Single GetMinutesUntilBroken()
         {
             return _MinutesUntilBroken;

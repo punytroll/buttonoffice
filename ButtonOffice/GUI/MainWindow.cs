@@ -37,6 +37,7 @@
         private System.Windows.Forms.ToolStripMenuItem _QuitApplicationButton;
         private System.Windows.Forms.ToolStripMenuItem _SaveGameButton;
         private System.Windows.Forms.ToolStripButton _HireAccountantButton;
+        private System.Windows.Forms.ToolStripButton _BuildBathroomButton;
         private System.Single _Zoom;
     
         public MainWindow()
@@ -47,6 +48,7 @@
             _ToolButtons.Add(_HireJanitorButton);
             _ToolButtons.Add(_HireWorkerButton);
             _ToolButtons.Add(_BuildOfficeButton);
+            _ToolButtons.Add(_BuildBathroomButton);
             _ToolButtons.Add(_HireAccountantButton);
             _ToolButtons.Add(_PlaceCatButton);
             _FloatingTexts = new System.Collections.Generic.List<ButtonOffice.FloatingText>();
@@ -90,6 +92,7 @@
             this._QuitApplicationButton = new System.Windows.Forms.ToolStripMenuItem();
             this._GameTools = new System.Windows.Forms.ToolStrip();
             this._BuildOfficeButton = new System.Windows.Forms.ToolStripButton();
+            this._BuildBathroomButton = new System.Windows.Forms.ToolStripButton();
             this._HireWorkerButton = new System.Windows.Forms.ToolStripButton();
             this._HireITTechButton = new System.Windows.Forms.ToolStripButton();
             this._HireJanitorButton = new System.Windows.Forms.ToolStripButton();
@@ -264,6 +267,7 @@
             this._GameTools.Dock = System.Windows.Forms.DockStyle.None;
             this._GameTools.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this._BuildOfficeButton,
+            this._BuildBathroomButton,
             this._HireWorkerButton,
             this._HireITTechButton,
             this._HireJanitorButton,
@@ -273,7 +277,7 @@
             this._GameTools.Name = "_GameTools";
             this._GameTools.Padding = new System.Windows.Forms.Padding(0);
             this._GameTools.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this._GameTools.Size = new System.Drawing.Size(301, 25);
+            this._GameTools.Size = new System.Drawing.Size(396, 25);
             this._GameTools.TabIndex = 1;
             // 
             // _BuildOfficeButton
@@ -284,7 +288,17 @@
             this._BuildOfficeButton.Text = "Office";
             this._BuildOfficeButton.ToolTipText = "Build office";
             this._BuildOfficeButton.CheckedChanged += new System.EventHandler(this._OnBuildOfficeButtonCheckedChanged);
-            this._BuildOfficeButton.Click += new System.EventHandler(this._OnBuildOfficeButtonClicked);
+            this._BuildOfficeButton.Click += new System.EventHandler(this._OnToolButtonClicked);
+            // 
+            // _BuildBathroomButton
+            // 
+            this._BuildBathroomButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this._BuildBathroomButton.ImageTransparentColor = System.Drawing.Color.Transparent;
+            this._BuildBathroomButton.Name = "_BuildBathroomButton";
+            this._BuildBathroomButton.Size = new System.Drawing.Size(64, 22);
+            this._BuildBathroomButton.Text = "Bathroom";
+            this._BuildBathroomButton.CheckedChanged += new System.EventHandler(this._BuildBathroomButtonCheckedChanged);
+            this._BuildBathroomButton.Click += new System.EventHandler(this._OnToolButtonClicked);
             // 
             // _HireWorkerButton
             // 
@@ -293,7 +307,7 @@
             this._HireWorkerButton.Size = new System.Drawing.Size(49, 22);
             this._HireWorkerButton.Text = "Worker";
             this._HireWorkerButton.CheckedChanged += new System.EventHandler(this._OnHireWorkerButtonCheckedChanged);
-            this._HireWorkerButton.Click += new System.EventHandler(this._OnHireWorkerButtonClicked);
+            this._HireWorkerButton.Click += new System.EventHandler(this._OnToolButtonClicked);
             // 
             // _HireITTechButton
             // 
@@ -302,7 +316,7 @@
             this._HireITTechButton.Size = new System.Drawing.Size(50, 22);
             this._HireITTechButton.Text = "IT Tech";
             this._HireITTechButton.CheckedChanged += new System.EventHandler(this._OnHireITTechButtonCheckedChanged);
-            this._HireITTechButton.Click += new System.EventHandler(this._OnHireITTechButtonClicked);
+            this._HireITTechButton.Click += new System.EventHandler(this._OnToolButtonClicked);
             // 
             // _HireJanitorButton
             // 
@@ -311,7 +325,7 @@
             this._HireJanitorButton.Size = new System.Drawing.Size(46, 22);
             this._HireJanitorButton.Text = "Janitor";
             this._HireJanitorButton.CheckedChanged += new System.EventHandler(this._OnHireJanitorButtonCheckedChanged);
-            this._HireJanitorButton.Click += new System.EventHandler(this._OnHireJanitorButtonClicked);
+            this._HireJanitorButton.Click += new System.EventHandler(this._OnToolButtonClicked);
             // 
             // _HireAccountantButton
             // 
@@ -320,7 +334,7 @@
             this._HireAccountantButton.Size = new System.Drawing.Size(73, 22);
             this._HireAccountantButton.Text = "Accountant";
             this._HireAccountantButton.CheckedChanged += new System.EventHandler(this._OnHireAccountantButtonCheckedChanged);
-            this._HireAccountantButton.Click += new System.EventHandler(this._OnHireAccountantButtonClicked);
+            this._HireAccountantButton.Click += new System.EventHandler(this._OnToolButtonClicked);
             // 
             // _PlaceCatButton
             // 
@@ -329,7 +343,7 @@
             this._PlaceCatButton.Size = new System.Drawing.Size(29, 22);
             this._PlaceCatButton.Text = "Cat";
             this._PlaceCatButton.CheckedChanged += new System.EventHandler(this._OnPlaceCatButtonCheckedChanged);
-            this._PlaceCatButton.Click += new System.EventHandler(this._OnPlaceCatButtonClicked);
+            this._PlaceCatButton.Click += new System.EventHandler(this._OnToolButtonClicked);
             // 
             // MainWindow
             // 
@@ -393,9 +407,9 @@
             }
         }
 
-        private void _OnBuildOfficeButtonClicked(System.Object Sender, System.EventArgs EventArguments)
+        private void _OnToolButtonClicked(System.Object Sender, System.EventArgs EventArguments)
         {
-            _ToggleOneToolButton(_BuildOfficeButton);
+            _ToggleOneToolButton(Sender as System.Windows.Forms.ToolStripButton);
         }
 
         private void _OnBuildOfficeButtonCheckedChanged(System.Object Sender, System.EventArgs EventArguments)
@@ -414,9 +428,20 @@
             }
         }
 
-        private void _OnHireITTechButtonClicked(System.Object Sender, System.EventArgs EventArguments)
+        private void _BuildBathroomButtonCheckedChanged(System.Object Sender, System.EventArgs EventArguments)
         {
-            _ToggleOneToolButton(_HireITTechButton);
+            if(_EntityPrototype != null)
+            {
+                _EntityPrototype = null;
+            }
+            if((Sender as System.Windows.Forms.ToolStripButton).Checked == true)
+            {
+                _EntityPrototype = new EntityPrototype(ButtonOffice.Type.Bathroom);
+                _EntityPrototype.BackgroundColor = ButtonOffice.Data.BathroomBackgroundColor;
+                _EntityPrototype.BorderColor = ButtonOffice.Data.BathroomBorderColor;
+                _EntityPrototype.SetHeight(ButtonOffice.Data.BathroomBlockHeight);
+                _EntityPrototype.SetWidth(ButtonOffice.Data.BathroomBlockWidth);
+            }
         }
 
         private void _OnHireITTechButtonCheckedChanged(System.Object Sender, System.EventArgs EventArguments)
@@ -435,11 +460,6 @@
             }
         }
 
-        private void _OnHireJanitorButtonClicked(System.Object Sender, System.EventArgs EventArguments)
-        {
-            _ToggleOneToolButton(_HireJanitorButton);
-        }
-
         private void _OnHireJanitorButtonCheckedChanged(System.Object Sender, System.EventArgs EventArguments)
         {
             if(_EntityPrototype != null)
@@ -454,11 +474,6 @@
                 _EntityPrototype.SetHeight(ButtonOffice.Data.PersonHeight);
                 _EntityPrototype.SetWidth(ButtonOffice.Data.PersonWidth);
             }
-        }
-
-        private void _OnHireWorkerButtonClicked(System.Object Sender, System.EventArgs EventArguments)
-        {
-            _ToggleOneToolButton(_HireWorkerButton);
         }
 
         private void _OnHireWorkerButtonCheckedChanged(System.Object Sender, System.EventArgs EventArguments)
@@ -477,11 +492,6 @@
             }
         }
 
-        private void _OnHireAccountantButtonClicked(System.Object Sender, System.EventArgs EventArguments)
-        {
-            _ToggleOneToolButton(_HireAccountantButton);
-        }
-
         private void _OnHireAccountantButtonCheckedChanged(System.Object Sender, System.EventArgs EventArguments)
         {
             if(_EntityPrototype != null)
@@ -498,12 +508,7 @@
             }
         }
 
-        private void _OnPlaceCatButtonClicked(System.Object Sender, System.EventArgs EventArguments)
-        {
-            _ToggleOneToolButton(_PlaceCatButton);
-        }
-
-        private void _OnPlaceCatButtonCheckedChanged(object sender, System.EventArgs e)
+        private void _OnPlaceCatButtonCheckedChanged(System.Object Sender, System.EventArgs EventArguments)
         {
             if(_EntityPrototype != null)
             {
@@ -558,6 +563,16 @@
                             if(System.Windows.Forms.Control.ModifierKeys != System.Windows.Forms.Keys.Shift)
                             {
                                 _BuildOfficeButton.Checked = false;
+                            }
+                        }
+                    }
+                    else if(_EntityPrototype.Type == ButtonOffice.Type.Bathroom)
+                    {
+                        if(_Game.BuildBathroom(_EntityPrototype.Rectangle) == true)
+                        {
+                            if(System.Windows.Forms.Control.ModifierKeys != System.Windows.Forms.Keys.Shift)
+                            {
+                                _BuildBathroomButton.Checked = false;
                             }
                         }
                     }
@@ -751,7 +766,7 @@
                 }
             }
             EventArguments.Graphics.FillRectangle(new System.Drawing.SolidBrush(ButtonOffice.Data.GroundColor), 0, _GetDrawingY(0), _DrawingBoard.Width, _DrawingBoard.Height);
-            foreach(Office Office in _Game.Offices)
+            foreach(ButtonOffice.Office Office in _Game.Offices)
             {
                 _DrawRectangle(EventArguments.Graphics, Office.GetRectangle(), Office.BackgroundColor, Office.BorderColor);
 
@@ -775,6 +790,10 @@
                     LampColor = System.Drawing.Color.Gray;
                 }
                 _DrawRectangle(EventArguments.Graphics, Office.ThirdLamp.GetRectangle(), LampColor, System.Drawing.Color.Black);
+            }
+            foreach(ButtonOffice.Bathroom Bathroom in _Game.Bathrooms)
+            {
+                _DrawRectangle(EventArguments.Graphics, Bathroom.GetRectangle(), Bathroom.GetBackgroundColor(), Bathroom.GetBorderColor());
             }
             foreach(Person Person in _Game.Persons)
             {
