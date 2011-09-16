@@ -7,6 +7,7 @@
 
         public Lamp()
         {
+            _MinutesUntilBroken = ButtonOffice.RandomNumberGenerator.GetSingleFromExponentialDistribution(ButtonOffice.Data.MeanMinutesToBrokenLamp);
             _Rectangle.Height = ButtonOffice.Data.LampHeight;
             _Rectangle.Width = ButtonOffice.Data.LampWidth;
         }
