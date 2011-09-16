@@ -60,6 +60,7 @@
     public enum Type
     {
         Accountant,
+        Bathroom,
         Cat,
         ITTech,
         Janitor,

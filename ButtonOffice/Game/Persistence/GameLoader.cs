@@ -61,6 +61,23 @@
             return (ButtonOffice.AnimationState)System.Enum.Parse(typeof(ButtonOffice.AnimationState), _GetPropertyValue(ObjectElement, PropertyName, "ButtonOffice.AnimationState"));
         }
 
+        private ButtonOffice.Bathroom _LoadBathroom(System.Xml.XmlElement Element)
+        {
+            return _LoadPersistentObject(Element) as ButtonOffice.Bathroom;
+        }
+
+        public System.Collections.Generic.List<ButtonOffice.Bathroom> LoadBathroomList(System.Xml.XmlElement ObjectElement, System.String ListName, System.String ElementName)
+        {
+            System.Collections.Generic.List<ButtonOffice.Bathroom> Result = new System.Collections.Generic.List<ButtonOffice.Bathroom>();
+
+            foreach(System.Xml.XmlNode Node in _GetPropertyElements(ObjectElement, ListName, ElementName))
+            {
+                Result.Add(_LoadBathroom(Node as System.Xml.XmlElement));
+            }
+
+            return Result;
+        }
+
         public System.Boolean LoadBooleanProperty(System.Xml.XmlElement ObjectElement, System.String PropertyName)
         {
             return System.Convert.ToBoolean(_GetPropertyValue(ObjectElement, PropertyName, "System.Boolean"));

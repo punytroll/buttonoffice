@@ -7,6 +7,7 @@
         public event MoneyChangeDelegate OnSpendMoney;
 
         private System.Collections.Generic.List<ButtonOffice.Accountant> _Accountants;
+        private System.Collections.Generic.List<ButtonOffice.Bathroom> _Bathrooms;
         private System.Collections.Generic.List<System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing>> _BrokenThings;
         private System.UInt32 _CatStock;
         private System.UInt64 _Cents;
@@ -17,6 +18,14 @@
         private System.Collections.Generic.List<ButtonOffice.Office> _Offices;
         private System.Collections.Generic.List<ButtonOffice.Person> _Persons;
         private System.Single _SubMinute;
+
+        public System.Collections.Generic.List<ButtonOffice.Bathroom> Bathrooms
+        {
+            get
+            {
+                return _Bathrooms;
+            }
+        }
 
         public System.Collections.Generic.List<ButtonOffice.Office> Offices
         {
@@ -68,6 +77,7 @@
         private Game()
         {
             _Accountants = new System.Collections.Generic.List<ButtonOffice.Accountant>();
+            _Bathrooms = new System.Collections.Generic.List<ButtonOffice.Bathroom>();
             _BrokenThings = new System.Collections.Generic.List<System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing>>();
             _FreeSpace = new System.Collections.Generic.List<System.Collections.BitArray>();
             _BuildingMinimumMaximum = new System.Collections.Generic.List<System.Pair<System.Int32, System.Int32>>();
@@ -150,54 +160,35 @@
 
         public System.Boolean BuildOffice(System.Drawing.RectangleF Rectangle)
         {
-            if((Rectangle.Y.GetFloored() >= 0.0f) && (Rectangle.X.GetFloored() >= 0.0f) && (Rectangle.X.GetFlooredAsInt32() < ButtonOffice.Data.WorldBlockWidth))
+            if(_CanBuild(ButtonOffice.Data.OfficeBuildCost, Rectangle) == true)
             {
-                System.Boolean BuildAllowed = true;
+                _Build(ButtonOffice.Data.OfficeBuildCost, Rectangle);
 
-                for(System.Int32 Column = 0; Column < Rectangle.Width; ++Column)
-                {
-                    BuildAllowed &= _FreeSpace[Rectangle.Y.GetFlooredAsInt32()][Rectangle.X.GetFlooredAsInt32() + Column];
-                }
-                if(Rectangle.Y.GetFlooredAsInt32() > 0)
-                {
-                    BuildAllowed &= _BuildingMinimumMaximum[Rectangle.Y.GetFlooredAsInt32() - 1].First <= Rectangle.X.GetFlooredAsInt32();
-                    BuildAllowed &= _BuildingMinimumMaximum[Rectangle.Y.GetFlooredAsInt32() - 1].Second >= Rectangle.Right.GetFlooredAsInt32();
-                }
-                if((BuildAllowed == true) && (_Cents >= ButtonOffice.Data.OfficeBuildCost))
-                {
-                    _Cents -= ButtonOffice.Data.OfficeBuildCost;
-                    for(System.Int32 Column = 0; Column < Rectangle.Width.GetFlooredAsInt32(); ++Column)
-                    {
-                        _FreeSpace[Rectangle.Y.GetFlooredAsInt32()][Rectangle.X.GetFlooredAsInt32() + Column] = false;
-                    }
-                    if(_BuildingMinimumMaximum[Rectangle.Y.GetFlooredAsInt32()].First > Rectangle.X.GetFlooredAsInt32())
-                    {
-                        _BuildingMinimumMaximum[Rectangle.Y.GetFlooredAsInt32()].First = Rectangle.X.GetFlooredAsInt32();
-                    }
-                    if(_BuildingMinimumMaximum[Rectangle.Y.GetFlooredAsInt32()].Second < Rectangle.Right.GetFlooredAsInt32())
-                    {
-                        _BuildingMinimumMaximum[Rectangle.Y.GetFlooredAsInt32()].Second = Rectangle.Right.GetFlooredAsInt32();
-                    }
+                ButtonOffice.Office Office = new ButtonOffice.Office();
 
-                    Office Office = new Office();
+                Office.SetRectangle(Rectangle);
+                _Offices.Add(Office);
 
-                    Office.SetRectangle(Rectangle);
-                    Office.FirstDesk.GetComputer().SetMinutesUntilBroken(ButtonOffice.RandomNumberGenerator.GetSingleFromExponentialDistribution(ButtonOffice.Data.MeanMinutesToBrokenComputer));
-                    Office.SecondDesk.GetComputer().SetMinutesUntilBroken(ButtonOffice.RandomNumberGenerator.GetSingleFromExponentialDistribution(ButtonOffice.Data.MeanMinutesToBrokenComputer));
-                    Office.ThirdDesk.GetComputer().SetMinutesUntilBroken(ButtonOffice.RandomNumberGenerator.GetSingleFromExponentialDistribution(ButtonOffice.Data.MeanMinutesToBrokenComputer));
-                    Office.FourthDesk.GetComputer().SetMinutesUntilBroken(ButtonOffice.RandomNumberGenerator.GetSingleFromExponentialDistribution(ButtonOffice.Data.MeanMinutesToBrokenComputer));
-                    Office.FirstLamp.SetMinutesUntilBroken(ButtonOffice.RandomNumberGenerator.GetSingleFromExponentialDistribution(ButtonOffice.Data.MeanMinutesToBrokenLamp));
-                    Office.SecondLamp.SetMinutesUntilBroken(ButtonOffice.RandomNumberGenerator.GetSingleFromExponentialDistribution(ButtonOffice.Data.MeanMinutesToBrokenLamp));
-                    Office.ThirdLamp.SetMinutesUntilBroken(ButtonOffice.RandomNumberGenerator.GetSingleFromExponentialDistribution(ButtonOffice.Data.MeanMinutesToBrokenLamp));
-                    _Offices.Add(Office);
-                    FireSpendMoney(ButtonOffice.Data.OfficeBuildCost, Office.GetMidLocation());
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
 
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+        public System.Boolean BuildBathroom(System.Drawing.RectangleF Rectangle)
+        {
+            if(_CanBuild(ButtonOffice.Data.BathroomBuildCost, Rectangle) == true)
+            {
+                _Build(ButtonOffice.Data.BathroomBuildCost, Rectangle);
+
+                ButtonOffice.Bathroom Bathroom = new ButtonOffice.Bathroom();
+
+                Bathroom.SetRectangle(Rectangle);
+                _Bathrooms.Add(Bathroom);
+
+                return true;
             }
             else
             {
@@ -456,6 +447,115 @@
             SaveGameState.Save(this);
         }
 
+        public void MovePerson(ButtonOffice.Person Person, ButtonOffice.Desk Desk)
+        {
+            System.Diagnostics.Debug.Assert(Person != null);
+            System.Diagnostics.Debug.Assert(Desk != null);
+            System.Diagnostics.Debug.Assert(Desk.IsFree() == true);
+
+            Person.SetAtDesk(false);
+            Person.AssignDesk(Desk);
+        }
+
+        public ButtonOffice.Desk GetDesk(System.Drawing.PointF Location)
+        {
+            ButtonOffice.Office Office = GetOffice(Location);
+
+            if(Office == null)
+            {
+                return null;
+            }
+
+            ButtonOffice.Desk Desk = _GetDesk(Office, Location);
+
+            return Desk;
+        }
+
+        public void EnqueueBrokenThing(System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing> BrokenThing)
+        {
+            _BrokenThings.Add(BrokenThing);
+        }
+
+        public System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing> DequeueBrokenThing()
+        {
+            if(_BrokenThings.Count > 0)
+            {
+                return _BrokenThings.PopFirst();
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        private void _Build(System.UInt64 Cost, System.Drawing.RectangleF Rectangle)
+        {
+            _Cents -= Cost;
+            FireSpendMoney(Cost, Rectangle.GetMidPoint());
+            _OccupyFreeSpace(Rectangle);
+            _WidenBuilding(Rectangle);
+        }
+
+        private System.Boolean _CanBuild(System.UInt64 Cost, System.Drawing.RectangleF Rectangle)
+        {
+            return (_EnoughCents(Cost) == true) && (_InBuildableWorld(Rectangle) == true) && (_InFreeSpace(Rectangle) == true) && (_CompletelyOnTopOfBuilding(Rectangle) == true);
+        }
+
+        private System.Boolean _EnoughCents(System.UInt64 Cents)
+        {
+            return _Cents >= Cents;
+        }
+
+        private System.Boolean _InBuildableWorld(System.Drawing.RectangleF Rectangle)
+        {
+            return (Rectangle.Y >= 0.0f) && (Rectangle.X >= 0.0f) && (Rectangle.X + Rectangle.Width < ButtonOffice.Data.WorldBlockWidth.ToSingle());
+        }
+
+        private System.Boolean _InFreeSpace(System.Drawing.RectangleF Rectangle)
+        {
+            System.Boolean Result = true;
+
+            for(System.Int32 Column = 0; Column < Rectangle.Width.GetFlooredAsInt32(); ++Column)
+            {
+                Result &= _FreeSpace[Rectangle.Y.GetFlooredAsInt32()][Rectangle.X.GetFlooredAsInt32() + Column];
+            }
+
+            return Result;
+        }
+
+        private System.Boolean _CompletelyOnTopOfBuilding(System.Drawing.RectangleF Rectangle)
+        {
+            System.Boolean Result = true;
+
+            if(Rectangle.Y > 0.0f)
+            {
+                Result &= _BuildingMinimumMaximum[Rectangle.Y.GetFlooredAsInt32() - 1].First <= Rectangle.X.GetFlooredAsInt32();
+                Result &= _BuildingMinimumMaximum[Rectangle.Y.GetFlooredAsInt32() - 1].Second >= Rectangle.Right.GetFlooredAsInt32();
+            }
+
+            return Result;
+        }
+
+        private void _OccupyFreeSpace(System.Drawing.RectangleF Rectangle)
+        {
+            for(System.Int32 Column = 0; Column < Rectangle.Width.GetFlooredAsInt32(); ++Column)
+            {
+                _FreeSpace[Rectangle.Y.GetFlooredAsInt32()][Rectangle.X.GetFlooredAsInt32() + Column] = false;
+            }
+        }
+
+        private void _WidenBuilding(System.Drawing.RectangleF Rectangle)
+        {
+            if(_BuildingMinimumMaximum[Rectangle.Y.GetFlooredAsInt32()].First > Rectangle.X.GetFlooredAsInt32())
+            {
+                _BuildingMinimumMaximum[Rectangle.Y.GetFlooredAsInt32()].First = Rectangle.X.GetFlooredAsInt32();
+            }
+            if(_BuildingMinimumMaximum[Rectangle.Y.GetFlooredAsInt32()].Second < Rectangle.Right.GetFlooredAsInt32())
+            {
+                _BuildingMinimumMaximum[Rectangle.Y.GetFlooredAsInt32()].Second = Rectangle.Right.GetFlooredAsInt32();
+            }
+        }
+
         public virtual System.Xml.XmlElement Save(ButtonOffice.GameSaver GameSaver)
         {
             System.Xml.XmlElement Result = GameSaver.CreateElement("game");
@@ -466,6 +566,14 @@
                 AccountantListElement.AppendChild(GameSaver.CreateProperty("accountant", Accountant));
             }
             Result.AppendChild(AccountantListElement);
+
+            System.Xml.XmlElement BathroomsListElement = GameSaver.CreateElement("bathrooms");
+
+            foreach(ButtonOffice.Bathroom Bathroom in _Bathrooms)
+            {
+                BathroomsListElement.AppendChild(GameSaver.CreateProperty("bathroom", Bathroom));
+            }
+            Result.AppendChild(BathroomsListElement);
 
             System.Xml.XmlElement BrokenThingsListElement = GameSaver.CreateElement("broken-things");
 
@@ -506,6 +614,10 @@
             foreach(ButtonOffice.Accountant Accountant in GameLoader.LoadAccountantList(Element, "accountants", "accountant"))
             {
                 _Accountants.Add(Accountant);
+            }
+            foreach(ButtonOffice.Bathroom Bathroom in GameLoader.LoadBathroomList(Element, "bathrooms", "bathroom"))
+            {
+                _Bathrooms.Add(Bathroom);
             }
             foreach(System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing> BrokenThing in GameLoader.LoadBrokenThingList(Element, "broken-things", "broken-thing"))
             {
@@ -552,47 +664,6 @@
                 {
                     _BuildingMinimumMaximum[Rectangle.Y.GetFlooredAsInt32()].Second = Rectangle.Right.GetFlooredAsInt32();
                 }
-            }
-        }
-
-        public void MovePerson(ButtonOffice.Person Person, ButtonOffice.Desk Desk)
-        {
-            System.Diagnostics.Debug.Assert(Person != null);
-            System.Diagnostics.Debug.Assert(Desk != null);
-            System.Diagnostics.Debug.Assert(Desk.IsFree() == true);
-
-            Person.SetAtDesk(false);
-            Person.AssignDesk(Desk);
-        }
-
-        public ButtonOffice.Desk GetDesk(System.Drawing.PointF Location)
-        {
-            ButtonOffice.Office Office = GetOffice(Location);
-
-            if(Office == null)
-            {
-                return null;
-            }
-
-            ButtonOffice.Desk Desk = _GetDesk(Office, Location);
-
-            return Desk;
-        }
-
-        public void EnqueueBrokenThing(System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing> BrokenThing)
-        {
-            _BrokenThings.Add(BrokenThing);
-        }
-
-        public System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing> DequeueBrokenThing()
-        {
-            if(_BrokenThings.Count > 0)
-            {
-                return _BrokenThings.PopFirst();
-            }
-            else
-            {
-                return null;
             }
         }
     }
