@@ -10,7 +10,7 @@
         public static readonly System.UInt64 AccountantWorkMinutes = 600ul;
         public static readonly System.Single AccountantWorkSpeed = 0.15f;
         public static readonly System.Drawing.Color BackgroundColor = System.Drawing.Color.FromArgb(255, 135, 205, 235);
-        public static readonly System.Drawing.Color BathroomBackgroundColor = System.Drawing.Color.FromArgb(255, 210, 210, 255);
+        public static readonly System.Drawing.Color BathroomBackgroundColor = System.Drawing.Color.FromArgb(255, 210, 240, 255);
         public static readonly System.Single BathroomBlockHeight = 1.0f;
         public static readonly System.Single BathroomBlockWidth = 10.0f;
         public static readonly System.Drawing.Color BathroomBorderColor = System.Drawing.Color.FromArgb(255, 0, 0, 0);
