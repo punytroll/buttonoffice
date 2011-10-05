@@ -2,3 +2,5 @@ syntax: glob
 ButtonOffice/bin
 ButtonOffice/obj
 ButtonOffice.suo
+Common/bin
+Common/obj
