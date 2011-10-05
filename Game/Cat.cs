@@ -1,6 +1,6 @@
 ﻿namespace ButtonOffice
 {
-    internal class Cat : ButtonOffice.PersistentObject
+    public class Cat : ButtonOffice.PersistentObject
     {
         private ButtonOffice.ActionState _ActionState;
         private System.Drawing.Color _BackgroundColor;

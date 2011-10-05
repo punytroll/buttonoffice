@@ -1,6 +1,6 @@
 ﻿namespace ButtonOffice
 {
-    internal abstract class Goal : ButtonOffice.PersistentObject
+    public abstract class Goal : ButtonOffice.PersistentObject
     {
         private ButtonOffice.GoalState _State;
         private System.Collections.Generic.List<ButtonOffice.Goal> _SubGoals;

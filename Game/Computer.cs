@@ -1,6 +1,6 @@
 ﻿namespace ButtonOffice
 {
-    internal class Computer : ButtonOffice.PersistentObject
+    public class Computer : ButtonOffice.PersistentObject
     {
         private System.Single _MinutesUntilBroken;
 

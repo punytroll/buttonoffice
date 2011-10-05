@@ -1,6 +1,6 @@
 ﻿namespace ButtonOffice
 {
-    internal class Desk : ButtonOffice.PersistentObject
+    public class Desk : ButtonOffice.PersistentObject
     {
         private ButtonOffice.Computer _Computer;
         private ButtonOffice.Janitor _Janitor;

@@ -1,6 +1,6 @@
 ﻿namespace ButtonOffice
 {
-    internal class Bathroom : ButtonOffice.PersistentObject
+    public class Bathroom : ButtonOffice.PersistentObject
     {
         private System.Drawing.Color _BackgroundColor;
         private System.Drawing.Color _BorderColor;

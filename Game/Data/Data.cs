@@ -1,8 +1,9 @@
 ﻿namespace ButtonOffice
 {
-    internal class Data
+    public class Data
     {
         public static readonly System.Drawing.Color AccountantBackgroundColor = System.Drawing.Color.FromArgb(255, 220, 220, 120);
+        public static readonly System.UInt64 AccountantBonusPromille = 50ul;
         public static readonly System.Drawing.Color AccountantBorderColor = System.Drawing.Color.FromArgb(255, 0, 0, 0);
         public static readonly System.UInt64 AccountantHireCost = 45000ul;
         public static readonly System.UInt32 AccountantStartMinute = 500u;

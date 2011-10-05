@@ -77,41 +77,19 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Compile Include="Application.cs" />
-    <Compile Include="Data\Data.cs" />
-    <Compile Include="Game\Accountant.cs" />
-    <Compile Include="Game\Bathroom.cs" />
-    <Compile Include="Game\Cat.cs" />
-    <Compile Include="Game\Computer.cs" />
-    <Compile Include="Game\Enumerations.cs" />
-    <Compile Include="Game\Game.cs" />
-    <Compile Include="Game\Goal.cs" />
-    <Compile Include="Game\Goals.cs" />
-    <Compile Include="Game\ITTech.cs" />
-    <Compile Include="Game\Janitor.cs" />
-    <Compile Include="Game\Mind.cs" />
-    <Compile Include="Game\Persistence\GameLoader.cs" />
-    <Compile Include="Game\Persistence\GameSaver.cs" />
-    <Compile Include="Game\Persistence\PersistentObject.cs" />
-    <Compile Include="Game\RandomNumberGenerator.cs" />
-    <Compile Include="Game\Worker.cs" />
     <Compile Include="GUI\DrawingBoard.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="GUI\EntityPrototype.cs" />
     <Compile Include="GUI\FloatingText.cs" />
-    <Compile Include="Game\Desk.cs" />
-    <Compile Include="Game\Lamp.cs" />
     <Compile Include="GUI\MainWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Game\Office.cs" />
-    <Compile Include="Game\Person.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="GUI\MainWindow.resx">
@@ -147,6 +125,10 @@
     <ProjectReference Include="..\Common\Common.csproj">
       <Project>{C3811A97-6BAE-4D36-9504-591612EB5FB7}</Project>
       <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Game\Game.csproj">
+      <Project>{5DCF8354-B959-464F-A13C-AA4108CE4B5B}</Project>
+      <Name>Game</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>

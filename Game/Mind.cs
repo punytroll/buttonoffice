@@ -1,6 +1,6 @@
 ﻿namespace ButtonOffice
 {
-    internal class Mind : ButtonOffice.PersistentObject
+    public class Mind : ButtonOffice.PersistentObject
     {
         protected ButtonOffice.Goal _RootGoal;
 

@@ -1,6 +1,6 @@
 ﻿namespace ButtonOffice
 {
-    internal class GameLoader
+    public class GameLoader
     {
         System.Globalization.CultureInfo _CultureInfo;
         System.Xml.XmlDocument _Document;

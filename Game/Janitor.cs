@@ -1,6 +1,6 @@
 ﻿namespace ButtonOffice
 {
-    internal class Janitor : ButtonOffice.Person
+    public class Janitor : ButtonOffice.Person
     {
         private System.Collections.Generic.Queue<ButtonOffice.Desk> _CleaningTargets;
 

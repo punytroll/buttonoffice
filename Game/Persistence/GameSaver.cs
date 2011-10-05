@@ -1,6 +1,6 @@
 ﻿namespace ButtonOffice
 {
-    internal class GameSaver
+    public class GameSaver
     {
         private System.Globalization.CultureInfo _CultureInfo;
         private System.Xml.XmlDocument _Document;
