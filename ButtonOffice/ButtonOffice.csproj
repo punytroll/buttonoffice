@@ -104,6 +104,7 @@
     <Compile Include="Game\Goals.cs" />
     <Compile Include="Game\ITTech.cs" />
     <Compile Include="Game\Janitor.cs" />
+    <Compile Include="Game\Mind.cs" />
     <Compile Include="Game\Persistence\GameLoader.cs" />
     <Compile Include="Game\Persistence\GameSaver.cs" />
     <Compile Include="Game\Persistence\PersistentObject.cs" />

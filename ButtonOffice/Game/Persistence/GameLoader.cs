@@ -211,6 +211,11 @@
             return (ButtonOffice.LivingSide)System.Enum.Parse(typeof(ButtonOffice.LivingSide), _GetPropertyValue(ObjectElement, PropertyName, "ButtonOffice.LivingSide"));
         }
 
+        public ButtonOffice.Mind LoadMindProperty(System.Xml.XmlElement ObjectElement, System.String PropertyName)
+        {
+            return _LoadPersistentObject(_GetPropertyElement(ObjectElement, PropertyName)) as ButtonOffice.Mind;
+        }
+
         public ButtonOffice.Office _LoadOffice(System.Xml.XmlElement Element)
         {
             return _LoadPersistentObject(Element) as ButtonOffice.Office;

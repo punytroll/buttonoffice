@@ -11,9 +11,9 @@
         protected System.Drawing.Color _BackgroundColor;
         protected System.Drawing.Color _BorderColor;
         protected ButtonOffice.Desk _Desk;
-        protected ButtonOffice.Goal _Goal;
         protected System.UInt64 _LeavesAtMinute;
         protected ButtonOffice.LivingSide _LivingSide;
+        protected ButtonOffice.Mind _Mind;
         private System.Drawing.RectangleF _Rectangle;
         private System.String _Name;
         protected System.UInt64 _Wage;
@@ -67,6 +67,7 @@
                 _LivingSide = ButtonOffice.LivingSide.Right;
                 SetLocation(ButtonOffice.Data.WorldBlockWidth + 10.0f, 0.0f);
             }
+            _Mind = new Mind();
             _Rectangle.Height = ButtonOffice.RandomNumberGenerator.GetSingle(ButtonOffice.Data.PersonHeight, ButtonOffice.Data.PersonHeightSpread);
             _Rectangle.Width = ButtonOffice.RandomNumberGenerator.GetSingle(ButtonOffice.Data.PersonWidth, ButtonOffice.Data.PersonWidthSpread);
             _Name = "Hagen";
@@ -249,68 +250,7 @@
 
         public void Move(ButtonOffice.Game Game, System.Single DeltaMinutes)
         {
-            System.Collections.Generic.List<ButtonOffice.Goal> ParentGoals = new System.Collections.Generic.List<ButtonOffice.Goal>();
-            ButtonOffice.Goal CurrentGoal = _Goal;
-
-            while(CurrentGoal != null)
-            {
-                ButtonOffice.Goal NextGoal = null;
-
-                if(CurrentGoal.HasSubGoals() == true)
-                {
-                    NextGoal = CurrentGoal.GetFirstSubGoal();
-                }
-                if(CurrentGoal.GetState() == ButtonOffice.GoalState.Inactive)
-                {
-                    CurrentGoal.Activate(Game, this);
-                }
-                if(CurrentGoal.GetState() == ButtonOffice.GoalState.Active)
-                {
-                    CurrentGoal.Execute(Game, this, DeltaMinutes);
-                }
-                if(CurrentGoal.GetState() == ButtonOffice.GoalState.Done)
-                {
-                    System.Collections.Generic.Stack<ButtonOffice.Goal> TerminateGoals = new System.Collections.Generic.Stack<ButtonOffice.Goal>();
-
-                    TerminateGoals.Push(CurrentGoal);
-                    while(TerminateGoals.Count > 0)
-                    {
-                        ButtonOffice.Goal TerminateGoal = TerminateGoals.Peek();
-
-                        if(TerminateGoal.HasSubGoals() == true)
-                        {
-                            while(TerminateGoal.HasSubGoals() == true)
-                            {
-                                TerminateGoals.Push(TerminateGoal.GetFirstSubGoal());
-                                TerminateGoal.RemoveFirstSubGoal();
-                            }
-                        }
-                        else
-                        {
-                            TerminateGoals.Pop().Terminate(Game, this);
-                        }
-                    }
-                    if(ParentGoals.Count > 0)
-                    {
-                        ParentGoals.GetLast().RemoveFirstSubGoal();
-                    }
-                    else
-                    {
-                        _Goal = null;
-                    }
-                    CurrentGoal = null;
-                    NextGoal = null;
-                }
-                if(NextGoal != null)
-                {
-                    ParentGoals.Add(CurrentGoal);
-                    CurrentGoal = NextGoal;
-                }
-                else
-                {
-                    CurrentGoal = null;
-                }
-            }
+            _Mind.Move(Game, this, DeltaMinutes);
         }
 
         public virtual System.Xml.XmlElement Save(ButtonOffice.GameSaver GameSaver)
@@ -326,9 +266,9 @@
             Result.AppendChild(GameSaver.CreateProperty("background-color", _BackgroundColor));
             Result.AppendChild(GameSaver.CreateProperty("border-color", _BorderColor));
             Result.AppendChild(GameSaver.CreateProperty("desk", _Desk));
-            Result.AppendChild(GameSaver.CreateProperty("goal", _Goal));
             Result.AppendChild(GameSaver.CreateProperty("leaves-at-minute", _LeavesAtMinute));
             Result.AppendChild(GameSaver.CreateProperty("living-side", _LivingSide));
+            Result.AppendChild(GameSaver.CreateProperty("mind", _Mind));
             Result.AppendChild(GameSaver.CreateProperty("name", _Name));
             Result.AppendChild(GameSaver.CreateProperty("rectangle", _Rectangle));
             Result.AppendChild(GameSaver.CreateProperty("type", _Type));
@@ -349,9 +289,9 @@
             _BackgroundColor = GameLoader.LoadColorProperty(Element, "background-color");
             _BorderColor = GameLoader.LoadColorProperty(Element, "border-color");
             _Desk = GameLoader.LoadDeskProperty(Element, "desk");
-            _Goal = GameLoader.LoadGoalProperty(Element, "goal");
             _LeavesAtMinute = GameLoader.LoadUInt64Property(Element, "leaves-at-minute");
             _LivingSide = GameLoader.LoadLivingSideProperty(Element, "living-side");
+            _Mind = GameLoader.LoadMindProperty(Element, "mind");
             _Name = GameLoader.LoadStringProperty(Element, "name");
             _Rectangle = GameLoader.LoadRectangleProperty(Element, "rectangle");
             _Type = GameLoader.LoadTypeProperty(Element, "type");

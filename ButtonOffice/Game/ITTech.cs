@@ -10,10 +10,10 @@
             _ArrivesAtMinuteOfDay = ButtonOffice.RandomNumberGenerator.GetUInt32(ButtonOffice.Data.ITTechStartMinute, 300) % 1440;
             _BackgroundColor = ButtonOffice.Data.ITTechBackgroundColor;
             _BorderColor = ButtonOffice.Data.ITTechBorderColor;
-            _Goal = new ButtonOffice.Goals.ITTechThink();
             _RepairingTarget = null;
             _Wage = ButtonOffice.Data.ITTechWage;
             _WorkMinutes = ButtonOffice.Data.ITTechWorkMinutes;
+            _Mind.SetRootGoal(new ButtonOffice.Goals.ITTechThink());
         }
 
         public System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing> GetRepairingTarget()

@@ -8,9 +8,9 @@
             _ArrivesAtMinuteOfDay = ButtonOffice.RandomNumberGenerator.GetUInt32(ButtonOffice.Data.WorkerStartMinute, 300) % 1440;
             _BackgroundColor = ButtonOffice.Data.WorkerBackgroundColor;
             _BorderColor = ButtonOffice.Data.WorkerBorderColor;
-            _Goal = new ButtonOffice.Goals.WorkerThink();
             _Wage = ButtonOffice.Data.WorkerWage;
             _WorkMinutes = ButtonOffice.Data.WorkerWorkMinutes;
+            _Mind.SetRootGoal(new ButtonOffice.Goals.WorkerThink());
         }
 
         public override System.Xml.XmlElement Save(ButtonOffice.GameSaver GameSaver)

@@ -11,9 +11,9 @@
             _BackgroundColor = ButtonOffice.Data.AccountantBackgroundColor;
             _BorderColor = ButtonOffice.Data.AccountantBorderColor;
             _BonusPromille = 50;
-            _Goal = new ButtonOffice.Goals.AccountantThink();
             _Wage = ButtonOffice.Data.AccountantWage;
             _WorkMinutes = ButtonOffice.Data.AccountantWorkMinutes;
+            _Mind.SetRootGoal(new ButtonOffice.Goals.AccountantThink());
         }
 
         public System.UInt64 GetBonusPromille()
