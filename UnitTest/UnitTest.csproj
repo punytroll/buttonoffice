@@ -5,15 +5,13 @@
     <Platform Condition=" '$(Platform)' == '' ">x32</Platform>
     <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{5DCF8354-B959-464F-A13C-AA4108CE4B5B}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{9E47E4EB-2CF5-4088-8FF9-785397697A9F}</ProjectGuid>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ButtonOffice</RootNamespace>
-    <AssemblyName>Game</AssemblyName>
+    <RootNamespace>UnitTest</RootNamespace>
+    <AssemblyName>UnitTest</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject>
-    </StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x32' ">
     <DebugSymbols>true</DebugSymbols>
@@ -35,10 +33,10 @@
     </DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
     <PlatformTarget>x86</PlatformTarget>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
     <DebugSymbols>true</DebugSymbols>
@@ -48,9 +46,9 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <PlatformTarget>x64</PlatformTarget>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
     <DebugType>none</DebugType>
@@ -60,10 +58,10 @@
     </DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x64</PlatformTarget>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
     <UseVSHostingProcess>false</UseVSHostingProcess>
-    <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -74,38 +72,19 @@
   </Target>
   -->
   <ItemGroup>
-    <Compile Include="Accountant.cs" />
-    <Compile Include="Asserts.cs" />
-    <Compile Include="Bathroom.cs" />
-    <Compile Include="Cat.cs" />
-    <Compile Include="Computer.cs" />
-    <Compile Include="Data\Data.cs" />
-    <Compile Include="Desk.cs" />
-    <Compile Include="Enumerations.cs" />
-    <Compile Include="Game.cs" />
+    <Compile Include="Action.cs" />
+    <Compile Include="Application.cs" />
+    <Compile Include="Assert.cs" />
     <Compile Include="Goal.cs" />
-    <Compile Include="Goals.cs" />
-    <Compile Include="ITTech.cs" />
-    <Compile Include="Janitor.cs" />
-    <Compile Include="Lamp.cs" />
-    <Compile Include="Mind.cs" />
-    <Compile Include="Office.cs" />
-    <Compile Include="Persistence\GameLoader.cs" />
-    <Compile Include="Persistence\GameSaver.cs" />
-    <Compile Include="Persistence\PersistentObject.cs" />
-    <Compile Include="Person.cs" />
-    <Compile Include="RandomNumberGenerator.cs" />
-    <Compile Include="Worker.cs" />
+    <Compile Include="TraceListener.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Common\Common.csproj">
-      <Project>{C3811A97-6BAE-4D36-9504-591612EB5FB7}</Project>
-      <Name>Common</Name>
+    <ProjectReference Include="..\Game\Game.csproj">
+      <Project>{5DCF8354-B959-464F-A13C-AA4108CE4B5B}</Project>
+      <Name>Game</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.XML" />
   </ItemGroup>
 </Project>

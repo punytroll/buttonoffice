@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Game", "Game\Game.csproj", "{5DCF8354-B959-464F-A13C-AA4108CE4B5B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTest", "UnitTest\UnitTest.csproj", "{9E47E4EB-2CF5-4088-8FF9-785397697A9F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x32 = Debug|x32
@@ -39,6 +41,14 @@ Global
 		{5DCF8354-B959-464F-A13C-AA4108CE4B5B}.Release|x32.Build.0 = Release|x32
 		{5DCF8354-B959-464F-A13C-AA4108CE4B5B}.Release|x64.ActiveCfg = Release|x64
 		{5DCF8354-B959-464F-A13C-AA4108CE4B5B}.Release|x64.Build.0 = Release|x64
+		{9E47E4EB-2CF5-4088-8FF9-785397697A9F}.Debug|x32.ActiveCfg = Debug|x32
+		{9E47E4EB-2CF5-4088-8FF9-785397697A9F}.Debug|x32.Build.0 = Debug|x32
+		{9E47E4EB-2CF5-4088-8FF9-785397697A9F}.Debug|x64.ActiveCfg = Debug|x64
+		{9E47E4EB-2CF5-4088-8FF9-785397697A9F}.Debug|x64.Build.0 = Debug|x64
+		{9E47E4EB-2CF5-4088-8FF9-785397697A9F}.Release|x32.ActiveCfg = Release|x32
+		{9E47E4EB-2CF5-4088-8FF9-785397697A9F}.Release|x32.Build.0 = Release|x32
+		{9E47E4EB-2CF5-4088-8FF9-785397697A9F}.Release|x64.ActiveCfg = Release|x64
+		{9E47E4EB-2CF5-4088-8FF9-785397697A9F}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

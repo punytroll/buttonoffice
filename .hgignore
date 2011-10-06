@@ -6,3 +6,5 @@ Common/bin
 Common/obj
 Game/bin
 Game/obj
+UnitTest/bin
+UnitTest/obj

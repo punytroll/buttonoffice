@@ -47,7 +47,7 @@
     {
         Active,
         Done,
-        Inactive,
+        Pristine,
         Terminated
     }
 

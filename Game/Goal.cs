@@ -1,6 +1,6 @@
 ﻿namespace ButtonOffice
 {
-    public abstract class Goal : ButtonOffice.PersistentObject
+    public class Goal : ButtonOffice.PersistentObject
     {
         private ButtonOffice.GoalState _State;
         private System.Collections.Generic.List<ButtonOffice.Goal> _SubGoals;
@@ -8,7 +8,7 @@
         public Goal()
         {
             _SubGoals = new System.Collections.Generic.List<ButtonOffice.Goal>();
-            _State = ButtonOffice.GoalState.Inactive;
+            _State = ButtonOffice.GoalState.Pristine;
         }
 
         public void AppendSubGoal(ButtonOffice.Goal Goal)
@@ -43,7 +43,7 @@
 
         public void Activate(ButtonOffice.Game Game, ButtonOffice.Person Person)
         {
-            System.Diagnostics.Debug.Assert(_State == ButtonOffice.GoalState.Inactive);
+            System.Diagnostics.Debug.Assert(_State == ButtonOffice.GoalState.Pristine);
             _State = ButtonOffice.GoalState.Active;
             _OnActivate(Game, Person);
         }
@@ -54,7 +54,7 @@
 
         public void Execute(ButtonOffice.Game Game, ButtonOffice.Person Person, System.Single DeltaMinutes)
         {
-            System.Diagnostics.Debug.Assert(_State == ButtonOffice.GoalState.Active);
+            System.Diagnostics.Debug.Assert(_State == ButtonOffice.GoalState.Active, ButtonOffice.AssertMessages.CurrentStateIsNotActive.ToString());
             _OnExecute(Game, Person, DeltaMinutes);
         }
 

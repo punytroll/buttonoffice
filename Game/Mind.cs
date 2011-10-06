@@ -22,7 +22,7 @@
                 {
                     NextGoal = CurrentGoal.GetFirstSubGoal();
                 }
-                if(CurrentGoal.GetState() == ButtonOffice.GoalState.Inactive)
+                if(CurrentGoal.GetState() == ButtonOffice.GoalState.Pristine)
                 {
                     CurrentGoal.Activate(Game, Person);
                 }
