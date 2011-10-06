@@ -77,12 +77,12 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Compile Include="Application.cs" />
-    <Compile Include="GUI\DrawingBoard.cs">
+    <Compile Include="DrawingBoard.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="GUI\EntityPrototype.cs" />
-    <Compile Include="GUI\FloatingText.cs" />
-    <Compile Include="GUI\MainWindow.cs">
+    <Compile Include="EntityPrototype.cs" />
+    <Compile Include="FloatingText.cs" />
+    <Compile Include="MainWindow.cs">
       <SubType>Form</SubType>
     </Compile>
   </ItemGroup>
@@ -92,7 +92,7 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="GUI\MainWindow.resx">
+    <EmbeddedResource Include="MainWindow.resx">
       <DependentUpon>MainWindow.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
