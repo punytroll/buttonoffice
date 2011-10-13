@@ -45,9 +45,10 @@
 
     public enum GoalState
     {
-        Active,
         Done,
+        Executing,
         Pristine,
+        Ready,
         Terminated
     }
 

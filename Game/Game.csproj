@@ -75,7 +75,7 @@
   -->
   <ItemGroup>
     <Compile Include="Accountant.cs" />
-    <Compile Include="Asserts.cs" />
+    <Compile Include="AssertMessages.cs" />
     <Compile Include="Bathroom.cs" />
     <Compile Include="Cat.cs" />
     <Compile Include="Computer.cs" />

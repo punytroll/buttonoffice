@@ -24,9 +24,13 @@
                 }
                 if(CurrentGoal.GetState() == ButtonOffice.GoalState.Pristine)
                 {
-                    CurrentGoal.Activate(Game, Person);
+                    CurrentGoal.Initialize(Game, Person);
                 }
-                if(CurrentGoal.GetState() == ButtonOffice.GoalState.Active)
+                if(CurrentGoal.GetState() == ButtonOffice.GoalState.Ready)
+                {
+                    CurrentGoal.Resume(Game, Person);
+                }
+                if(CurrentGoal.GetState() == ButtonOffice.GoalState.Executing)
                 {
                     CurrentGoal.Execute(Game, Person, DeltaMinutes);
                 }

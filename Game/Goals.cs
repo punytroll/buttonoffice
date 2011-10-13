@@ -17,7 +17,7 @@
 
     internal class Accounting : ButtonOffice.Goal
     {
-        protected override void _OnActivate(ButtonOffice.Game Game, ButtonOffice.Person Person)
+        protected override void _OnInitialize(ButtonOffice.Game Game, ButtonOffice.Person Person)
         {
             Person.SetAnimationState(ButtonOffice.AnimationState.Accounting);
             Person.SetAnimationFraction(0.0f);
@@ -27,7 +27,7 @@
         {
             if(Game.GetTotalMinutes() > Person.GetLeavesAtMinute())
             {
-                SetState(ButtonOffice.GoalState.Done);
+                Finish(Game, Person);
             }
             else
             {
@@ -97,7 +97,7 @@
             _CleaningTarget = CleaningTarget;
         }
 
-        protected override void _OnActivate(ButtonOffice.Game Game, ButtonOffice.Person Person)
+        protected override void _OnInitialize(ButtonOffice.Game Game, ButtonOffice.Person Person)
         {
             ButtonOffice.Janitor Janitor = Person as ButtonOffice.Janitor;
 
@@ -113,7 +113,7 @@
             else
             {
                 Janitor.DequeueCleaningTarget();
-                SetState(ButtonOffice.GoalState.Done);
+                Finish(Game, Person);
             }
         }
 
@@ -134,7 +134,7 @@
             if(((Person.GetAnimationFraction() > 1.0f) || (Person.GetAnimationFraction() == 0.0f)) && (_CleaningTarget.TrashLevel == 0.0f))
             {
                 Janitor.DequeueCleaningTarget();
-                SetState(ButtonOffice.GoalState.Done);
+                Finish(Game, Person);
             }
             while(Person.GetAnimationFraction() > 1.0f)
             {
@@ -174,7 +174,7 @@
 
     internal class CleanDesks : ButtonOffice.Goal
     {
-        protected override void _OnActivate(ButtonOffice.Game Game, ButtonOffice.Person Person)
+        protected override void _OnInitialize(ButtonOffice.Game Game, ButtonOffice.Person Person)
         {
             ButtonOffice.Janitor Janitor = Person as ButtonOffice.Janitor;
             
@@ -192,7 +192,7 @@
         {
             if(Game.GetTotalMinutes() > Person.GetLeavesAtMinute())
             {
-                SetState(ButtonOffice.GoalState.Done);
+                Finish(Game, Person);
             }
             else
             {
@@ -215,7 +215,7 @@
                     }
                     else
                     {
-                        SetState(ButtonOffice.GoalState.Done);
+                        Finish(Game, Person);
                     }
                 }
             }
@@ -231,7 +231,7 @@
 
     internal class GoHome : ButtonOffice.Goal
     {
-        protected override void _OnActivate(ButtonOffice.Game Game, ButtonOffice.Person Person)
+        protected override void _OnInitialize(ButtonOffice.Game Game, ButtonOffice.Person Person)
         {
             Game.SubtractCents(Person.GetWage());
             Game.FireSpendMoney(Person.GetWage(), Person.GetMidLocation());
@@ -256,14 +256,14 @@
             {
                 Person.SetAnimationState(ButtonOffice.AnimationState.Hidden);
                 Person.SetAnimationFraction(0.0f);
-                SetState(ButtonOffice.GoalState.Done);
+                Finish(Game, Person);
             }
         }
     }
 
     internal class GoToOwnDesk : ButtonOffice.Goal
     {
-        protected override void _OnActivate(ButtonOffice.Game Game, ButtonOffice.Person Person)
+        protected override void _OnInitialize(ButtonOffice.Game Game, ButtonOffice.Person Person)
         {
             ButtonOffice.Goals.WalkTo WalkTo = new ButtonOffice.Goals.WalkTo();
 
@@ -276,14 +276,14 @@
             if(HasSubGoals() == false)
             {
                 Person.SetAtDesk(true);
-                SetState(ButtonOffice.GoalState.Done);
+                Finish(Game, Person);
             }
         }
     }
 
     internal class GoToWork : ButtonOffice.Goal
     {
-        protected override void _OnActivate(ButtonOffice.Game Game, ButtonOffice.Person Person)
+        protected override void _OnInitialize(ButtonOffice.Game Game, ButtonOffice.Person Person)
         {
             Person.SetActionFraction(0.0f);
             Person.SetAnimationState(ButtonOffice.AnimationState.Standing);
@@ -303,7 +303,7 @@
         {
             if(HasSubGoals() == false)
             {
-                SetState(ButtonOffice.GoalState.Done);
+                Finish(Game, Person);
             }
         }
     }
@@ -349,13 +349,13 @@
                 ArrivesAtMinute += 1440;
             }
             Person.SetWorkDayMinutes(ArrivesAtMinute, ArrivesAtMinute + Person.GetWorkMinutes());
-            SetState(ButtonOffice.GoalState.Done);
+            Finish(Game, Person);
         }
     }
 
     internal class PushButtons : ButtonOffice.Goal
     {
-        protected override void _OnActivate(ButtonOffice.Game Game, ButtonOffice.Person Person)
+        protected override void _OnInitialize(ButtonOffice.Game Game, ButtonOffice.Person Person)
         {
             Person.SetAnimationState(ButtonOffice.AnimationState.PushingButton);
             Person.SetAnimationFraction(0.0f);
@@ -365,7 +365,7 @@
         {
             if(Game.GetTotalMinutes() > Person.GetLeavesAtMinute())
             {
-                SetState(ButtonOffice.GoalState.Done);
+                Finish(Game, Person);
             }
             else
             {
@@ -492,7 +492,7 @@
                 }
                 ITTech.SetRepairingTarget(null);
                 Person.GetDesk().TrashLevel += 1.0f;
-                SetState(ButtonOffice.GoalState.Done);
+                Finish(Game, Person);
             }
             while(Person.GetAnimationFraction() >= 1.0f)
             {
@@ -507,7 +507,7 @@
         {
             if(Game.GetTotalMinutes() > Person.GetLeavesAtMinute())
             {
-                SetState(ButtonOffice.GoalState.Done);
+                Finish(Game, Person);
             }
             else
             {
@@ -596,7 +596,7 @@
         {
             if(Game.GetTotalMinutes() > Person.GetArrivesAtMinute())
             {
-                SetState(ButtonOffice.GoalState.Done);
+                Finish(Game, Person);
             }
         }
     }
@@ -607,7 +607,7 @@
         {
             if(Game.GetTotalMinutes() > Person.GetLeavesAtMinute())
             {
-                SetState(ButtonOffice.GoalState.Done);
+                Finish(Game, Person);
             }
         }
     }
@@ -621,7 +621,7 @@
             _WalkTo = WalkTo;
         }
 
-        protected override void _OnActivate(ButtonOffice.Game Game, ButtonOffice.Person Person)
+        protected override void _OnInitialize(ButtonOffice.Game Game, ButtonOffice.Person Person)
         {
             Person.SetActionFraction(0.0f);
             Person.SetAnimationState(ButtonOffice.AnimationState.Walking);
@@ -643,7 +643,7 @@
             else
             {
                 Person.SetLocation(_WalkTo);
-                SetState(ButtonOffice.GoalState.Done);
+                Finish(Game, Person);
             }
         }
 

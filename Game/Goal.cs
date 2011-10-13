@@ -36,25 +36,42 @@
             _SubGoals.RemoveAt(0);
         }
 
-        public void SetState(ButtonOffice.GoalState State)
+        public void Abort(ButtonOffice.Game Game, ButtonOffice.Person Person)
         {
-            _State = State;
+            System.Diagnostics.Debug.Assert(_State == ButtonOffice.GoalState.Ready || _State == ButtonOffice.GoalState.Executing, ButtonOffice.AssertMessages.CurrentStateIsNotReadyOrExecuting.ToString());
+            _OnAbort(Game, Person);
+            _State = ButtonOffice.GoalState.Done;
         }
 
-        public void Activate(ButtonOffice.Game Game, ButtonOffice.Person Person)
+        protected virtual void _OnAbort(ButtonOffice.Game Game, ButtonOffice.Person Person)
         {
-            System.Diagnostics.Debug.Assert(_State == ButtonOffice.GoalState.Pristine);
-            _State = ButtonOffice.GoalState.Active;
-            _OnActivate(Game, Person);
         }
 
-        protected virtual void _OnActivate(ButtonOffice.Game Game, ButtonOffice.Person Person)
+        public void Finish(ButtonOffice.Game Game, ButtonOffice.Person Person)
+        {
+            System.Diagnostics.Debug.Assert(_State == ButtonOffice.GoalState.Executing, ButtonOffice.AssertMessages.CurrentStateIsNotExecuting.ToString());
+            _OnFinish(Game, Person);
+            _State = ButtonOffice.GoalState.Done;
+        }
+
+        protected virtual void _OnFinish(ButtonOffice.Game Game, ButtonOffice.Person Person)
+        {
+        }
+
+        public void Initialize(ButtonOffice.Game Game, ButtonOffice.Person Person)
+        {
+            System.Diagnostics.Debug.Assert(_State == ButtonOffice.GoalState.Pristine, ButtonOffice.AssertMessages.CurrentStateIsNotPrestine.ToString());
+            _State = ButtonOffice.GoalState.Ready;
+            _OnInitialize(Game, Person);
+        }
+
+        protected virtual void _OnInitialize(ButtonOffice.Game Game, ButtonOffice.Person Person)
         {
         }
 
         public void Execute(ButtonOffice.Game Game, ButtonOffice.Person Person, System.Single DeltaMinutes)
         {
-            System.Diagnostics.Debug.Assert(_State == ButtonOffice.GoalState.Active, ButtonOffice.AssertMessages.CurrentStateIsNotActive.ToString());
+            System.Diagnostics.Debug.Assert(_State == ButtonOffice.GoalState.Executing, ButtonOffice.AssertMessages.CurrentStateIsNotExecuting.ToString());
             _OnExecute(Game, Person, DeltaMinutes);
         }
 
@@ -62,8 +79,31 @@
         {
         }
 
+        public void Resume(ButtonOffice.Game Game, ButtonOffice.Person Person)
+        {
+            System.Diagnostics.Debug.Assert(_State == ButtonOffice.GoalState.Ready, ButtonOffice.AssertMessages.CurrentStateIsNotReady.ToString());
+            _OnResume(Game, Person);
+            _State = ButtonOffice.GoalState.Executing;
+        }
+
+        protected virtual void _OnResume(ButtonOffice.Game Game, ButtonOffice.Person Person)
+        {
+        }
+
+        public void Suspend(ButtonOffice.Game Game, ButtonOffice.Person Person)
+        {
+            System.Diagnostics.Debug.Assert(_State == ButtonOffice.GoalState.Executing, ButtonOffice.AssertMessages.CurrentStateIsNotExecuting.ToString());
+            _OnSuspend(Game, Person);
+            _State = ButtonOffice.GoalState.Ready;
+        }
+
+        protected virtual void _OnSuspend(ButtonOffice.Game Game, ButtonOffice.Person Person)
+        {
+        }
+
         public void Terminate(ButtonOffice.Game Game, ButtonOffice.Person Person)
         {
+            System.Diagnostics.Debug.Assert(_State == ButtonOffice.GoalState.Done, ButtonOffice.AssertMessages.CurrentStateIsNotDone.ToString());
             System.Diagnostics.Debug.Assert(_SubGoals.Count == 0);
             _OnTerminate(Game, Person);
             _State = ButtonOffice.GoalState.Terminated;
