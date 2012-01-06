@@ -76,6 +76,7 @@
     <Compile Include="Application.cs" />
     <Compile Include="Assert.cs" />
     <Compile Include="AssertException.cs" />
+    <Compile Include="Attributes.cs" />
     <Compile Include="Goal.cs" />
     <Compile Include="TraceListener.cs" />
   </ItemGroup>

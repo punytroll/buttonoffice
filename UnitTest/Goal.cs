@@ -1,19 +1,9 @@
 ﻿namespace ButtonOffice.UnitTest
 {
+    [ButtonOffice.UnitTest.TestCollection()]
     internal class Goal
     {
-        internal static void RunTests()
-        {
-            Test_001_ConstructedGoalIsPrestine();
-            Test_002_PrestineGoalCanInitialize();
-            Test_003_PrestineGoalCannotResume();
-            Test_004_PrestineGoalCannotSuspend();
-            Test_005_PrestineGoalCannotAbort();
-            Test_006_PrestineGoalCannotFinish();
-            Test_007_PrestineGoalCannotTerminate();
-            Test_008_InitializeMakesGoalReady();
-        }
-
+        [ButtonOffice.UnitTest.Test()]
         internal static void Test_001_ConstructedGoalIsPrestine()
         {
             ButtonOffice.Goal Goal = new ButtonOffice.Goal();
@@ -21,6 +11,7 @@
             ButtonOffice.UnitTest.Assert.AreEqual(Goal.GetState(), ButtonOffice.GoalState.Pristine);
         }
 
+        [ButtonOffice.UnitTest.Test()]
         internal static void Test_002_PrestineGoalCanInitialize()
         {
             ButtonOffice.Game Game = ButtonOffice.Game.CreateNew();
@@ -33,7 +24,19 @@
             });
         }
 
-        internal static void Test_003_PrestineGoalCannotResume()
+        [ButtonOffice.UnitTest.Test()]
+        internal static void Test_003_PrestineGoalInitializedIsReady()
+        {
+            ButtonOffice.Game Game = ButtonOffice.Game.CreateNew();
+            ButtonOffice.Person Person = new ButtonOffice.Janitor();
+            ButtonOffice.Goal Goal = new ButtonOffice.Goal();
+
+            Goal.Initialize(Game, Person);
+            ButtonOffice.UnitTest.Assert.AreEqual(Goal.GetState(), ButtonOffice.GoalState.Ready);
+        }
+
+        [ButtonOffice.UnitTest.Test()]
+        internal static void Test_004_PrestineGoalCannotResume()
         {
             ButtonOffice.Game Game = ButtonOffice.Game.CreateNew();
             ButtonOffice.Person Person = new ButtonOffice.Janitor();
@@ -45,7 +48,8 @@
             });
         }
 
-        internal static void Test_004_PrestineGoalCannotSuspend()
+        [ButtonOffice.UnitTest.Test()]
+        internal static void Test_005_PrestineGoalCannotSuspend()
         {
             ButtonOffice.Game Game = ButtonOffice.Game.CreateNew();
             ButtonOffice.Person Person = new ButtonOffice.Janitor();
@@ -57,7 +61,8 @@
             });
         }
 
-        internal static void Test_005_PrestineGoalCannotAbort()
+        [ButtonOffice.UnitTest.Test()]
+        internal static void Test_006_PrestineGoalCannotAbort()
         {
             ButtonOffice.Game Game = ButtonOffice.Game.CreateNew();
             ButtonOffice.Person Person = new ButtonOffice.Janitor();
@@ -69,7 +74,8 @@
             });
         }
 
-        internal static void Test_006_PrestineGoalCannotFinish()
+        [ButtonOffice.UnitTest.Test()]
+        internal static void Test_007_PrestineGoalCannotFinish()
         {
             ButtonOffice.Game Game = ButtonOffice.Game.CreateNew();
             ButtonOffice.Person Person = new ButtonOffice.Janitor();
@@ -81,7 +87,8 @@
             });
         }
 
-        internal static void Test_007_PrestineGoalCannotTerminate()
+        [ButtonOffice.UnitTest.Test()]
+        internal static void Test_008_PrestineGoalCannotTerminate()
         {
             ButtonOffice.Game Game = ButtonOffice.Game.CreateNew();
             ButtonOffice.Person Person = new ButtonOffice.Janitor();
@@ -93,7 +100,8 @@
             });
         }
 
-        internal static void Test_008_InitializeMakesGoalReady()
+        [ButtonOffice.UnitTest.Test()]
+        internal static void Test_009_InitializeMakesGoalReady()
         {
             ButtonOffice.Game Game = ButtonOffice.Game.CreateNew();
             ButtonOffice.Person Person = new ButtonOffice.Janitor();
