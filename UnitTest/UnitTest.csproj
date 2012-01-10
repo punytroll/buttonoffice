@@ -77,7 +77,7 @@
     <Compile Include="Assert.cs" />
     <Compile Include="AssertException.cs" />
     <Compile Include="Attributes.cs" />
-    <Compile Include="Goal.cs" />
+    <Compile Include="GoalSimpleStateTransitions.cs" />
     <Compile Include="TraceListener.cs" />
   </ItemGroup>
   <ItemGroup>
