@@ -2,9 +2,9 @@
 {
     public class GameLoader
     {
-        System.Globalization.CultureInfo _CultureInfo;
-        System.Xml.XmlDocument _Document;
-        System.Collections.Generic.Dictionary<System.UInt32, ButtonOffice.PersistentObject> _Objects;
+        readonly System.Globalization.CultureInfo _CultureInfo;
+        readonly System.Xml.XmlDocument _Document;
+        readonly System.Collections.Generic.Dictionary<System.UInt32, ButtonOffice.PersistentObject> _Objects;
 
         public GameLoader(System.String FileName)
         {
@@ -18,6 +18,10 @@
         {
             System.Xml.XmlElement ButtonOfficeElement = _Document.DocumentElement;
 
+            if(ButtonOfficeElement == null)
+            {
+                throw new System.FormatException();
+            }
             if(ButtonOfficeElement.Attributes["version"] == null)
             {
                 throw new System.FormatException();
@@ -30,7 +34,6 @@
             System.Xml.XmlElement GameElement = ButtonOfficeElement.SelectSingleNode("game") as System.Xml.XmlElement;
 
             _AssertElementAndType(GameElement, "ButtonOffice.Game");
-
             Game.Load(this, GameElement);
         }
 
@@ -344,9 +347,13 @@
 
                 if(_Objects.ContainsKey(Identifier) == false)
                 {
-                    System.Xml.XmlElement ReferenceObjectElement = _Document.SelectSingleNode("//button-office/*[@identifier='" + Identifier.ToString() + "']") as System.Xml.XmlElement;
+                    System.Xml.XmlElement ReferenceObjectElement = _Document.SelectSingleNode("//button-office/*[@identifier='" + Identifier.ToString(_CultureInfo) + "']") as System.Xml.XmlElement;
                     ButtonOffice.PersistentObject PersistentObject = System.Activator.CreateInstance(System.Type.GetType(_AssertElementAndGetType(ReferenceObjectElement))) as ButtonOffice.PersistentObject;
 
+                    if(PersistentObject == null)
+                    {
+                        throw new System.FormatException();
+                    }
                     _Objects[Identifier] = PersistentObject;
                     PersistentObject.Load(this, ReferenceObjectElement);
                 }
