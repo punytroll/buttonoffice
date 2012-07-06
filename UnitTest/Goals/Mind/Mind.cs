@@ -13,11 +13,29 @@
             Mind.Move(Game, Person, 0.1f);
         }
 
+        private enum TraceEvents
+        {
+            EnterOnAbort,
+            ExitOnAbort,
+            EnterOnExecute,
+            ExitOnExecute,
+            EnterFinish,
+            ExitFinish,
+            EnterOnInitialize,
+            ExitOnInitialize,
+            EnterOnResume,
+            ExitOnResume,
+            EnterOnSuspend,
+            ExitOnSuspend,
+            EnterOnTerminate,
+            ExitOnTerminate
+        }
+
         private class TraceGoal : ButtonOffice.Goal
         {
-            private readonly System.Collections.Generic.List<System.String> _Trace;
+            private readonly System.Collections.Generic.List<TraceEvents> _Trace;
 
-            public System.Collections.Generic.List<System.String> Trace
+            public System.Collections.Generic.List<TraceEvents> Trace
             {
                 get
                 {
@@ -25,59 +43,101 @@
                 }
             }
 
-            public TraceGoal()
+            protected TraceGoal()
             {
-                _Trace = new System.Collections.Generic.List<string>();
+                _Trace = new System.Collections.Generic.List<TraceEvents>();
             }
 
             protected override void _OnAbort(ButtonOffice.Game Game, ButtonOffice.Person Person)
             {
-                _Trace.Add("> _OnAbort()");
+                _Trace.Add(TraceEvents.EnterOnAbort);
                 base._OnAbort(Game, Person);
-                _Trace.Add("< _OnAbort()");
+                _OnTraceAbort(Game, Person);
+                _Trace.Add(TraceEvents.ExitOnAbort);
+            }
+
+            protected virtual void _OnTraceAbort(ButtonOffice.Game Game, ButtonOffice.Person Person)
+            {
             }
 
             protected override void _OnExecute(ButtonOffice.Game Game, ButtonOffice.Person Person, System.Single DeltaMinutes)
             {
-                _Trace.Add("> _OnExecute(" + DeltaMinutes.ToString(System.Globalization.CultureInfo.InvariantCulture) + ")");
+                _Trace.Add(TraceEvents.EnterOnExecute);
                 base._OnExecute(Game, Person, DeltaMinutes);
-                Finish(Game, Person);
-                _Trace.Add("< _OnExecute(" + DeltaMinutes.ToString(System.Globalization.CultureInfo.InvariantCulture) + ")");
+                _OnTraceExecute(Game, Person, DeltaMinutes);
+                _Trace.Add(TraceEvents.ExitOnExecute);
+            }
+
+            protected virtual void _OnTraceExecute(ButtonOffice.Game Game, ButtonOffice.Person Person, System.Single DeltaMinutes)
+            {
             }
 
             protected override void _OnFinish(ButtonOffice.Game Game, ButtonOffice.Person Person)
             {
-                _Trace.Add("> _OnFinish()");
+                _Trace.Add(TraceEvents.EnterFinish);
                 base._OnFinish(Game, Person);
-                _Trace.Add("< _OnFinish()");
+                _OnTraceFinish(Game, Person);
+                _Trace.Add(TraceEvents.ExitFinish);
+            }
+
+            protected virtual void _OnTraceFinish(ButtonOffice.Game Game, ButtonOffice.Person Person)
+            {
             }
 
             protected override void _OnInitialize(ButtonOffice.Game Game, ButtonOffice.Person Person)
             {
-                _Trace.Add("> _OnInitialize()");
+                _Trace.Add(TraceEvents.EnterOnInitialize);
                 base._OnInitialize(Game, Person);
-                _Trace.Add("< _OnInitialize()");
+                _OnTraceInitialize(Game, Person);
+                _Trace.Add(TraceEvents.ExitOnInitialize);
+            }
+
+            protected virtual void _OnTraceInitialize(ButtonOffice.Game Game, ButtonOffice.Person Person)
+            {
             }
 
             protected override void _OnResume(ButtonOffice.Game Game, ButtonOffice.Person Person)
             {
-                _Trace.Add("> _OnResume()");
+                _Trace.Add(TraceEvents.EnterOnResume);
                 base._OnResume(Game, Person);
-                _Trace.Add("< _OnResume()");
+                _OnTraceResume(Game, Person);
+                _Trace.Add(TraceEvents.ExitOnResume);
+            }
+
+            protected virtual void _OnTraceResume(ButtonOffice.Game Game, ButtonOffice.Person Person)
+            {
             }
 
             protected override void _OnSuspend(ButtonOffice.Game Game, ButtonOffice.Person Person)
             {
-                _Trace.Add("> _OnSuspend()");
+                _Trace.Add(TraceEvents.EnterOnSuspend);
                 base._OnSuspend(Game, Person);
-                _Trace.Add("< _OnSuspend()");
+                _OnTraceSuspend(Game, Person);
+                _Trace.Add(TraceEvents.ExitOnSuspend);
+            }
+
+            protected virtual void _OnTraceSuspend(ButtonOffice.Game Game, ButtonOffice.Person Person)
+            {
             }
 
             protected override void _OnTerminate(ButtonOffice.Game Game, ButtonOffice.Person Person)
             {
-                _Trace.Add("> _OnTerminate()");
+                _Trace.Add(TraceEvents.EnterOnTerminate);
                 base._OnTerminate(Game, Person);
-                _Trace.Add("< _OnTerminate()");
+                _OnTraceTerminate(Game, Person);
+                _Trace.Add(TraceEvents.ExitOnTerminate);
+            }
+
+            protected virtual void _OnTraceTerminate(ButtonOffice.Game Game, ButtonOffice.Person Person)
+            {
+            }
+        }
+
+        private class FinishOnFirstExecute : ButtonOffice.UnitTest.MindTests.TraceGoal
+        {
+            protected override void _OnTraceExecute(ButtonOffice.Game Game, ButtonOffice.Person Person, System.Single DeltaMinutes)
+            {
+                Finish(Game, Person);
             }
         }
 
@@ -87,7 +147,7 @@
             ButtonOffice.Game Game = ButtonOffice.Game.CreateNew();
             ButtonOffice.Mind Mind = new ButtonOffice.Mind();
             ButtonOffice.Person Person = new ButtonOffice.Janitor();
-            ButtonOffice.UnitTest.MindTests.TraceGoal Goal = new ButtonOffice.UnitTest.MindTests.TraceGoal();
+            ButtonOffice.UnitTest.MindTests.TraceGoal Goal = new ButtonOffice.UnitTest.MindTests.FinishOnFirstExecute();
 
             Mind.SetRootGoal(Goal);
             Mind.Move(Game, Person, 0.1f);
