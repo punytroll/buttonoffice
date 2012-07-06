@@ -48,10 +48,6 @@
             }
         }
 
-        public FloatingText()
-        {
-        }
-
         public void SetColor(System.Drawing.Color Color)
         {
             _Color = Color;
