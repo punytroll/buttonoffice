@@ -2,7 +2,7 @@
 {
     internal class RandomNumberGenerator
     {
-        private static System.Random _Random;
+        private static readonly System.Random _Random;
 
         static RandomNumberGenerator()
         {
