@@ -6,17 +6,17 @@
         public event MoneyChangeDelegate OnEarnMoney;
         public event MoneyChangeDelegate OnSpendMoney;
 
-        private System.Collections.Generic.List<ButtonOffice.Accountant> _Accountants;
-        private System.Collections.Generic.List<ButtonOffice.Bathroom> _Bathrooms;
-        private System.Collections.Generic.List<System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing>> _BrokenThings;
+        private readonly System.Collections.Generic.List<ButtonOffice.Accountant> _Accountants;
+        private readonly System.Collections.Generic.List<ButtonOffice.Bathroom> _Bathrooms;
+        private readonly System.Collections.Generic.List<System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing>> _BrokenThings;
         private System.UInt32 _CatStock;
         private System.UInt64 _Cents;
-        private System.Collections.Generic.List<System.Collections.BitArray> _FreeSpace;
-        private System.Collections.Generic.List<System.Pair<System.Int32, System.Int32>> _BuildingMinimumMaximum;
+        private readonly System.Collections.Generic.List<System.Collections.BitArray> _FreeSpace;
+        private readonly System.Collections.Generic.List<System.Pair<System.Int32, System.Int32>> _BuildingMinimumMaximum;
         private System.UInt64 _Minutes;
         private System.UInt32 _NextCatAtNumberOfEmployees;
-        private System.Collections.Generic.List<ButtonOffice.Office> _Offices;
-        private System.Collections.Generic.List<ButtonOffice.Person> _Persons;
+        private readonly System.Collections.Generic.List<ButtonOffice.Office> _Offices;
+        private readonly System.Collections.Generic.List<ButtonOffice.Person> _Persons;
         private System.Single _SubMinute;
 
         public System.Collections.Generic.List<ButtonOffice.Bathroom> Bathrooms
