@@ -3,7 +3,7 @@
     public class Goal : ButtonOffice.PersistentObject
     {
         private ButtonOffice.GoalState _State;
-        private System.Collections.Generic.List<ButtonOffice.Goal> _SubGoals;
+        private readonly System.Collections.Generic.List<ButtonOffice.Goal> _SubGoals;
 
         public Goal()
         {

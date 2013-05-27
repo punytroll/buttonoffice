@@ -18,10 +18,7 @@
             ButtonOffice.Person Person = new ButtonOffice.Janitor();
             ButtonOffice.Goal Goal = new ButtonOffice.Goal();
 
-            ButtonOffice.UnitTest.Assert.NoAssertion(delegate()
-            {
-                Goal.Initialize(Game, Person);
-            });
+            ButtonOffice.UnitTest.Assert.NoAssertion(() => Goal.Initialize(Game, Person));
         }
 
         [ButtonOffice.UnitTest.Test()]
@@ -42,10 +39,7 @@
             ButtonOffice.Person Person = new ButtonOffice.Janitor();
             ButtonOffice.Goal Goal = new ButtonOffice.Goal();
 
-            ButtonOffice.UnitTest.Assert.Assertion(ButtonOffice.AssertMessages.CurrentStateIsNotReady, delegate()
-            {
-                Goal.Resume(Game, Person);
-            });
+            ButtonOffice.UnitTest.Assert.Assertion(ButtonOffice.AssertMessages.CurrentStateIsNotReady, () => Goal.Resume(Game, Person));
         }
 
         [ButtonOffice.UnitTest.Test()]
@@ -55,10 +49,7 @@
             ButtonOffice.Person Person = new ButtonOffice.Janitor();
             ButtonOffice.Goal Goal = new ButtonOffice.Goal();
 
-            ButtonOffice.UnitTest.Assert.Assertion(ButtonOffice.AssertMessages.CurrentStateIsNotExecuting, delegate()
-            {
-                Goal.Suspend(Game, Person);
-            });
+            ButtonOffice.UnitTest.Assert.Assertion(ButtonOffice.AssertMessages.CurrentStateIsNotExecuting, () => Goal.Suspend(Game, Person));
         }
 
         [ButtonOffice.UnitTest.Test()]
@@ -68,10 +59,7 @@
             ButtonOffice.Person Person = new ButtonOffice.Janitor();
             ButtonOffice.Goal Goal = new ButtonOffice.Goal();
 
-            ButtonOffice.UnitTest.Assert.Assertion(ButtonOffice.AssertMessages.CurrentStateIsNotReadyOrExecuting, delegate()
-            {
-                Goal.Abort(Game, Person);
-            });
+            ButtonOffice.UnitTest.Assert.Assertion(ButtonOffice.AssertMessages.CurrentStateIsNotReadyOrExecuting, () => Goal.Abort(Game, Person));
         }
 
         [ButtonOffice.UnitTest.Test()]
@@ -81,10 +69,7 @@
             ButtonOffice.Person Person = new ButtonOffice.Janitor();
             ButtonOffice.Goal Goal = new ButtonOffice.Goal();
 
-            ButtonOffice.UnitTest.Assert.Assertion(ButtonOffice.AssertMessages.CurrentStateIsNotExecuting, delegate()
-            {
-                Goal.Finish(Game, Person);
-            });
+            ButtonOffice.UnitTest.Assert.Assertion(ButtonOffice.AssertMessages.CurrentStateIsNotExecuting, () => Goal.Finish(Game, Person));
         }
 
         [ButtonOffice.UnitTest.Test()]
@@ -94,10 +79,7 @@
             ButtonOffice.Person Person = new ButtonOffice.Janitor();
             ButtonOffice.Goal Goal = new ButtonOffice.Goal();
 
-            ButtonOffice.UnitTest.Assert.Assertion(ButtonOffice.AssertMessages.CurrentStateIsNotDone, delegate()
-            {
-                Goal.Terminate(Game, Person);
-            });
+            ButtonOffice.UnitTest.Assert.Assertion(ButtonOffice.AssertMessages.CurrentStateIsNotDone, () => Goal.Terminate(Game, Person));
         }
 
         [ButtonOffice.UnitTest.Test()]
@@ -108,10 +90,7 @@
             ButtonOffice.Goal Goal = new ButtonOffice.Goal();
 
             Goal.Initialize(Game, Person);
-            ButtonOffice.UnitTest.Assert.NoAssertion(delegate()
-            {
-                Goal.Resume(Game, Person);
-            });
+            ButtonOffice.UnitTest.Assert.NoAssertion(() => Goal.Resume(Game, Person));
         }
 
         [ButtonOffice.UnitTest.Test()]
@@ -134,10 +113,7 @@
             ButtonOffice.Goal Goal = new ButtonOffice.Goal();
 
             Goal.Initialize(Game, Person);
-            ButtonOffice.UnitTest.Assert.NoAssertion(delegate()
-            {
-                Goal.Abort(Game, Person);
-            });
+            ButtonOffice.UnitTest.Assert.NoAssertion(() => Goal.Abort(Game, Person));
         }
 
         [ButtonOffice.UnitTest.Test()]
@@ -160,10 +136,7 @@
             ButtonOffice.Goal Goal = new ButtonOffice.Goal();
 
             Goal.Initialize(Game, Person);
-            ButtonOffice.UnitTest.Assert.Assertion(ButtonOffice.AssertMessages.CurrentStateIsNotPrestine, delegate()
-            {
-                Goal.Initialize(Game, Person);
-            });
+            ButtonOffice.UnitTest.Assert.Assertion(ButtonOffice.AssertMessages.CurrentStateIsNotPrestine, () => Goal.Initialize(Game, Person));
         }
 
         [ButtonOffice.UnitTest.Test()]
@@ -174,10 +147,7 @@
             ButtonOffice.Goal Goal = new ButtonOffice.Goal();
 
             Goal.Initialize(Game, Person);
-            ButtonOffice.UnitTest.Assert.Assertion(ButtonOffice.AssertMessages.CurrentStateIsNotExecuting, delegate()
-            {
-                Goal.Suspend(Game, Person);
-            });
+            ButtonOffice.UnitTest.Assert.Assertion(ButtonOffice.AssertMessages.CurrentStateIsNotExecuting, () => Goal.Suspend(Game, Person));
         }
 
         [ButtonOffice.UnitTest.Test()]
@@ -188,10 +158,7 @@
             ButtonOffice.Goal Goal = new ButtonOffice.Goal();
 
             Goal.Initialize(Game, Person);
-            ButtonOffice.UnitTest.Assert.Assertion(ButtonOffice.AssertMessages.CurrentStateIsNotDone, delegate()
-            {
-                Goal.Terminate(Game, Person);
-            });
+            ButtonOffice.UnitTest.Assert.Assertion(ButtonOffice.AssertMessages.CurrentStateIsNotDone, () => Goal.Terminate(Game, Person));
         }
 
         [ButtonOffice.UnitTest.Test()]
@@ -202,10 +169,7 @@
             ButtonOffice.Goal Goal = new ButtonOffice.Goal();
 
             Goal.Initialize(Game, Person);
-            ButtonOffice.UnitTest.Assert.Assertion(ButtonOffice.AssertMessages.CurrentStateIsNotExecuting, delegate()
-            {
-                Goal.Finish(Game, Person);
-            });
+            ButtonOffice.UnitTest.Assert.Assertion(ButtonOffice.AssertMessages.CurrentStateIsNotExecuting, () => Goal.Finish(Game, Person));
         }
 
         [ButtonOffice.UnitTest.Test()]
@@ -217,10 +181,7 @@
 
             Goal.Initialize(Game, Person);
             Goal.Resume(Game, Person);
-            ButtonOffice.UnitTest.Assert.NoAssertion(delegate()
-            {
-                Goal.Suspend(Game, Person);
-            });
+            ButtonOffice.UnitTest.Assert.NoAssertion(() => Goal.Suspend(Game, Person));
         }
 
         [ButtonOffice.UnitTest.Test()]
@@ -245,10 +206,7 @@
 
             Goal.Initialize(Game, Person);
             Goal.Resume(Game, Person);
-            ButtonOffice.UnitTest.Assert.NoAssertion(delegate()
-            {
-                Goal.Abort(Game, Person);
-            });
+            ButtonOffice.UnitTest.Assert.NoAssertion(() => Goal.Abort(Game, Person));
         }
 
         [ButtonOffice.UnitTest.Test()]
@@ -273,10 +231,7 @@
 
             Goal.Initialize(Game, Person);
             Goal.Resume(Game, Person);
-            ButtonOffice.UnitTest.Assert.NoAssertion(delegate()
-            {
-                Goal.Finish(Game, Person);
-            });
+            ButtonOffice.UnitTest.Assert.NoAssertion(() => Goal.Finish(Game, Person));
         }
 
         [ButtonOffice.UnitTest.Test()]
@@ -301,10 +256,7 @@
 
             Goal.Initialize(Game, Person);
             Goal.Resume(Game, Person);
-            ButtonOffice.UnitTest.Assert.Assertion(ButtonOffice.AssertMessages.CurrentStateIsNotPrestine, delegate()
-            {
-                Goal.Initialize(Game, Person);
-            });
+            ButtonOffice.UnitTest.Assert.Assertion(ButtonOffice.AssertMessages.CurrentStateIsNotPrestine, () => Goal.Initialize(Game, Person));
         }
 
         [ButtonOffice.UnitTest.Test()]
@@ -316,10 +268,7 @@
 
             Goal.Initialize(Game, Person);
             Goal.Resume(Game, Person);
-            ButtonOffice.UnitTest.Assert.Assertion(ButtonOffice.AssertMessages.CurrentStateIsNotReady, delegate()
-            {
-                Goal.Resume(Game, Person);
-            });
+            ButtonOffice.UnitTest.Assert.Assertion(ButtonOffice.AssertMessages.CurrentStateIsNotReady, () => Goal.Resume(Game, Person));
         }
 
         [ButtonOffice.UnitTest.Test()]
@@ -331,10 +280,7 @@
 
             Goal.Initialize(Game, Person);
             Goal.Resume(Game, Person);
-            ButtonOffice.UnitTest.Assert.Assertion(ButtonOffice.AssertMessages.CurrentStateIsNotDone, delegate()
-            {
-                Goal.Terminate(Game, Person);
-            });
+            ButtonOffice.UnitTest.Assert.Assertion(ButtonOffice.AssertMessages.CurrentStateIsNotDone, () => Goal.Terminate(Game, Person));
         }
 
         [ButtonOffice.UnitTest.Test()]
@@ -347,10 +293,7 @@
             Goal.Initialize(Game, Person);
             Goal.Resume(Game, Person);
             Goal.Finish(Game, Person);
-            ButtonOffice.UnitTest.Assert.NoAssertion(delegate()
-            {
-                Goal.Terminate(Game, Person);
-            });
+            ButtonOffice.UnitTest.Assert.NoAssertion(() => Goal.Terminate(Game, Person));
         }
 
         [ButtonOffice.UnitTest.Test()]
@@ -377,10 +320,7 @@
             Goal.Initialize(Game, Person);
             Goal.Resume(Game, Person);
             Goal.Finish(Game, Person);
-            ButtonOffice.UnitTest.Assert.Assertion(ButtonOffice.AssertMessages.CurrentStateIsNotPrestine, delegate()
-            {
-                Goal.Initialize(Game, Person);
-            });
+            ButtonOffice.UnitTest.Assert.Assertion(ButtonOffice.AssertMessages.CurrentStateIsNotPrestine, () => Goal.Initialize(Game, Person));
         }
 
         [ButtonOffice.UnitTest.Test()]
@@ -393,10 +333,7 @@
             Goal.Initialize(Game, Person);
             Goal.Resume(Game, Person);
             Goal.Finish(Game, Person);
-            ButtonOffice.UnitTest.Assert.Assertion(ButtonOffice.AssertMessages.CurrentStateIsNotReady, delegate()
-            {
-                Goal.Resume(Game, Person);
-            });
+            ButtonOffice.UnitTest.Assert.Assertion(ButtonOffice.AssertMessages.CurrentStateIsNotReady, () => Goal.Resume(Game, Person));
         }
 
         [ButtonOffice.UnitTest.Test()]
@@ -409,10 +346,7 @@
             Goal.Initialize(Game, Person);
             Goal.Resume(Game, Person);
             Goal.Finish(Game, Person);
-            ButtonOffice.UnitTest.Assert.Assertion(ButtonOffice.AssertMessages.CurrentStateIsNotExecuting, delegate()
-            {
-                Goal.Suspend(Game, Person);
-            });
+            ButtonOffice.UnitTest.Assert.Assertion(ButtonOffice.AssertMessages.CurrentStateIsNotExecuting, () => Goal.Suspend(Game, Person));
         }
 
         [ButtonOffice.UnitTest.Test()]
@@ -425,10 +359,7 @@
             Goal.Initialize(Game, Person);
             Goal.Resume(Game, Person);
             Goal.Finish(Game, Person);
-            ButtonOffice.UnitTest.Assert.Assertion(ButtonOffice.AssertMessages.CurrentStateIsNotReadyOrExecuting, delegate()
-            {
-                Goal.Abort(Game, Person);
-            });
+            ButtonOffice.UnitTest.Assert.Assertion(ButtonOffice.AssertMessages.CurrentStateIsNotReadyOrExecuting, () => Goal.Abort(Game, Person));
         }
 
         [ButtonOffice.UnitTest.Test()]
@@ -441,10 +372,7 @@
             Goal.Initialize(Game, Person);
             Goal.Resume(Game, Person);
             Goal.Finish(Game, Person);
-            ButtonOffice.UnitTest.Assert.Assertion(ButtonOffice.AssertMessages.CurrentStateIsNotExecuting, delegate()
-            {
-                Goal.Finish(Game, Person);
-            });
+            ButtonOffice.UnitTest.Assert.Assertion(ButtonOffice.AssertMessages.CurrentStateIsNotExecuting, () => Goal.Finish(Game, Person));
         }
 
         [ButtonOffice.UnitTest.Test()]
@@ -458,10 +386,7 @@
             Goal.Resume(Game, Person);
             Goal.Finish(Game, Person);
             Goal.Terminate(Game, Person);
-            ButtonOffice.UnitTest.Assert.Assertion(ButtonOffice.AssertMessages.CurrentStateIsNotPrestine, delegate()
-            {
-                Goal.Initialize(Game, Person);
-            });
+            ButtonOffice.UnitTest.Assert.Assertion(ButtonOffice.AssertMessages.CurrentStateIsNotPrestine, () => Goal.Initialize(Game, Person));
         }
 
         [ButtonOffice.UnitTest.Test()]
@@ -475,10 +400,7 @@
             Goal.Resume(Game, Person);
             Goal.Finish(Game, Person);
             Goal.Terminate(Game, Person);
-            ButtonOffice.UnitTest.Assert.Assertion(ButtonOffice.AssertMessages.CurrentStateIsNotReady, delegate()
-            {
-                Goal.Resume(Game, Person);
-            });
+            ButtonOffice.UnitTest.Assert.Assertion(ButtonOffice.AssertMessages.CurrentStateIsNotReady, () => Goal.Resume(Game, Person));
         }
 
         [ButtonOffice.UnitTest.Test()]
@@ -492,10 +414,7 @@
             Goal.Resume(Game, Person);
             Goal.Finish(Game, Person);
             Goal.Terminate(Game, Person);
-            ButtonOffice.UnitTest.Assert.Assertion(ButtonOffice.AssertMessages.CurrentStateIsNotExecuting, delegate()
-            {
-                Goal.Suspend(Game, Person);
-            });
+            ButtonOffice.UnitTest.Assert.Assertion(ButtonOffice.AssertMessages.CurrentStateIsNotExecuting, () => Goal.Suspend(Game, Person));
         }
 
         [ButtonOffice.UnitTest.Test()]
@@ -509,10 +428,7 @@
             Goal.Resume(Game, Person);
             Goal.Finish(Game, Person);
             Goal.Terminate(Game, Person);
-            ButtonOffice.UnitTest.Assert.Assertion(ButtonOffice.AssertMessages.CurrentStateIsNotReadyOrExecuting, delegate()
-            {
-                Goal.Abort(Game, Person);
-            });
+            ButtonOffice.UnitTest.Assert.Assertion(ButtonOffice.AssertMessages.CurrentStateIsNotReadyOrExecuting, () => Goal.Abort(Game, Person));
         }
 
         [ButtonOffice.UnitTest.Test()]
@@ -526,10 +442,7 @@
             Goal.Resume(Game, Person);
             Goal.Finish(Game, Person);
             Goal.Terminate(Game, Person);
-            ButtonOffice.UnitTest.Assert.Assertion(ButtonOffice.AssertMessages.CurrentStateIsNotDone, delegate()
-            {
-                Goal.Terminate(Game, Person);
-            });
+            ButtonOffice.UnitTest.Assert.Assertion(ButtonOffice.AssertMessages.CurrentStateIsNotDone, () => Goal.Terminate(Game, Person));
         }
 
         [ButtonOffice.UnitTest.Test()]
@@ -543,10 +456,7 @@
             Goal.Resume(Game, Person);
             Goal.Finish(Game, Person);
             Goal.Terminate(Game, Person);
-            ButtonOffice.UnitTest.Assert.Assertion(ButtonOffice.AssertMessages.CurrentStateIsNotExecuting, delegate()
-            {
-                Goal.Finish(Game, Person);
-            });
+            ButtonOffice.UnitTest.Assert.Assertion(ButtonOffice.AssertMessages.CurrentStateIsNotExecuting, () => Goal.Finish(Game, Person));
         }
     }
 }
