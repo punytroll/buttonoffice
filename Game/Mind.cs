@@ -53,7 +53,12 @@
                         }
                         else
                         {
-                            TerminateGoals.Pop().Terminate(Game, Person);
+                            if((TerminateGoal.GetState() == ButtonOffice.GoalState.Pristine) || (TerminateGoal.GetState() == ButtonOffice.GoalState.Ready) || (TerminateGoal.GetState() == ButtonOffice.GoalState.Executing))
+                            {
+                                TerminateGoal.Abort(Game, Person);
+                            }
+                            TerminateGoal.Terminate(Game, Person);
+                            TerminateGoals.Pop();
                         }
                     }
                     if(ParentGoals.Count > 0)

@@ -38,7 +38,7 @@
 
         public void Abort(ButtonOffice.Game Game, ButtonOffice.Person Person)
         {
-            System.Diagnostics.Debug.Assert(_State == ButtonOffice.GoalState.Ready || _State == ButtonOffice.GoalState.Executing, ButtonOffice.AssertMessages.CurrentStateIsNotReadyOrExecuting.ToString());
+            System.Diagnostics.Debug.Assert(_State == ButtonOffice.GoalState.Ready || _State == ButtonOffice.GoalState.Executing || _State == ButtonOffice.GoalState.Pristine, ButtonOffice.AssertMessages.CurrentStateIsNotReadyOrExecuting.ToString());
             _OnAbort(Game, Person);
             _State = ButtonOffice.GoalState.Done;
         }

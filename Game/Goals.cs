@@ -113,7 +113,7 @@
             else
             {
                 Janitor.DequeueCleaningTarget();
-                Finish(Game, Person);
+                Abort(Game, Person);
             }
         }
 
