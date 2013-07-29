@@ -2,7 +2,7 @@
 {
     public class Janitor : ButtonOffice.Person
     {
-        private System.Collections.Generic.Queue<ButtonOffice.Desk> _CleaningTargets;
+        private readonly System.Collections.Generic.Queue<ButtonOffice.Desk> _CleaningTargets;
 
         public Janitor() :
             base(ButtonOffice.Type.Janitor)
