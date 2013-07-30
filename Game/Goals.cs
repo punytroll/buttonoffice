@@ -101,6 +101,7 @@
         {
             ButtonOffice.Janitor Janitor = Person as ButtonOffice.Janitor;
 
+            System.Diagnostics.Debug.Assert(Janitor != null);
             System.Diagnostics.Debug.Assert(_CleaningTarget != null);
             if((_CleaningTarget.GetJanitor() == null) && (_CleaningTarget.TrashLevel > 0.0f))
             {
@@ -121,6 +122,7 @@
         {
             ButtonOffice.Janitor Janitor = Person as ButtonOffice.Janitor;
 
+            System.Diagnostics.Debug.Assert(Janitor != null);
             if(_CleaningTarget.TrashLevel > 0.0f)
             {
                 _CleaningTarget.TrashLevel -= ButtonOffice.Data.JanitorCleanAmount * ButtonOffice.Data.JanitorCleanSpeed * DeltaMinutes;
@@ -177,8 +179,9 @@
         protected override void _OnInitialize(ButtonOffice.Game Game, ButtonOffice.Person Person)
         {
             ButtonOffice.Janitor Janitor = Person as ButtonOffice.Janitor;
-            
-            foreach(ButtonOffice.Office Office in Game.Offices)
+
+            System.Diagnostics.Debug.Assert(Janitor != null);
+            foreach(ButtonOffice.Office Office in Game.Offices.GetShuffledCopy())
             {
                 Janitor.EnqueueCleaningTarget(Office.FirstDesk);
                 Janitor.EnqueueCleaningTarget(Office.SecondDesk);
@@ -199,6 +202,9 @@
                 if(HasSubGoals() == false)
                 {
                     ButtonOffice.Janitor Janitor = Person as ButtonOffice.Janitor;
+
+                    System.Diagnostics.Debug.Assert(Janitor != null);
+
                     ButtonOffice.Desk CleaningTarget = Janitor.PeekCleaningTarget();
 
                     if(CleaningTarget != null)
@@ -225,6 +231,7 @@
         {
             ButtonOffice.Janitor Janitor = Person as ButtonOffice.Janitor;
 
+            System.Diagnostics.Debug.Assert(Janitor != null);
             Janitor.ClearCleaningTargets();
         }
     }
@@ -428,6 +435,9 @@
         protected override void _OnExecute(ButtonOffice.Game Game, ButtonOffice.Person Person, System.Single DeltaMinutes)
         {
             ButtonOffice.ITTech ITTech = Person as ButtonOffice.ITTech;
+
+            System.Diagnostics.Debug.Assert(ITTech != null);
+
             System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing> RepairingTarget = ITTech.GetRepairingTarget();
 
             if((RepairingTarget.Second == ButtonOffice.BrokenThing.FirstComputer) || (RepairingTarget.Second == ButtonOffice.BrokenThing.SecondComputer) || (RepairingTarget.Second == ButtonOffice.BrokenThing.ThirdComputer) || (RepairingTarget.Second == ButtonOffice.BrokenThing.FourthComputer))
@@ -520,6 +530,7 @@
                         ButtonOffice.ITTech ITTech = Person as ButtonOffice.ITTech;
                         ButtonOffice.Goals.WalkTo WalkTo = new ButtonOffice.Goals.WalkTo();
 
+                        System.Diagnostics.Debug.Assert(ITTech != null);
                         ITTech.SetRepairingTarget(BrokenThing);
                         switch(BrokenThing.Second)
                         {
@@ -579,6 +590,7 @@
         {
             ButtonOffice.ITTech ITTech = Person as ButtonOffice.ITTech;
 
+            System.Diagnostics.Debug.Assert(ITTech != null);
             if(ITTech.GetRepairingTarget() != null)
             {
                 Game.EnqueueBrokenThing(ITTech.GetRepairingTarget());

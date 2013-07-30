@@ -120,4 +120,24 @@
     {
         return new System.Drawing.PointF(Rectangle.X + Rectangle.Width / 2.0f, Rectangle.Y + Rectangle.Height / 2.0f);
     }
+
+    public static System.Collections.Generic.List<Type> GetShuffledCopy<Type>(this System.Collections.Generic.IList<Type> List)
+    {
+        var Result = new System.Collections.Generic.List<Type>(List);
+        var RandomNumberGenerator = new System.Random();
+        var N = Result.Count;
+
+        while(N > 1)
+        {
+            N--;
+
+            var K = RandomNumberGenerator.Next(N + 1);
+            var Value = Result[K];
+
+            Result[K] = Result[N];
+            Result[N] = Value;
+        }
+
+        return Result;
+    }
 }
