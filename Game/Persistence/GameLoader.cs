@@ -199,6 +199,11 @@
             return System.Convert.ToInt32(_GetPropertyValue(ObjectElement, PropertyName, "System.Int32"), _CultureInfo);
         }
 
+        public System.Int64 LoadInt64Property(System.Xml.XmlElement ObjectElement, System.String PropertyName)
+        {
+            return System.Convert.ToInt64(_GetPropertyValue(ObjectElement, PropertyName, "System.Int64"), _CultureInfo);
+        }
+
         public ButtonOffice.Janitor LoadJanitorProperty(System.Xml.XmlElement ObjectElement, System.String PropertyName)
         {
             return LoadPersonProperty(ObjectElement, PropertyName) as ButtonOffice.Janitor;
