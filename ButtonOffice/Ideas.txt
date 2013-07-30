@@ -43,3 +43,4 @@ After 1.0:
 - toilets, cafeterias and gyms have a capacity and a waiting line
 - make elevator cars and elevator shafts breakable
 - catch some mice
+- broken lamps influence the speed of working
