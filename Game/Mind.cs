@@ -89,13 +89,13 @@
             _RootGoal = RootGoal;
         }
 
-        public System.Xml.XmlElement Save(ButtonOffice.GameSaver GameSaver)
+        public System.Xml.XmlElement Save(ButtonOffice.GameSaver GameSaver, System.Xml.XmlElement Element)
         {
-            System.Xml.XmlElement Result = GameSaver.CreateElement("mind");
+			System.Diagnostics.Debug.Assert(Element == null);
+            Element = GameSaver.CreateElement("mind");
+            Element.AppendChild(GameSaver.CreateProperty("root-goal", _RootGoal));
 
-            Result.AppendChild(GameSaver.CreateProperty("root-goal", _RootGoal));
-
-            return Result;
+            return Element;
         }
 
         public void Load(ButtonOffice.GameLoader GameLoader, System.Xml.XmlElement Element)

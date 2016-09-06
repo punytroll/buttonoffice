@@ -43,4 +43,4 @@ SOURCES = \
 all: buttonoffice.mono
 
 buttonoffice.mono: $(SOURCES)
-	dmcs $^ -out:$@  -reference:System.Drawing,System.Windows.Forms
+	dmcs $^ -out:$@ -debug -d:DEBUG -reference:System.Drawing,System.Windows.Forms

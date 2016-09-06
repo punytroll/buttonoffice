@@ -140,18 +140,18 @@
             _Rectangle.Y = Y;
         }
 
-        public virtual System.Xml.XmlElement Save(ButtonOffice.GameSaver GameSaver)
+        public virtual System.Xml.XmlElement Save(ButtonOffice.GameSaver GameSaver, System.Xml.XmlElement Element)
         {
-            System.Xml.XmlElement Result = GameSaver.CreateElement("desk");
+			System.Diagnostics.Debug.Assert(Element == null);
+            Element = GameSaver.CreateElement("desk");
+			Element.AppendChild(GameSaver.CreateProperty("computer", _Computer));
+            Element.AppendChild(GameSaver.CreateProperty("janitor", _Janitor));
+            Element.AppendChild(GameSaver.CreateProperty("office", _Office));
+            Element.AppendChild(GameSaver.CreateProperty("person", _Person));
+            Element.AppendChild(GameSaver.CreateProperty("rectangle", _Rectangle));
+            Element.AppendChild(GameSaver.CreateProperty("trash-level", _TrashLevel));
 
-            Result.AppendChild(GameSaver.CreateProperty("computer", _Computer));
-            Result.AppendChild(GameSaver.CreateProperty("janitor", _Janitor));
-            Result.AppendChild(GameSaver.CreateProperty("office", _Office));
-            Result.AppendChild(GameSaver.CreateProperty("person", _Person));
-            Result.AppendChild(GameSaver.CreateProperty("rectangle", _Rectangle));
-            Result.AppendChild(GameSaver.CreateProperty("trash-level", _TrashLevel));
-
-            return Result;
+            return Element;
         }
 
         public virtual void Load(ButtonOffice.GameLoader GameLoader, System.Xml.XmlElement Element)

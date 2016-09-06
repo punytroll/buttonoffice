@@ -18,7 +18,6 @@
         private System.String _Name;
         protected System.UInt64 _Wage;
         protected System.UInt64 _WorkMinutes;
-        private ButtonOffice.Type _Type;
 
         public System.Drawing.Color BackgroundColor
         {
@@ -44,15 +43,7 @@
             }
         }
 
-        public ButtonOffice.Type Type
-        {
-            get
-            {
-                return _Type;
-            }
-        }
-
-        protected Person(ButtonOffice.Type Type)
+        protected Person()
         {
             _ActionFraction = 0.0f;
             _AnimationState = ButtonOffice.AnimationState.Hidden;
@@ -71,7 +62,6 @@
             _Rectangle.Height = ButtonOffice.RandomNumberGenerator.GetSingle(ButtonOffice.Data.PersonHeight, ButtonOffice.Data.PersonHeightSpread);
             _Rectangle.Width = ButtonOffice.RandomNumberGenerator.GetSingle(ButtonOffice.Data.PersonWidth, ButtonOffice.Data.PersonWidthSpread);
             _Name = "Hagen";
-            _Type = Type;
         }
 
         public void AssignDesk(ButtonOffice.Desk Desk)
@@ -253,29 +243,27 @@
             _Mind.Move(Game, this, DeltaMinutes);
         }
 
-        public virtual System.Xml.XmlElement Save(ButtonOffice.GameSaver GameSaver)
+        public virtual System.Xml.XmlElement Save(ButtonOffice.GameSaver GameSaver, System.Xml.XmlElement Element)
         {
-            System.Xml.XmlElement Result = GameSaver.CreateElement("person");
+			System.Diagnostics.Debug.Assert(Element != null);
+            Element.AppendChild(GameSaver.CreateProperty("action-fraction", _ActionFraction));
+            Element.AppendChild(GameSaver.CreateProperty("animation-fraction", _AnimationFraction));
+            Element.AppendChild(GameSaver.CreateProperty("animation-state", _AnimationState));
+            Element.AppendChild(GameSaver.CreateProperty("arrives-at-minute", _ArrivesAtMinute));
+            Element.AppendChild(GameSaver.CreateProperty("arrives-at-minute-of-day", _ArrivesAtMinuteOfDay));
+            Element.AppendChild(GameSaver.CreateProperty("at-desk", _AtDesk));
+            Element.AppendChild(GameSaver.CreateProperty("background-color", _BackgroundColor));
+            Element.AppendChild(GameSaver.CreateProperty("border-color", _BorderColor));
+            Element.AppendChild(GameSaver.CreateProperty("desk", _Desk));
+            Element.AppendChild(GameSaver.CreateProperty("leaves-at-minute", _LeavesAtMinute));
+            Element.AppendChild(GameSaver.CreateProperty("living-side", _LivingSide));
+            Element.AppendChild(GameSaver.CreateProperty("mind", _Mind));
+            Element.AppendChild(GameSaver.CreateProperty("name", _Name));
+            Element.AppendChild(GameSaver.CreateProperty("rectangle", _Rectangle));
+            Element.AppendChild(GameSaver.CreateProperty("wage", _Wage));
+            Element.AppendChild(GameSaver.CreateProperty("work-minutes", _WorkMinutes));
 
-            Result.AppendChild(GameSaver.CreateProperty("action-fraction", _ActionFraction));
-            Result.AppendChild(GameSaver.CreateProperty("animation-fraction", _AnimationFraction));
-            Result.AppendChild(GameSaver.CreateProperty("animation-state", _AnimationState));
-            Result.AppendChild(GameSaver.CreateProperty("arrives-at-minute", _ArrivesAtMinute));
-            Result.AppendChild(GameSaver.CreateProperty("arrives-at-minute-of-day", _ArrivesAtMinuteOfDay));
-            Result.AppendChild(GameSaver.CreateProperty("at-desk", _AtDesk));
-            Result.AppendChild(GameSaver.CreateProperty("background-color", _BackgroundColor));
-            Result.AppendChild(GameSaver.CreateProperty("border-color", _BorderColor));
-            Result.AppendChild(GameSaver.CreateProperty("desk", _Desk));
-            Result.AppendChild(GameSaver.CreateProperty("leaves-at-minute", _LeavesAtMinute));
-            Result.AppendChild(GameSaver.CreateProperty("living-side", _LivingSide));
-            Result.AppendChild(GameSaver.CreateProperty("mind", _Mind));
-            Result.AppendChild(GameSaver.CreateProperty("name", _Name));
-            Result.AppendChild(GameSaver.CreateProperty("rectangle", _Rectangle));
-            Result.AppendChild(GameSaver.CreateProperty("type", _Type));
-            Result.AppendChild(GameSaver.CreateProperty("wage", _Wage));
-            Result.AppendChild(GameSaver.CreateProperty("work-minutes", _WorkMinutes));
-
-            return Result;
+            return Element;
         }
 
         public virtual void Load(ButtonOffice.GameLoader GameLoader, System.Xml.XmlElement Element)
@@ -294,7 +282,6 @@
             _Mind = GameLoader.LoadMindProperty(Element, "mind");
             _Name = GameLoader.LoadStringProperty(Element, "name");
             _Rectangle = GameLoader.LoadRectangleProperty(Element, "rectangle");
-            _Type = GameLoader.LoadTypeProperty(Element, "type");
             _Wage = GameLoader.LoadUInt64Property(Element, "wage");
             _WorkMinutes = GameLoader.LoadUInt64Property(Element, "work-minutes");
         }

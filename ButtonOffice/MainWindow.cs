@@ -659,7 +659,7 @@
 
                                 TypeLabel.Location = new System.Drawing.Point(10, 20);
                                 TypeLabel.Size = new System.Drawing.Size(100, 20);
-                                TypeLabel.Text = Person.Type.ToString();
+                                TypeLabel.Text = Person.GetType().Name;
                                 _MainSplitContainer.Panel2.Controls.Add(TypeLabel);
 
                                 System.Windows.Forms.Label NameCaptionLabel = new System.Windows.Forms.Label();

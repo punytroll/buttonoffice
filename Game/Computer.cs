@@ -24,13 +24,13 @@
             _MinutesUntilBroken = MinutesUntilBroken;
         }
 
-        public System.Xml.XmlElement Save(ButtonOffice.GameSaver GameSaver)
+        public System.Xml.XmlElement Save(ButtonOffice.GameSaver GameSaver, System.Xml.XmlElement Element)
         {
-            System.Xml.XmlElement Result = GameSaver.CreateElement("computer");
+			System.Diagnostics.Debug.Assert(Element == null);
+            Element = GameSaver.CreateElement("computer");
+            Element.AppendChild(GameSaver.CreateProperty("minutes-until-broken", _MinutesUntilBroken));
 
-            Result.AppendChild(GameSaver.CreateProperty("minutes-until-broken", _MinutesUntilBroken));
-
-            return Result;
+            return Element;
         }
 
         public void Load(ButtonOffice.GameLoader GameLoader, System.Xml.XmlElement Element)

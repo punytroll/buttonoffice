@@ -113,11 +113,11 @@
         {
         }
 
-        public virtual System.Xml.XmlElement Save(ButtonOffice.GameSaver GameSaver)
+        public virtual System.Xml.XmlElement Save(ButtonOffice.GameSaver GameSaver, System.Xml.XmlElement Element)
         {
-            System.Xml.XmlElement Result = GameSaver.CreateElement("goal");
-
-            Result.AppendChild(GameSaver.CreateProperty("state", _State));
+			System.Diagnostics.Debug.Assert(Element == null);
+            Element = GameSaver.CreateElement("goal");
+            Element.AppendChild(GameSaver.CreateProperty("state", _State));
 
             System.Xml.XmlElement SubGoalsElement = GameSaver.CreateElement("sub-goals");
 
@@ -125,9 +125,9 @@
             {
                 SubGoalsElement.AppendChild(GameSaver.CreateProperty("goal", Goal));
             }
-            Result.AppendChild(SubGoalsElement);
+            Element.AppendChild(SubGoalsElement);
 
-            return Result;
+            return Element;
         }
 
         public virtual void Load(ButtonOffice.GameLoader GameLoader, System.Xml.XmlElement Element)

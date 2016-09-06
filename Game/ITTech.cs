@@ -4,8 +4,7 @@
     {
         private System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing> _RepairingTarget;
 
-        public ITTech() :
-            base(ButtonOffice.Type.ITTech)
+        public ITTech()
         {
             _ArrivesAtMinuteOfDay = ButtonOffice.RandomNumberGenerator.GetUInt32(ButtonOffice.Data.ITTechStartMinute, 300) % 1440;
             _BackgroundColor = ButtonOffice.Data.ITTechBackgroundColor;
@@ -26,13 +25,14 @@
             _RepairingTarget = RepairingTarget;
         }
 
-        public override System.Xml.XmlElement Save(ButtonOffice.GameSaver GameSaver)
+        public override System.Xml.XmlElement Save(ButtonOffice.GameSaver GameSaver, System.Xml.XmlElement Element)
         {
-            System.Xml.XmlElement Result = base.Save(GameSaver);
+			System.Diagnostics.Debug.Assert(Element == null);
+            Element = GameSaver.CreateElement("it-tech");
+			base.Save(GameSaver, Element);
+            Element.AppendChild(GameSaver.CreateProperty("repairing-target", _RepairingTarget));
 
-            Result.AppendChild(GameSaver.CreateProperty("repairing-target", _RepairingTarget));
-
-            return Result;
+            return Element;
         }
 
         public override void Load(ButtonOffice.GameLoader GameLoader, System.Xml.XmlElement Element)

@@ -156,14 +156,15 @@
             Person.SetAnimationFraction(0.0f);
         }
 
-        public override System.Xml.XmlElement Save(ButtonOffice.GameSaver GameSaver)
+        public override System.Xml.XmlElement Save(ButtonOffice.GameSaver GameSaver, System.Xml.XmlElement Element)
         {
-            System.Xml.XmlElement Result = base.Save(GameSaver);
+			System.Diagnostics.Debug.Assert(Element == null);
+            Element = GameSaver.CreateElement("clean-desk");
+            base.Save(GameSaver, Element);
+            Element.AppendChild(GameSaver.CreateProperty("cleaning-target", _CleaningTarget));
+            Element.AppendChild(GameSaver.CreateProperty("start-trash-level", _StartTrashLevel));
 
-            Result.AppendChild(GameSaver.CreateProperty("cleaning-target", _CleaningTarget));
-            Result.AppendChild(GameSaver.CreateProperty("start-trash-level", _StartTrashLevel));
-
-            return Result;
+            return Element;
         }
 
         public override void Load(ButtonOffice.GameLoader GameLoader, System.Xml.XmlElement Element)
@@ -666,13 +667,14 @@
             Person.SetAnimationFraction(0.0f);
         }
 
-        public override System.Xml.XmlElement Save(ButtonOffice.GameSaver GameSaver)
+        public override System.Xml.XmlElement Save(ButtonOffice.GameSaver GameSaver, System.Xml.XmlElement Element)
         {
-            System.Xml.XmlElement Result = base.Save(GameSaver);
+			System.Diagnostics.Debug.Assert(Element == null);
+            Element = GameSaver.CreateElement("walk-to");
+            base.Save(GameSaver, Element);
+            Element.AppendChild(GameSaver.CreateProperty("walk-to", _WalkTo));
 
-            Result.AppendChild(GameSaver.CreateProperty("walk-to", _WalkTo));
-
-            return Result;
+            return Element;
         }
 
         public override void Load(ButtonOffice.GameLoader GameLoader, System.Xml.XmlElement Element)

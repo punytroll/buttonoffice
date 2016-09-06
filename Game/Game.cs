@@ -313,7 +313,7 @@
         {
             Person.Fire();
             _Persons.Remove(Person);
-            if(Person.Type == ButtonOffice.Type.ITTech)
+            if(Person is ButtonOffice.ITTech)
             {
                 ButtonOffice.ITTech ITTech = Person as ITTech;
                 System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing> BrokenThing = ITTech.GetRepairingTarget();
@@ -323,7 +323,7 @@
                     _BrokenThings.Add(BrokenThing);
                 }
             }
-            else if(Person.Type == ButtonOffice.Type.Accountant)
+            else if(Person is ButtonOffice.Accountant)
             {
                 _Accountants.Remove(Person as ButtonOffice.Accountant);
             }
@@ -556,16 +556,18 @@
             }
         }
 
-        public virtual System.Xml.XmlElement Save(ButtonOffice.GameSaver GameSaver)
+        public virtual System.Xml.XmlElement Save(ButtonOffice.GameSaver GameSaver, System.Xml.XmlElement Element)
         {
-            System.Xml.XmlElement Result = GameSaver.CreateElement("game");
+			System.Diagnostics.Debug.Assert(Element == null);
+            Element = GameSaver.CreateElement("game");
+			
             System.Xml.XmlElement AccountantListElement = GameSaver.CreateElement("accountants");
 
             foreach(ButtonOffice.Accountant Accountant in _Accountants)
             {
                 AccountantListElement.AppendChild(GameSaver.CreateProperty("accountant", Accountant));
             }
-            Result.AppendChild(AccountantListElement);
+            Element.AppendChild(AccountantListElement);
 
             System.Xml.XmlElement BathroomsListElement = GameSaver.CreateElement("bathrooms");
 
@@ -573,7 +575,7 @@
             {
                 BathroomsListElement.AppendChild(GameSaver.CreateProperty("bathroom", Bathroom));
             }
-            Result.AppendChild(BathroomsListElement);
+            Element.AppendChild(BathroomsListElement);
 
             System.Xml.XmlElement BrokenThingsListElement = GameSaver.CreateElement("broken-things");
 
@@ -581,11 +583,11 @@
             {
                 BrokenThingsListElement.AppendChild(GameSaver.CreateProperty("broken-thing", BrokenThing));
             }
-            Result.AppendChild(BrokenThingsListElement);
-            Result.AppendChild(GameSaver.CreateProperty("cat-stock", _CatStock));
-            Result.AppendChild(GameSaver.CreateProperty("cents", _Cents));
-            Result.AppendChild(GameSaver.CreateProperty("minutes", _Minutes));
-            Result.AppendChild(GameSaver.CreateProperty("next-cat-at-number-of-employees", _NextCatAtNumberOfEmployees));
+            Element.AppendChild(BrokenThingsListElement);
+            Element.AppendChild(GameSaver.CreateProperty("cat-stock", _CatStock));
+            Element.AppendChild(GameSaver.CreateProperty("cents", _Cents));
+            Element.AppendChild(GameSaver.CreateProperty("minutes", _Minutes));
+            Element.AppendChild(GameSaver.CreateProperty("next-cat-at-number-of-employees", _NextCatAtNumberOfEmployees));
 
             System.Xml.XmlElement OfficeListElement = GameSaver.CreateElement("offices");
 
@@ -593,7 +595,7 @@
             {
                 OfficeListElement.AppendChild(GameSaver.CreateProperty("office", Office));
             }
-            Result.AppendChild(OfficeListElement);
+            Element.AppendChild(OfficeListElement);
 
             System.Xml.XmlElement PersonListElement = GameSaver.CreateElement("persons");
 
@@ -601,12 +603,12 @@
             {
                 PersonListElement.AppendChild(GameSaver.CreateProperty("person", Person));
             }
-            Result.AppendChild(PersonListElement);
-            Result.AppendChild(GameSaver.CreateProperty("sub-minute", _SubMinute));
-            Result.AppendChild(GameSaver.CreateProperty("world-width", ButtonOffice.Data.WorldBlockWidth));
-            Result.AppendChild(GameSaver.CreateProperty("world-height", ButtonOffice.Data.WorldBlockHeight));
+            Element.AppendChild(PersonListElement);
+            Element.AppendChild(GameSaver.CreateProperty("sub-minute", _SubMinute));
+            Element.AppendChild(GameSaver.CreateProperty("world-width", ButtonOffice.Data.WorldBlockWidth));
+            Element.AppendChild(GameSaver.CreateProperty("world-height", ButtonOffice.Data.WorldBlockHeight));
 
-            return Result;
+            return Element;
         }
 
         public virtual void Load(ButtonOffice.GameLoader GameLoader, System.Xml.XmlElement Element)

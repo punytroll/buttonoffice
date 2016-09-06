@@ -4,8 +4,7 @@
     {
         private System.UInt64 _BonusPromille;
 
-        public Accountant() :
-            base(ButtonOffice.Type.Accountant)
+        public Accountant()
         {
             _ArrivesAtMinuteOfDay = ButtonOffice.RandomNumberGenerator.GetUInt32(ButtonOffice.Data.AccountantStartMinute, 300) % 1440;
             _BackgroundColor = ButtonOffice.Data.AccountantBackgroundColor;
@@ -21,13 +20,15 @@
             return _BonusPromille;
         }
 
-        public override System.Xml.XmlElement Save(ButtonOffice.GameSaver GameSaver)
+        public override System.Xml.XmlElement Save(ButtonOffice.GameSaver GameSaver, System.Xml.XmlElement Element)
         {
-            System.Xml.XmlElement Result = base.Save(GameSaver);
+			System.Diagnostics.Debug.Assert(Element == null);
+            Element = GameSaver.CreateElement("accountant");
+			base.Save(GameSaver, Element);
             
-            Result.AppendChild(GameSaver.CreateProperty("bonus-promille", _BonusPromille));
+            Element.AppendChild(GameSaver.CreateProperty("bonus-promille", _BonusPromille));
 
-            return Result;
+            return Element;
         }
 
         public override void Load(ButtonOffice.GameLoader GameLoader, System.Xml.XmlElement Element)
