@@ -42,12 +42,10 @@
             }
         }
 
-        public override System.Xml.XmlElement Save(ButtonOffice.GameSaver GameSaver, System.Xml.XmlElement Element)
+        public override void Save(ButtonOffice.GameSaver GameSaver, System.Xml.XmlElement Element)
         {
-			System.Diagnostics.Debug.Assert(Element == null);
-			Element = GameSaver.CreateElement("janitor");
             base.Save(GameSaver, Element);
-			
+
             System.Xml.XmlElement CleaningTargetsElement = GameSaver.CreateElement("cleaning-targets");
 
             foreach(ButtonOffice.Desk Desk in _CleaningTargets)
@@ -55,8 +53,6 @@
                 CleaningTargetsElement.AppendChild(GameSaver.CreateProperty("desk", Desk));
             }
             Element.AppendChild(CleaningTargetsElement);
-
-            return Element;
         }
 
         public override void Load(ButtonOffice.GameLoader GameLoader, System.Xml.XmlElement Element)

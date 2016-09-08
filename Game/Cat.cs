@@ -180,18 +180,14 @@
             }
         }
 
-        public virtual System.Xml.XmlElement Save(ButtonOffice.GameSaver GameSaver, System.Xml.XmlElement Element)
+        public virtual void Save(ButtonOffice.GameSaver GameSaver, System.Xml.XmlElement Element)
         {
-			System.Diagnostics.Debug.Assert(Element == null);
-            Element = GameSaver.CreateElement("cat");
             Element.AppendChild(GameSaver.CreateProperty("action-state", _ActionState));
             Element.AppendChild(GameSaver.CreateProperty("background-color", _BackgroundColor));
             Element.AppendChild(GameSaver.CreateProperty("border-color", _BorderColor));
             Element.AppendChild(GameSaver.CreateProperty("minutes-until-action-state-changes", _MinutesToActionStateChange));
             Element.AppendChild(GameSaver.CreateProperty("office", _Office));
             Element.AppendChild(GameSaver.CreateProperty("rectangle", _Rectangle));
-
-            return Element;
         }
 
         public virtual void Load(ButtonOffice.GameLoader GameLoader, System.Xml.XmlElement Element)

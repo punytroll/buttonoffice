@@ -243,9 +243,8 @@
             _Mind.Move(Game, this, DeltaMinutes);
         }
 
-        public virtual System.Xml.XmlElement Save(ButtonOffice.GameSaver GameSaver, System.Xml.XmlElement Element)
+        public virtual void Save(ButtonOffice.GameSaver GameSaver, System.Xml.XmlElement Element)
         {
-			System.Diagnostics.Debug.Assert(Element != null);
             Element.AppendChild(GameSaver.CreateProperty("action-fraction", _ActionFraction));
             Element.AppendChild(GameSaver.CreateProperty("animation-fraction", _AnimationFraction));
             Element.AppendChild(GameSaver.CreateProperty("animation-state", _AnimationState));
@@ -262,8 +261,6 @@
             Element.AppendChild(GameSaver.CreateProperty("rectangle", _Rectangle));
             Element.AppendChild(GameSaver.CreateProperty("wage", _Wage));
             Element.AppendChild(GameSaver.CreateProperty("work-minutes", _WorkMinutes));
-
-            return Element;
         }
 
         public virtual void Load(ButtonOffice.GameLoader GameLoader, System.Xml.XmlElement Element)

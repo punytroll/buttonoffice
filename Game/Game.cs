@@ -556,11 +556,8 @@
             }
         }
 
-        public virtual System.Xml.XmlElement Save(ButtonOffice.GameSaver GameSaver, System.Xml.XmlElement Element)
+        public virtual void Save(ButtonOffice.GameSaver GameSaver, System.Xml.XmlElement Element)
         {
-			System.Diagnostics.Debug.Assert(Element == null);
-            Element = GameSaver.CreateElement("game");
-			
             System.Xml.XmlElement AccountantListElement = GameSaver.CreateElement("accountants");
 
             foreach(ButtonOffice.Accountant Accountant in _Accountants)
@@ -607,8 +604,6 @@
             Element.AppendChild(GameSaver.CreateProperty("sub-minute", _SubMinute));
             Element.AppendChild(GameSaver.CreateProperty("world-width", ButtonOffice.Data.WorldBlockWidth));
             Element.AppendChild(GameSaver.CreateProperty("world-height", ButtonOffice.Data.WorldBlockHeight));
-
-            return Element;
         }
 
         public virtual void Load(ButtonOffice.GameLoader GameLoader, System.Xml.XmlElement Element)

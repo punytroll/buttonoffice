@@ -11,19 +11,5 @@
             _WorkMinutes = ButtonOffice.Data.WorkerWorkMinutes;
             _Mind.SetRootGoal(new ButtonOffice.Goals.WorkerThink());
         }
-
-        public override System.Xml.XmlElement Save(ButtonOffice.GameSaver GameSaver, System.Xml.XmlElement Element)
-        {
-			System.Diagnostics.Debug.Assert(Element == null);
-			Element = GameSaver.CreateElement("worker");
-            base.Save(GameSaver, Element);
-			
-			return Element;
-        }
-
-        public override void Load(ButtonOffice.GameLoader GameLoader, System.Xml.XmlElement Element)
-        {
-            base.Load(GameLoader, Element);
-        }
     }
 }

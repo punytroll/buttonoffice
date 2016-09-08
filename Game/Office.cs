@@ -223,10 +223,8 @@
             }
         }
 
-        public virtual System.Xml.XmlElement Save(ButtonOffice.GameSaver GameSaver, System.Xml.XmlElement Element)
+        public virtual void Save(ButtonOffice.GameSaver GameSaver, System.Xml.XmlElement Element)
         {
-			System.Diagnostics.Debug.Assert(Element == null);
-            Element = GameSaver.CreateElement("office");
             Element.AppendChild(GameSaver.CreateProperty("background-color", _BackgroundColor));
             Element.AppendChild(GameSaver.CreateProperty("border-color", _BorderColor));
             Element.AppendChild(GameSaver.CreateProperty("cat", _Cat));
@@ -238,8 +236,6 @@
             Element.AppendChild(GameSaver.CreateProperty("second-lamp", _SecondLamp));
             Element.AppendChild(GameSaver.CreateProperty("third-desk", _ThirdDesk));
             Element.AppendChild(GameSaver.CreateProperty("third-lamp", _ThirdLamp));
-            
-            return Element;
         }
 
         public virtual void Load(ButtonOffice.GameLoader GameLoader, System.Xml.XmlElement Element)

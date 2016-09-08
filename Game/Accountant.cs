@@ -20,15 +20,10 @@
             return _BonusPromille;
         }
 
-        public override System.Xml.XmlElement Save(ButtonOffice.GameSaver GameSaver, System.Xml.XmlElement Element)
+        public override void Save(ButtonOffice.GameSaver GameSaver, System.Xml.XmlElement Element)
         {
-			System.Diagnostics.Debug.Assert(Element == null);
-            Element = GameSaver.CreateElement("accountant");
-			base.Save(GameSaver, Element);
-            
+            base.Save(GameSaver, Element);
             Element.AppendChild(GameSaver.CreateProperty("bonus-promille", _BonusPromille));
-
-            return Element;
         }
 
         public override void Load(ButtonOffice.GameLoader GameLoader, System.Xml.XmlElement Element)

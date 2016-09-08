@@ -25,14 +25,10 @@
             _RepairingTarget = RepairingTarget;
         }
 
-        public override System.Xml.XmlElement Save(ButtonOffice.GameSaver GameSaver, System.Xml.XmlElement Element)
+        public override void Save(ButtonOffice.GameSaver GameSaver, System.Xml.XmlElement Element)
         {
-			System.Diagnostics.Debug.Assert(Element == null);
-            Element = GameSaver.CreateElement("it-tech");
-			base.Save(GameSaver, Element);
+            base.Save(GameSaver, Element);
             Element.AppendChild(GameSaver.CreateProperty("repairing-target", _RepairingTarget));
-
-            return Element;
         }
 
         public override void Load(ButtonOffice.GameLoader GameLoader, System.Xml.XmlElement Element)

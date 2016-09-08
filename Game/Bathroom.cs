@@ -82,15 +82,11 @@
             _Rectangle.Y = Y;
         }
 
-        public virtual System.Xml.XmlElement Save(ButtonOffice.GameSaver GameSaver, System.Xml.XmlElement Element)
+        public virtual void Save(ButtonOffice.GameSaver GameSaver, System.Xml.XmlElement Element)
         {
-			System.Diagnostics.Debug.Assert(Element == null);
-            Element = GameSaver.CreateElement("bathroom");
             Element.AppendChild(GameSaver.CreateProperty("background-color", _BackgroundColor));
             Element.AppendChild(GameSaver.CreateProperty("border-color", _BorderColor));
             Element.AppendChild(GameSaver.CreateProperty("rectangle", _Rectangle));
-
-            return Element;
         }
 
         public virtual void Load(ButtonOffice.GameLoader GameLoader, System.Xml.XmlElement Element)

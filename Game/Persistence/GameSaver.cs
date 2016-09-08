@@ -192,10 +192,10 @@
             _Document.AppendChild(_Document.CreateElement("button-office"));
             _Document.DocumentElement.Attributes.Append(_CreateAttribute("version", ButtonOffice.Data.SaveGameFileVersion));
 
-            System.Xml.XmlElement GameElement = Game.Save(this, null);
-
+            System.Xml.XmlElement GameElement = _Document.CreateElement("game");
             GameElement.Attributes.Append(_CreateAttribute("identifier", _GetIdentifier(Game).ToString(_CultureInfo)));
             GameElement.Attributes.Append(_CreateAttribute("type", "ButtonOffice.Game"));
+            Game.Save(this, GameElement);
             _Document.DocumentElement.AppendChild(GameElement);
             _Document.Save(_FileName);
         }
@@ -214,10 +214,11 @@
                 {
                     _Objects[PersistentObject].First = true;
 
-                    System.Xml.XmlElement Element = PersistentObject.Save(this, null);
+                    System.Xml.XmlElement Element = _Document.CreateElement("object");
 
                     Element.Attributes.Append(_CreateAttribute("identifier", _GetIdentifier(PersistentObject).ToString(_CultureInfo)));
                     Element.Attributes.Append(_CreateAttribute("type", PersistentObject.GetType().FullName));
+                    PersistentObject.Save(this, Element);
                     _Document.DocumentElement.AppendChild(Element);
                 }
             }
