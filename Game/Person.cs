@@ -263,24 +263,24 @@
             Element.AppendChild(GameSaver.CreateProperty("work-minutes", _WorkMinutes));
         }
 
-        public virtual void Load(ButtonOffice.GameLoader GameLoader, System.Xml.XmlElement Element)
+        public virtual void Load(LoadObjectStore ObjectStore)
         {
-            _ActionFraction = GameLoader.LoadSingleProperty(Element, "action-fraction");
-            _AnimationFraction = GameLoader.LoadSingleProperty(Element, "animation-fraction");
-            _AnimationState = GameLoader.LoadAnimationStateProperty(Element, "animation-state");
-            _ArrivesAtMinute = GameLoader.LoadUInt64Property(Element, "arrives-at-minute");
-            _ArrivesAtMinuteOfDay = GameLoader.LoadUInt64Property(Element, "arrives-at-minute-of-day");
-            _AtDesk = GameLoader.LoadBooleanProperty(Element, "at-desk");
-            _BackgroundColor = GameLoader.LoadColorProperty(Element, "background-color");
-            _BorderColor = GameLoader.LoadColorProperty(Element, "border-color");
-            _Desk = GameLoader.LoadDeskProperty(Element, "desk");
-            _LeavesAtMinute = GameLoader.LoadUInt64Property(Element, "leaves-at-minute");
-            _LivingSide = GameLoader.LoadLivingSideProperty(Element, "living-side");
-            _Mind = GameLoader.LoadMindProperty(Element, "mind");
-            _Name = GameLoader.LoadStringProperty(Element, "name");
-            _Rectangle = GameLoader.LoadRectangleProperty(Element, "rectangle");
-            _Wage = GameLoader.LoadUInt64Property(Element, "wage");
-            _WorkMinutes = GameLoader.LoadUInt64Property(Element, "work-minutes");
+            _ActionFraction = ObjectStore.LoadSingleProperty("action-fraction");
+            _AnimationFraction = ObjectStore.LoadSingleProperty("animation-fraction");
+            _AnimationState = ObjectStore.LoadAnimationStateProperty("animation-state");
+            _ArrivesAtMinute = ObjectStore.LoadUInt64Property("arrives-at-minute");
+            _ArrivesAtMinuteOfDay = ObjectStore.LoadUInt64Property("arrives-at-minute-of-day");
+            _AtDesk = ObjectStore.LoadBooleanProperty("at-desk");
+            _BackgroundColor = ObjectStore.LoadColorProperty("background-color");
+            _BorderColor = ObjectStore.LoadColorProperty("border-color");
+            _Desk = ObjectStore.LoadDeskProperty("desk");
+            _LeavesAtMinute = ObjectStore.LoadUInt64Property("leaves-at-minute");
+            _LivingSide = ObjectStore.LoadLivingSideProperty("living-side");
+            _Mind = ObjectStore.LoadMindProperty("mind");
+            _Name = ObjectStore.LoadStringProperty("name");
+            _Rectangle = ObjectStore.LoadRectangleProperty("rectangle");
+            _Wage = ObjectStore.LoadUInt64Property("wage");
+            _WorkMinutes = ObjectStore.LoadUInt64Property("work-minutes");
         }
     }
 }

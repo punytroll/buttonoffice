@@ -31,10 +31,10 @@
             Element.AppendChild(GameSaver.CreateProperty("repairing-target", _RepairingTarget));
         }
 
-        public override void Load(ButtonOffice.GameLoader GameLoader, System.Xml.XmlElement Element)
+        public override void Load(LoadObjectStore ObjectStore)
         {
-            base.Load(GameLoader, Element);
-            _RepairingTarget = GameLoader.LoadBrokenThingProperty(Element, "repairing-target");
+            base.Load(ObjectStore);
+            _RepairingTarget = ObjectStore.LoadBrokenThingProperty("repairing-target");
         }
     }
 }

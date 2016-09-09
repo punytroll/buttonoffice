@@ -163,11 +163,11 @@
             Element.AppendChild(GameSaver.CreateProperty("start-trash-level", _StartTrashLevel));
         }
 
-        public override void Load(ButtonOffice.GameLoader GameLoader, System.Xml.XmlElement Element)
+        public override void Load(LoadObjectStore ObjectStore)
         {
-            base.Load(GameLoader, Element);
-            _CleaningTarget = GameLoader.LoadDeskProperty(Element, "cleaning-target");
-            _StartTrashLevel = GameLoader.LoadSingleProperty(Element, "start-trash-level");
+            base.Load(ObjectStore);
+            _CleaningTarget = ObjectStore.LoadDeskProperty("cleaning-target");
+            _StartTrashLevel = ObjectStore.LoadSingleProperty("start-trash-level");
         }
     }
 
@@ -669,10 +669,10 @@
             Element.AppendChild(GameSaver.CreateProperty("walk-to", _WalkTo));
         }
 
-        public override void Load(ButtonOffice.GameLoader GameLoader, System.Xml.XmlElement Element)
+        public override void Load(LoadObjectStore ObjectStore)
         {
-            base.Load(GameLoader, Element);
-            _WalkTo = GameLoader.LoadPointProperty(Element, "walk-to");
+            base.Load(ObjectStore);
+            _WalkTo = ObjectStore.LoadPointProperty("walk-to");
         }
     }
 

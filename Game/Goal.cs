@@ -126,10 +126,10 @@
             Element.AppendChild(SubGoalsElement);
         }
 
-        public virtual void Load(ButtonOffice.GameLoader GameLoader, System.Xml.XmlElement Element)
+        public virtual void Load(LoadObjectStore ObjectStore)
         {
-            _State = GameLoader.LoadGoalState(Element, "state");
-            foreach(ButtonOffice.Goal Goal in GameLoader.LoadGoalList(Element, "sub-goals", "goal"))
+            _State = ObjectStore.LoadGoalState("state");
+            foreach(var Goal in ObjectStore.LoadGoalList("sub-goals", "goal"))
             {
                 _SubGoals.Add(Goal);
             }

@@ -190,14 +190,14 @@
             Element.AppendChild(GameSaver.CreateProperty("rectangle", _Rectangle));
         }
 
-        public virtual void Load(ButtonOffice.GameLoader GameLoader, System.Xml.XmlElement Element)
+        public virtual void Load(LoadObjectStore ObjectStore)
         {
-            _ActionState = GameLoader.LoadActionStateProperty(Element, "action-state");
-            _BackgroundColor = GameLoader.LoadColorProperty(Element, "background-color");
-            _BorderColor = GameLoader.LoadColorProperty(Element, "border-color");
-            _MinutesToActionStateChange = GameLoader.LoadSingleProperty(Element, "minutes-until-action-state-changes");
-            _Office = GameLoader.LoadOfficeProperty(Element, "office");
-            _Rectangle = GameLoader.LoadRectangleProperty(Element, "rectangle");
+            _ActionState = ObjectStore.LoadActionStateProperty("action-state");
+            _BackgroundColor = ObjectStore.LoadColorProperty("background-color");
+            _BorderColor = ObjectStore.LoadColorProperty("border-color");
+            _MinutesToActionStateChange = ObjectStore.LoadSingleProperty("minutes-until-action-state-changes");
+            _Office = ObjectStore.LoadOfficeProperty("office");
+            _Rectangle = ObjectStore.LoadRectangleProperty("rectangle");
         }
     }
 }

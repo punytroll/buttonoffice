@@ -26,10 +26,10 @@
             Element.AppendChild(GameSaver.CreateProperty("bonus-promille", _BonusPromille));
         }
 
-        public override void Load(ButtonOffice.GameLoader GameLoader, System.Xml.XmlElement Element)
+        public override void Load(LoadObjectStore ObjectStore)
         {
-            base.Load(GameLoader, Element);
-            _BonusPromille = GameLoader.LoadUInt64Property(Element, "bonus-promille");
+            base.Load(ObjectStore);
+            _BonusPromille = ObjectStore.LoadUInt64Property("bonus-promille");
         }
     }
 }

@@ -55,10 +55,10 @@
             Element.AppendChild(CleaningTargetsElement);
         }
 
-        public override void Load(ButtonOffice.GameLoader GameLoader, System.Xml.XmlElement Element)
+        public override void Load(LoadObjectStore ObjectStore)
         {
-            base.Load(GameLoader, Element);
-            foreach(ButtonOffice.Desk Desk in GameLoader.LoadDeskList(Element, "cleaning-targets", "desk"))
+            base.Load(ObjectStore);
+            foreach(var Desk in ObjectStore.LoadDeskList("cleaning-targets", "desk"))
             {
                 _CleaningTargets.Enqueue(Desk);
             }

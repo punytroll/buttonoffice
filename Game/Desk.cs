@@ -150,14 +150,14 @@
             Element.AppendChild(GameSaver.CreateProperty("trash-level", _TrashLevel));
         }
 
-        public virtual void Load(ButtonOffice.GameLoader GameLoader, System.Xml.XmlElement Element)
+        public virtual void Load(LoadObjectStore ObjectStore)
         {
-            _Computer = GameLoader.LoadComputerProperty(Element, "computer");
-            _Janitor = GameLoader.LoadJanitorProperty(Element, "janitor");
-            _Office = GameLoader.LoadOfficeProperty(Element, "office");
-            _Person = GameLoader.LoadPersonProperty(Element, "person");
-            _Rectangle = GameLoader.LoadRectangleProperty(Element, "rectangle");
-            _TrashLevel = GameLoader.LoadSingleProperty(Element, "trash-level");
+            _Computer = ObjectStore.LoadComputerProperty("computer");
+            _Janitor = ObjectStore.LoadJanitorProperty("janitor");
+            _Office = ObjectStore.LoadOfficeProperty("office");
+            _Person = ObjectStore.LoadPersonProperty("person");
+            _Rectangle = ObjectStore.LoadRectangleProperty("rectangle");
+            _TrashLevel = ObjectStore.LoadSingleProperty("trash-level");
         }
     }
 }

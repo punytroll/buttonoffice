@@ -84,10 +84,10 @@
             Element.AppendChild(GameSaver.CreateProperty("rectangle", _Rectangle));
         }
 
-        public virtual void Load(ButtonOffice.GameLoader GameLoader, System.Xml.XmlElement Element)
+        public virtual void Load(LoadObjectStore ObjectStore)
         {
-            _MinutesUntilBroken = GameLoader.LoadSingleProperty(Element, "minutes-until-broken");
-            _Rectangle = GameLoader.LoadRectangleProperty(Element, "rectangle");
+            _MinutesUntilBroken = ObjectStore.LoadSingleProperty("minutes-until-broken");
+            _Rectangle = ObjectStore.LoadRectangleProperty("rectangle");
         }
     }
 }

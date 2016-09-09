@@ -29,9 +29,9 @@
             Element.AppendChild(GameSaver.CreateProperty("minutes-until-broken", _MinutesUntilBroken));
         }
 
-        public void Load(ButtonOffice.GameLoader GameLoader, System.Xml.XmlElement Element)
+        public void Load(LoadObjectStore ObjectStore)
         {
-            _MinutesUntilBroken = GameLoader.LoadSingleProperty(Element, "minutes-until-broken");
+            _MinutesUntilBroken = ObjectStore.LoadSingleProperty("minutes-until-broken");
         }
     }
 }

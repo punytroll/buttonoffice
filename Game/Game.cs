@@ -606,36 +606,36 @@
             Element.AppendChild(GameSaver.CreateProperty("world-height", ButtonOffice.Data.WorldBlockHeight));
         }
 
-        public virtual void Load(ButtonOffice.GameLoader GameLoader, System.Xml.XmlElement Element)
+        public virtual void Load(LoadObjectStore ObjectStore)
         {
-            foreach(ButtonOffice.Accountant Accountant in GameLoader.LoadAccountantList(Element, "accountants", "accountant"))
+            foreach(var Accountant in ObjectStore.LoadAccountantList("accountants", "accountant"))
             {
                 _Accountants.Add(Accountant);
             }
-            foreach(ButtonOffice.Bathroom Bathroom in GameLoader.LoadBathroomList(Element, "bathrooms", "bathroom"))
+            foreach(var Bathroom in ObjectStore.LoadBathroomList("bathrooms", "bathroom"))
             {
                 _Bathrooms.Add(Bathroom);
             }
-            foreach(System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing> BrokenThing in GameLoader.LoadBrokenThingList(Element, "broken-things", "broken-thing"))
+            foreach(var BrokenThing in ObjectStore.LoadBrokenThingList("broken-things", "broken-thing"))
             {
                 _BrokenThings.Add(BrokenThing);
             }
-            _CatStock = GameLoader.LoadUInt32Property(Element, "cat-stock");
-            _Cents = GameLoader.LoadUInt64Property(Element, "cents");
-            _Minutes = GameLoader.LoadUInt64Property(Element, "minutes");
-            _NextCatAtNumberOfEmployees = GameLoader.LoadUInt32Property(Element, "next-cat-at-number-of-employees");
-            foreach(ButtonOffice.Office Office in GameLoader.LoadOfficeList(Element, "offices", "office"))
+            _CatStock = ObjectStore.LoadUInt32Property("cat-stock");
+            _Cents = ObjectStore.LoadUInt64Property("cents");
+            _Minutes = ObjectStore.LoadUInt64Property("minutes");
+            _NextCatAtNumberOfEmployees = ObjectStore.LoadUInt32Property("next-cat-at-number-of-employees");
+            foreach(ButtonOffice.Office Office in ObjectStore.LoadOfficeList("offices", "office"))
             {
                 _Offices.Add(Office);
             }
-            foreach(ButtonOffice.Person Person in GameLoader.LoadPersonList(Element, "persons", "person"))
+            foreach(ButtonOffice.Person Person in ObjectStore.LoadPersonList("persons", "person"))
             {
                 _Persons.Add(Person);
             }
-            _SubMinute = GameLoader.LoadSingleProperty(Element, "sub-minute");
+            _SubMinute = ObjectStore.LoadSingleProperty("sub-minute");
 
-            System.Int32 WorldWidth = GameLoader.LoadInt32Property(Element, "world-width");
-            System.Int32 WorldHeight = GameLoader.LoadInt32Property(Element, "world-height");
+            System.Int32 WorldWidth = ObjectStore.LoadInt32Property("world-width");
+            System.Int32 WorldHeight = ObjectStore.LoadInt32Property("world-height");
 
             for(System.Int32 Index = 0; Index < WorldHeight; ++Index)
             {

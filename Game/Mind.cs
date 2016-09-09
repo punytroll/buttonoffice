@@ -94,9 +94,9 @@
             Element.AppendChild(GameSaver.CreateProperty("root-goal", _RootGoal));
         }
 
-        public void Load(ButtonOffice.GameLoader GameLoader, System.Xml.XmlElement Element)
+        public void Load(LoadObjectStore ObjectStore)
         {
-            _RootGoal = GameLoader.LoadGoalProperty(Element, "root-goal");
+            _RootGoal = ObjectStore.LoadGoalProperty("root-goal");
         }
     }
 }

@@ -89,11 +89,11 @@
             Element.AppendChild(GameSaver.CreateProperty("rectangle", _Rectangle));
         }
 
-        public virtual void Load(ButtonOffice.GameLoader GameLoader, System.Xml.XmlElement Element)
+        public virtual void Load(LoadObjectStore ObjectStore)
         {
-            _BackgroundColor = GameLoader.LoadColorProperty(Element, "background-color");
-            _BorderColor = GameLoader.LoadColorProperty(Element, "border-color");
-            _Rectangle = GameLoader.LoadRectangleProperty(Element, "rectangle");
+            _BackgroundColor = ObjectStore.LoadColorProperty("background-color");
+            _BorderColor = ObjectStore.LoadColorProperty("border-color");
+            _Rectangle = ObjectStore.LoadRectangleProperty("rectangle");
         }
     }
 }

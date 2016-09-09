@@ -238,19 +238,19 @@
             Element.AppendChild(GameSaver.CreateProperty("third-lamp", _ThirdLamp));
         }
 
-        public virtual void Load(ButtonOffice.GameLoader GameLoader, System.Xml.XmlElement Element)
+        public virtual void Load(LoadObjectStore ObjectStore)
         {
-            _BackgroundColor = GameLoader.LoadColorProperty(Element, "background-color");
-            _BorderColor = GameLoader.LoadColorProperty(Element, "border-color");
-            _Cat = GameLoader.LoadCatProperty(Element, "cat");
-            _FirstDesk = GameLoader.LoadDeskProperty(Element, "first-desk");
-            _FirstLamp = GameLoader.LoadLampProperty(Element, "first-lamp");
-            _FourthDesk = GameLoader.LoadDeskProperty(Element, "fourth-desk");
-            _Rectangle = GameLoader.LoadRectangleProperty(Element, "rectangle");
-            _SecondDesk = GameLoader.LoadDeskProperty(Element, "second-desk");
-            _SecondLamp = GameLoader.LoadLampProperty(Element, "second-lamp");
-            _ThirdDesk = GameLoader.LoadDeskProperty(Element, "third-desk");
-            _ThirdLamp = GameLoader.LoadLampProperty(Element, "third-lamp");
+            _BackgroundColor = ObjectStore.LoadColorProperty("background-color");
+            _BorderColor = ObjectStore.LoadColorProperty("border-color");
+            _Cat = ObjectStore.LoadCatProperty("cat");
+            _FirstDesk = ObjectStore.LoadDeskProperty("first-desk");
+            _FirstLamp = ObjectStore.LoadLampProperty("first-lamp");
+            _FourthDesk = ObjectStore.LoadDeskProperty("fourth-desk");
+            _Rectangle = ObjectStore.LoadRectangleProperty("rectangle");
+            _SecondDesk = ObjectStore.LoadDeskProperty("second-desk");
+            _SecondLamp = ObjectStore.LoadLampProperty("second-lamp");
+            _ThirdDesk = ObjectStore.LoadDeskProperty("third-desk");
+            _ThirdLamp = ObjectStore.LoadLampProperty("third-lamp");
         }
     }
 }
