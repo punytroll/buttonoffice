@@ -113,6 +113,7 @@
     <Compile Include="Persistence\GameSaver.cs" />
     <Compile Include="Persistence\LoadObjectStore.cs" />
     <Compile Include="Persistence\PersistentObject.cs" />
+    <Compile Include="Persistence\SaveObjectStore.cs" />
     <Compile Include="Person.cs" />
     <Compile Include="RandomNumberGenerator.cs" />
     <Compile Include="Worker.cs" />

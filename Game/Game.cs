@@ -556,32 +556,12 @@
             }
         }
 
-        public virtual void Save(ButtonOffice.GameSaver GameSaver, System.Xml.XmlElement Element)
+        public virtual void Save(SaveObjectStore ObjectStore)
         {
-            System.Xml.XmlElement AccountantListElement = GameSaver.CreateElement("accountants");
-
-            foreach(ButtonOffice.Accountant Accountant in _Accountants)
-            {
-                AccountantListElement.AppendChild(GameSaver.CreateProperty("accountant", Accountant));
-            }
-            Element.AppendChild(AccountantListElement);
-
-            System.Xml.XmlElement BathroomsListElement = GameSaver.CreateElement("bathrooms");
-
-            foreach(ButtonOffice.Bathroom Bathroom in _Bathrooms)
-            {
-                BathroomsListElement.AppendChild(GameSaver.CreateProperty("bathroom", Bathroom));
-            }
-            Element.AppendChild(BathroomsListElement);
-
-            System.Xml.XmlElement BrokenThingsListElement = GameSaver.CreateElement("broken-things");
-
-            foreach(System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing> BrokenThing in _BrokenThings)
-            {
-                BrokenThingsListElement.AppendChild(GameSaver.CreateProperty("broken-thing", BrokenThing));
-            }
-            Element.AppendChild(BrokenThingsListElement);
-            Element.AppendChild(GameSaver.CreateProperty("cat-stock", _CatStock));
+            ObjectStore.SaveAccountants("accountants", _Accountants);
+            ObjectStore.SaveBathrooms("bathrooms", _Bathrooms);
+            ObjectStore.SaveBrokenThings("broken-things", _BrokenThings);
+            ObjectStore.Save("cat-stock", _CatStock);
             Element.AppendChild(GameSaver.CreateProperty("cents", _Cents));
             Element.AppendChild(GameSaver.CreateProperty("minutes", _Minutes));
             Element.AppendChild(GameSaver.CreateProperty("next-cat-at-number-of-employees", _NextCatAtNumberOfEmployees));

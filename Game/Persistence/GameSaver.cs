@@ -1,4 +1,7 @@
-﻿namespace ButtonOffice
+﻿using System;
+using System.Xml;
+
+namespace ButtonOffice
 {
     public class GameSaver
     {
@@ -46,9 +49,13 @@
             }
         }
 
-        public System.Xml.XmlElement CreateElement(System.String Name)
+        public XmlElement CreateElement(XmlElement ParentElement, String Name)
         {
-            return _Document.CreateElement(Name);
+            var Result = _Document.CreateElement(Name);
+
+            ParentElement.AppendChild(Result);
+
+            return Result;
         }
 
         public System.Xml.XmlElement CreateProperty(System.String Name, ButtonOffice.ActionState ActionState)

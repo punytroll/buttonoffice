@@ -2,7 +2,7 @@
 {
     public interface PersistentObject
     {
-        void Save(ButtonOffice.GameSaver GameSaver, System.Xml.XmlElement Element);
+        void Save(SaveObjectStore ObjectStore);
         void Load(LoadObjectStore ObjectStore);
     }
 }

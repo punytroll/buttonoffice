@@ -19,11 +19,11 @@ namespace ButtonOffice
 
         #region "public loader functions"
 
-        public List<Accountant> LoadAccountantList(String ListName, String ListElementName)
+        public List<Accountant> LoadAccountants(String ListName)
         {
             var Result = new List<Accountant>();
 
-            foreach(XmlNode Node in _GetPropertyElements(_Element, ListName, ListElementName))
+            foreach(XmlNode Node in _GetPropertyElements(_Element, ListName, "item"))
             {
                 Result.Add(_LoadAccountant(Node as XmlElement));
             }
@@ -41,11 +41,11 @@ namespace ButtonOffice
             return (AnimationState)Enum.Parse(typeof(AnimationState), _GetPropertyValue(_Element, PropertyName, "ButtonOffice.AnimationState"));
         }
 
-        public List<Bathroom> LoadBathroomList(String ListName, String ElementName)
+        public List<Bathroom> LoadBathrooms(String ListName)
         {
             var Result = new List<Bathroom>();
 
-            foreach(var Node in _GetPropertyElements(_Element, ListName, ElementName))
+            foreach(var Node in _GetPropertyElements(_Element, ListName, "item"))
             {
                 Result.Add(_LoadBathroom(Node as XmlElement));
             }
@@ -58,11 +58,11 @@ namespace ButtonOffice
             return Convert.ToBoolean(_GetPropertyValue(_Element, PropertyName, "System.Boolean"));
         }
 
-        public List<Pair<Office, BrokenThing>> LoadBrokenThingList(String PropertyName, String ElementName)
+        public List<Pair<Office, BrokenThing>> LoadBrokenThings(String PropertyName)
         {
             var Result = new List<Pair<Office, BrokenThing>>();
 
-            foreach(var Node in _GetPropertyElements(_Element, PropertyName, ElementName))
+            foreach(var Node in _GetPropertyElements(_Element, PropertyName, "item"))
             {
                 Result.Add(_LoadBrokenThing(Node as XmlElement));
             }
@@ -92,11 +92,11 @@ namespace ButtonOffice
             return _LoadPersistentObject(_GetPropertyElement(_Element, PropertyName)) as Computer;
         }
 
-        public List<ButtonOffice.Desk> LoadDeskList(String ListName, String ElementName)
+        public List<ButtonOffice.Desk> LoadDesks(String ListName)
         {
             var Result = new List<Desk>();
 
-            foreach(var Node in _GetPropertyElements(_Element, ListName, ElementName))
+            foreach(var Node in _GetPropertyElements(_Element, ListName, "item"))
             {
                 Result.Add(_LoadDesk(Node as XmlElement));
             }
@@ -124,11 +124,11 @@ namespace ButtonOffice
             return Convert.ToInt64(_GetPropertyValue(_Element, PropertyName, "System.Int64"), _GameLoader.CultureInfo);
         }
 
-        public List<Goal> LoadGoalList(String ListName, String ListElementName)
+        public List<Goal> LoadGoals(String ListName)
         {
             var Result = new List<Goal>();
 
-            foreach(var Node in _GetPropertyElements(_Element, ListName, ListElementName))
+            foreach(var Node in _GetPropertyElements(_Element, ListName, "item"))
             {
                 Result.Add(_LoadGoal(Node as XmlElement));
             }
@@ -161,11 +161,11 @@ namespace ButtonOffice
             return _LoadPersistentObject(_GetPropertyElement(_Element, PropertyName)) as Mind;
         }
 
-        public List<Office> LoadOfficeList(String ListName, String ElementName)
+        public List<Office> LoadOffices(String ListName)
         {
             var Result = new List<Office>();
 
-            foreach(var Node in _GetPropertyElements(_Element, ListName, ElementName))
+            foreach(var Node in _GetPropertyElements(_Element, ListName, "item"))
             {
                 Result.Add(_LoadOffice(Node as XmlElement));
             }
@@ -178,11 +178,11 @@ namespace ButtonOffice
             return _LoadOffice(_GetPropertyElement(_Element, PropertyName));
         }
 
-        public List<Person> LoadPersonList(String ListName, String ElementName)
+        public List<Person> LoadPersons(String ListName)
         {
             var Result = new List<Person>();
 
-            foreach(var Node in _GetPropertyElements(_Element, ListName, ElementName))
+            foreach(var Node in _GetPropertyElements(_Element, ListName, "item"))
             {
                 Result.Add(_LoadPerson(Node as XmlElement));
             }
