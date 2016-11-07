@@ -199,12 +199,16 @@ namespace ButtonOffice
         {
             var PropertyElement = _GetPropertyElement(_Element, PropertyName);
 
+            _AssertElementAndType(PropertyElement, typeof(PointF).FullName);
+
             return new System.Drawing.PointF(_LoadSingleProperty(PropertyElement, "x"), _LoadSingleProperty(PropertyElement, "y"));
         }
 
         public RectangleF LoadRectangleProperty(String PropertyName)
         {
             var PropertyElement = _GetPropertyElement(_Element, PropertyName);
+
+            _AssertElementAndType(PropertyElement, typeof(RectangleF).FullName);
 
             return new RectangleF(_LoadSingleProperty(PropertyElement, "x"), _LoadSingleProperty(PropertyElement, "y"), _LoadSingleProperty(PropertyElement, "width"), _LoadSingleProperty(PropertyElement, "height"));
         }
