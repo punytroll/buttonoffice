@@ -113,23 +113,18 @@
         {
         }
 
-        public virtual void Save(ButtonOffice.GameSaver GameSaver, System.Xml.XmlElement Element)
+        public override void Save(SaveObjectStore ObjectStore)
         {
-            Element.AppendChild(GameSaver.CreateProperty("state", _State));
-
-            System.Xml.XmlElement SubGoalsElement = GameSaver.CreateElement("sub-goals");
-
-            foreach(ButtonOffice.Goal Goal in _SubGoals)
-            {
-                SubGoalsElement.AppendChild(GameSaver.CreateProperty("goal", Goal));
-            }
-            Element.AppendChild(SubGoalsElement);
+            base.Save(ObjectStore);
+            ObjectStore.Save("state", _State);
+            ObjectStore.Save("sub-goals", _SubGoals);
         }
 
-        public virtual void Load(LoadObjectStore ObjectStore)
+        public override void Load(LoadObjectStore ObjectStore)
         {
+            base.Load(ObjectStore);
             _State = ObjectStore.LoadGoalState("state");
-            foreach(var Goal in ObjectStore.LoadGoalList("sub-goals", "goal"))
+            foreach(var Goal in ObjectStore.LoadGoals("sub-goals"))
             {
                 _SubGoals.Add(Goal);
             }

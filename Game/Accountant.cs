@@ -20,10 +20,10 @@
             return _BonusPromille;
         }
 
-        public override void Save(ButtonOffice.GameSaver GameSaver, System.Xml.XmlElement Element)
+        public override void Save(SaveObjectStore ObjectStore)
         {
-            base.Save(GameSaver, Element);
-            Element.AppendChild(GameSaver.CreateProperty("bonus-promille", _BonusPromille));
+            base.Save(ObjectStore);
+            ObjectStore.Save("bonus-promille", _BonusPromille);
         }
 
         public override void Load(LoadObjectStore ObjectStore)

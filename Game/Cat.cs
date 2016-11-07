@@ -180,18 +180,20 @@
             }
         }
 
-        public virtual void Save(ButtonOffice.GameSaver GameSaver, System.Xml.XmlElement Element)
+        public override void Save(SaveObjectStore ObjectStore)
         {
-            Element.AppendChild(GameSaver.CreateProperty("action-state", _ActionState));
-            Element.AppendChild(GameSaver.CreateProperty("background-color", _BackgroundColor));
-            Element.AppendChild(GameSaver.CreateProperty("border-color", _BorderColor));
-            Element.AppendChild(GameSaver.CreateProperty("minutes-until-action-state-changes", _MinutesToActionStateChange));
-            Element.AppendChild(GameSaver.CreateProperty("office", _Office));
-            Element.AppendChild(GameSaver.CreateProperty("rectangle", _Rectangle));
+            base.Save(ObjectStore);
+            ObjectStore.Save("action-state", _ActionState);
+            ObjectStore.Save("background-color", _BackgroundColor);
+            ObjectStore.Save("border-color", _BorderColor);
+            ObjectStore.Save("minutes-until-action-state-changes", _MinutesToActionStateChange);
+            ObjectStore.Save("office", _Office);
+            ObjectStore.Save("rectangle", _Rectangle);
         }
 
-        public virtual void Load(LoadObjectStore ObjectStore)
+        public override void Load(LoadObjectStore ObjectStore)
         {
+            base.Load(ObjectStore);
             _ActionState = ObjectStore.LoadActionStateProperty("action-state");
             _BackgroundColor = ObjectStore.LoadColorProperty("background-color");
             _BorderColor = ObjectStore.LoadColorProperty("border-color");

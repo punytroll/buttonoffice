@@ -1,8 +1,8 @@
 ﻿namespace ButtonOffice
 {
-    internal class ITTech : ButtonOffice.Person
+    internal class ITTech : Person
     {
-        private System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing> _RepairingTarget;
+        private System.Pair<Office, BrokenThing> _RepairingTarget;
 
         public ITTech()
         {
@@ -25,10 +25,10 @@
             _RepairingTarget = RepairingTarget;
         }
 
-        public override void Save(ButtonOffice.GameSaver GameSaver, System.Xml.XmlElement Element)
+        public override void Save(SaveObjectStore ObjectStore)
         {
-            base.Save(GameSaver, Element);
-            Element.AppendChild(GameSaver.CreateProperty("repairing-target", _RepairingTarget));
+            base.Save(ObjectStore);
+            ObjectStore.Save("repairing-target", _RepairingTarget);
         }
 
         public override void Load(LoadObjectStore ObjectStore)

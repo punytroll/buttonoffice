@@ -156,11 +156,11 @@
             Person.SetAnimationFraction(0.0f);
         }
 
-        public override void Save(ButtonOffice.GameSaver GameSaver, System.Xml.XmlElement Element)
+        public override void Save(SaveObjectStore ObjectStore)
         {
-            base.Save(GameSaver, Element);
-            Element.AppendChild(GameSaver.CreateProperty("cleaning-target", _CleaningTarget));
-            Element.AppendChild(GameSaver.CreateProperty("start-trash-level", _StartTrashLevel));
+            base.Save(ObjectStore);
+            ObjectStore.Save("cleaning-target", _CleaningTarget);
+            ObjectStore.Save("start-trash-level", _StartTrashLevel);
         }
 
         public override void Load(LoadObjectStore ObjectStore)
@@ -663,10 +663,10 @@
             Person.SetAnimationFraction(0.0f);
         }
 
-        public override void Save(ButtonOffice.GameSaver GameSaver, System.Xml.XmlElement Element)
+        public override void Save(SaveObjectStore ObjectStore)
         {
-            base.Save(GameSaver, Element);
-            Element.AppendChild(GameSaver.CreateProperty("walk-to", _WalkTo));
+            base.Save(ObjectStore);
+            ObjectStore.Save("walk-to", _WalkTo);
         }
 
         public override void Load(LoadObjectStore ObjectStore)

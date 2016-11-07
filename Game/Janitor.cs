@@ -42,23 +42,16 @@
             }
         }
 
-        public override void Save(ButtonOffice.GameSaver GameSaver, System.Xml.XmlElement Element)
+        public override void Save(SaveObjectStore ObjectStore)
         {
-            base.Save(GameSaver, Element);
-
-            System.Xml.XmlElement CleaningTargetsElement = GameSaver.CreateElement("cleaning-targets");
-
-            foreach(ButtonOffice.Desk Desk in _CleaningTargets)
-            {
-                CleaningTargetsElement.AppendChild(GameSaver.CreateProperty("desk", Desk));
-            }
-            Element.AppendChild(CleaningTargetsElement);
+            base.Save(ObjectStore);
+            ObjectStore.Save("cleaning-targets", _CleaningTargets);
         }
 
         public override void Load(LoadObjectStore ObjectStore)
         {
             base.Load(ObjectStore);
-            foreach(var Desk in ObjectStore.LoadDeskList("cleaning-targets", "desk"))
+            foreach(var Desk in ObjectStore.LoadDesks("cleaning-targets"))
             {
                 _CleaningTargets.Enqueue(Desk);
             }

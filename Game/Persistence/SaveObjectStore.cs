@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Xml;
 
 namespace ButtonOffice
@@ -15,41 +16,101 @@ namespace ButtonOffice
             _GameSaver = GameSaver;
         }
 
-        #region "public save functions"
+        #region "public save functions"}
 
-        public void Save(String PropertyName, IEnumerable<Accountant> Accountants)
+        public void Save(String PropertyName, ActionState ActionState)
         {
-            var AccountantListElement = _GameSaver.CreateElement(_Element, PropertyName);
-
-            foreach(var Accountant in Accountants)
-            {
-                AccountantListElement.AppendChild(_GameSaver.CreateProperty("item", Accountant));
-            }
+            _Element.AppendChild(_GameSaver.CreateProperty(PropertyName, ActionState));
         }
 
-        public void Save(String PropertyName, IEnumerable<Bathroom> Bathrooms)
+        public void Save(String PropertyName, AnimationState AnimationState)
         {
-            var BathroomListElement = _GameSaver.CreateElement(_Element, PropertyName);
+            _Element.AppendChild(_GameSaver.CreateProperty(PropertyName, AnimationState));
+        }
 
-            foreach(var Bathroom in Bathrooms)
-            {
-                BathroomListElement.AppendChild(_GameSaver.CreateProperty("item", Bathroom));
-            }
+        public void Save(String PropertyName, Boolean Boolean)
+        {
+            _Element.AppendChild(_GameSaver.CreateProperty(PropertyName, Boolean));
+        }
+
+        public void Save(String PropertyName, Pair<Office, BrokenThing> BrokenThing)
+        {
+            _Element.AppendChild(_GameSaver.CreateProperty(PropertyName, BrokenThing));
         }
 
         public void Save(String PropertyName, IEnumerable<Pair<Office, BrokenThing>> BrokenThings)
         {
-            var BrokenThingListElement = _GameSaver.CreateElement(_Element, PropertyName);
+            var ListElement = _GameSaver.CreateElement(_Element, PropertyName);
 
             foreach(var BrokenThing in BrokenThings)
             {
-                BrokenThingListElement.AppendChild(_GameSaver.CreateProperty("item", BrokenThing));
+                ListElement.AppendChild(_GameSaver.CreateProperty("item", BrokenThing));
             }
         }
 
-        public void Save(String PropertyName, Cat Cat)
+        public void Save(String PropertyName, Color Color)
         {
-            _Element.AppendChild(_GameSaver.CreateProperty(PropertyName, Cat));
+            _Element.AppendChild(_GameSaver.CreateProperty(PropertyName, Color));
+        }
+
+        public void Save(String ProperyName, GoalState GoalState)
+        {
+            _Element.AppendChild(_GameSaver.CreateProperty(ProperyName, GoalState));
+        }
+
+        public void Save(String PropertyName, Int32 Int32)
+        {
+            _Element.AppendChild(_GameSaver.CreateProperty(PropertyName, Int32));
+        }
+
+        public void Save(String PropertyName, LivingSide LivingSide)
+        {
+            _Element.AppendChild(_GameSaver.CreateProperty(PropertyName, LivingSide));
+        }
+
+        public void Save(String PropertyName, PersistentObject PersistentObject)
+        {
+            _Element.AppendChild(_GameSaver.CreateProperty(PropertyName, PersistentObject));
+        }
+
+        public void Save<ObjectType>(String PropertyName, IEnumerable<ObjectType> PersistentObjects) where ObjectType : PersistentObject
+        {
+            var ListElement = _GameSaver.CreateElement(_Element, PropertyName);
+
+            foreach(var PersistentObject in PersistentObjects)
+            {
+                ListElement.AppendChild(_GameSaver.CreateProperty("item", PersistentObject));
+            }
+        }
+
+        public void Save(String PropertyName, PointF PointF)
+        {
+            _Element.AppendChild(_GameSaver.CreateProperty(PropertyName, PointF));
+        }
+
+        public void Save(String PropertyName, RectangleF RectangleF)
+        {
+            _Element.AppendChild(_GameSaver.CreateProperty(PropertyName, RectangleF));
+        }
+
+        public void Save(String PropertyName, Single Single)
+        {
+            _Element.AppendChild(_GameSaver.CreateProperty(PropertyName, Single));
+        }
+
+        public void Save(String PropertyName, String String)
+        {
+            _Element.AppendChild(_GameSaver.CreateProperty(PropertyName, String));
+        }
+
+        public void Save(String PropertyName, UInt32 UInt32)
+        {
+            _Element.AppendChild(_GameSaver.CreateProperty(PropertyName, UInt32));
+        }
+
+        public void Save(String PropertyName, UInt64 UInt64)
+        {
+            _Element.AppendChild(_GameSaver.CreateProperty(PropertyName, UInt64));
         }
 
         #endregion

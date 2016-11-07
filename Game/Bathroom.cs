@@ -82,15 +82,17 @@
             _Rectangle.Y = Y;
         }
 
-        public virtual void Save(ButtonOffice.GameSaver GameSaver, System.Xml.XmlElement Element)
+        public override void Save(SaveObjectStore ObjectStore)
         {
-            Element.AppendChild(GameSaver.CreateProperty("background-color", _BackgroundColor));
-            Element.AppendChild(GameSaver.CreateProperty("border-color", _BorderColor));
-            Element.AppendChild(GameSaver.CreateProperty("rectangle", _Rectangle));
+            base.Save(ObjectStore);
+            ObjectStore.Save("background-color", _BackgroundColor);
+            ObjectStore.Save("border-color", _BorderColor);
+            ObjectStore.Save("rectangle", _Rectangle);
         }
 
-        public virtual void Load(LoadObjectStore ObjectStore)
+        public override void Load(LoadObjectStore ObjectStore)
         {
+            base.Load(ObjectStore);
             _BackgroundColor = ObjectStore.LoadColorProperty("background-color");
             _BorderColor = ObjectStore.LoadColorProperty("border-color");
             _Rectangle = ObjectStore.LoadRectangleProperty("rectangle");

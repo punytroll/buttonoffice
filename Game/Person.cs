@@ -1,25 +1,29 @@
-﻿namespace ButtonOffice
-{
-    public abstract class Person : ButtonOffice.PersistentObject
-    {
-        protected System.Single _ActionFraction;
-        protected System.Single _AnimationFraction;
-        protected ButtonOffice.AnimationState _AnimationState;
-        protected System.UInt64 _ArrivesAtMinute;
-        protected System.UInt64 _ArrivesAtMinuteOfDay;
-        private System.Boolean _AtDesk;
-        protected System.Drawing.Color _BackgroundColor;
-        protected System.Drawing.Color _BorderColor;
-        protected ButtonOffice.Desk _Desk;
-        protected System.UInt64 _LeavesAtMinute;
-        protected ButtonOffice.LivingSide _LivingSide;
-        protected ButtonOffice.Mind _Mind;
-        private System.Drawing.RectangleF _Rectangle;
-        private System.String _Name;
-        protected System.UInt64 _Wage;
-        protected System.UInt64 _WorkMinutes;
+﻿using System;
+using System.Diagnostics;
+using System.Drawing;
 
-        public System.Drawing.Color BackgroundColor
+namespace ButtonOffice
+{
+    public abstract class Person : PersistentObject
+    {
+        protected Single _ActionFraction;
+        protected Single _AnimationFraction;
+        protected AnimationState _AnimationState;
+        protected UInt64 _ArrivesAtMinute;
+        protected UInt64 _ArrivesAtMinuteOfDay;
+        private Boolean _AtDesk;
+        protected Color _BackgroundColor;
+        protected Color _BorderColor;
+        protected Desk _Desk;
+        protected UInt64 _LeavesAtMinute;
+        protected LivingSide _LivingSide;
+        protected Mind _Mind;
+        private RectangleF _Rectangle;
+        private String _Name;
+        protected UInt64 _Wage;
+        protected UInt64 _WorkMinutes;
+
+        public Color BackgroundColor
         {
             get
             {
@@ -27,7 +31,7 @@
             }
         }
 
-        public System.Drawing.Color BorderColor
+        public Color BorderColor
         {
             get
             {
@@ -35,7 +39,7 @@
             }
         }
 
-        public System.String Name
+        public String Name
         {
             get
             {
@@ -48,28 +52,28 @@
             _ActionFraction = 0.0f;
             _AnimationState = ButtonOffice.AnimationState.Hidden;
             _AnimationFraction = 0.0f;
-            if(ButtonOffice.RandomNumberGenerator.GetBoolean() == true)
+            if(RandomNumberGenerator.GetBoolean() == true)
             {
-                _LivingSide = ButtonOffice.LivingSide.Left;
+                _LivingSide = LivingSide.Left;
                 SetLocation(-10.0f, 0.0f);
             }
             else
             {
-                _LivingSide = ButtonOffice.LivingSide.Right;
-                SetLocation(ButtonOffice.Data.WorldBlockWidth + 10.0f, 0.0f);
+                _LivingSide = LivingSide.Right;
+                SetLocation(Data.WorldBlockWidth + 10.0f, 0.0f);
             }
             _Mind = new Mind();
-            _Rectangle.Height = ButtonOffice.RandomNumberGenerator.GetSingle(ButtonOffice.Data.PersonHeight, ButtonOffice.Data.PersonHeightSpread);
-            _Rectangle.Width = ButtonOffice.RandomNumberGenerator.GetSingle(ButtonOffice.Data.PersonWidth, ButtonOffice.Data.PersonWidthSpread);
+            _Rectangle.Height = RandomNumberGenerator.GetSingle(Data.PersonHeight, Data.PersonHeightSpread);
+            _Rectangle.Width = RandomNumberGenerator.GetSingle(Data.PersonWidth, Data.PersonWidthSpread);
             _Name = "Hagen";
         }
 
-        public void AssignDesk(ButtonOffice.Desk Desk)
+        public void AssignDesk(Desk Desk)
         {
-            System.Diagnostics.Debug.Assert(Desk != null);
+            Debug.Assert(Desk != null);
             if(_Desk != null)
             {
-                System.Diagnostics.Debug.Assert(_Desk.GetPerson() == this);
+                Debug.Assert(_Desk.GetPerson() == this);
                 _Desk.SetPerson(null);
             }
             _Desk = Desk;
@@ -78,138 +82,138 @@
 
         public void Fire()
         {
-            System.Diagnostics.Debug.Assert(_Desk != null);
+            Debug.Assert(_Desk != null);
             _Desk.SetPerson(null);
             _Desk = null;
         }
 
-        public System.Single GetActionFraction()
+        public Single GetActionFraction()
         {
             return _ActionFraction;
         }
 
-        public System.Single GetAnimationFraction()
+        public Single GetAnimationFraction()
         {
             return _AnimationFraction;
         }
 
-        public ButtonOffice.AnimationState GetAnimationState()
+        public AnimationState GetAnimationState()
         {
             return _AnimationState;
         }
 
-        public System.UInt64 GetArrivesAtMinute()
+        public UInt64 GetArrivesAtMinute()
         {
             return _ArrivesAtMinute;
         }
 
-        public System.UInt64 GetArrivesAtMinuteOfDay()
+        public UInt64 GetArrivesAtMinuteOfDay()
         {
             return _ArrivesAtMinuteOfDay;
         }
 
-        public System.Boolean GetAtDesk()
+        public Boolean GetAtDesk()
         {
             return _AtDesk;
         }
 
-        public ButtonOffice.Desk GetDesk()
+        public Desk GetDesk()
         {
             return _Desk;
         }
 
-        public System.Single GetHeight()
+        public Single GetHeight()
         {
             return _Rectangle.Height;
         }
 
-        public System.UInt64 GetLeavesAtMinute()
+        public UInt64 GetLeavesAtMinute()
         {
             return _LeavesAtMinute;
         }
 
-        public ButtonOffice.LivingSide GetLivingSide()
+        public LivingSide GetLivingSide()
         {
             return _LivingSide;
         }
 
-        public System.Drawing.PointF GetMidLocation()
+        public PointF GetMidLocation()
         {
-            return new System.Drawing.PointF(_Rectangle.X + _Rectangle.Width / 2.0f, _Rectangle.Y + _Rectangle.Height / 2.0f);
+            return new PointF(_Rectangle.X + _Rectangle.Width / 2.0f, _Rectangle.Y + _Rectangle.Height / 2.0f);
         }
 
-        public System.Drawing.RectangleF GetRectangle()
+        public RectangleF GetRectangle()
         {
             return _Rectangle;
         }
 
-        public System.UInt64 GetWage()
+        public UInt64 GetWage()
         {
             return _Wage;
         }
 
-        public System.Single GetWidth()
+        public Single GetWidth()
         {
             return _Rectangle.Width;
         }
 
-        public System.UInt64 GetWorkMinutes()
+        public UInt64 GetWorkMinutes()
         {
             return _WorkMinutes;
         }
 
-        public System.Single GetX()
+        public Single GetX()
         {
             return _Rectangle.X;
         }
 
-        public System.Single GetY()
+        public Single GetY()
         {
             return _Rectangle.Y;
         }
 
-        public System.Boolean IsHidden()
+        public Boolean IsHidden()
         {
-            return _AnimationState == ButtonOffice.AnimationState.Hidden;
+            return _AnimationState == AnimationState.Hidden;
         }
 
-        public void SetActionFraction(System.Single ActionFraction)
+        public void SetActionFraction(Single ActionFraction)
         {
             _ActionFraction = ActionFraction;
         }
 
-        public void SetAnimationFraction(System.Single AnimationFraction)
+        public void SetAnimationFraction(Single AnimationFraction)
         {
             _AnimationFraction = AnimationFraction;
         }
 
-        public void SetAnimationState(ButtonOffice.AnimationState AnimationState)
+        public void SetAnimationState(AnimationState AnimationState)
         {
             _AnimationState = AnimationState;
         }
 
-        public void SetAtDesk(System.Boolean AtDesk)
+        public void SetAtDesk(Boolean AtDesk)
         {
             _AtDesk = AtDesk;
         }
 
-        public void SetHeight(System.Single Height)
+        public void SetHeight(Single Height)
         {
             _Rectangle.Height = Height;
         }
 
-        public void SetLocation(System.Single X, System.Single Y)
+        public void SetLocation(Single X, Single Y)
         {
             _Rectangle.X = X;
             _Rectangle.Y = Y;
         }
 
-        public void SetLocation(System.Drawing.PointF Location)
+        public void SetLocation(PointF Location)
         {
             _Rectangle.Location = Location;
         }
 
-        public void SetRectangle(System.Single X, System.Single Y, System.Single Width, System.Single Height)
+        public void SetRectangle(Single X, Single Y, Single Width, Single Height)
         {
             _Rectangle.X = X;
             _Rectangle.Y = Y;
@@ -217,54 +221,56 @@
             _Rectangle.Height = Height;
         }
 
-        public void SetWidth(System.Single Width)
+        public void SetWidth(Single Width)
         {
             _Rectangle.Width = Width;
         }
 
-        public void SetWorkDayMinutes(System.UInt64 ArrivesAtMinute, System.UInt64 LeavesAtMinute)
+        public void SetWorkDayMinutes(UInt64 ArrivesAtMinute, UInt64 LeavesAtMinute)
         {
             _ArrivesAtMinute = ArrivesAtMinute;
             _LeavesAtMinute = LeavesAtMinute;
         }
 
-        public void SetX(System.Single X)
+        public void SetX(Single X)
         {
             _Rectangle.X = X;
         }
 
-        public void SetY(System.Single Y)
+        public void SetY(Single Y)
         {
             _Rectangle.Y = Y;
         }
 
-        public void Move(ButtonOffice.Game Game, System.Single DeltaMinutes)
+        public void Move(Game Game, Single DeltaMinutes)
         {
             _Mind.Move(Game, this, DeltaMinutes);
         }
 
-        public virtual void Save(ButtonOffice.GameSaver GameSaver, System.Xml.XmlElement Element)
+        public override void Save(SaveObjectStore ObjectStore)
         {
-            Element.AppendChild(GameSaver.CreateProperty("action-fraction", _ActionFraction));
-            Element.AppendChild(GameSaver.CreateProperty("animation-fraction", _AnimationFraction));
-            Element.AppendChild(GameSaver.CreateProperty("animation-state", _AnimationState));
-            Element.AppendChild(GameSaver.CreateProperty("arrives-at-minute", _ArrivesAtMinute));
-            Element.AppendChild(GameSaver.CreateProperty("arrives-at-minute-of-day", _ArrivesAtMinuteOfDay));
-            Element.AppendChild(GameSaver.CreateProperty("at-desk", _AtDesk));
-            Element.AppendChild(GameSaver.CreateProperty("background-color", _BackgroundColor));
-            Element.AppendChild(GameSaver.CreateProperty("border-color", _BorderColor));
-            Element.AppendChild(GameSaver.CreateProperty("desk", _Desk));
-            Element.AppendChild(GameSaver.CreateProperty("leaves-at-minute", _LeavesAtMinute));
-            Element.AppendChild(GameSaver.CreateProperty("living-side", _LivingSide));
-            Element.AppendChild(GameSaver.CreateProperty("mind", _Mind));
-            Element.AppendChild(GameSaver.CreateProperty("name", _Name));
-            Element.AppendChild(GameSaver.CreateProperty("rectangle", _Rectangle));
-            Element.AppendChild(GameSaver.CreateProperty("wage", _Wage));
-            Element.AppendChild(GameSaver.CreateProperty("work-minutes", _WorkMinutes));
+            base.Save(ObjectStore);
+            ObjectStore.Save("action-fraction", _ActionFraction);
+            ObjectStore.Save("animation-fraction", _AnimationFraction);
+            ObjectStore.Save("animation-state", _AnimationState);
+            ObjectStore.Save("arrives-at-minute", _ArrivesAtMinute);
+            ObjectStore.Save("arrives-at-minute-of-day", _ArrivesAtMinuteOfDay);
+            ObjectStore.Save("at-desk", _AtDesk);
+            ObjectStore.Save("background-color", _BackgroundColor);
+            ObjectStore.Save("border-color", _BorderColor);
+            ObjectStore.Save("desk", _Desk);
+            ObjectStore.Save("leaves-at-minute", _LeavesAtMinute);
+            ObjectStore.Save("living-side", _LivingSide);
+            ObjectStore.Save("mind", _Mind);
+            ObjectStore.Save("name", _Name);
+            ObjectStore.Save("rectangle", _Rectangle);
+            ObjectStore.Save("wage", _Wage);
+            ObjectStore.Save("work-minutes", _WorkMinutes);
         }
 
-        public virtual void Load(LoadObjectStore ObjectStore)
+        public override void Load(LoadObjectStore ObjectStore)
         {
+            base.Load(ObjectStore);
             _ActionFraction = ObjectStore.LoadSingleProperty("action-fraction");
             _AnimationFraction = ObjectStore.LoadSingleProperty("animation-fraction");
             _AnimationState = ObjectStore.LoadAnimationStateProperty("animation-state");

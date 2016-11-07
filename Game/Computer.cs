@@ -24,13 +24,14 @@
             _MinutesUntilBroken = MinutesUntilBroken;
         }
 
-        public void Save(ButtonOffice.GameSaver GameSaver, System.Xml.XmlElement Element)
+        public override void Save(SaveObjectStore ObjectStore)
         {
-            Element.AppendChild(GameSaver.CreateProperty("minutes-until-broken", _MinutesUntilBroken));
+            ObjectStore.Save("minutes-until-broken", _MinutesUntilBroken);
         }
 
-        public void Load(LoadObjectStore ObjectStore)
+        public override void Load(LoadObjectStore ObjectStore)
         {
+            base.Load(ObjectStore);
             _MinutesUntilBroken = ObjectStore.LoadSingleProperty("minutes-until-broken");
         }
     }

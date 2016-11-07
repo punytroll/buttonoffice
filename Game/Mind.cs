@@ -89,13 +89,15 @@
             _RootGoal = RootGoal;
         }
 
-        public void Save(ButtonOffice.GameSaver GameSaver, System.Xml.XmlElement Element)
+        public override void Save(SaveObjectStore ObjectStore)
         {
-            Element.AppendChild(GameSaver.CreateProperty("root-goal", _RootGoal));
+            base.Save(ObjectStore);
+            ObjectStore.Save("root-goal", _RootGoal);
         }
 
-        public void Load(LoadObjectStore ObjectStore)
+        public override void Load(LoadObjectStore ObjectStore)
         {
+            base.Load(ObjectStore);
             _RootGoal = ObjectStore.LoadGoalProperty("root-goal");
         }
     }

@@ -78,14 +78,16 @@
             _Rectangle.Y = Y;
         }
 
-        public virtual void Save(ButtonOffice.GameSaver GameSaver, System.Xml.XmlElement Element)
+        public override void Save(SaveObjectStore ObjectStore)
         {
-            Element.AppendChild(GameSaver.CreateProperty("minutes-until-broken", _MinutesUntilBroken));
-            Element.AppendChild(GameSaver.CreateProperty("rectangle", _Rectangle));
+            base.Save(ObjectStore);
+            ObjectStore.Save("minutes-until-broken", _MinutesUntilBroken);
+            ObjectStore.Save("rectangle", _Rectangle);
         }
 
-        public virtual void Load(LoadObjectStore ObjectStore)
+        public override void Load(LoadObjectStore ObjectStore)
         {
+            base.Load(ObjectStore);
             _MinutesUntilBroken = ObjectStore.LoadSingleProperty("minutes-until-broken");
             _Rectangle = ObjectStore.LoadRectangleProperty("rectangle");
         }

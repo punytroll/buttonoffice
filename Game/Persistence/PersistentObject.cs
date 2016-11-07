@@ -1,8 +1,13 @@
 ﻿namespace ButtonOffice
 {
-    public interface PersistentObject
+    public abstract class PersistentObject
     {
-        void Save(SaveObjectStore ObjectStore);
-        void Load(LoadObjectStore ObjectStore);
+        public virtual void Save(SaveObjectStore ObjectStore)
+        {
+        }
+
+        public virtual void Load(LoadObjectStore ObjectStore)
+        {
+        }
     }
 }

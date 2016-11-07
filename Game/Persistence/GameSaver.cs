@@ -200,9 +200,13 @@ namespace ButtonOffice
             _Document.DocumentElement.Attributes.Append(_CreateAttribute("version", ButtonOffice.Data.SaveGameFileVersion));
 
             System.Xml.XmlElement GameElement = _Document.CreateElement("game");
+
             GameElement.Attributes.Append(_CreateAttribute("identifier", _GetIdentifier(Game).ToString(_CultureInfo)));
             GameElement.Attributes.Append(_CreateAttribute("type", "ButtonOffice.Game"));
-            Game.Save(this, GameElement);
+
+            var ObjectStore = new SaveObjectStore(this, GameElement);
+
+            Game.Save(ObjectStore);
             _Document.DocumentElement.AppendChild(GameElement);
             _Document.Save(_FileName);
         }
@@ -225,7 +229,10 @@ namespace ButtonOffice
 
                     Element.Attributes.Append(_CreateAttribute("identifier", _GetIdentifier(PersistentObject).ToString(_CultureInfo)));
                     Element.Attributes.Append(_CreateAttribute("type", PersistentObject.GetType().FullName));
-                    PersistentObject.Save(this, Element);
+
+                    var ObjectStore = new SaveObjectStore(this, Element);
+
+                    PersistentObject.Save(ObjectStore);
                     _Document.DocumentElement.AppendChild(Element);
                 }
             }

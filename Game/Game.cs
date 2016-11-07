@@ -432,7 +432,7 @@
 
         public System.String GetMoneyString(System.UInt64 Cents)
         {
-            return _GetEuros(Cents).ToString() + "." + _GetCents(Cents).ToString("00") + "€";
+            return _GetEuros(Cents) + "." + _GetCents(Cents).ToString("00") + "€";
         }
 
         public System.Pair<System.Int32, System.Int32> GetBuildingMinimumMaximum(System.Int32 Row)
@@ -556,47 +556,33 @@
             }
         }
 
-        public virtual void Save(SaveObjectStore ObjectStore)
+        public override void Save(SaveObjectStore ObjectStore)
         {
-            ObjectStore.SaveAccountants("accountants", _Accountants);
-            ObjectStore.SaveBathrooms("bathrooms", _Bathrooms);
-            ObjectStore.SaveBrokenThings("broken-things", _BrokenThings);
+            ObjectStore.Save("accountants", _Accountants);
+            ObjectStore.Save("bathrooms", _Bathrooms);
+            ObjectStore.Save("broken-things", _BrokenThings);
             ObjectStore.Save("cat-stock", _CatStock);
-            Element.AppendChild(GameSaver.CreateProperty("cents", _Cents));
-            Element.AppendChild(GameSaver.CreateProperty("minutes", _Minutes));
-            Element.AppendChild(GameSaver.CreateProperty("next-cat-at-number-of-employees", _NextCatAtNumberOfEmployees));
-
-            System.Xml.XmlElement OfficeListElement = GameSaver.CreateElement("offices");
-
-            foreach(ButtonOffice.Office Office in _Offices)
-            {
-                OfficeListElement.AppendChild(GameSaver.CreateProperty("office", Office));
-            }
-            Element.AppendChild(OfficeListElement);
-
-            System.Xml.XmlElement PersonListElement = GameSaver.CreateElement("persons");
-
-            foreach(ButtonOffice.Person Person in _Persons)
-            {
-                PersonListElement.AppendChild(GameSaver.CreateProperty("person", Person));
-            }
-            Element.AppendChild(PersonListElement);
-            Element.AppendChild(GameSaver.CreateProperty("sub-minute", _SubMinute));
-            Element.AppendChild(GameSaver.CreateProperty("world-width", ButtonOffice.Data.WorldBlockWidth));
-            Element.AppendChild(GameSaver.CreateProperty("world-height", ButtonOffice.Data.WorldBlockHeight));
+            ObjectStore.Save("cents", _Cents);
+            ObjectStore.Save("minutes", _Minutes);
+            ObjectStore.Save("next-cat-at-number-of-employees", _NextCatAtNumberOfEmployees);
+            ObjectStore.Save("offices", _Offices);
+            ObjectStore.Save("persons", _Persons);
+            ObjectStore.Save("sub-minute", _SubMinute);
+            ObjectStore.Save("world-width", Data.WorldBlockWidth);
+            ObjectStore.Save("world-height", Data.WorldBlockHeight);
         }
 
-        public virtual void Load(LoadObjectStore ObjectStore)
+        public override void Load(LoadObjectStore ObjectStore)
         {
-            foreach(var Accountant in ObjectStore.LoadAccountantList("accountants", "accountant"))
+            foreach(var Accountant in ObjectStore.LoadAccountants("accountants"))
             {
                 _Accountants.Add(Accountant);
             }
-            foreach(var Bathroom in ObjectStore.LoadBathroomList("bathrooms", "bathroom"))
+            foreach(var Bathroom in ObjectStore.LoadBathrooms("bathrooms"))
             {
                 _Bathrooms.Add(Bathroom);
             }
-            foreach(var BrokenThing in ObjectStore.LoadBrokenThingList("broken-things", "broken-thing"))
+            foreach(var BrokenThing in ObjectStore.LoadBrokenThings("broken-things"))
             {
                 _BrokenThings.Add(BrokenThing);
             }
@@ -604,11 +590,11 @@
             _Cents = ObjectStore.LoadUInt64Property("cents");
             _Minutes = ObjectStore.LoadUInt64Property("minutes");
             _NextCatAtNumberOfEmployees = ObjectStore.LoadUInt32Property("next-cat-at-number-of-employees");
-            foreach(ButtonOffice.Office Office in ObjectStore.LoadOfficeList("offices", "office"))
+            foreach(ButtonOffice.Office Office in ObjectStore.LoadOffices("offices"))
             {
                 _Offices.Add(Office);
             }
-            foreach(ButtonOffice.Person Person in ObjectStore.LoadPersonList("persons", "person"))
+            foreach(ButtonOffice.Person Person in ObjectStore.LoadPersons("persons"))
             {
                 _Persons.Add(Person);
             }

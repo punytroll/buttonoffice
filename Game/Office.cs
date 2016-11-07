@@ -223,23 +223,25 @@
             }
         }
 
-        public virtual void Save(ButtonOffice.GameSaver GameSaver, System.Xml.XmlElement Element)
+        public override void Save(SaveObjectStore ObjectStore)
         {
-            Element.AppendChild(GameSaver.CreateProperty("background-color", _BackgroundColor));
-            Element.AppendChild(GameSaver.CreateProperty("border-color", _BorderColor));
-            Element.AppendChild(GameSaver.CreateProperty("cat", _Cat));
-            Element.AppendChild(GameSaver.CreateProperty("first-desk", _FirstDesk));
-            Element.AppendChild(GameSaver.CreateProperty("first-lamp", _FirstLamp));
-            Element.AppendChild(GameSaver.CreateProperty("fourth-desk", _FourthDesk));
-            Element.AppendChild(GameSaver.CreateProperty("rectangle", _Rectangle));
-            Element.AppendChild(GameSaver.CreateProperty("second-desk", _SecondDesk));
-            Element.AppendChild(GameSaver.CreateProperty("second-lamp", _SecondLamp));
-            Element.AppendChild(GameSaver.CreateProperty("third-desk", _ThirdDesk));
-            Element.AppendChild(GameSaver.CreateProperty("third-lamp", _ThirdLamp));
+            base.Save(ObjectStore);
+            ObjectStore.Save("background-color", _BackgroundColor);
+            ObjectStore.Save("border-color", _BorderColor);
+            ObjectStore.Save("cat", _Cat);
+            ObjectStore.Save("first-desk", _FirstDesk);
+            ObjectStore.Save("first-lamp", _FirstLamp);
+            ObjectStore.Save("fourth-desk", _FourthDesk);
+            ObjectStore.Save("rectangle", _Rectangle);
+            ObjectStore.Save("second-desk", _SecondDesk);
+            ObjectStore.Save("second-lamp", _SecondLamp);
+            ObjectStore.Save("third-desk", _ThirdDesk);
+            ObjectStore.Save("third-lamp", _ThirdLamp);
         }
 
-        public virtual void Load(LoadObjectStore ObjectStore)
+        public override void Load(LoadObjectStore ObjectStore)
         {
+            base.Load(ObjectStore);
             _BackgroundColor = ObjectStore.LoadColorProperty("background-color");
             _BorderColor = ObjectStore.LoadColorProperty("border-color");
             _Cat = ObjectStore.LoadCatProperty("cat");

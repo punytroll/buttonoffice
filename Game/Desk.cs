@@ -140,18 +140,20 @@
             _Rectangle.Y = Y;
         }
 
-        public virtual void Save(ButtonOffice.GameSaver GameSaver, System.Xml.XmlElement Element)
+        public override void Save(SaveObjectStore ObjectStore)
         {
-            Element.AppendChild(GameSaver.CreateProperty("computer", _Computer));
-            Element.AppendChild(GameSaver.CreateProperty("janitor", _Janitor));
-            Element.AppendChild(GameSaver.CreateProperty("office", _Office));
-            Element.AppendChild(GameSaver.CreateProperty("person", _Person));
-            Element.AppendChild(GameSaver.CreateProperty("rectangle", _Rectangle));
-            Element.AppendChild(GameSaver.CreateProperty("trash-level", _TrashLevel));
+            base.Save(ObjectStore);
+            ObjectStore.Save("computer", _Computer);
+            ObjectStore.Save("janitor", _Janitor);
+            ObjectStore.Save("office", _Office);
+            ObjectStore.Save("person", _Person);
+            ObjectStore.Save("rectangle", _Rectangle);
+            ObjectStore.Save("trash-level", _TrashLevel);
         }
 
-        public virtual void Load(LoadObjectStore ObjectStore)
+        public override void Load(LoadObjectStore ObjectStore)
         {
+            base.Load(ObjectStore);
             _Computer = ObjectStore.LoadComputerProperty("computer");
             _Janitor = ObjectStore.LoadJanitorProperty("janitor");
             _Office = ObjectStore.LoadOfficeProperty("office");
