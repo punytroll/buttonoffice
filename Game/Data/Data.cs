@@ -76,7 +76,7 @@
         public static readonly System.Single PersonTagWidth = 1.0f;
         public static readonly System.Single PersonWidth = 1.6f;
         public static readonly System.Single PersonWidthSpread = 0.5f;
-        public static readonly System.String SaveGameFileVersion = "2";
+        public static readonly System.String SaveGameFileVersion = "3";
         public static readonly System.Drawing.Color SpendMoneyFloatingTextColor = System.Drawing.Color.FromArgb(220, 220, 20, 20);
         public static readonly System.UInt64 StartCents = 5000000ul;
         public static readonly System.UInt64 StartMinutes = 480ul;

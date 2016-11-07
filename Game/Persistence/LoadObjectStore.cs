@@ -84,7 +84,7 @@ namespace ButtonOffice
         {
             var PropertyElement = _GetPropertyElement(_Element, PropertyName);
 
-            return Color.FromArgb(_LoadByteProperty(PropertyElement, "alpha"), _LoadByteProperty(PropertyElement, "red"), _LoadByteProperty(PropertyElement, "green"), _LoadByteProperty(PropertyElement, "blue"));
+            return Color.FromArgb(Convert.ToByte(255.0f * _LoadSingleProperty(PropertyElement, "opacity")), Convert.ToByte(255.0f * _LoadSingleProperty(PropertyElement, "red")), Convert.ToByte(255.0f * _LoadSingleProperty(PropertyElement, "green")), Convert.ToByte(255.0f * _LoadSingleProperty(PropertyElement, "blue")));
         }
 
         public Computer LoadComputerProperty(String PropertyName)
@@ -283,15 +283,17 @@ namespace ButtonOffice
 
         private PersistentObject _LoadPersistentObject(XmlElement PropertyElement)
         {
-            try
+            PersistentObject Result = null;
+
+            if(PropertyElement.InnerText.Trim().Length > 0)
             {
                 var Identifier = _LoadUInt32(PropertyElement);
-                var Result = _GameLoader.GetPersistentObject(Identifier);
 
+                Result = _GameLoader.GetPersistentObject(Identifier);
                 if(Result == null)
                 {
                     var ObjectElement = _GameLoader.GetObjectElement(Identifier);
-                    
+
                     Result = Activator.CreateInstance(System.Type.GetType(_AssertElementAndGetType(ObjectElement))) as PersistentObject;
                     if(Result == null)
                     {
@@ -303,13 +305,9 @@ namespace ButtonOffice
 
                     Result.Load(LoadObjectStore);
                 }
+            }
 
-                return Result;
-            }
-            catch(System.FormatException)
-            {
-                return null;
-            }
+            return Result;
         }
 
         private Person _LoadPerson(XmlElement Element)
@@ -336,6 +334,23 @@ namespace ButtonOffice
 
 
         #region "helper functions"
+
+        private static String _GetNodePath(XmlNode Node)
+        {
+            String Result = null;
+
+            while(Node != null)
+            {
+                if(Result != null)
+                {
+                    Result = "/" + Result;
+                }
+                Result = Node.Name + Result;
+                Node = Node.ParentNode;
+            }
+
+            return Result;
+        }
 
         private static String _AssertElementAndGetType(XmlElement Element)
         {
@@ -371,7 +386,14 @@ namespace ButtonOffice
 
         private static String _GetPropertyValue(XmlElement ObjectElement, String PropertyName, String PropertyType)
         {
-            return _GetTypeSafeValue(_GetPropertyElement(ObjectElement, PropertyName), PropertyType);
+            var PropertyElement = _GetPropertyElement(ObjectElement, PropertyName);
+
+            if(PropertyElement == null)
+            {
+                throw new FormatException("The property \"" + PropertyName + "\" is not defined on the element \"" + _GetNodePath(ObjectElement) + "\".");
+            }
+
+            return _GetTypeSafeValue(PropertyElement, PropertyType);
         }
 
         private static String _GetTypeSafeValue(XmlElement Element, String Type)

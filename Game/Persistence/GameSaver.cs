@@ -1,21 +1,50 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.Xml;
 
 namespace ButtonOffice
 {
     public class GameSaver
     {
-        private System.Globalization.CultureInfo _CultureInfo;
-        private System.Xml.XmlDocument _Document;
-        private System.String _FileName;
-        private System.Collections.Generic.Dictionary<ButtonOffice.PersistentObject, System.Pair<System.Boolean, System.UInt32>> _Objects;
-
-        public GameSaver(System.String FileName)
+        public CultureInfo CultureInfo
         {
-            _CultureInfo = System.Globalization.CultureInfo.InvariantCulture;
-            _Document = new System.Xml.XmlDocument();
+            get
+            {
+                return _CultureInfo;
+            }
+        }
+
+        private readonly CultureInfo _CultureInfo;
+        private readonly XmlDocument _Document;
+        private readonly String _FileName;
+        private readonly Dictionary<PersistentObject, Pair<Boolean, UInt32>> _Objects;
+
+        public GameSaver(String FileName)
+        {
+            _CultureInfo = CultureInfo.InvariantCulture;
+            _Document = new XmlDocument();
             _FileName = FileName;
-            _Objects = new System.Collections.Generic.Dictionary<ButtonOffice.PersistentObject, System.Pair<System.Boolean, System.UInt32>>();
+            _Objects = new Dictionary<PersistentObject, Pair<Boolean, UInt32>>();
+        }
+
+        public XmlElement CreateChildElement(XmlElement ParentElement, String Name, String Type)
+        {
+            var Result = _Document.CreateElement(Name);
+
+            ParentElement.AppendChild(Result);
+            Result.Attributes.Append(_CreateAttribute("type", Type));
+
+            return Result;
+        }
+
+        public XmlElement CreateChildElement(XmlElement ParentElement, String Name, String Type, String Value)
+        {
+            var Result = CreateChildElement(ParentElement, Name, Type);
+
+            Result.AppendChild(_Document.CreateTextNode(Value));
+
+            return Result;
         }
 
         private System.Xml.XmlAttribute _CreateAttribute(System.String Name, System.String Value)
@@ -110,19 +139,6 @@ namespace ButtonOffice
         public System.Xml.XmlElement CreateProperty(System.String Name, System.Byte Byte)
         {
             return _CreateProperty(Name, "System.Byte", Byte.ToString(_CultureInfo));
-        }
-
-        public System.Xml.XmlElement CreateProperty(System.String Name, System.Drawing.Color Color)
-        {
-            System.Xml.XmlElement Result = _Document.CreateElement(Name);
-
-            Result.Attributes.Append(_CreateAttribute("type", "System.Drawing.Color"));
-            Result.AppendChild(CreateProperty("red", Color.R));
-            Result.AppendChild(CreateProperty("green", Color.G));
-            Result.AppendChild(CreateProperty("blue", Color.B));
-            Result.AppendChild(CreateProperty("alpha", Color.A));
-
-            return Result;
         }
 
         public System.Xml.XmlElement CreateProperty(System.String Name, System.Int32 Int32)
