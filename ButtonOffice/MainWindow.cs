@@ -1,4 +1,7 @@
-﻿namespace ButtonOffice
+﻿using System;
+using System.Windows.Forms;
+
+namespace ButtonOffice
 {
     internal class MainWindow : System.Windows.Forms.Form
     {
@@ -1183,8 +1186,18 @@
 
             if(OpenFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                _Game = ButtonOffice.Game.LoadFromFileName(OpenFileDialog.FileName);
-                _OnNewGame();
+                var OldGame = _Game;
+
+                try
+                {
+                    _Game = ButtonOffice.Game.LoadFromFileName(OpenFileDialog.FileName);
+                    _OnNewGame();
+                }
+                catch(GameLoadException Exception)
+                {
+                    MessageBox.Show(Exception.Message, "Error while loading save game file", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    _Game = OldGame;
+                }
             }
             _StartGame();
         }

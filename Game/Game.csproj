@@ -110,6 +110,7 @@
     <Compile Include="Mind.cs" />
     <Compile Include="Office.cs" />
     <Compile Include="Persistence\GameLoader.cs" />
+    <Compile Include="Persistence\GameLoadException.cs" />
     <Compile Include="Persistence\GameSaver.cs" />
     <Compile Include="Persistence\LoadObjectStore.cs" />
     <Compile Include="Persistence\PersistentObject.cs" />

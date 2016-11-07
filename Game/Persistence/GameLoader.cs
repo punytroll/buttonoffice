@@ -53,26 +53,33 @@ namespace ButtonOffice
 
         public void Load(Game Game)
         {
-            var ButtonOfficeElement = _Document.DocumentElement;
-
-            if(ButtonOfficeElement == null)
+            try
             {
-                throw new FormatException();
-            }
-            if(ButtonOfficeElement.Attributes["version"] == null)
-            {
-                throw new FormatException();
-            }
-            if(ButtonOfficeElement.Attributes["version"].Value != Data.SaveGameFileVersion)
-            {
-                throw new FormatException();
-            }
+                var ButtonOfficeElement = _Document.DocumentElement;
 
-            var GameElement = ButtonOfficeElement.SelectSingleNode("game") as XmlElement;
-            var ObjectStore = new LoadObjectStore(this, GameElement);
+                if(ButtonOfficeElement == null)
+                {
+                    throw new FormatException();
+                }
+                if(ButtonOfficeElement.Attributes["version"] == null)
+                {
+                    throw new FormatException();
+                }
+                if(ButtonOfficeElement.Attributes["version"].Value != Data.SaveGameFileVersion)
+                {
+                    throw new FormatException("The save game file version is \"" + ButtonOfficeElement.Attributes["version"].Value + "\" but should be \"" + Data.SaveGameFileVersion + "\".");
+                }
 
-            // _AssertElementAndType(GameElement, "ButtonOffice.Game");
-            Game.Load(ObjectStore);
+                var GameElement = ButtonOfficeElement.SelectSingleNode("game") as XmlElement;
+                var ObjectStore = new LoadObjectStore(this, GameElement);
+
+                // _AssertElementAndType(GameElement, "ButtonOffice.Game");
+                Game.Load(ObjectStore);
+            }
+            catch(FormatException Exception)
+            {
+                throw new GameLoadException(Exception);
+            }
         }
     }
 }
