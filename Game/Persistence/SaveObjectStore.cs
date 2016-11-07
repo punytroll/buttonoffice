@@ -20,22 +20,22 @@ namespace ButtonOffice
 
         public void Save(String PropertyName, ActionState ActionState)
         {
-            _Element.AppendChild(_GameSaver.CreateProperty(PropertyName, ActionState));
+            _GameSaver.CreateChildElement(_Element, PropertyName, typeof(ActionState).FullName, ActionState.ToString());
         }
 
         public void Save(String PropertyName, AnimationState AnimationState)
         {
-            _Element.AppendChild(_GameSaver.CreateProperty(PropertyName, AnimationState));
+            _GameSaver.CreateChildElement(_Element, PropertyName, typeof(AnimationState).FullName, AnimationState.ToString());
         }
 
         public void Save(String PropertyName, Boolean Boolean)
         {
-            _Element.AppendChild(_GameSaver.CreateProperty(PropertyName, Boolean));
+            _GameSaver.CreateChildElement(_Element, PropertyName, typeof(Boolean).FullName, Boolean.ToString(_GameSaver.CultureInfo));
         }
 
         public void Save(String PropertyName, Pair<Office, BrokenThing> BrokenThing)
         {
-            _Element.AppendChild(_GameSaver.CreateProperty(PropertyName, BrokenThing));
+            _AppendProperty(_Element, PropertyName, BrokenThing);
         }
 
         public void Save(String PropertyName, IEnumerable<Pair<Office, BrokenThing>> BrokenThings)
@@ -44,7 +44,7 @@ namespace ButtonOffice
 
             foreach(var BrokenThing in BrokenThings)
             {
-                ListElement.AppendChild(_GameSaver.CreateProperty("item", BrokenThing));
+                _AppendProperty(ListElement, "item", BrokenThing);
             }
         }
 
@@ -58,24 +58,24 @@ namespace ButtonOffice
             _AppendProperty(Result, "opacity", Convert.ToSingle(Color.A) / 255.0f);
         }
 
-        public void Save(String ProperyName, GoalState GoalState)
+        public void Save(String PropertyName, GoalState GoalState)
         {
-            _Element.AppendChild(_GameSaver.CreateProperty(ProperyName, GoalState));
+            _GameSaver.CreateChildElement(_Element, PropertyName, typeof(GoalState).FullName, GoalState.ToString());
         }
 
         public void Save(String PropertyName, Int32 Int32)
         {
-            _Element.AppendChild(_GameSaver.CreateProperty(PropertyName, Int32));
+            _GameSaver.CreateChildElement(_Element, PropertyName, typeof(Int32).FullName, Int32.ToString(_GameSaver.CultureInfo));
         }
 
         public void Save(String PropertyName, LivingSide LivingSide)
         {
-            _Element.AppendChild(_GameSaver.CreateProperty(PropertyName, LivingSide));
+            _GameSaver.CreateChildElement(_Element, PropertyName, typeof(LivingSide).FullName, LivingSide.ToString());
         }
 
         public void Save(String PropertyName, PersistentObject PersistentObject)
         {
-            _Element.AppendChild(_GameSaver.CreateProperty(PropertyName, PersistentObject));
+            _GameSaver.CreateChildElement(_Element, PropertyName, PersistentObject);
         }
 
         public void Save<ObjectType>(String PropertyName, IEnumerable<ObjectType> PersistentObjects) where ObjectType : PersistentObject
@@ -84,38 +84,46 @@ namespace ButtonOffice
 
             foreach(var PersistentObject in PersistentObjects)
             {
-                ListElement.AppendChild(_GameSaver.CreateProperty("item", PersistentObject));
+                _GameSaver.CreateChildElement(ListElement, "item", PersistentObject);
             }
         }
 
         public void Save(String PropertyName, PointF PointF)
         {
-            _Element.AppendChild(_GameSaver.CreateProperty(PropertyName, PointF));
+            var Result = _GameSaver.CreateChildElement(_Element, PropertyName, typeof(PointF).FullName);
+
+            _AppendProperty(Result, "x", PointF.X);
+            _AppendProperty(Result, "y", PointF.Y);
         }
 
         public void Save(String PropertyName, RectangleF RectangleF)
         {
-            _Element.AppendChild(_GameSaver.CreateProperty(PropertyName, RectangleF));
+            var Result = _GameSaver.CreateChildElement(_Element, PropertyName, typeof(RectangleF).FullName);
+
+            _AppendProperty(Result, "x", RectangleF.X);
+            _AppendProperty(Result, "y", RectangleF.Y);
+            _AppendProperty(Result, "width", RectangleF.Width);
+            _AppendProperty(Result, "height", RectangleF.Height);
         }
 
         public void Save(String PropertyName, Single Single)
         {
-            _Element.AppendChild(_GameSaver.CreateProperty(PropertyName, Single));
+            _AppendProperty(_Element, PropertyName, Single);
         }
 
         public void Save(String PropertyName, String String)
         {
-            _Element.AppendChild(_GameSaver.CreateProperty(PropertyName, String));
+            _GameSaver.CreateChildElement(_Element, PropertyName, typeof(String).FullName, String);
         }
 
         public void Save(String PropertyName, UInt32 UInt32)
         {
-            _Element.AppendChild(_GameSaver.CreateProperty(PropertyName, UInt32));
+            _GameSaver.CreateChildElement(_Element, PropertyName, typeof(UInt32).FullName, UInt32.ToString(_GameSaver.CultureInfo));
         }
 
         public void Save(String PropertyName, UInt64 UInt64)
         {
-            _Element.AppendChild(_GameSaver.CreateProperty(PropertyName, UInt64));
+            _GameSaver.CreateChildElement(_Element, PropertyName, typeof(UInt64).FullName, UInt64.ToString(_GameSaver.CultureInfo));
         }
 
         #endregion
@@ -125,6 +133,17 @@ namespace ButtonOffice
         private void _AppendProperty(XmlElement ParentElement, String Name, Single Single)
         {
             _GameSaver.CreateChildElement(ParentElement, Name, typeof(Single).FullName, Single.ToString(_GameSaver.CultureInfo));
+        }
+
+        private void _AppendProperty(XmlElement ParentElement, String Name, Pair<Office, BrokenThing> BrokenThing)
+        {
+            var Result = _GameSaver.CreateChildElement(ParentElement, Name, typeof(Pair<Office, BrokenThing>).FullName);
+
+            if(BrokenThing != null)
+            {
+                _GameSaver.CreateChildElement(Result, "office", BrokenThing.First);
+                _GameSaver.CreateChildElement(Result, "broken-thing", typeof(BrokenThing).FullName, BrokenThing.Second.ToString());
+            }
         }
 
         #endregion

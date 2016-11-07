@@ -1,4 +1,6 @@
-﻿namespace ButtonOffice
+﻿using System;
+
+namespace ButtonOffice
 {
     public class Game : ButtonOffice.PersistentObject
     {
@@ -440,11 +442,12 @@
             return _BuildingMinimumMaximum[Row];
         }
 
-        public void SaveToFile(System.String FileName)
+        public void SaveToFile(String FileName)
         {
-            ButtonOffice.GameSaver SaveGameState = new ButtonOffice.GameSaver(FileName);
+            var GameSaver = new GameSaver();
 
-            SaveGameState.Save(this);
+            GameSaver.Save(this);
+            GameSaver.WriteToFile(FileName);
         }
 
         public void MovePerson(ButtonOffice.Person Person, ButtonOffice.Desk Desk)

@@ -70,10 +70,9 @@ namespace ButtonOffice
                     throw new FormatException("The save game file version is \"" + ButtonOfficeElement.Attributes["version"].Value + "\" but should be \"" + Data.SaveGameFileVersion + "\".");
                 }
 
-                var GameElement = ButtonOfficeElement.SelectSingleNode("game") as XmlElement;
+                var GameElement = ButtonOfficeElement.SelectSingleNode("//button-office/object[@type='" + typeof(Game).FullName + "']") as XmlElement;
                 var ObjectStore = new LoadObjectStore(this, GameElement);
 
-                // _AssertElementAndType(GameElement, "ButtonOffice.Game");
                 Game.Load(ObjectStore);
             }
             catch(FormatException Exception)
