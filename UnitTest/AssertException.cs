@@ -1,10 +1,12 @@
-﻿namespace ButtonOffice.UnitTest
-{
-    internal class AssertException : System.Exception
-    {
-        private ButtonOffice.AssertMessages _AssertMessage;
+﻿using System;
 
-        public ButtonOffice.AssertMessages AssertMessage
+namespace ButtonOffice.UnitTest
+{
+    internal class AssertException : Exception
+    {
+        private readonly AssertMessages _AssertMessage;
+
+        public AssertMessages AssertMessage
         {
             get
             {
@@ -12,7 +14,7 @@
             }
         }
 
-        public AssertException(ButtonOffice.AssertMessages AssertMessage)
+        public AssertException(AssertMessages AssertMessage)
         {
             _AssertMessage = AssertMessage;
         }

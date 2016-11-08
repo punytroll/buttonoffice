@@ -12,7 +12,7 @@ namespace ButtonOffice
             _RootGoal = null;
         }
 
-        public void Move(Game Game, Person Person, Single DeltaMinutes)
+        public void Move(Game Game, PersistentObject Actor, Single DeltaMinutes)
         {
             var ParentGoals = new List<Goal>();
             var CurrentGoal = _RootGoal;
@@ -27,15 +27,15 @@ namespace ButtonOffice
                 }
                 if(CurrentGoal.GetState() == GoalState.Pristine)
                 {
-                    CurrentGoal.Initialize(Game, Person);
+                    CurrentGoal.Initialize(Game, Actor);
                 }
                 if(CurrentGoal.GetState() == GoalState.Ready)
                 {
-                    CurrentGoal.Resume(Game, Person);
+                    CurrentGoal.Resume(Game, Actor);
                 }
                 if(CurrentGoal.GetState() == GoalState.Executing)
                 {
-                    CurrentGoal.Execute(Game, Person, DeltaMinutes);
+                    CurrentGoal.Execute(Game, Actor, DeltaMinutes);
                 }
                 if(CurrentGoal.GetState() == GoalState.Done)
                 {
@@ -58,9 +58,9 @@ namespace ButtonOffice
                         {
                             if((TerminateGoal.GetState() == GoalState.Pristine) || (TerminateGoal.GetState() == GoalState.Ready) || (TerminateGoal.GetState() == GoalState.Executing))
                             {
-                                TerminateGoal.Abort(Game, Person);
+                                TerminateGoal.Abort(Game, Actor);
                             }
-                            TerminateGoal.Terminate(Game, Person);
+                            TerminateGoal.Terminate(Game, Actor);
                             TerminateGoals.Pop();
                         }
                     }

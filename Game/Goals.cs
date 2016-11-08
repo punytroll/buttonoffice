@@ -1,33 +1,43 @@
-﻿namespace ButtonOffice.Goals
+﻿using System;
+using System.Diagnostics;
+using System.Drawing;
+
+namespace ButtonOffice.Goals
 {
-    internal class AccountantThink : ButtonOffice.Goal
+    internal class AccountantThink : Goal
     {
-        protected override void _OnExecute(ButtonOffice.Game Game, ButtonOffice.Person Person, System.Single DeltaMinutes)
+        protected override void _OnExecute(Game Game, PersistentObject Actor, Single DeltaMinutes)
         {
             if(HasSubGoals() == false)
             {
-                AppendSubGoal(new ButtonOffice.Goals.PlanNextWorkDay());
-                AppendSubGoal(new ButtonOffice.Goals.WaitUntilTimeToArrive());
-                AppendSubGoal(new ButtonOffice.Goals.GoToWork());
-                AppendSubGoal(new ButtonOffice.Goals.Accounting());
-                AppendSubGoal(new ButtonOffice.Goals.GoHome());
+                AppendSubGoal(new PlanNextWorkDay());
+                AppendSubGoal(new WaitUntilTimeToArrive());
+                AppendSubGoal(new GoToWork());
+                AppendSubGoal(new Accounting());
+                AppendSubGoal(new GoHome());
             }
         }
     }
 
-    internal class Accounting : ButtonOffice.Goal
+    internal class Accounting : Goal
     {
-        protected override void _OnInitialize(ButtonOffice.Game Game, ButtonOffice.Person Person)
+        protected override void _OnInitialize(Game Game, PersistentObject Actor)
         {
-            Person.SetAnimationState(ButtonOffice.AnimationState.Accounting);
+            var Person = Actor as Person;
+
+            Debug.Assert(Person != null);
+            Person.SetAnimationState(AnimationState.Accounting);
             Person.SetAnimationFraction(0.0f);
         }
 
-        protected override void _OnExecute(ButtonOffice.Game Game, ButtonOffice.Person Person, System.Single DeltaMinutes)
+        protected override void _OnExecute(Game Game, PersistentObject Actor, Single DeltaMinutes)
         {
+            var Person = Actor as Person;
+
+            Debug.Assert(Person != null);
             if(Game.GetTotalMinutes() > Person.GetLeavesAtMinute())
             {
-                Finish(Game, Person);
+                Finish(Game, Actor);
             }
             else
             {
@@ -41,30 +51,30 @@
                         Person.SetAnimationFraction(0.0f);
                         if(Person.GetDesk() == Person.GetDesk().Office.FirstDesk)
                         {
-                            Game.EnqueueBrokenThing(new System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing>(Person.GetDesk().Office, ButtonOffice.BrokenThing.FirstComputer));
+                            Game.EnqueueBrokenThing(new Pair<Office, BrokenThing>(Person.GetDesk().Office, BrokenThing.FirstComputer));
                         }
                         else if(Person.GetDesk() == Person.GetDesk().Office.SecondDesk)
                         {
-                            Game.EnqueueBrokenThing(new System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing>(Person.GetDesk().Office, ButtonOffice.BrokenThing.SecondComputer));
+                            Game.EnqueueBrokenThing(new Pair<Office, BrokenThing>(Person.GetDesk().Office, BrokenThing.SecondComputer));
                         }
                         else if(Person.GetDesk() == Person.GetDesk().Office.ThirdDesk)
                         {
-                            Game.EnqueueBrokenThing(new System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing>(Person.GetDesk().Office, ButtonOffice.BrokenThing.ThirdComputer));
+                            Game.EnqueueBrokenThing(new Pair<Office, BrokenThing>(Person.GetDesk().Office, BrokenThing.ThirdComputer));
                         }
                         else if(Person.GetDesk() == Person.GetDesk().Office.FourthDesk)
                         {
-                            Game.EnqueueBrokenThing(new System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing>(Person.GetDesk().Office, ButtonOffice.BrokenThing.FourthComputer));
+                            Game.EnqueueBrokenThing(new Pair<Office, BrokenThing>(Person.GetDesk().Office, BrokenThing.FourthComputer));
                         }
                     }
                     else
                     {
-                        Person.SetActionFraction(Person.GetActionFraction() + ButtonOffice.Data.AccountantWorkSpeed * DeltaMinutes);
+                        Person.SetActionFraction(Person.GetActionFraction() + Data.AccountantWorkSpeed * DeltaMinutes);
                         while(Person.GetActionFraction() >= 1.0f)
                         {
                             Person.SetActionFraction(Person.GetActionFraction() - 1.0f);
                             Person.GetDesk().TrashLevel += 2.0f;
                         }
-                        Person.SetAnimationFraction(Person.GetAnimationFraction() + ButtonOffice.Data.AccountantWorkSpeed * DeltaMinutes);
+                        Person.SetAnimationFraction(Person.GetAnimationFraction() + Data.AccountantWorkSpeed * DeltaMinutes);
                         while(Person.GetAnimationFraction() >= 1.0f)
                         {
                             Person.SetAnimationFraction(Person.GetAnimationFraction() - 1.0f);
@@ -74,17 +84,20 @@
             }
         }
 
-        protected override void _OnTerminate(ButtonOffice.Game Game, ButtonOffice.Person Person)
+        protected override void _OnTerminate(Game Game, PersistentObject Actor)
         {
+            var Person = Actor as Person;
+
+            Debug.Assert(Person != null);
             Person.SetAnimationState(ButtonOffice.AnimationState.Standing);
             Person.SetAnimationFraction(0.0f);
         }
     }
 
-    internal class CleanDesk : ButtonOffice.Goal
+    internal class CleanDesk : Goal
     {
-        private ButtonOffice.Desk _CleaningTarget;
-        private System.Single _StartTrashLevel;
+        private Desk _CleaningTarget;
+        private Single _StartTrashLevel;
 
         public CleanDesk()
         {
@@ -92,68 +105,71 @@
             _StartTrashLevel = 0.0f;
         }
 
-        public void SetCleaningTarget(ButtonOffice.Desk CleaningTarget)
+        public void SetCleaningTarget(Desk CleaningTarget)
         {
             _CleaningTarget = CleaningTarget;
         }
 
-        protected override void _OnInitialize(ButtonOffice.Game Game, ButtonOffice.Person Person)
+        protected override void _OnInitialize(Game Game, PersistentObject Actor)
         {
-            ButtonOffice.Janitor Janitor = Person as ButtonOffice.Janitor;
+            var Janitor = Actor as Janitor;
 
-            System.Diagnostics.Debug.Assert(Janitor != null);
-            System.Diagnostics.Debug.Assert(_CleaningTarget != null);
+            Debug.Assert(Janitor != null);
+            Debug.Assert(_CleaningTarget != null);
             if((_CleaningTarget.GetJanitor() == null) && (_CleaningTarget.TrashLevel > 0.0f))
             {
                 _CleaningTarget.SetJanitor(Janitor);
                 _StartTrashLevel = _CleaningTarget.TrashLevel;
-                Person.SetActionFraction(0.0f);
-                Person.SetAnimationState(ButtonOffice.AnimationState.Cleaning);
-                Person.SetAnimationFraction(0.0f);
+                Janitor.SetActionFraction(0.0f);
+                Janitor.SetAnimationState(AnimationState.Cleaning);
+                Janitor.SetAnimationFraction(0.0f);
             }
             else
             {
                 Janitor.DequeueCleaningTarget();
-                Abort(Game, Person);
+                Abort(Game, Actor);
             }
         }
 
-        protected override void _OnExecute(ButtonOffice.Game Game, ButtonOffice.Person Person, System.Single DeltaMinutes)
+        protected override void _OnExecute(Game Game, PersistentObject Actor, Single DeltaMinutes)
         {
-            ButtonOffice.Janitor Janitor = Person as ButtonOffice.Janitor;
+            var Janitor = Actor as Janitor;
 
-            System.Diagnostics.Debug.Assert(Janitor != null);
+            Debug.Assert(Janitor != null);
             if(_CleaningTarget.TrashLevel > 0.0f)
             {
-                _CleaningTarget.TrashLevel -= ButtonOffice.Data.JanitorCleanAmount * ButtonOffice.Data.JanitorCleanSpeed * DeltaMinutes;
+                _CleaningTarget.TrashLevel -= Data.JanitorCleanAmount * Data.JanitorCleanSpeed * DeltaMinutes;
                 if(_CleaningTarget.TrashLevel <= 0.0f)
                 {
                     _CleaningTarget.TrashLevel = 0.0f;
                 }
-                Person.SetActionFraction(1.0f - _CleaningTarget.TrashLevel / _StartTrashLevel);
+                Janitor.SetActionFraction(1.0f - _CleaningTarget.TrashLevel / _StartTrashLevel);
             }
-            Person.SetAnimationFraction(Person.GetAnimationFraction() + ButtonOffice.Data.JanitorCleanSpeed * DeltaMinutes);
-            if(((Person.GetAnimationFraction() > 1.0f) || (Person.GetAnimationFraction() == 0.0f)) && (_CleaningTarget.TrashLevel == 0.0f))
+            Janitor.SetAnimationFraction(Janitor.GetAnimationFraction() + Data.JanitorCleanSpeed * DeltaMinutes);
+            if(((Janitor.GetAnimationFraction() > 1.0f) || (Janitor.GetAnimationFraction() == 0.0f)) && (_CleaningTarget.TrashLevel == 0.0f))
             {
                 Janitor.DequeueCleaningTarget();
-                Finish(Game, Person);
+                Finish(Game, Actor);
             }
-            while(Person.GetAnimationFraction() > 1.0f)
+            while(Janitor.GetAnimationFraction() > 1.0f)
             {
-                Person.SetAnimationFraction(Person.GetAnimationFraction() - 1.0f);
+                Janitor.SetAnimationFraction(Janitor.GetAnimationFraction() - 1.0f);
             }
         }
 
-        protected override void _OnTerminate(ButtonOffice.Game Game, ButtonOffice.Person Person)
+        protected override void _OnTerminate(Game Game, PersistentObject Actor)
         {
-            System.Diagnostics.Debug.Assert(_CleaningTarget != null);
-            if(_CleaningTarget.GetJanitor() == Person)
+            var Janitor = Actor as Janitor;
+
+            Debug.Assert(Janitor != null);
+            Debug.Assert(_CleaningTarget != null);
+            if(_CleaningTarget.GetJanitor() == Janitor)
             {
                 _CleaningTarget.SetJanitor(null);
             }
-            Person.SetActionFraction(0.0f);
-            Person.SetAnimationState(ButtonOffice.AnimationState.Standing);
-            Person.SetAnimationFraction(0.0f);
+            Janitor.SetActionFraction(0.0f);
+            Janitor.SetAnimationState(AnimationState.Standing);
+            Janitor.SetAnimationFraction(0.0f);
         }
 
         public override void Save(SaveObjectStore ObjectStore)
@@ -171,205 +187,230 @@
         }
     }
 
-    internal class CleanDesks : ButtonOffice.Goal
+    internal class CleanDesks : Goal
     {
-        protected override void _OnInitialize(ButtonOffice.Game Game, ButtonOffice.Person Person)
+        protected override void _OnInitialize(Game Game, PersistentObject Actor)
         {
-            ButtonOffice.Janitor Janitor = Person as ButtonOffice.Janitor;
+            var Janitor = Actor as Janitor;
 
-            System.Diagnostics.Debug.Assert(Janitor != null);
-            foreach(ButtonOffice.Office Office in Game.Offices.GetShuffledCopy())
+            Debug.Assert(Janitor != null);
+            foreach(var Office in Game.Offices.GetShuffledCopy())
             {
                 Janitor.EnqueueCleaningTarget(Office.FirstDesk);
                 Janitor.EnqueueCleaningTarget(Office.SecondDesk);
                 Janitor.EnqueueCleaningTarget(Office.ThirdDesk);
                 Janitor.EnqueueCleaningTarget(Office.FourthDesk);
             }
-            Person.SetAtDesk(false);
+            Janitor.SetAtDesk(false);
         }
 
-        protected override void _OnExecute(ButtonOffice.Game Game, ButtonOffice.Person Person, System.Single DeltaMinutes)
+        protected override void _OnExecute(Game Game, PersistentObject Actor, Single DeltaMinutes)
         {
-            if(Game.GetTotalMinutes() > Person.GetLeavesAtMinute())
+            var Janitor = Actor as Janitor;
+
+            Debug.Assert(Janitor != null);
+            if(Game.GetTotalMinutes() > Janitor.GetLeavesAtMinute())
             {
-                Finish(Game, Person);
+                Finish(Game, Actor);
             }
             else
             {
                 if(HasSubGoals() == false)
                 {
-                    ButtonOffice.Janitor Janitor = Person as ButtonOffice.Janitor;
-
-                    System.Diagnostics.Debug.Assert(Janitor != null);
-
-                    ButtonOffice.Desk CleaningTarget = Janitor.PeekCleaningTarget();
+                    var CleaningTarget = Janitor.PeekCleaningTarget();
 
                     if(CleaningTarget != null)
                     {
-                        ButtonOffice.Goals.WalkTo WalkTo = new ButtonOffice.Goals.WalkTo();
+                        var WalkTo = new WalkTo();
 
                         WalkTo.SetWalkTo(CleaningTarget.GetLocation());
                         AppendSubGoal(WalkTo);
 
-                        ButtonOffice.Goals.CleanDesk CleanDesk = new ButtonOffice.Goals.CleanDesk();
+                        var CleanDesk = new CleanDesk();
 
                         CleanDesk.SetCleaningTarget(CleaningTarget);
                         AppendSubGoal(CleanDesk);
                     }
                     else
                     {
-                        Finish(Game, Person);
+                        Finish(Game, Actor);
                     }
                 }
             }
         }
 
-        protected override void _OnTerminate(ButtonOffice.Game Game, ButtonOffice.Person Person)
+        protected override void _OnTerminate(Game Game, PersistentObject Actor)
         {
-            ButtonOffice.Janitor Janitor = Person as ButtonOffice.Janitor;
+            var Janitor = Actor as Janitor;
 
-            System.Diagnostics.Debug.Assert(Janitor != null);
+            Debug.Assert(Janitor != null);
             Janitor.ClearCleaningTargets();
         }
     }
 
     internal class GoHome : ButtonOffice.Goal
     {
-        protected override void _OnInitialize(ButtonOffice.Game Game, ButtonOffice.Person Person)
+        protected override void _OnInitialize(Game Game, PersistentObject Actor)
         {
+            var Person = Actor as Person;
+
+            Debug.Assert(Person != null);
             Game.SubtractCents(Person.GetWage());
             Game.FireSpendMoney(Person.GetWage(), Person.GetMidLocation());
 
-            ButtonOffice.Goals.WalkTo WalkTo = new ButtonOffice.Goals.WalkTo();
+            var WalkTo = new WalkTo();
 
-            if(Person.GetLivingSide() == ButtonOffice.LivingSide.Left)
+            if(Person.GetLivingSide() == LivingSide.Left)
             {
-                WalkTo.SetWalkTo(new System.Drawing.PointF(-10.0f, 0.0f));
+                WalkTo.SetWalkTo(new PointF(-10.0f, 0.0f));
             }
             else
             {
-                WalkTo.SetWalkTo(new System.Drawing.PointF(ButtonOffice.Data.WorldBlockWidth + 10.0f, 0.0f));
+                WalkTo.SetWalkTo(new PointF(Data.WorldBlockWidth + 10.0f, 0.0f));
             }
             Person.SetAtDesk(false);
             AppendSubGoal(WalkTo);
         }
 
-        protected override void _OnExecute(ButtonOffice.Game Game, ButtonOffice.Person Person, System.Single DeltaMinutes)
+        protected override void _OnExecute(Game Game, PersistentObject Actor, Single DeltaMinutes)
         {
             if(HasSubGoals() == false)
             {
-                Person.SetAnimationState(ButtonOffice.AnimationState.Hidden);
+                var Person = Actor as Person;
+
+                Debug.Assert(Person != null);
+                Person.SetAnimationState(AnimationState.Hidden);
                 Person.SetAnimationFraction(0.0f);
-                Finish(Game, Person);
+                Finish(Game, Actor);
             }
         }
     }
 
-    internal class GoToOwnDesk : ButtonOffice.Goal
+    internal class GoToOwnDesk : Goal
     {
-        protected override void _OnInitialize(ButtonOffice.Game Game, ButtonOffice.Person Person)
+        protected override void _OnInitialize(Game Game, PersistentObject Actor)
         {
-            ButtonOffice.Goals.WalkTo WalkTo = new ButtonOffice.Goals.WalkTo();
+            var Person = Actor as Person;
 
-            WalkTo.SetWalkTo(new System.Drawing.PointF(Person.GetDesk().GetX() + (Person.GetDesk().GetWidth() - Person.GetWidth()) / 2.0f, Person.GetDesk().GetY()));
+            Debug.Assert(Person != null);
+
+            var WalkTo = new WalkTo();
+
+            WalkTo.SetWalkTo(new PointF(Person.GetDesk().GetX() + (Person.GetDesk().GetWidth() - Person.GetWidth()) / 2.0f, Person.GetDesk().GetY()));
             AppendSubGoal(WalkTo);
         }
 
-        protected override void _OnExecute(ButtonOffice.Game Game, ButtonOffice.Person Person, System.Single DeltaMinutes)
+        protected override void _OnExecute(Game Game, PersistentObject Actor, Single DeltaMinutes)
         {
             if(HasSubGoals() == false)
             {
+                var Person = Actor as Person;
+
+                Debug.Assert(Person != null);
                 Person.SetAtDesk(true);
-                Finish(Game, Person);
+                Finish(Game, Actor);
             }
         }
     }
 
-    internal class GoToWork : ButtonOffice.Goal
+    internal class GoToWork : Goal
     {
-        protected override void _OnInitialize(ButtonOffice.Game Game, ButtonOffice.Person Person)
+        protected override void _OnInitialize(Game Game, PersistentObject Actor)
         {
+            var Person = Actor as Person;
+
+            Debug.Assert(Person != null);
             Person.SetActionFraction(0.0f);
-            Person.SetAnimationState(ButtonOffice.AnimationState.Standing);
+            Person.SetAnimationState(AnimationState.Standing);
             Person.SetAnimationFraction(0.0f);
-            if(Person.GetLivingSide() == ButtonOffice.LivingSide.Left)
+            if(Person.GetLivingSide() == LivingSide.Left)
             {
                 Person.SetLocation(-10.0f, 0.0f);
             }
             else
             {
-                Person.SetLocation(ButtonOffice.Data.WorldBlockWidth + 10.0f, 0.0f);
+                Person.SetLocation(Data.WorldBlockWidth + 10.0f, 0.0f);
             }
-            AppendSubGoal(new ButtonOffice.Goals.GoToOwnDesk());
+            AppendSubGoal(new GoToOwnDesk());
         }
 
-        protected override void _OnExecute(ButtonOffice.Game Game, ButtonOffice.Person Person, System.Single DeltaMinutes)
+        protected override void _OnExecute(Game Game, PersistentObject Actor, Single DeltaMinutes)
         {
             if(HasSubGoals() == false)
             {
-                Finish(Game, Person);
+                Finish(Game, Actor);
             }
         }
     }
 
-    internal class ITTechThink : ButtonOffice.Goal
+    internal class ITTechThink : Goal
     {
-        protected override void _OnExecute(ButtonOffice.Game Game, ButtonOffice.Person Person, System.Single DeltaMinutes)
+        protected override void _OnExecute(Game Game, PersistentObject Actor, Single DeltaMinutes)
         {
             if(HasSubGoals() == false)
             {
-                AppendSubGoal(new ButtonOffice.Goals.PlanNextWorkDay());
-                AppendSubGoal(new ButtonOffice.Goals.WaitUntilTimeToArrive());
-                AppendSubGoal(new ButtonOffice.Goals.GoToWork());
-                AppendSubGoal(new ButtonOffice.Goals.StandByForRepairs());
-                AppendSubGoal(new ButtonOffice.Goals.GoHome());
+                AppendSubGoal(new PlanNextWorkDay());
+                AppendSubGoal(new WaitUntilTimeToArrive());
+                AppendSubGoal(new GoToWork());
+                AppendSubGoal(new StandByForRepairs());
+                AppendSubGoal(new GoHome());
             }
         }
     }
 
-    internal class JanitorThink : ButtonOffice.Goal
+    internal class JanitorThink : Goal
     {
-        protected override void _OnExecute(ButtonOffice.Game Game, ButtonOffice.Person Person, System.Single DeltaMinutes)
+        protected override void _OnExecute(Game Game, PersistentObject Actor, Single DeltaMinutes)
         {
             if(HasSubGoals() == false)
             {
-                AppendSubGoal(new ButtonOffice.Goals.PlanNextWorkDay());
-                AppendSubGoal(new ButtonOffice.Goals.WaitUntilTimeToArrive());
-                AppendSubGoal(new ButtonOffice.Goals.GoToWork());
-                AppendSubGoal(new ButtonOffice.Goals.CleanDesks());
-                AppendSubGoal(new ButtonOffice.Goals.GoHome());
+                AppendSubGoal(new PlanNextWorkDay());
+                AppendSubGoal(new WaitUntilTimeToArrive());
+                AppendSubGoal(new GoToWork());
+                AppendSubGoal(new CleanDesks());
+                AppendSubGoal(new GoHome());
             }
         }
     }
 
-    internal class PlanNextWorkDay : ButtonOffice.Goal
+    internal class PlanNextWorkDay : Goal
     {
-        protected override void _OnExecute(ButtonOffice.Game Game, ButtonOffice.Person Person, System.Single DeltaMinutes)
+        protected override void _OnExecute(Game Game, PersistentObject Actor, Single DeltaMinutes)
         {
-            System.UInt64 ArrivesAtMinute = Game.GetFirstMinuteOfToday() + Person.GetArrivesAtMinuteOfDay();
+            var Person = Actor as Person;
+
+            Debug.Assert(Person != null);
+
+            var ArrivesAtMinute = Game.GetFirstMinuteOfToday() + Person.GetArrivesAtMinuteOfDay();
 
             if(ArrivesAtMinute + Person.GetWorkMinutes() < Game.GetTotalMinutes())
             {
                 ArrivesAtMinute += 1440;
             }
             Person.SetWorkDayMinutes(ArrivesAtMinute, ArrivesAtMinute + Person.GetWorkMinutes());
-            Finish(Game, Person);
+            Finish(Game, Actor);
         }
     }
 
-    internal class PushButtons : ButtonOffice.Goal
+    internal class PushButtons : Goal
     {
-        protected override void _OnInitialize(ButtonOffice.Game Game, ButtonOffice.Person Person)
+        protected override void _OnInitialize(Game Game, PersistentObject Actor)
         {
-            Person.SetAnimationState(ButtonOffice.AnimationState.PushingButton);
+            var Person = Actor as Person;
+
+            Debug.Assert(Person != null);
+            Person.SetAnimationState(AnimationState.PushingButton);
             Person.SetAnimationFraction(0.0f);
         }
 
-        protected override void _OnExecute(ButtonOffice.Game Game, ButtonOffice.Person Person, System.Single DeltaMinutes)
+        protected override void _OnExecute(Game Game, PersistentObject Actor, Single DeltaMinutes)
         {
+            var Person = Actor as Person;
+
+            Debug.Assert(Person != null);
             if(Game.GetTotalMinutes() > Person.GetLeavesAtMinute())
             {
-                Finish(Game, Person);
+                Finish(Game, Actor);
             }
             else
             {
@@ -379,38 +420,38 @@
                     if(Person.GetDesk().GetComputer().IsBroken() == true)
                     {
                         Person.SetActionFraction(0.0f);
-                        Person.SetAnimationState(ButtonOffice.AnimationState.Standing);
+                        Person.SetAnimationState(AnimationState.Standing);
                         Person.SetAnimationFraction(0.0f);
                         if(Person.GetDesk() == Person.GetDesk().Office.FirstDesk)
                         {
-                            Game.EnqueueBrokenThing(new System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing>(Person.GetDesk().Office, ButtonOffice.BrokenThing.FirstComputer));
+                            Game.EnqueueBrokenThing(new Pair<Office, BrokenThing>(Person.GetDesk().Office, BrokenThing.FirstComputer));
                         }
                         else if(Person.GetDesk() == Person.GetDesk().Office.SecondDesk)
                         {
-                            Game.EnqueueBrokenThing(new System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing>(Person.GetDesk().Office, ButtonOffice.BrokenThing.SecondComputer));
+                            Game.EnqueueBrokenThing(new Pair<Office, BrokenThing>(Person.GetDesk().Office, BrokenThing.SecondComputer));
                         }
                         else if(Person.GetDesk() == Person.GetDesk().Office.ThirdDesk)
                         {
-                            Game.EnqueueBrokenThing(new System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing>(Person.GetDesk().Office, ButtonOffice.BrokenThing.ThirdComputer));
+                            Game.EnqueueBrokenThing(new Pair<Office, BrokenThing>(Person.GetDesk().Office, BrokenThing.ThirdComputer));
                         }
                         else if(Person.GetDesk() == Person.GetDesk().Office.FourthDesk)
                         {
-                            Game.EnqueueBrokenThing(new System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing>(Person.GetDesk().Office, ButtonOffice.BrokenThing.FourthComputer));
+                            Game.EnqueueBrokenThing(new Pair<Office, BrokenThing>(Person.GetDesk().Office, BrokenThing.FourthComputer));
                         }
                     }
                     else
                     {
-                        Person.SetActionFraction(Person.GetActionFraction() + ButtonOffice.Data.WorkerWorkSpeed * DeltaMinutes);
+                        Person.SetActionFraction(Person.GetActionFraction() + Data.WorkerWorkSpeed * DeltaMinutes);
                         while(Person.GetActionFraction() >= 1.0f)
                         {
-                            System.UInt64 Revenue = 100L * Game.GetCurrentBonusPromille() / 1000L;
+                            var Revenue = 100L * Game.GetCurrentBonusPromille() / 1000L;
 
                             Person.SetActionFraction(Person.GetActionFraction() - 1.0f);
                             Person.GetDesk().TrashLevel += 1.0f;
                             Game.AddCents(Revenue);
                             Game.FireEarnMoney(Revenue, Person.GetMidLocation());
                         }
-                        Person.SetAnimationFraction(Person.GetAnimationFraction() + ButtonOffice.Data.WorkerWorkSpeed * DeltaMinutes);
+                        Person.SetAnimationFraction(Person.GetAnimationFraction() + Data.WorkerWorkSpeed * DeltaMinutes);
                         while(Person.GetAnimationFraction() >= 1.0f)
                         {
                             Person.SetAnimationFraction(Person.GetAnimationFraction() - 1.0f);
@@ -420,174 +461,178 @@
             }
         }
 
-        protected override void _OnTerminate(ButtonOffice.Game Game, ButtonOffice.Person Person)
+        protected override void _OnTerminate(Game Game, PersistentObject Actor)
         {
-            Person.SetAnimationState(ButtonOffice.AnimationState.Standing);
+            var Person = Actor as Person;
+
+            Debug.Assert(Person != null);
+            Person.SetAnimationState(AnimationState.Standing);
             Person.SetAnimationFraction(0.0f);
         }
     }
 
-    internal class Repair : ButtonOffice.Goal
+    internal class Repair : Goal
     {
-        protected override void _OnExecute(ButtonOffice.Game Game, ButtonOffice.Person Person, System.Single DeltaMinutes)
+        protected override void _OnExecute(Game Game, PersistentObject Actor, Single DeltaMinutes)
         {
-            ButtonOffice.ITTech ITTech = Person as ButtonOffice.ITTech;
+            var ITTech = Actor as ITTech;
 
-            System.Diagnostics.Debug.Assert(ITTech != null);
+            Debug.Assert(ITTech != null);
 
-            System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing> RepairingTarget = ITTech.GetRepairingTarget();
+            var RepairingTarget = ITTech.GetRepairingTarget();
 
-            if((RepairingTarget.Second == ButtonOffice.BrokenThing.FirstComputer) || (RepairingTarget.Second == ButtonOffice.BrokenThing.SecondComputer) || (RepairingTarget.Second == ButtonOffice.BrokenThing.ThirdComputer) || (RepairingTarget.Second == ButtonOffice.BrokenThing.FourthComputer))
+            if((RepairingTarget.Second == BrokenThing.FirstComputer) || (RepairingTarget.Second == BrokenThing.SecondComputer) || (RepairingTarget.Second == BrokenThing.ThirdComputer) || (RepairingTarget.Second == BrokenThing.FourthComputer))
             {
-                Person.SetActionFraction(Person.GetActionFraction() + ButtonOffice.Data.ITTechRepairComputerSpeed * DeltaMinutes);
+                ITTech.SetActionFraction(ITTech.GetActionFraction() + Data.ITTechRepairComputerSpeed * DeltaMinutes);
             }
-            else if((RepairingTarget.Second == ButtonOffice.BrokenThing.FirstLamp) || (RepairingTarget.Second == ButtonOffice.BrokenThing.SecondLamp) || (RepairingTarget.Second == ButtonOffice.BrokenThing.ThirdLamp))
+            else if((RepairingTarget.Second == BrokenThing.FirstLamp) || (RepairingTarget.Second == BrokenThing.SecondLamp) || (RepairingTarget.Second == BrokenThing.ThirdLamp))
             {
-                Person.SetActionFraction(Person.GetActionFraction() + ButtonOffice.Data.ITTechRepairLampSpeed * DeltaMinutes);
+                ITTech.SetActionFraction(ITTech.GetActionFraction() + Data.ITTechRepairLampSpeed * DeltaMinutes);
             }
-            if(Person.GetActionFraction() >= 1.0f)
+            if(ITTech.GetActionFraction() >= 1.0f)
             {
-                Person.SetActionFraction(1.0f);
+                ITTech.SetActionFraction(1.0f);
             }
-            Person.SetAnimationFraction(Person.GetAnimationFraction() + ButtonOffice.Data.ITTechRepairSpeed * DeltaMinutes);
-            if((Person.GetActionFraction() == 1.0f) && (Person.GetAnimationFraction() >= 1.0f))
+            ITTech.SetAnimationFraction(ITTech.GetAnimationFraction() + Data.ITTechRepairSpeed * DeltaMinutes);
+            if((ITTech.GetActionFraction() == 1.0f) && (ITTech.GetAnimationFraction() >= 1.0f))
             {
                 switch(RepairingTarget.Second)
                 {
-                case ButtonOffice.BrokenThing.FirstComputer:
+                case BrokenThing.FirstComputer:
                     {
-                        RepairingTarget.First.FirstDesk.GetComputer().SetMinutesUntilBroken(ButtonOffice.RandomNumberGenerator.GetSingleFromExponentialDistribution(ButtonOffice.Data.MeanMinutesToBrokenComputer));
+                        RepairingTarget.First.FirstDesk.GetComputer().SetMinutesUntilBroken(RandomNumberGenerator.GetSingleFromExponentialDistribution(Data.MeanMinutesToBrokenComputer));
 
                         break;
                     }
-                case ButtonOffice.BrokenThing.SecondComputer:
+                case BrokenThing.SecondComputer:
                     {
-                        RepairingTarget.First.SecondDesk.GetComputer().SetMinutesUntilBroken(ButtonOffice.RandomNumberGenerator.GetSingleFromExponentialDistribution(ButtonOffice.Data.MeanMinutesToBrokenComputer));
+                        RepairingTarget.First.SecondDesk.GetComputer().SetMinutesUntilBroken(RandomNumberGenerator.GetSingleFromExponentialDistribution(Data.MeanMinutesToBrokenComputer));
 
                         break;
                     }
-                case ButtonOffice.BrokenThing.ThirdComputer:
+                case BrokenThing.ThirdComputer:
                     {
-                        RepairingTarget.First.ThirdDesk.GetComputer().SetMinutesUntilBroken(ButtonOffice.RandomNumberGenerator.GetSingleFromExponentialDistribution(ButtonOffice.Data.MeanMinutesToBrokenComputer));
+                        RepairingTarget.First.ThirdDesk.GetComputer().SetMinutesUntilBroken(RandomNumberGenerator.GetSingleFromExponentialDistribution(Data.MeanMinutesToBrokenComputer));
 
                         break;
                     }
-                case ButtonOffice.BrokenThing.FourthComputer:
+                case BrokenThing.FourthComputer:
                     {
-                        RepairingTarget.First.FourthDesk.GetComputer().SetMinutesUntilBroken(ButtonOffice.RandomNumberGenerator.GetSingleFromExponentialDistribution(ButtonOffice.Data.MeanMinutesToBrokenComputer));
+                        RepairingTarget.First.FourthDesk.GetComputer().SetMinutesUntilBroken(RandomNumberGenerator.GetSingleFromExponentialDistribution(Data.MeanMinutesToBrokenComputer));
 
                         break;
                     }
-                case ButtonOffice.BrokenThing.FirstLamp:
+                case BrokenThing.FirstLamp:
                     {
-                        RepairingTarget.First.FirstLamp.SetMinutesUntilBroken(ButtonOffice.RandomNumberGenerator.GetSingleFromExponentialDistribution(ButtonOffice.Data.MeanMinutesToBrokenLamp));
+                        RepairingTarget.First.FirstLamp.SetMinutesUntilBroken(RandomNumberGenerator.GetSingleFromExponentialDistribution(Data.MeanMinutesToBrokenLamp));
 
                         break;
                     }
-                case ButtonOffice.BrokenThing.SecondLamp:
+                case BrokenThing.SecondLamp:
                     {
-                        RepairingTarget.First.SecondLamp.SetMinutesUntilBroken(ButtonOffice.RandomNumberGenerator.GetSingleFromExponentialDistribution(ButtonOffice.Data.MeanMinutesToBrokenLamp));
+                        RepairingTarget.First.SecondLamp.SetMinutesUntilBroken(RandomNumberGenerator.GetSingleFromExponentialDistribution(Data.MeanMinutesToBrokenLamp));
 
                         break;
                     }
-                case ButtonOffice.BrokenThing.ThirdLamp:
+                case BrokenThing.ThirdLamp:
                     {
-                        RepairingTarget.First.ThirdLamp.SetMinutesUntilBroken(ButtonOffice.RandomNumberGenerator.GetSingleFromExponentialDistribution(ButtonOffice.Data.MeanMinutesToBrokenLamp));
+                        RepairingTarget.First.ThirdLamp.SetMinutesUntilBroken(RandomNumberGenerator.GetSingleFromExponentialDistribution(Data.MeanMinutesToBrokenLamp));
 
                         break;
                     }
                 }
                 ITTech.SetRepairingTarget(null);
-                Person.GetDesk().TrashLevel += 1.0f;
-                Finish(Game, Person);
+                ITTech.GetDesk().TrashLevel += 1.0f;
+                Finish(Game, Actor);
             }
-            while(Person.GetAnimationFraction() >= 1.0f)
+            while(ITTech.GetAnimationFraction() >= 1.0f)
             {
-                Person.SetAnimationFraction(Person.GetAnimationFraction() - 1.0f);
+                ITTech.SetAnimationFraction(ITTech.GetAnimationFraction() - 1.0f);
             }
         }
     }
 
-    internal class StandByForRepairs : ButtonOffice.Goal
+    internal class StandByForRepairs : Goal
     {
-        protected override void _OnExecute(ButtonOffice.Game Game, ButtonOffice.Person Person, System.Single DeltaMinutes)
+        protected override void _OnExecute(Game Game, PersistentObject Actor, Single DeltaMinutes)
         {
-            if(Game.GetTotalMinutes() > Person.GetLeavesAtMinute())
+            var ITTech = Actor as ITTech;
+
+            Debug.Assert(ITTech != null);
+            if(Game.GetTotalMinutes() > ITTech.GetLeavesAtMinute())
             {
-                Finish(Game, Person);
+                Finish(Game, Actor);
             }
             else
             {
                 if(HasSubGoals() == false)
                 {
-                    System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing> BrokenThing = Game.DequeueBrokenThing();
+                    var BrokenThing = Game.DequeueBrokenThing();
 
                     if(BrokenThing != null)
                     {
-                        ButtonOffice.ITTech ITTech = Person as ButtonOffice.ITTech;
-                        ButtonOffice.Goals.WalkTo WalkTo = new ButtonOffice.Goals.WalkTo();
+                        var WalkTo = new WalkTo();
 
-                        System.Diagnostics.Debug.Assert(ITTech != null);
                         ITTech.SetRepairingTarget(BrokenThing);
                         switch(BrokenThing.Second)
                         {
                         case ButtonOffice.BrokenThing.FirstComputer:
                             {
-                                WalkTo.SetWalkTo(new System.Drawing.PointF(BrokenThing.First.FirstDesk.GetX(), BrokenThing.First.GetY()));
+                                WalkTo.SetWalkTo(new PointF(BrokenThing.First.FirstDesk.GetX(), BrokenThing.First.GetY()));
 
                                 break;
                             }
                         case ButtonOffice.BrokenThing.SecondComputer:
                             {
-                                WalkTo.SetWalkTo(new System.Drawing.PointF(BrokenThing.First.SecondDesk.GetX(), BrokenThing.First.GetY()));
+                                WalkTo.SetWalkTo(new PointF(BrokenThing.First.SecondDesk.GetX(), BrokenThing.First.GetY()));
 
                                 break;
                             }
                         case ButtonOffice.BrokenThing.ThirdComputer:
                             {
-                                WalkTo.SetWalkTo(new System.Drawing.PointF(BrokenThing.First.ThirdDesk.GetX(), BrokenThing.First.GetY()));
+                                WalkTo.SetWalkTo(new PointF(BrokenThing.First.ThirdDesk.GetX(), BrokenThing.First.GetY()));
 
                                 break;
                             }
                         case ButtonOffice.BrokenThing.FourthComputer:
                             {
-                                WalkTo.SetWalkTo(new System.Drawing.PointF(BrokenThing.First.FourthDesk.GetX(), BrokenThing.First.GetY()));
+                                WalkTo.SetWalkTo(new PointF(BrokenThing.First.FourthDesk.GetX(), BrokenThing.First.GetY()));
 
                                 break;
                             }
                         case ButtonOffice.BrokenThing.FirstLamp:
                             {
-                                WalkTo.SetWalkTo(new System.Drawing.PointF(BrokenThing.First.FirstLamp.GetX(), BrokenThing.First.GetY()));
+                                WalkTo.SetWalkTo(new PointF(BrokenThing.First.FirstLamp.GetX(), BrokenThing.First.GetY()));
 
                                 break;
                             }
                         case ButtonOffice.BrokenThing.SecondLamp:
                             {
-                                WalkTo.SetWalkTo(new System.Drawing.PointF(BrokenThing.First.SecondLamp.GetX(), BrokenThing.First.GetY()));
+                                WalkTo.SetWalkTo(new PointF(BrokenThing.First.SecondLamp.GetX(), BrokenThing.First.GetY()));
 
                                 break;
                             }
                         case ButtonOffice.BrokenThing.ThirdLamp:
                             {
-                                WalkTo.SetWalkTo(new System.Drawing.PointF(BrokenThing.First.ThirdLamp.GetX(), BrokenThing.First.GetY()));
+                                WalkTo.SetWalkTo(new PointF(BrokenThing.First.ThirdLamp.GetX(), BrokenThing.First.GetY()));
 
                                 break;
                             }
                         }
                         AppendSubGoal(WalkTo);
-                        AppendSubGoal(new ButtonOffice.Goals.Repair());
-                        AppendSubGoal(new ButtonOffice.Goals.GoToOwnDesk());
-                        Person.SetAtDesk(false);
+                        AppendSubGoal(new Repair());
+                        AppendSubGoal(new GoToOwnDesk());
+                        ITTech.SetAtDesk(false);
                     }
                 }
             }
         }
 
-        protected override void _OnTerminate(ButtonOffice.Game Game, ButtonOffice.Person Person)
+        protected override void _OnTerminate(Game Game, PersistentObject Actor)
         {
-            ButtonOffice.ITTech ITTech = Person as ButtonOffice.ITTech;
+            var ITTech = Actor as ITTech;
 
-            System.Diagnostics.Debug.Assert(ITTech != null);
+            Debug.Assert(ITTech != null);
             if(ITTech.GetRepairingTarget() != null)
             {
                 Game.EnqueueBrokenThing(ITTech.GetRepairingTarget());
@@ -595,25 +640,31 @@
         }
     }
 
-    internal class Wait : ButtonOffice.Goal
+    internal class Wait : Goal
     {
     }
 
-    internal class WaitUntilTimeToArrive : ButtonOffice.Goal
+    internal class WaitUntilTimeToArrive : Goal
     {
-        protected override void _OnExecute(ButtonOffice.Game Game, ButtonOffice.Person Person, System.Single DeltaMinutes)
+        protected override void _OnExecute(Game Game, PersistentObject Actor, Single DeltaMinutes)
         {
+            var Person = Actor as Person;
+
+            Debug.Assert(Person != null);
             if(Game.GetTotalMinutes() > Person.GetArrivesAtMinute())
             {
-                Finish(Game, Person);
+                Finish(Game, Actor);
             }
         }
     }
 
-    internal class WaitUntilTimeToLeave : ButtonOffice.Goal
+    internal class WaitUntilTimeToLeave : Goal
     {
-        protected override void _OnExecute(ButtonOffice.Game Game, ButtonOffice.Person Person, System.Single DeltaMinutes)
+        protected override void _OnExecute(Game Game, PersistentObject Actor, Single DeltaMinutes)
         {
+            var Person = Actor as Person;
+
+            Debug.Assert(Person != null);
             if(Game.GetTotalMinutes() > Person.GetLeavesAtMinute())
             {
                 Finish(Game, Person);
@@ -621,32 +672,39 @@
         }
     }
 
-    internal class WalkTo : ButtonOffice.Goal
+    internal class WalkTo : Goal
     {
-        private System.Drawing.PointF _WalkTo;
+        private PointF _WalkTo;
 
-        public void SetWalkTo(System.Drawing.PointF WalkTo)
+        public void SetWalkTo(PointF WalkTo)
         {
             _WalkTo = WalkTo;
         }
 
-        protected override void _OnInitialize(ButtonOffice.Game Game, ButtonOffice.Person Person)
+        protected override void _OnInitialize(Game Game, PersistentObject Actor)
         {
+            var Person = Actor as Person;
+
+            Debug.Assert(Person != null);
             Person.SetActionFraction(0.0f);
-            Person.SetAnimationState(ButtonOffice.AnimationState.Walking);
+            Person.SetAnimationState(AnimationState.Walking);
             Person.SetAnimationFraction(0.0f);
         }
 
-        protected override void _OnExecute(ButtonOffice.Game Game, ButtonOffice.Person Person, System.Single DeltaMinutes)
+        protected override void _OnExecute(Game Game, PersistentObject Actor, Single DeltaMinutes)
         {
-            System.Single DeltaX = _WalkTo.X - Person.GetX();
-            System.Single DeltaY = _WalkTo.Y - Person.GetY();
-            System.Single Norm = System.Math.Sqrt(DeltaX * DeltaX + DeltaY * DeltaY).ToSingle();
+            var Person = Actor as Person;
+
+            Debug.Assert(Person != null);
+
+            var DeltaX = _WalkTo.X - Person.GetX();
+            var DeltaY = _WalkTo.Y - Person.GetY();
+            var Norm = Math.Sqrt(DeltaX * DeltaX + DeltaY * DeltaY).ToSingle();
 
             if(Norm > 0.1)
             {
-                DeltaX = DeltaX / Norm * ButtonOffice.Data.PersonSpeed * DeltaMinutes;
-                DeltaY = DeltaY / Norm * ButtonOffice.Data.PersonSpeed * DeltaMinutes;
+                DeltaX = DeltaX / Norm * Data.PersonSpeed * DeltaMinutes;
+                DeltaY = DeltaY / Norm * Data.PersonSpeed * DeltaMinutes;
                 Person.SetLocation(Person.GetX() + DeltaX, Person.GetY() + DeltaY);
             }
             else
@@ -656,10 +714,13 @@
             }
         }
 
-        protected override void _OnTerminate(ButtonOffice.Game Game, ButtonOffice.Person Person)
+        protected override void _OnTerminate(Game Game, PersistentObject Actor)
         {
+            var Person = Actor as Person;
+
+            Debug.Assert(Person != null);
             Person.SetActionFraction(0.0f);
-            Person.SetAnimationState(ButtonOffice.AnimationState.Standing);
+            Person.SetAnimationState(AnimationState.Standing);
             Person.SetAnimationFraction(0.0f);
         }
 
@@ -676,17 +737,17 @@
         }
     }
 
-    internal class WorkerThink : ButtonOffice.Goal
+    internal class WorkerThink : Goal
     {
-        protected override void _OnExecute(ButtonOffice.Game Game, ButtonOffice.Person Person, System.Single DeltaMinutes)
+        protected override void _OnExecute(Game Game, PersistentObject Actor, Single DeltaMinutes)
         {
             if(HasSubGoals() == false)
             {
-                AppendSubGoal(new ButtonOffice.Goals.PlanNextWorkDay());
-                AppendSubGoal(new ButtonOffice.Goals.WaitUntilTimeToArrive());
-                AppendSubGoal(new ButtonOffice.Goals.GoToWork());
-                AppendSubGoal(new ButtonOffice.Goals.PushButtons());
-                AppendSubGoal(new ButtonOffice.Goals.GoHome());
+                AppendSubGoal(new PlanNextWorkDay());
+                AppendSubGoal(new WaitUntilTimeToArrive());
+                AppendSubGoal(new GoToWork());
+                AppendSubGoal(new PushButtons());
+                AppendSubGoal(new GoHome());
             }
         }
     }
