@@ -1,13 +1,17 @@
 syntax: glob
+ButtonOffice.suo
 ButtonOffice/bin
 ButtonOffice/obj
-ButtonOffice.suo
+ButtonOffice/ButtonOffice.csproj.user
 Common/bin
 Common/obj
+Common/Common.csproj.user
 Game/bin
 Game/obj
+Game/Game.csproj.user
 UnitTest/bin
 UnitTest/obj
+UnitTest/UnitTest.csproj.user
 _ReSharper.ButtonOffice
 buttonoffice.mono
 .vs
