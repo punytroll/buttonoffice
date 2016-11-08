@@ -8,7 +8,7 @@ namespace ButtonOffice
         private System.Drawing.PointF _CameraVelocity;
         private System.Collections.Generic.List<ButtonOffice.FloatingText> _FloatingTexts;
         private System.Windows.Forms.CheckBox _MoveButton;
-        private ButtonOffice.Person _MovePerson;
+        private Person _MovePerson;
         private ButtonOffice.Game _Game;
         private System.Collections.Generic.List<System.Windows.Forms.ToolStripButton> _ToolButtons;
         private System.Nullable<System.Drawing.Point> _DragPoint;
@@ -29,7 +29,7 @@ namespace ButtonOffice
         private DrawingBoard _DrawingBoard;
         private System.Windows.Forms.ToolStripStatusLabel _PositionLabel;
         private System.Windows.Forms.ToolStripButton _HireITTechButton;
-        private ButtonOffice.Person _SelectedPerson;
+        private Person _SelectedPerson;
         private System.Windows.Forms.ToolStripButton _HireJanitorButton;
         private System.Windows.Forms.ToolStripButton _PlaceCatButton;
         private ButtonOffice.Office _SelectedOffice;
@@ -41,7 +41,7 @@ namespace ButtonOffice
         private System.Windows.Forms.ToolStripMenuItem _SaveGameButton;
         private System.Windows.Forms.ToolStripButton _HireAccountantButton;
         private System.Windows.Forms.ToolStripButton _BuildBathroomButton;
-        private System.Single _Zoom;
+        private Single _Zoom;
     
         public MainWindow()
         {
@@ -424,10 +424,10 @@ namespace ButtonOffice
             if(_BuildOfficeButton.Checked == true)
             {
                 _EntityPrototype = new EntityPrototype(ButtonOffice.Type.Office);
-                _EntityPrototype.BackgroundColor = ButtonOffice.Data.OfficeBackgroundColor;
-                _EntityPrototype.BorderColor = ButtonOffice.Data.OfficeBorderColor;
-                _EntityPrototype.SetHeight(ButtonOffice.Data.OfficeBlockHeight);
-                _EntityPrototype.SetWidth(ButtonOffice.Data.OfficeBlockWidth);
+                _EntityPrototype.BackgroundColor = Data.OfficeBackgroundColor;
+                _EntityPrototype.BorderColor = Data.OfficeBorderColor;
+                _EntityPrototype.SetHeight(Data.OfficeBlockHeight);
+                _EntityPrototype.SetWidth(Data.OfficeBlockWidth);
             }
         }
 
@@ -440,10 +440,10 @@ namespace ButtonOffice
             if((Sender as System.Windows.Forms.ToolStripButton).Checked == true)
             {
                 _EntityPrototype = new EntityPrototype(ButtonOffice.Type.Bathroom);
-                _EntityPrototype.BackgroundColor = ButtonOffice.Data.BathroomBackgroundColor;
-                _EntityPrototype.BorderColor = ButtonOffice.Data.BathroomBorderColor;
-                _EntityPrototype.SetHeight(ButtonOffice.Data.BathroomBlockHeight);
-                _EntityPrototype.SetWidth(ButtonOffice.Data.BathroomBlockWidth);
+                _EntityPrototype.BackgroundColor = Data.BathroomBackgroundColor;
+                _EntityPrototype.BorderColor = Data.BathroomBorderColor;
+                _EntityPrototype.SetHeight(Data.BathroomBlockHeight);
+                _EntityPrototype.SetWidth(Data.BathroomBlockWidth);
             }
         }
 
@@ -456,10 +456,10 @@ namespace ButtonOffice
             else
             {
                 _EntityPrototype = new EntityPrototype(ButtonOffice.Type.ITTech);
-                _EntityPrototype.BackgroundColor = ButtonOffice.Data.ITTechBackgroundColor;
-                _EntityPrototype.BorderColor = ButtonOffice.Data.ITTechBorderColor;
-                _EntityPrototype.SetHeight(ButtonOffice.Data.PersonHeight);
-                _EntityPrototype.SetWidth(ButtonOffice.Data.PersonWidth);
+                _EntityPrototype.BackgroundColor = Data.ITTechBackgroundColor;
+                _EntityPrototype.BorderColor = Data.ITTechBorderColor;
+                _EntityPrototype.SetHeight(Data.PersonHeight);
+                _EntityPrototype.SetWidth(Data.PersonWidth);
             }
         }
 
@@ -472,10 +472,10 @@ namespace ButtonOffice
             if(_HireJanitorButton.Checked == true)
             {
                 _EntityPrototype = new EntityPrototype(ButtonOffice.Type.Janitor);
-                _EntityPrototype.BackgroundColor = ButtonOffice.Data.JanitorBackgroundColor;
-                _EntityPrototype.BorderColor = ButtonOffice.Data.JanitorBorderColor;
-                _EntityPrototype.SetHeight(ButtonOffice.Data.PersonHeight);
-                _EntityPrototype.SetWidth(ButtonOffice.Data.PersonWidth);
+                _EntityPrototype.BackgroundColor = Data.JanitorBackgroundColor;
+                _EntityPrototype.BorderColor = Data.JanitorBorderColor;
+                _EntityPrototype.SetHeight(Data.PersonHeight);
+                _EntityPrototype.SetWidth(Data.PersonWidth);
             }
         }
 
@@ -488,10 +488,10 @@ namespace ButtonOffice
             if(_HireWorkerButton.Checked == true)
             {
                 _EntityPrototype = new EntityPrototype(ButtonOffice.Type.Worker);
-                _EntityPrototype.BackgroundColor = ButtonOffice.Data.WorkerBackgroundColor;
-                _EntityPrototype.BorderColor = ButtonOffice.Data.WorkerBorderColor;
-                _EntityPrototype.SetHeight(ButtonOffice.Data.PersonHeight);
-                _EntityPrototype.SetWidth(ButtonOffice.Data.PersonWidth);
+                _EntityPrototype.BackgroundColor = Data.WorkerBackgroundColor;
+                _EntityPrototype.BorderColor = Data.WorkerBorderColor;
+                _EntityPrototype.SetHeight(Data.PersonHeight);
+                _EntityPrototype.SetWidth(Data.PersonWidth);
             }
         }
 
@@ -504,10 +504,10 @@ namespace ButtonOffice
             if(_HireAccountantButton.Checked == true)
             {
                 _EntityPrototype = new EntityPrototype(ButtonOffice.Type.Accountant);
-                _EntityPrototype.BackgroundColor = ButtonOffice.Data.AccountantBackgroundColor;
-                _EntityPrototype.BorderColor = ButtonOffice.Data.AccountantBorderColor;
-                _EntityPrototype.SetHeight(ButtonOffice.Data.PersonHeight);
-                _EntityPrototype.SetWidth(ButtonOffice.Data.PersonWidth);
+                _EntityPrototype.BackgroundColor = Data.AccountantBackgroundColor;
+                _EntityPrototype.BorderColor = Data.AccountantBorderColor;
+                _EntityPrototype.SetHeight(Data.PersonHeight);
+                _EntityPrototype.SetWidth(Data.PersonWidth);
             }
         }
 
@@ -520,10 +520,10 @@ namespace ButtonOffice
             if(_PlaceCatButton.Checked == true)
             {
                 _EntityPrototype = new EntityPrototype(ButtonOffice.Type.Cat);
-                _EntityPrototype.BackgroundColor = ButtonOffice.Data.CatBackgroundColor;
-                _EntityPrototype.BorderColor = ButtonOffice.Data.CatBorderColor;
-                _EntityPrototype.SetHeight(ButtonOffice.Data.CatHeight);
-                _EntityPrototype.SetWidth(ButtonOffice.Data.CatWidth);
+                _EntityPrototype.BackgroundColor = Data.CatBackgroundColor;
+                _EntityPrototype.BorderColor = Data.CatBorderColor;
+                _EntityPrototype.SetHeight(Data.CatHeight);
+                _EntityPrototype.SetWidth(Data.CatWidth);
             }
         }
 
@@ -644,7 +644,7 @@ namespace ButtonOffice
                 else
                 {
                     System.Drawing.PointF GamingLocation = _GetGamingLocation(EventArguments.Location);
-                    System.Boolean Selected = false;
+                    Boolean Selected = false;
 
                     _MainSplitContainer.Panel2.Controls.Clear();
                     _SelectedOffice = null;
@@ -746,7 +746,7 @@ namespace ButtonOffice
             _DragPoint = new System.Nullable<System.Drawing.Point>();
         }
 
-        private System.Drawing.Color _MixToWhite(System.Drawing.Color Color, System.Single Fraction)
+        private System.Drawing.Color _MixToWhite(System.Drawing.Color Color, Single Fraction)
         {
             return System.Drawing.Color.FromArgb((Color.R + (255 - Color.R) * Fraction).GetTruncatedAsInt32(), (Color.G + (255 - Color.G) * Fraction).GetTruncatedAsInt32(), (Color.B + (255 - Color.B) * Fraction).GetTruncatedAsInt32());
         }
@@ -755,20 +755,20 @@ namespace ButtonOffice
         {
             _DrawingOffset.X += _CameraVelocity.X.GetFlooredAsInt32();
             _DrawingOffset.Y += _CameraVelocity.Y.GetFlooredAsInt32();
-            for(System.Int32 Row = 0; Row < ButtonOffice.Data.WorldBlockHeight; ++Row)
+            for(System.Int32 Row = 0; Row < Data.WorldBlockHeight; ++Row)
             {
                 System.Pair<System.Int32, System.Int32> BuildingMinimumMaximum = _Game.GetBuildingMinimumMaximum(Row);
 
                 if(BuildingMinimumMaximum.Second.ToInt64() - BuildingMinimumMaximum.First.ToInt64() > 0)
                 {
-                    _DrawRectangle(EventArguments.Graphics, new System.Drawing.RectangleF(BuildingMinimumMaximum.First.ToSingle(), Row.ToSingle(), (BuildingMinimumMaximum.Second - BuildingMinimumMaximum.First).ToSingle(), 1.0f), ButtonOffice.Data.BuildingBackgroundColor, ButtonOffice.Data.BuildingBorderColor);
+                    _DrawRectangle(EventArguments.Graphics, new System.Drawing.RectangleF(BuildingMinimumMaximum.First.ToSingle(), Row.ToSingle(), (BuildingMinimumMaximum.Second - BuildingMinimumMaximum.First).ToSingle(), 1.0f), Data.BuildingBackgroundColor, Data.BuildingBorderColor);
                 }
                 else
                 {
                     break;
                 }
             }
-            EventArguments.Graphics.FillRectangle(new System.Drawing.SolidBrush(ButtonOffice.Data.GroundColor), 0, _GetDrawingY(0), _DrawingBoard.Width, _DrawingBoard.Height);
+            EventArguments.Graphics.FillRectangle(new System.Drawing.SolidBrush(Data.GroundColor), 0, _GetDrawingY(0), _DrawingBoard.Width, _DrawingBoard.Height);
             foreach(ButtonOffice.Office Office in _Game.Offices)
             {
                 _DrawRectangle(EventArguments.Graphics, Office.GetRectangle(), Office.BackgroundColor, Office.BorderColor);
@@ -814,7 +814,7 @@ namespace ButtonOffice
                 // first desk
                 PersonAtDeskColor = System.Drawing.Color.White;
                 PersonColor = System.Drawing.Color.White;
-                ComputerColor = ButtonOffice.Data.ComputerBackgroundColor;
+                ComputerColor = Data.ComputerBackgroundColor;
                 if(Office.FirstDesk.IsFree() == false)
                 {
                     PersonColor = Office.FirstDesk.GetPerson().BackgroundColor;
@@ -831,13 +831,13 @@ namespace ButtonOffice
                 {
                     ComputerColor = System.Drawing.Color.Red;
                 }
-                _DrawRectangle(EventArguments.Graphics, Office.FirstDesk.GetRectangle(), ButtonOffice.Data.DeskBackgroundColor, System.Drawing.Color.Black);
-                _DrawRectangle(EventArguments.Graphics, Office.FirstDesk.GetX() + (Office.FirstDesk.GetWidth() - ButtonOffice.Data.PersonTagWidth) / 2.0f, Office.FirstDesk.GetY() + (Office.FirstDesk.GetHeight() - ButtonOffice.Data.PersonTagHeight) / 2.0f, ButtonOffice.Data.PersonTagWidth, ButtonOffice.Data.PersonTagHeight, PersonColor, PersonAtDeskColor);
-                _DrawRectangle(EventArguments.Graphics, Office.FirstDesk.GetX() + (Office.FirstDesk.GetWidth() - ButtonOffice.Data.ComputerWidth) / 2.0f, Office.FirstDesk.GetY() + Office.FirstDesk.GetHeight() + 0.04f, ButtonOffice.Data.ComputerWidth, ButtonOffice.Data.ComputerHeight, ComputerColor, ButtonOffice.Data.ComputerBorderColor);
+                _DrawRectangle(EventArguments.Graphics, Office.FirstDesk.GetRectangle(), Data.DeskBackgroundColor, System.Drawing.Color.Black);
+                _DrawRectangle(EventArguments.Graphics, Office.FirstDesk.GetX() + (Office.FirstDesk.GetWidth() - Data.PersonTagWidth) / 2.0f, Office.FirstDesk.GetY() + (Office.FirstDesk.GetHeight() - Data.PersonTagHeight) / 2.0f, Data.PersonTagWidth, Data.PersonTagHeight, PersonColor, PersonAtDeskColor);
+                _DrawRectangle(EventArguments.Graphics, Office.FirstDesk.GetX() + (Office.FirstDesk.GetWidth() - Data.ComputerWidth) / 2.0f, Office.FirstDesk.GetY() + Office.FirstDesk.GetHeight() + 0.04f, Data.ComputerWidth, Data.ComputerHeight, ComputerColor, Data.ComputerBorderColor);
                 // second desk
                 PersonAtDeskColor = System.Drawing.Color.White;
                 PersonColor = System.Drawing.Color.White;
-                ComputerColor = ButtonOffice.Data.ComputerBackgroundColor;
+                ComputerColor = Data.ComputerBackgroundColor;
                 if(Office.SecondDesk.IsFree() == false)
                 {
                     PersonColor = Office.SecondDesk.GetPerson().BackgroundColor;
@@ -854,13 +854,13 @@ namespace ButtonOffice
                 {
                     ComputerColor = System.Drawing.Color.Red;
                 }
-                _DrawRectangle(EventArguments.Graphics, Office.SecondDesk.GetRectangle(), ButtonOffice.Data.DeskBackgroundColor, System.Drawing.Color.Black);
-                _DrawRectangle(EventArguments.Graphics, Office.SecondDesk.GetX() + (Office.SecondDesk.GetWidth() - ButtonOffice.Data.PersonTagWidth) / 2.0f, Office.SecondDesk.GetY() + (Office.SecondDesk.GetHeight() - ButtonOffice.Data.PersonTagHeight) / 2.0f, ButtonOffice.Data.PersonTagWidth, ButtonOffice.Data.PersonTagHeight, PersonColor, PersonAtDeskColor);
-                _DrawRectangle(EventArguments.Graphics, Office.SecondDesk.GetX() + (Office.SecondDesk.GetWidth() - ButtonOffice.Data.ComputerWidth) / 2.0f, Office.SecondDesk.GetY() + Office.SecondDesk.GetHeight() + 0.04f, ButtonOffice.Data.ComputerWidth, ButtonOffice.Data.ComputerHeight, ComputerColor, ButtonOffice.Data.ComputerBorderColor);
+                _DrawRectangle(EventArguments.Graphics, Office.SecondDesk.GetRectangle(), Data.DeskBackgroundColor, System.Drawing.Color.Black);
+                _DrawRectangle(EventArguments.Graphics, Office.SecondDesk.GetX() + (Office.SecondDesk.GetWidth() - Data.PersonTagWidth) / 2.0f, Office.SecondDesk.GetY() + (Office.SecondDesk.GetHeight() - Data.PersonTagHeight) / 2.0f, Data.PersonTagWidth, Data.PersonTagHeight, PersonColor, PersonAtDeskColor);
+                _DrawRectangle(EventArguments.Graphics, Office.SecondDesk.GetX() + (Office.SecondDesk.GetWidth() - Data.ComputerWidth) / 2.0f, Office.SecondDesk.GetY() + Office.SecondDesk.GetHeight() + 0.04f, Data.ComputerWidth, Data.ComputerHeight, ComputerColor, Data.ComputerBorderColor);
                 // third desk
                 PersonAtDeskColor = System.Drawing.Color.White;
                 PersonColor = System.Drawing.Color.White;
-                ComputerColor = ButtonOffice.Data.ComputerBackgroundColor;
+                ComputerColor = Data.ComputerBackgroundColor;
                 if(Office.ThirdDesk.IsFree() == false)
                 {
                     PersonColor = Office.ThirdDesk.GetPerson().BackgroundColor;
@@ -877,13 +877,13 @@ namespace ButtonOffice
                 {
                     ComputerColor = System.Drawing.Color.Red;
                 }
-                _DrawRectangle(EventArguments.Graphics, Office.ThirdDesk.GetRectangle(), ButtonOffice.Data.DeskBackgroundColor, System.Drawing.Color.Black);
-                _DrawRectangle(EventArguments.Graphics, Office.ThirdDesk.GetX() + (Office.ThirdDesk.GetWidth() - ButtonOffice.Data.PersonTagWidth) / 2.0f, Office.ThirdDesk.GetY() + (Office.ThirdDesk.GetHeight() - ButtonOffice.Data.PersonTagHeight) / 2.0f, ButtonOffice.Data.PersonTagWidth, ButtonOffice.Data.PersonTagHeight, PersonColor, PersonAtDeskColor);
-                _DrawRectangle(EventArguments.Graphics, Office.ThirdDesk.GetX() + (Office.ThirdDesk.GetWidth() - ButtonOffice.Data.ComputerWidth) / 2.0f, Office.ThirdDesk.GetY() + Office.ThirdDesk.GetHeight() + 0.04f, ButtonOffice.Data.ComputerWidth, ButtonOffice.Data.ComputerHeight, ComputerColor, ButtonOffice.Data.ComputerBorderColor);
+                _DrawRectangle(EventArguments.Graphics, Office.ThirdDesk.GetRectangle(), Data.DeskBackgroundColor, System.Drawing.Color.Black);
+                _DrawRectangle(EventArguments.Graphics, Office.ThirdDesk.GetX() + (Office.ThirdDesk.GetWidth() - Data.PersonTagWidth) / 2.0f, Office.ThirdDesk.GetY() + (Office.ThirdDesk.GetHeight() - Data.PersonTagHeight) / 2.0f, Data.PersonTagWidth, Data.PersonTagHeight, PersonColor, PersonAtDeskColor);
+                _DrawRectangle(EventArguments.Graphics, Office.ThirdDesk.GetX() + (Office.ThirdDesk.GetWidth() - Data.ComputerWidth) / 2.0f, Office.ThirdDesk.GetY() + Office.ThirdDesk.GetHeight() + 0.04f, Data.ComputerWidth, Data.ComputerHeight, ComputerColor, Data.ComputerBorderColor);
                 // fourth desk
                 PersonAtDeskColor = System.Drawing.Color.White;
                 PersonColor = System.Drawing.Color.White;
-                ComputerColor = ButtonOffice.Data.ComputerBackgroundColor;
+                ComputerColor = Data.ComputerBackgroundColor;
                 if(Office.FourthDesk.IsFree() == false)
                 {
                     PersonColor = Office.FourthDesk.GetPerson().BackgroundColor;
@@ -900,9 +900,9 @@ namespace ButtonOffice
                 {
                     ComputerColor = System.Drawing.Color.Red;
                 }
-                _DrawRectangle(EventArguments.Graphics, Office.FourthDesk.GetRectangle(), ButtonOffice.Data.DeskBackgroundColor, System.Drawing.Color.Black);
-                _DrawRectangle(EventArguments.Graphics, Office.FourthDesk.GetX() + (Office.FourthDesk.GetWidth() - ButtonOffice.Data.PersonTagWidth) / 2.0f, Office.FourthDesk.GetY() + (Office.FourthDesk.GetHeight() - ButtonOffice.Data.PersonTagHeight) / 2.0f, ButtonOffice.Data.PersonTagWidth, ButtonOffice.Data.PersonTagHeight, PersonColor, PersonAtDeskColor);
-                _DrawRectangle(EventArguments.Graphics, Office.FourthDesk.GetX() + (Office.FourthDesk.GetWidth() - ButtonOffice.Data.ComputerWidth) / 2.0f, Office.FourthDesk.GetY() + Office.FourthDesk.GetHeight() + 0.04f, ButtonOffice.Data.ComputerWidth, ButtonOffice.Data.ComputerHeight, ComputerColor, ButtonOffice.Data.ComputerBorderColor);
+                _DrawRectangle(EventArguments.Graphics, Office.FourthDesk.GetRectangle(), Data.DeskBackgroundColor, System.Drawing.Color.Black);
+                _DrawRectangle(EventArguments.Graphics, Office.FourthDesk.GetX() + (Office.FourthDesk.GetWidth() - Data.PersonTagWidth) / 2.0f, Office.FourthDesk.GetY() + (Office.FourthDesk.GetHeight() - Data.PersonTagHeight) / 2.0f, Data.PersonTagWidth, Data.PersonTagHeight, PersonColor, PersonAtDeskColor);
+                _DrawRectangle(EventArguments.Graphics, Office.FourthDesk.GetX() + (Office.FourthDesk.GetWidth() - Data.ComputerWidth) / 2.0f, Office.FourthDesk.GetY() + Office.FourthDesk.GetHeight() + 0.04f, Data.ComputerWidth, Data.ComputerHeight, ComputerColor, Data.ComputerBorderColor);
                 // cat
                 if(Office.Cat != null)
                 {
@@ -957,7 +957,7 @@ namespace ButtonOffice
             Graphics.DrawRectangle(new System.Drawing.Pen(BorderColor), ForegroundRectangle);
         }
 
-        private void _DrawRectangle(System.Drawing.Graphics Graphics, System.Single GameX, System.Single GameY, System.Single GameWidth, System.Single GameHeight, System.Drawing.Color BackgroundColor, System.Drawing.Color BorderColor)
+        private void _DrawRectangle(System.Drawing.Graphics Graphics, Single GameX, Single GameY, Single GameWidth, Single GameHeight, System.Drawing.Color BackgroundColor, System.Drawing.Color BorderColor)
         {
             System.Drawing.Rectangle BackgroundRectangle = _GetDrawingRectangle(GameX, GameY, GameWidth, GameHeight);
 
@@ -971,24 +971,24 @@ namespace ButtonOffice
         }
 
         #region Coordinate system transformations: Game -> Draw
-        private System.Int32 _GetDrawingHeight(System.Single GamingHeight)
+        private System.Int32 _GetDrawingHeight(Single GamingHeight)
         {
-            return (GamingHeight * ButtonOffice.Data.BlockHeight.ToSingle() * _Zoom).GetFlooredAsInt32();
+            return (GamingHeight * Data.BlockHeight.ToSingle() * _Zoom).GetFlooredAsInt32();
         }
 
-        private System.Int32 _GetDrawingWidth(System.Single GamingWidth)
+        private System.Int32 _GetDrawingWidth(Single GamingWidth)
         {
-            return (GamingWidth * ButtonOffice.Data.BlockWidth.ToSingle() * _Zoom).GetFlooredAsInt32();
+            return (GamingWidth * Data.BlockWidth.ToSingle() * _Zoom).GetFlooredAsInt32();
         }
 
-        private System.Int32 _GetDrawingY(System.Single GamingY)
+        private System.Int32 _GetDrawingY(Single GamingY)
         {
-            return (_DrawingBoard.Height.ToSingle() - (GamingY * ButtonOffice.Data.BlockHeight.ToSingle() * _Zoom) - _DrawingOffset.Y.ToSingle()).GetFlooredAsInt32();
+            return (_DrawingBoard.Height.ToSingle() - (GamingY * Data.BlockHeight.ToSingle() * _Zoom) - _DrawingOffset.Y.ToSingle()).GetFlooredAsInt32();
         }
 
-        private System.Int32 _GetDrawingX(System.Single GamingX)
+        private System.Int32 _GetDrawingX(Single GamingX)
         {
-            return (GamingX * ButtonOffice.Data.BlockWidth.ToSingle() * _Zoom + _DrawingOffset.X.ToSingle()).GetFlooredAsInt32();
+            return (GamingX * Data.BlockWidth.ToSingle() * _Zoom + _DrawingOffset.X.ToSingle()).GetFlooredAsInt32();
         }
 
         private System.Drawing.Rectangle _GetDrawingRectangle(System.Drawing.RectangleF GamingRectangle)
@@ -999,7 +999,7 @@ namespace ButtonOffice
             return new System.Drawing.Rectangle(DrawingPoint.X, DrawingPoint.Y - DrawingSize.Height, DrawingSize.Width, DrawingSize.Height);
         }
 
-        private System.Drawing.Rectangle _GetDrawingRectangle(System.Single GamingX, System.Single GamingY, System.Single GamingWidth, System.Single GamingHeight)
+        private System.Drawing.Rectangle _GetDrawingRectangle(Single GamingX, Single GamingY, Single GamingWidth, Single GamingHeight)
         {
             System.Int32 DrawingHeight = _GetDrawingHeight(GamingHeight);
 
@@ -1018,14 +1018,14 @@ namespace ButtonOffice
         #endregion
 
         #region Coordinate system transformations: Draw -> Game
-        private System.Single _GetGamingX(System.Int32 DrawingX)
+        private Single _GetGamingX(System.Int32 DrawingX)
         {
-            return (DrawingX - _DrawingOffset.X).ToSingle() / ButtonOffice.Data.BlockWidth.ToSingle() / _Zoom;
+            return (DrawingX - _DrawingOffset.X).ToSingle() / Data.BlockWidth.ToSingle() / _Zoom;
         }
 
-        private System.Single _GetGamingY(System.Int32 DrawingY)
+        private Single _GetGamingY(System.Int32 DrawingY)
         {
-            return (_DrawingBoard.Height - DrawingY - _DrawingOffset.Y).ToSingle() / ButtonOffice.Data.BlockHeight.ToSingle() / _Zoom;
+            return (_DrawingBoard.Height - DrawingY - _DrawingOffset.Y).ToSingle() / Data.BlockHeight.ToSingle() / _Zoom;
         }
 
         private System.Drawing.PointF _GetGamingLocation(System.Drawing.Point DrawingLocation)
@@ -1049,11 +1049,11 @@ namespace ButtonOffice
         private void _OnTimerTicked(System.Object Sender, System.EventArgs EventArguments)
         {
             System.DateTime Now = System.DateTime.Now;
-            System.Single Seconds = (Now - _LastTick).TotalSeconds.ToSingle();
+            Single Seconds = (Now - _LastTick).TotalSeconds.ToSingle();
 
             if((Seconds > 0.0f) && (Seconds < 0.05f))
             {
-                _Game.Move(ButtonOffice.Data.GameMinutesPerSecond * Seconds);
+                _Game.Move(Data.GameMinutesPerSecond * Seconds);
 
                 System.Int32 Index = 0;
 
@@ -1062,7 +1062,7 @@ namespace ButtonOffice
                     _FloatingTexts[Index].SetTimeout(_FloatingTexts[Index].Timeout - Seconds);
                     if(_FloatingTexts[Index].Timeout > 0.0f)
                     {
-                        _FloatingTexts[Index].SetOffset(new System.Drawing.PointF(_FloatingTexts[Index].Offset.X, _FloatingTexts[Index].Offset.Y - Seconds * ButtonOffice.Data.FloatingTextSpeed));
+                        _FloatingTexts[Index].SetOffset(new System.Drawing.PointF(_FloatingTexts[Index].Offset.X, _FloatingTexts[Index].Offset.Y - Seconds * Data.FloatingTextSpeed));
                         ++Index;
                     }
                     else
@@ -1103,7 +1103,7 @@ namespace ButtonOffice
 
         private void _OnMainWindowLoaded(System.Object Sender, System.EventArgs EventArguments)
         {
-            _DrawingBoard.BackColor = ButtonOffice.Data.BackgroundColor;
+            _DrawingBoard.BackColor = Data.BackgroundColor;
             _StartGame();
         }
 
@@ -1218,7 +1218,7 @@ namespace ButtonOffice
             {
                 ButtonOffice.FloatingText FloatingText = new ButtonOffice.FloatingText();
 
-                FloatingText.SetColor(ButtonOffice.Data.EarnMoneyFloatingTextColor);
+                FloatingText.SetColor(Data.EarnMoneyFloatingTextColor);
                 FloatingText.SetOffset(new System.Drawing.PointF(0.0f, 0.0f));
                 FloatingText.SetOrigin(Location);
                 FloatingText.SetText(_Game.GetMoneyString(Cents));
@@ -1229,7 +1229,7 @@ namespace ButtonOffice
             {
                 ButtonOffice.FloatingText FloatingText = new ButtonOffice.FloatingText();
 
-                FloatingText.SetColor(ButtonOffice.Data.SpendMoneyFloatingTextColor);
+                FloatingText.SetColor(Data.SpendMoneyFloatingTextColor);
                 FloatingText.SetOffset(new System.Drawing.PointF(0.0f, 0.0f));
                 FloatingText.SetOrigin(Location);
                 FloatingText.SetText(_Game.GetMoneyString(Cents));
@@ -1238,7 +1238,7 @@ namespace ButtonOffice
             };
             _EntityPrototype = null;
             _DragPoint = new System.Nullable<System.Drawing.Point>();
-            _DrawingOffset = new System.Drawing.Point(-ButtonOffice.Data.WorldBlockWidth * ButtonOffice.Data.BlockWidth / 2, 2 * ButtonOffice.Data.BlockHeight);
+            _DrawingOffset = new System.Drawing.Point(-Data.WorldBlockWidth * Data.BlockWidth / 2, 2 * Data.BlockHeight);
             _LastTick = System.DateTime.MinValue;
             _MoveButton = null;
             _MovePerson = null;

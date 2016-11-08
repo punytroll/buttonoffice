@@ -1,14 +1,17 @@
-﻿namespace ButtonOffice
+﻿using System;
+using System.Drawing;
+
+namespace ButtonOffice
 {
     internal class FloatingText
     {
-        private System.Drawing.Color _Color;
-        private System.Drawing.PointF _Offset;
-        private System.Drawing.PointF _Origin;
-        private System.String _Text;
-        private System.Single _Timeout;
+        private Color _Color;
+        private PointF _Offset;
+        private PointF _Origin;
+        private String _Text;
+        private Single _Timeout;
 
-        public System.Drawing.Color Color
+        public Color Color
         {
             get
             {
@@ -16,7 +19,7 @@
             }
         }
 
-        public System.Drawing.PointF Offset
+        public PointF Offset
         {
             get
             {
@@ -24,7 +27,7 @@
             }
         }
 
-        public System.Drawing.PointF Origin
+        public PointF Origin
         {
             get
             {
@@ -32,7 +35,7 @@
             }
         }
 
-        public System.String Text
+        public String Text
         {
             get
             {
@@ -40,7 +43,7 @@
             }
         }
 
-        public System.Single Timeout
+        public Single Timeout
         {
             get
             {
@@ -48,27 +51,27 @@
             }
         }
 
-        public void SetColor(System.Drawing.Color Color)
+        public void SetColor(Color Color)
         {
             _Color = Color;
         }
 
-        public void SetOffset(System.Drawing.PointF Offset)
+        public void SetOffset(PointF Offset)
         {
             _Offset = Offset;
         }
 
-        public void SetOrigin(System.Drawing.PointF Origin)
+        public void SetOrigin(PointF Origin)
         {
             _Origin = Origin;
         }
 
-        public void SetText(System.String Text)
+        public void SetText(String Text)
         {
             _Text = Text;
         }
 
-        public void SetTimeout(System.Single Timeout)
+        public void SetTimeout(Single Timeout)
         {
             _Timeout = Timeout;
         }

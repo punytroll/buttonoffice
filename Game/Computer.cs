@@ -1,25 +1,27 @@
-﻿namespace ButtonOffice
+﻿using System;
+
+namespace ButtonOffice
 {
-    public class Computer : ButtonOffice.PersistentObject
+    public class Computer : PersistentObject
     {
-        private System.Single _MinutesUntilBroken;
+        private Single _MinutesUntilBroken;
 
         public Computer()
         {
-            _MinutesUntilBroken = ButtonOffice.RandomNumberGenerator.GetSingleFromExponentialDistribution(ButtonOffice.Data.MeanMinutesToBrokenComputer);
+            _MinutesUntilBroken = RandomNumberGenerator.GetSingleFromExponentialDistribution(Data.MeanMinutesToBrokenComputer);
         }
 
-        public System.Single GetMinutesUntilBroken()
+        public Single GetMinutesUntilBroken()
         {
             return _MinutesUntilBroken;
         }
 
-        public System.Boolean IsBroken()
+        public Boolean IsBroken()
         {
             return _MinutesUntilBroken < 0.0f;
         }
 
-        public void SetMinutesUntilBroken(System.Single MinutesUntilBroken)
+        public void SetMinutesUntilBroken(Single MinutesUntilBroken)
         {
             _MinutesUntilBroken = MinutesUntilBroken;
         }

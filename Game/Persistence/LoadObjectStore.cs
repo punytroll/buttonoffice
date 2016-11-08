@@ -201,7 +201,7 @@ namespace ButtonOffice
 
             _AssertElementAndType(PropertyElement, typeof(PointF).FullName);
 
-            return new System.Drawing.PointF(_LoadSingleProperty(PropertyElement, "x"), _LoadSingleProperty(PropertyElement, "y"));
+            return new PointF(_LoadSingleProperty(PropertyElement, "x"), _LoadSingleProperty(PropertyElement, "y"));
         }
 
         public RectangleF LoadRectangleProperty(String PropertyName)

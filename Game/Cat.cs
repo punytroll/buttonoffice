@@ -114,68 +114,68 @@ namespace ButtonOffice
         {
             switch(_ActionState)
             {
-            case ButtonOffice.ActionState.Stay:
+            case ActionState.Stay:
                 {
                     if(_MinutesToActionStateChange < 0.0f)
                     {
-                        if(ButtonOffice.RandomNumberGenerator.GetBoolean() == true)
+                        if(RandomNumberGenerator.GetBoolean() == true)
                         {
-                            _ActionState = ButtonOffice.ActionState.WalkLeft;
+                            _ActionState = ActionState.WalkLeft;
                         }
                         else
                         {
-                            _ActionState = ButtonOffice.ActionState.WalkRight;
+                            _ActionState = ActionState.WalkRight;
                         }
-                        _MinutesToActionStateChange = ButtonOffice.RandomNumberGenerator.GetSingle(20.0f, 20.0f);
+                        _MinutesToActionStateChange = RandomNumberGenerator.GetSingle(20.0f, 20.0f);
                     }
                     _MinutesToActionStateChange -= GameMinutes;
 
                     break;
                 }
-            case ButtonOffice.ActionState.WalkLeft:
+            case ActionState.WalkLeft:
                 {
                     if(_MinutesToActionStateChange < 0.0f)
                     {
-                        if(ButtonOffice.RandomNumberGenerator.GetBoolean(0.25) == true)
+                        if(RandomNumberGenerator.GetBoolean(0.25) == true)
                         {
-                            _ActionState = ButtonOffice.ActionState.Stay;
-                            _MinutesToActionStateChange = ButtonOffice.RandomNumberGenerator.GetSingle(30.0f, 30.0f);
+                            _ActionState = ActionState.Stay;
+                            _MinutesToActionStateChange = RandomNumberGenerator.GetSingle(30.0f, 30.0f);
                         }
                         else
                         {
-                            _ActionState = ButtonOffice.ActionState.WalkRight;
-                            _MinutesToActionStateChange = ButtonOffice.RandomNumberGenerator.GetSingle(10.0f, 8.0f);
+                            _ActionState = ActionState.WalkRight;
+                            _MinutesToActionStateChange = RandomNumberGenerator.GetSingle(10.0f, 8.0f);
                         }
                     }
-                    _Rectangle.X -= GameMinutes * ButtonOffice.Data.CatWalkSpeed;
+                    _Rectangle.X -= GameMinutes * Data.CatWalkSpeed;
                     if(_Rectangle.X <= _Office.GetX())
                     {
-                        _ActionState = ButtonOffice.ActionState.WalkRight;
+                        _ActionState = ActionState.WalkRight;
                     }
                     _MinutesToActionStateChange -= GameMinutes;
 
                     break;
                 }
-            case ButtonOffice.ActionState.WalkRight:
+            case ActionState.WalkRight:
                 {
 
                     if(_MinutesToActionStateChange < 0.0f)
                     {
-                        if(ButtonOffice.RandomNumberGenerator.GetBoolean(0.25) == true)
+                        if(RandomNumberGenerator.GetBoolean(0.25) == true)
                         {
-                            _ActionState = ButtonOffice.ActionState.Stay;
-                            _MinutesToActionStateChange = ButtonOffice.RandomNumberGenerator.GetSingle(30.0f, 30.0f);
+                            _ActionState = ActionState.Stay;
+                            _MinutesToActionStateChange = RandomNumberGenerator.GetSingle(30.0f, 30.0f);
                         }
                         else
                         {
-                            _ActionState = ButtonOffice.ActionState.WalkLeft;
-                            _MinutesToActionStateChange = ButtonOffice.RandomNumberGenerator.GetSingle(10.0f, 8.0f);
+                            _ActionState = ActionState.WalkLeft;
+                            _MinutesToActionStateChange = RandomNumberGenerator.GetSingle(10.0f, 8.0f);
                         }
                     }
-                    _Rectangle.X += GameMinutes * ButtonOffice.Data.CatWalkSpeed;
+                    _Rectangle.X += GameMinutes * Data.CatWalkSpeed;
                     if(_Rectangle.Right >= _Office.GetRight())
                     {
-                        _ActionState = ButtonOffice.ActionState.WalkLeft;
+                        _ActionState = ActionState.WalkLeft;
                     }
                     _MinutesToActionStateChange -= GameMinutes;
 

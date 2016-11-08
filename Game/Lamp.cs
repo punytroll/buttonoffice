@@ -1,28 +1,31 @@
-﻿namespace ButtonOffice
+﻿using System;
+using System.Drawing;
+
+namespace ButtonOffice
 {
-    public class Lamp : ButtonOffice.PersistentObject
+    public class Lamp : PersistentObject
     {
-        private System.Single _MinutesUntilBroken;
-        private System.Drawing.RectangleF _Rectangle;
+        private Single _MinutesUntilBroken;
+        private RectangleF _Rectangle;
 
         public Lamp()
         {
-            _MinutesUntilBroken = ButtonOffice.RandomNumberGenerator.GetSingleFromExponentialDistribution(ButtonOffice.Data.MeanMinutesToBrokenLamp);
-            _Rectangle.Height = ButtonOffice.Data.LampHeight;
-            _Rectangle.Width = ButtonOffice.Data.LampWidth;
+            _MinutesUntilBroken = RandomNumberGenerator.GetSingleFromExponentialDistribution(Data.MeanMinutesToBrokenLamp);
+            _Rectangle.Height = Data.LampHeight;
+            _Rectangle.Width = Data.LampWidth;
         }
 
-        public System.Single GetHeight()
+        public Single GetHeight()
         {
             return _Rectangle.Height;
         }
 
-        public System.Single GetMinutesUntilBroken()
+        public Single GetMinutesUntilBroken()
         {
             return _MinutesUntilBroken;
         }
 
-        public System.Drawing.RectangleF GetRectangle()
+        public RectangleF GetRectangle()
         {
             return _Rectangle;
         }

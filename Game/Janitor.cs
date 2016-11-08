@@ -1,17 +1,17 @@
 ﻿namespace ButtonOffice
 {
-    public class Janitor : ButtonOffice.Person
+    public class Janitor : Person
     {
         private readonly System.Collections.Generic.Queue<ButtonOffice.Desk> _CleaningTargets;
 
         public Janitor()
         {
-            _ArrivesAtMinuteOfDay = ButtonOffice.RandomNumberGenerator.GetUInt32(ButtonOffice.Data.JanitorStartMinute, 300) % 1440;
-            _BackgroundColor = ButtonOffice.Data.JanitorBackgroundColor;
-            _BorderColor = ButtonOffice.Data.JanitorBorderColor;
+            _ArrivesAtMinuteOfDay = RandomNumberGenerator.GetUInt32(Data.JanitorStartMinute, 300) % 1440;
+            _BackgroundColor = Data.JanitorBackgroundColor;
+            _BorderColor = Data.JanitorBorderColor;
             _CleaningTargets = new System.Collections.Generic.Queue<ButtonOffice.Desk>();
-            _Wage = ButtonOffice.Data.JanitorWage;
-            _WorkMinutes = ButtonOffice.Data.JanitorWorkMinutes;
+            _Wage = Data.JanitorWage;
+            _WorkMinutes = Data.JanitorWorkMinutes;
             _Mind.SetRootGoal(new ButtonOffice.Goals.JanitorThink());
         }
 

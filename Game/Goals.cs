@@ -47,7 +47,7 @@ namespace ButtonOffice.Goals
                     if(Person.GetDesk().GetComputer().IsBroken() == true)
                     {
                         Person.SetActionFraction(0.0f);
-                        Person.SetAnimationState(ButtonOffice.AnimationState.Standing);
+                        Person.SetAnimationState(AnimationState.Standing);
                         Person.SetAnimationFraction(0.0f);
                         if(Person.GetDesk() == Person.GetDesk().Office.FirstDesk)
                         {
@@ -89,7 +89,7 @@ namespace ButtonOffice.Goals
             var Person = Actor as Person;
 
             Debug.Assert(Person != null);
-            Person.SetAnimationState(ButtonOffice.AnimationState.Standing);
+            Person.SetAnimationState(AnimationState.Standing);
             Person.SetAnimationFraction(0.0f);
         }
     }
@@ -248,7 +248,7 @@ namespace ButtonOffice.Goals
         }
     }
 
-    internal class GoHome : ButtonOffice.Goal
+    internal class GoHome : Goal
     {
         protected override void _OnInitialize(Game Game, PersistentObject Actor)
         {

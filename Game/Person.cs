@@ -50,7 +50,7 @@ namespace ButtonOffice
         protected Person()
         {
             _ActionFraction = 0.0f;
-            _AnimationState = ButtonOffice.AnimationState.Hidden;
+            _AnimationState = AnimationState.Hidden;
             _AnimationFraction = 0.0f;
             if(RandomNumberGenerator.GetBoolean() == true)
             {

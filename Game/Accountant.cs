@@ -1,17 +1,17 @@
 ﻿namespace ButtonOffice
 {
-    public class Accountant : ButtonOffice.Person
+    public class Accountant : Person
     {
         private System.UInt64 _BonusPromille;
 
         public Accountant()
         {
-            _ArrivesAtMinuteOfDay = ButtonOffice.RandomNumberGenerator.GetUInt32(ButtonOffice.Data.AccountantStartMinute, 300) % 1440;
-            _BackgroundColor = ButtonOffice.Data.AccountantBackgroundColor;
-            _BorderColor = ButtonOffice.Data.AccountantBorderColor;
-            _BonusPromille = ButtonOffice.Data.AccountantBonusPromille;
-            _Wage = ButtonOffice.Data.AccountantWage;
-            _WorkMinutes = ButtonOffice.Data.AccountantWorkMinutes;
+            _ArrivesAtMinuteOfDay = RandomNumberGenerator.GetUInt32(Data.AccountantStartMinute, 300) % 1440;
+            _BackgroundColor = Data.AccountantBackgroundColor;
+            _BorderColor = Data.AccountantBorderColor;
+            _BonusPromille = Data.AccountantBonusPromille;
+            _Wage = Data.AccountantWage;
+            _WorkMinutes = Data.AccountantWorkMinutes;
             _Mind.SetRootGoal(new ButtonOffice.Goals.AccountantThink());
         }
 

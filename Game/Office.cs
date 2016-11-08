@@ -1,6 +1,6 @@
 ﻿namespace ButtonOffice
 {
-    public class Office : ButtonOffice.PersistentObject
+    public class Office : PersistentObject
     {
         private System.Drawing.Color _BackgroundColor;
         private System.Drawing.Color _BorderColor;
@@ -100,8 +100,8 @@
 
         public Office()
         {
-            _BackgroundColor = ButtonOffice.Data.OfficeBackgroundColor;
-            _BorderColor = ButtonOffice.Data.OfficeBorderColor;
+            _BackgroundColor = Data.OfficeBackgroundColor;
+            _BorderColor = Data.OfficeBorderColor;
             _FirstDesk = new Desk();
             _FirstDesk.Office = this;
             _SecondDesk = new Desk();
@@ -182,13 +182,13 @@
 
         private void _UpdateInterior()
         {
-            _FirstDesk.SetLocation(_Rectangle.X + ButtonOffice.Data.DeskOneX, _Rectangle.Y);
-            _SecondDesk.SetLocation(_Rectangle.X + ButtonOffice.Data.DeskTwoX, _Rectangle.Y);
-            _ThirdDesk.SetLocation(_Rectangle.X + ButtonOffice.Data.DeskThreeX, _Rectangle.Y);
-            _FourthDesk.SetLocation(_Rectangle.X + ButtonOffice.Data.DeskFourX, _Rectangle.Y);
-            _FirstLamp.SetLocation(_Rectangle.X + ButtonOffice.Data.LampOneX, _Rectangle.Y + _Rectangle.Height - _FirstLamp.GetHeight());
-            _SecondLamp.SetLocation(_Rectangle.X + ButtonOffice.Data.LampTwoX, _Rectangle.Y + _Rectangle.Height - _SecondLamp.GetHeight());
-            _ThirdLamp.SetLocation(_Rectangle.X + ButtonOffice.Data.LampThreeX, _Rectangle.Y + _Rectangle.Height - _ThirdLamp.GetHeight());
+            _FirstDesk.SetLocation(_Rectangle.X + Data.DeskOneX, _Rectangle.Y);
+            _SecondDesk.SetLocation(_Rectangle.X + Data.DeskTwoX, _Rectangle.Y);
+            _ThirdDesk.SetLocation(_Rectangle.X + Data.DeskThreeX, _Rectangle.Y);
+            _FourthDesk.SetLocation(_Rectangle.X + Data.DeskFourX, _Rectangle.Y);
+            _FirstLamp.SetLocation(_Rectangle.X + Data.LampOneX, _Rectangle.Y + _Rectangle.Height - _FirstLamp.GetHeight());
+            _SecondLamp.SetLocation(_Rectangle.X + Data.LampTwoX, _Rectangle.Y + _Rectangle.Height - _SecondLamp.GetHeight());
+            _ThirdLamp.SetLocation(_Rectangle.X + Data.LampThreeX, _Rectangle.Y + _Rectangle.Height - _ThirdLamp.GetHeight());
         }
 
         public void Move(ButtonOffice.Game Game, System.Single GameMinutes)

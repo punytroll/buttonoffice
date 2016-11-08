@@ -6,12 +6,12 @@
 
         public ITTech()
         {
-            _ArrivesAtMinuteOfDay = ButtonOffice.RandomNumberGenerator.GetUInt32(ButtonOffice.Data.ITTechStartMinute, 300) % 1440;
-            _BackgroundColor = ButtonOffice.Data.ITTechBackgroundColor;
-            _BorderColor = ButtonOffice.Data.ITTechBorderColor;
+            _ArrivesAtMinuteOfDay = RandomNumberGenerator.GetUInt32(Data.ITTechStartMinute, 300) % 1440;
+            _BackgroundColor = Data.ITTechBackgroundColor;
+            _BorderColor = Data.ITTechBorderColor;
             _RepairingTarget = null;
-            _Wage = ButtonOffice.Data.ITTechWage;
-            _WorkMinutes = ButtonOffice.Data.ITTechWorkMinutes;
+            _Wage = Data.ITTechWage;
+            _WorkMinutes = Data.ITTechWorkMinutes;
             _Mind.SetRootGoal(new ButtonOffice.Goals.ITTechThink());
         }
 

@@ -28,7 +28,7 @@ namespace ButtonOffice
 
             var ButtonOfficeElement = _Document.CreateElement("button-office");
 
-            ButtonOfficeElement.Attributes.Append(_CreateAttribute("version", ButtonOffice.Data.SaveGameFileVersion));
+            ButtonOfficeElement.Attributes.Append(_CreateAttribute("version", Data.SaveGameFileVersion));
             _Document.AppendChild(ButtonOfficeElement);
             _Objects = new Dictionary<PersistentObject, Pair<Boolean, UInt32>>();
         }
@@ -87,7 +87,7 @@ namespace ButtonOffice
             return Result;
         }
 
-        private System.Xml.XmlElement _CreateReference(System.String Name, ButtonOffice.PersistentObject PersistentObject)
+        private System.Xml.XmlElement _CreateReference(System.String Name, PersistentObject PersistentObject)
         {
             if(PersistentObject != null)
             {
@@ -108,7 +108,7 @@ namespace ButtonOffice
             return Result;
         }
 
-        private System.UInt32 _GetIdentifier(ButtonOffice.PersistentObject PersistentObject)
+        private System.UInt32 _GetIdentifier(PersistentObject PersistentObject)
         {
             if(_Objects.ContainsKey(PersistentObject) == false)
             {
@@ -120,7 +120,7 @@ namespace ButtonOffice
             return _Objects[PersistentObject].Second;
         }
 
-        private void _Save(ButtonOffice.PersistentObject PersistentObject)
+        private void _Save(PersistentObject PersistentObject)
         {
             if(PersistentObject != null)
             {

@@ -1,15 +1,18 @@
-﻿namespace ButtonOffice
-{
-    public class Desk : ButtonOffice.PersistentObject
-    {
-        private ButtonOffice.Computer _Computer;
-        private ButtonOffice.Janitor _Janitor;
-        private System.Drawing.RectangleF _Rectangle ;
-        private ButtonOffice.Office _Office;
-        private ButtonOffice.Person _Person;
-        private System.Single _TrashLevel;
+﻿using System;
+using System.Drawing;
 
-        public ButtonOffice.Office Office
+namespace ButtonOffice
+{
+    public class Desk : PersistentObject
+    {
+        private Computer _Computer;
+        private Janitor _Janitor;
+        private RectangleF _Rectangle ;
+        private Office _Office;
+        private Person _Person;
+        private Single _TrashLevel;
+
+        public Office Office
         {
             get
             {
@@ -21,7 +24,7 @@
             }
         }
 
-        public System.Single TrashLevel
+        public Single TrashLevel
         {
             get
             {
@@ -35,83 +38,83 @@
 
         public Desk()
         {
-            _Computer = new ButtonOffice.Computer();
-            _Rectangle.Height = ButtonOffice.Data.DeskHeight;
-            _Rectangle.Width = ButtonOffice.Data.DeskWidth;
+            _Computer = new Computer();
+            _Rectangle.Height = Data.DeskHeight;
+            _Rectangle.Width = Data.DeskWidth;
         }
 
-        public ButtonOffice.Computer GetComputer()
+        public Computer GetComputer()
         {
             return _Computer;
         }
 
-        public System.Single GetHeight()
+        public Single GetHeight()
         {
             return _Rectangle.Height;
         }
 
-        public ButtonOffice.Janitor GetJanitor()
+        public Janitor GetJanitor()
         {
             return _Janitor;
         }
 
-        public System.Drawing.PointF GetLocation()
+        public PointF GetLocation()
         {
             return _Rectangle.Location;
         }
 
-        public System.Drawing.PointF GetMidLocation()
+        public PointF GetMidLocation()
         {
-            return new System.Drawing.PointF(_Rectangle.X + _Rectangle.Width / 2.0f, _Rectangle.Y + _Rectangle.Height / 2.0f);
+            return new PointF(_Rectangle.X + _Rectangle.Width / 2.0f, _Rectangle.Y + _Rectangle.Height / 2.0f);
         }
 
-        public ButtonOffice.Person GetPerson()
+        public Person GetPerson()
         {
             return _Person;
         }
 
-        public System.Drawing.RectangleF GetRectangle()
+        public RectangleF GetRectangle()
         {
             return _Rectangle;
         }
 
-        public System.Single GetWidth()
+        public Single GetWidth()
         {
             return _Rectangle.Width;
         }
 
-        public System.Single GetX()
+        public Single GetX()
         {
             return _Rectangle.X;
         }
 
-        public System.Single GetY()
+        public Single GetY()
         {
             return _Rectangle.Y;
         }
 
-        public System.Boolean IsFree()
+        public Boolean IsFree()
         {
             return _Person == null;
         }
 
-        public void SetHeight(System.Single Height)
+        public void SetHeight(Single Height)
         {
             _Rectangle.Height = Height;
         }
 
-        public void SetJanitor(ButtonOffice.Janitor Janitor)
+        public void SetJanitor(Janitor Janitor)
         {
             _Janitor = Janitor;
         }
 
-        public void SetLocation(System.Single X, System.Single Y)
+        public void SetLocation(Single X, Single Y)
         {
             _Rectangle.X = X;
             _Rectangle.Y = Y;
         }
 
-        public void SetPerson(ButtonOffice.Person Person)
+        public void SetPerson(Person Person)
         {
             if(Person == null)
             {
@@ -125,17 +128,17 @@
             }
         }
 
-        public void SetWidth(System.Single Width)
+        public void SetWidth(Single Width)
         {
             _Rectangle.Width = Width;
         }
 
-        public void SetX(System.Single X)
+        public void SetX(Single X)
         {
             _Rectangle.X = X;
         }
 
-        public void SetY(System.Single Y)
+        public void SetY(Single Y)
         {
             _Rectangle.Y = Y;
         }

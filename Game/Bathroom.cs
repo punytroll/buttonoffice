@@ -1,6 +1,6 @@
 ﻿namespace ButtonOffice
 {
-    public class Bathroom : ButtonOffice.PersistentObject
+    public class Bathroom : PersistentObject
     {
         private System.Drawing.Color _BackgroundColor;
         private System.Drawing.Color _BorderColor;
@@ -8,8 +8,8 @@
 
         public Bathroom()
         {
-            _BackgroundColor = ButtonOffice.Data.BathroomBackgroundColor;
-            _BorderColor = ButtonOffice.Data.BathroomBorderColor;
+            _BackgroundColor = Data.BathroomBackgroundColor;
+            _BorderColor = Data.BathroomBorderColor;
         }
 
         public System.Drawing.Color GetBackgroundColor()
