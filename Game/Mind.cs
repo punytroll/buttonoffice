@@ -1,47 +1,50 @@
-﻿namespace ButtonOffice
+﻿using System;
+using System.Collections.Generic;
+
+namespace ButtonOffice
 {
-    public class Mind : ButtonOffice.PersistentObject
+    public class Mind : PersistentObject
     {
-        protected ButtonOffice.Goal _RootGoal;
+        protected Goal _RootGoal;
 
         public Mind()
         {
             _RootGoal = null;
         }
 
-        public void Move(ButtonOffice.Game Game, ButtonOffice.Person Person, System.Single DeltaMinutes)
+        public void Move(Game Game, Person Person, Single DeltaMinutes)
         {
-            System.Collections.Generic.List<ButtonOffice.Goal> ParentGoals = new System.Collections.Generic.List<ButtonOffice.Goal>();
-            ButtonOffice.Goal CurrentGoal = _RootGoal;
+            var ParentGoals = new List<Goal>();
+            var CurrentGoal = _RootGoal;
 
             while(CurrentGoal != null)
             {
-                ButtonOffice.Goal NextGoal = null;
+                Goal NextGoal = null;
 
                 if(CurrentGoal.HasSubGoals() == true)
                 {
                     NextGoal = CurrentGoal.GetFirstSubGoal();
                 }
-                if(CurrentGoal.GetState() == ButtonOffice.GoalState.Pristine)
+                if(CurrentGoal.GetState() == GoalState.Pristine)
                 {
                     CurrentGoal.Initialize(Game, Person);
                 }
-                if(CurrentGoal.GetState() == ButtonOffice.GoalState.Ready)
+                if(CurrentGoal.GetState() == GoalState.Ready)
                 {
                     CurrentGoal.Resume(Game, Person);
                 }
-                if(CurrentGoal.GetState() == ButtonOffice.GoalState.Executing)
+                if(CurrentGoal.GetState() == GoalState.Executing)
                 {
                     CurrentGoal.Execute(Game, Person, DeltaMinutes);
                 }
-                if(CurrentGoal.GetState() == ButtonOffice.GoalState.Done)
+                if(CurrentGoal.GetState() == GoalState.Done)
                 {
-                    System.Collections.Generic.Stack<ButtonOffice.Goal> TerminateGoals = new System.Collections.Generic.Stack<ButtonOffice.Goal>();
+                    var TerminateGoals = new Stack<Goal>();
 
                     TerminateGoals.Push(CurrentGoal);
                     while(TerminateGoals.Count > 0)
                     {
-                        ButtonOffice.Goal TerminateGoal = TerminateGoals.Peek();
+                        var TerminateGoal = TerminateGoals.Peek();
 
                         if(TerminateGoal.HasSubGoals() == true)
                         {
@@ -53,7 +56,7 @@
                         }
                         else
                         {
-                            if((TerminateGoal.GetState() == ButtonOffice.GoalState.Pristine) || (TerminateGoal.GetState() == ButtonOffice.GoalState.Ready) || (TerminateGoal.GetState() == ButtonOffice.GoalState.Executing))
+                            if((TerminateGoal.GetState() == GoalState.Pristine) || (TerminateGoal.GetState() == GoalState.Ready) || (TerminateGoal.GetState() == GoalState.Executing))
                             {
                                 TerminateGoal.Abort(Game, Person);
                             }
@@ -84,7 +87,7 @@
             }
         }
 
-        public void SetRootGoal(ButtonOffice.Goal RootGoal)
+        public void SetRootGoal(Goal RootGoal)
         {
             _RootGoal = RootGoal;
         }

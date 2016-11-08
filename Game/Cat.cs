@@ -1,15 +1,19 @@
-﻿namespace ButtonOffice
-{
-    public class Cat : ButtonOffice.PersistentObject
-    {
-        private ButtonOffice.ActionState _ActionState;
-        private System.Drawing.Color _BackgroundColor;
-        private System.Drawing.Color _BorderColor;
-        private ButtonOffice.Office _Office;
-        private System.Drawing.RectangleF _Rectangle;
-        private System.Single _MinutesToActionStateChange;
+﻿using System;
+using System.Diagnostics;
+using System.Drawing;
 
-        public System.Drawing.Color BackgroundColor
+namespace ButtonOffice
+{
+    public class Cat : PersistentObject
+    {
+        private ActionState _ActionState;
+        private Color _BackgroundColor;
+        private Color _BorderColor;
+        private Office _Office;
+        private RectangleF _Rectangle;
+        private Single _MinutesToActionStateChange;
+
+        public Color BackgroundColor
         {
             get
             {
@@ -17,7 +21,7 @@
             }
         }
 
-        public System.Drawing.Color BorderColor
+        public Color BorderColor
         {
             get
             {
@@ -27,86 +31,86 @@
 
         public Cat()
         {
-            _ActionState = ButtonOffice.ActionState.Stay;
-            _MinutesToActionStateChange = ButtonOffice.RandomNumberGenerator.GetSingle(10.0f, 15.0f);
-            _BackgroundColor = ButtonOffice.Data.CatBackgroundColor;
-            _BorderColor = ButtonOffice.Data.CatBorderColor;
+            _ActionState = ActionState.Stay;
+            _MinutesToActionStateChange = RandomNumberGenerator.GetSingle(10.0f, 15.0f);
+            _BackgroundColor = Data.CatBackgroundColor;
+            _BorderColor = Data.CatBorderColor;
         }
 
-        public void AssignOffice(ButtonOffice.Office Office)
+        public void AssignOffice(Office Office)
         {
-            System.Diagnostics.Debug.Assert(Office != null);
+            Debug.Assert(Office != null);
             if(_Office != null)
             {
-                System.Diagnostics.Debug.Assert(_Office.Cat == this);
+                Debug.Assert(_Office.Cat == this);
                 _Office.Cat = null;
             }
             _Office = Office;
             _Office.Cat = this;
         }
 
-        public System.Single GetHeight()
+        public Single GetHeight()
         {
             return _Rectangle.Height;
         }
 
-        public System.Drawing.PointF GetLocation()
+        public PointF GetLocation()
         {
             return _Rectangle.Location;
         }
 
-        public System.Drawing.RectangleF GetRectangle()
+        public RectangleF GetRectangle()
         {
             return _Rectangle;
         }
 
-        public System.Single GetWidth()
+        public Single GetWidth()
         {
             return _Rectangle.Width;
         }
 
-        public System.Single GetX()
+        public Single GetX()
         {
             return _Rectangle.X;
         }
 
-        public System.Single GetY()
+        public Single GetY()
         {
             return _Rectangle.Y;
         }
 
-        public void SetHeight(System.Single Height)
+        public void SetHeight(Single Height)
         {
             _Rectangle.Height = Height;
         }
 
-        public void SetLocation(System.Single X, System.Single Y)
+        public void SetLocation(Single X, Single Y)
         {
             _Rectangle.X = X;
             _Rectangle.Y = Y;
         }
 
-        public void SetRectangle(System.Drawing.RectangleF Rectangle)
+        public void SetRectangle(RectangleF Rectangle)
         {
             _Rectangle = Rectangle;
         }
 
-        public void SetWidth(System.Single Width)
+        public void SetWidth(Single Width)
         {
             _Rectangle.Width = Width;
         }
 
-        public void SetX(System.Single X)
+        public void SetX(Single X)
         {
             _Rectangle.X = X;
         }
 
-        public void SetY(System.Single Y)
+        public void SetY(Single Y)
         {
             _Rectangle.Y = Y;
         }
 
-        public void Move(ButtonOffice.Game Game, System.Single GameMinutes)
+        public void Move(Game Game, Single GameMinutes)
         {
             switch(_ActionState)
             {
