@@ -1,32 +1,36 @@
-﻿namespace ButtonOffice
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+
+namespace ButtonOffice
 {
-    public class Goal : ButtonOffice.PersistentObject
+    public class Goal : PersistentObject
     {
-        private ButtonOffice.GoalState _State;
-        private readonly System.Collections.Generic.List<ButtonOffice.Goal> _SubGoals;
+        private GoalState _State;
+        private readonly List<Goal> _SubGoals;
 
         public Goal()
         {
-            _SubGoals = new System.Collections.Generic.List<ButtonOffice.Goal>();
-            _State = ButtonOffice.GoalState.Pristine;
+            _SubGoals = new List<Goal>();
+            _State = GoalState.Pristine;
         }
 
-        public void AppendSubGoal(ButtonOffice.Goal Goal)
+        public void AppendSubGoal(Goal Goal)
         {
             _SubGoals.Add(Goal);
         }
 
-        public ButtonOffice.Goal GetFirstSubGoal()
+        public Goal GetFirstSubGoal()
         {
             return _SubGoals.GetFirst();
         }
 
-        public ButtonOffice.GoalState GetState()
+        public GoalState GetState()
         {
             return _State;
         }
 
-        public System.Boolean HasSubGoals()
+        public Boolean HasSubGoals()
         {
             return _SubGoals.Count > 0;
         }
@@ -36,80 +40,80 @@
             _SubGoals.RemoveAt(0);
         }
 
-        public void Abort(ButtonOffice.Game Game, ButtonOffice.Person Person)
+        public void Abort(Game Game, Person Person)
         {
-            System.Diagnostics.Debug.Assert(_State == ButtonOffice.GoalState.Ready || _State == ButtonOffice.GoalState.Executing || _State == ButtonOffice.GoalState.Pristine, ButtonOffice.AssertMessages.CurrentStateIsNotReadyOrExecuting.ToString());
+            Debug.Assert(_State == GoalState.Ready || _State == GoalState.Executing || _State == GoalState.Pristine, AssertMessages.CurrentStateIsNotReadyOrExecuting.ToString());
             _OnAbort(Game, Person);
-            _State = ButtonOffice.GoalState.Done;
+            _State = GoalState.Done;
         }
 
-        protected virtual void _OnAbort(ButtonOffice.Game Game, ButtonOffice.Person Person)
+        protected virtual void _OnAbort(Game Game, Person Person)
         {
         }
 
-        public void Finish(ButtonOffice.Game Game, ButtonOffice.Person Person)
+        public void Finish(Game Game, Person Person)
         {
-            System.Diagnostics.Debug.Assert(_State == ButtonOffice.GoalState.Executing, ButtonOffice.AssertMessages.CurrentStateIsNotExecuting.ToString());
+            Debug.Assert(_State == GoalState.Executing, AssertMessages.CurrentStateIsNotExecuting.ToString());
             _OnFinish(Game, Person);
-            _State = ButtonOffice.GoalState.Done;
+            _State = GoalState.Done;
         }
 
-        protected virtual void _OnFinish(ButtonOffice.Game Game, ButtonOffice.Person Person)
+        protected virtual void _OnFinish(Game Game, Person Person)
         {
         }
 
-        public void Initialize(ButtonOffice.Game Game, ButtonOffice.Person Person)
+        public void Initialize(Game Game, Person Person)
         {
-            System.Diagnostics.Debug.Assert(_State == ButtonOffice.GoalState.Pristine, ButtonOffice.AssertMessages.CurrentStateIsNotPrestine.ToString());
-            _State = ButtonOffice.GoalState.Ready;
+            Debug.Assert(_State == GoalState.Pristine, AssertMessages.CurrentStateIsNotPrestine.ToString());
+            _State = GoalState.Ready;
             _OnInitialize(Game, Person);
         }
 
-        protected virtual void _OnInitialize(ButtonOffice.Game Game, ButtonOffice.Person Person)
+        protected virtual void _OnInitialize(Game Game, Person Person)
         {
         }
 
-        public void Execute(ButtonOffice.Game Game, ButtonOffice.Person Person, System.Single DeltaMinutes)
+        public void Execute(Game Game, Person Person, Single DeltaMinutes)
         {
-            System.Diagnostics.Debug.Assert(_State == ButtonOffice.GoalState.Executing, ButtonOffice.AssertMessages.CurrentStateIsNotExecuting.ToString());
+            Debug.Assert(_State == GoalState.Executing, AssertMessages.CurrentStateIsNotExecuting.ToString());
             _OnExecute(Game, Person, DeltaMinutes);
         }
 
-        protected virtual void _OnExecute(ButtonOffice.Game Game, ButtonOffice.Person Person, System.Single DeltaMinutes)
+        protected virtual void _OnExecute(Game Game, Person Person, Single DeltaMinutes)
         {
         }
 
-        public void Resume(ButtonOffice.Game Game, ButtonOffice.Person Person)
+        public void Resume(Game Game, Person Person)
         {
-            System.Diagnostics.Debug.Assert(_State == ButtonOffice.GoalState.Ready, ButtonOffice.AssertMessages.CurrentStateIsNotReady.ToString());
+            Debug.Assert(_State == GoalState.Ready, AssertMessages.CurrentStateIsNotReady.ToString());
             _OnResume(Game, Person);
-            _State = ButtonOffice.GoalState.Executing;
+            _State = GoalState.Executing;
         }
 
-        protected virtual void _OnResume(ButtonOffice.Game Game, ButtonOffice.Person Person)
+        protected virtual void _OnResume(Game Game, Person Person)
         {
         }
 
-        public void Suspend(ButtonOffice.Game Game, ButtonOffice.Person Person)
+        public void Suspend(Game Game, Person Person)
         {
-            System.Diagnostics.Debug.Assert(_State == ButtonOffice.GoalState.Executing, ButtonOffice.AssertMessages.CurrentStateIsNotExecuting.ToString());
+            Debug.Assert(_State == GoalState.Executing, AssertMessages.CurrentStateIsNotExecuting.ToString());
             _OnSuspend(Game, Person);
-            _State = ButtonOffice.GoalState.Ready;
+            _State = GoalState.Ready;
         }
 
-        protected virtual void _OnSuspend(ButtonOffice.Game Game, ButtonOffice.Person Person)
+        protected virtual void _OnSuspend(Game Game, Person Person)
         {
         }
 
-        public void Terminate(ButtonOffice.Game Game, ButtonOffice.Person Person)
+        public void Terminate(Game Game, Person Person)
         {
-            System.Diagnostics.Debug.Assert(_State == ButtonOffice.GoalState.Done, ButtonOffice.AssertMessages.CurrentStateIsNotDone.ToString());
-            System.Diagnostics.Debug.Assert(_SubGoals.Count == 0);
+            Debug.Assert(_State == GoalState.Done, AssertMessages.CurrentStateIsNotDone.ToString());
+            Debug.Assert(_SubGoals.Count == 0);
             _OnTerminate(Game, Person);
-            _State = ButtonOffice.GoalState.Terminated;
+            _State = GoalState.Terminated;
         }
 
-        protected virtual void _OnTerminate(ButtonOffice.Game Game, ButtonOffice.Person Person)
+        protected virtual void _OnTerminate(Game Game, Person Person)
         {
         }
 
