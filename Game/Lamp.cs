@@ -30,53 +30,53 @@ namespace ButtonOffice
             return _Rectangle;
         }
 
-        public System.Single GetWidth()
+        public Single GetWidth()
         {
             return _Rectangle.Width;
         }
 
-        public System.Single GetX()
+        public Single GetX()
         {
             return _Rectangle.X;
         }
 
-        public System.Single GetY()
+        public Single GetY()
         {
             return _Rectangle.Y;
         }
 
-        public System.Boolean IsBroken()
+        public Boolean IsBroken()
         {
             return _MinutesUntilBroken < 0.0f;
         }
 
-        public void SetHeight(System.Single Height)
+        public void SetHeight(Single Height)
         {
             _Rectangle.Height = Height;
         }
 
-        public void SetLocation(System.Single X, System.Single Y)
+        public void SetLocation(Single X, Single Y)
         {
             _Rectangle.X = X;
             _Rectangle.Y = Y;
         }
 
-        public void SetMinutesUntilBroken(System.Single MinutesUntilBroken)
+        public void SetMinutesUntilBroken(Single MinutesUntilBroken)
         {
             _MinutesUntilBroken = MinutesUntilBroken;
         }
 
-        public void SetWidth(System.Single Width)
+        public void SetWidth(Single Width)
         {
             _Rectangle.Width = Width;
         }
 
-        public void SetX(System.Single X)
+        public void SetX(Single X)
         {
             _Rectangle.X = X;
         }
 
-        public void SetY(System.Single Y)
+        public void SetY(Single Y)
         {
             _Rectangle.Y = Y;
         }

@@ -9,7 +9,7 @@ namespace ButtonOffice
         private System.Collections.Generic.List<ButtonOffice.FloatingText> _FloatingTexts;
         private System.Windows.Forms.CheckBox _MoveButton;
         private Person _MovePerson;
-        private ButtonOffice.Game _Game;
+        private Game _Game;
         private System.Collections.Generic.List<System.Windows.Forms.ToolStripButton> _ToolButtons;
         private System.Nullable<System.Drawing.Point> _DragPoint;
         private System.Drawing.Point _DrawingOffset;
@@ -376,7 +376,7 @@ namespace ButtonOffice
 
         private void _UncheckAllToolButtons()
         {
-            foreach(System.Windows.Forms.ToolStripButton Button in _ToolButtons)
+            foreach(var Button in _ToolButtons)
             {
                 Button.Checked = false;
             }
@@ -391,7 +391,7 @@ namespace ButtonOffice
             else
             {
                 // uncheck all other buttons (if necessary)
-                foreach(System.Windows.Forms.ToolStripButton Button in _ToolButtons)
+                foreach(var Button in _ToolButtons)
                 {
                     if(Button != ToggleButton)
                     {
@@ -544,7 +544,7 @@ namespace ButtonOffice
                 }
             }
 
-            System.Drawing.PointF GamingLocation = _GetGamingLocation(EventArguments.Location);
+            var GamingLocation = _GetGamingLocation(EventArguments.Location);
 
             _PositionLabel.Text = "Location: " + GamingLocation.X.GetFlooredAsInt32().ToString() + " / " + GamingLocation.Y.GetFlooredAsInt32().ToString();
         }
@@ -632,8 +632,8 @@ namespace ButtonOffice
                 }
                 else if(_MovePerson != null)
                 {
-                    System.Drawing.PointF GamingLocation = _GetGamingLocation(EventArguments.Location);
-                    ButtonOffice.Desk Desk = _Game.GetDesk(GamingLocation);
+                    var GamingLocation = _GetGamingLocation(EventArguments.Location);
+                    var Desk = _Game.GetDesk(GamingLocation);
 
                     if((Desk != null) && (Desk.IsFree() == true))
                     {
@@ -643,43 +643,43 @@ namespace ButtonOffice
                 }
                 else
                 {
-                    System.Drawing.PointF GamingLocation = _GetGamingLocation(EventArguments.Location);
-                    Boolean Selected = false;
+                    var GamingLocation = _GetGamingLocation(EventArguments.Location);
+                    var Selected = false;
 
                     _MainSplitContainer.Panel2.Controls.Clear();
                     _SelectedOffice = null;
                     _SelectedPerson = null;
                     if(Selected == false)
                     {
-                        foreach(Person Person in _Game.Persons)
+                        foreach(var Person in _Game.Persons)
                         {
                             if(Person.GetRectangle().Contains(GamingLocation) == true)
                             {
                                 _SelectedPerson = Person;
                                 Selected = true;
 
-                                System.Windows.Forms.Label TypeLabel = new System.Windows.Forms.Label();
+                                var TypeLabel = new System.Windows.Forms.Label();
 
                                 TypeLabel.Location = new System.Drawing.Point(10, 20);
                                 TypeLabel.Size = new System.Drawing.Size(100, 20);
                                 TypeLabel.Text = Person.GetType().Name;
                                 _MainSplitContainer.Panel2.Controls.Add(TypeLabel);
 
-                                System.Windows.Forms.Label NameCaptionLabel = new System.Windows.Forms.Label();
+                                var NameCaptionLabel = new System.Windows.Forms.Label();
 
                                 NameCaptionLabel.Location = new System.Drawing.Point(10, 40);
                                 NameCaptionLabel.Size = new System.Drawing.Size(100, 20);
                                 NameCaptionLabel.Text = "Name:";
                                 _MainSplitContainer.Panel2.Controls.Add(NameCaptionLabel);
 
-                                System.Windows.Forms.Label NameLabel = new System.Windows.Forms.Label();
+                                var NameLabel = new System.Windows.Forms.Label();
 
                                 NameLabel.Location = new System.Drawing.Point(110, 40);
                                 NameLabel.Size = new System.Drawing.Size(100, 20);
                                 NameLabel.Text = Person.Name;
                                 _MainSplitContainer.Panel2.Controls.Add(NameLabel);
 
-                                System.Windows.Forms.Button FireButton = new System.Windows.Forms.Button();
+                                var FireButton = new System.Windows.Forms.Button();
 
                                 FireButton.Location = new System.Drawing.Point(10, 80);
                                 FireButton.Size = new System.Drawing.Size(100, 20);
@@ -718,14 +718,14 @@ namespace ButtonOffice
                     }
                     if(Selected == false)
                     {
-                        foreach(ButtonOffice.Office Office in _Game.Offices)
+                        foreach(var Office in _Game.Offices)
                         {
                             if(Office.GetRectangle().Contains(GamingLocation) == true)
                             {
                                 _SelectedOffice = Office;
                                 Selected = true;
 
-                                System.Windows.Forms.Label NameCaptionLabel = new System.Windows.Forms.Label();
+                                var NameCaptionLabel = new System.Windows.Forms.Label();
 
                                 NameCaptionLabel.Location = new System.Drawing.Point(10, 20);
                                 NameCaptionLabel.Size = new System.Drawing.Size(100, 20);
@@ -755,9 +755,9 @@ namespace ButtonOffice
         {
             _DrawingOffset.X += _CameraVelocity.X.GetFlooredAsInt32();
             _DrawingOffset.Y += _CameraVelocity.Y.GetFlooredAsInt32();
-            for(System.Int32 Row = 0; Row < Data.WorldBlockHeight; ++Row)
+            for(var Row = 0; Row < Data.WorldBlockHeight; ++Row)
             {
-                System.Pair<System.Int32, System.Int32> BuildingMinimumMaximum = _Game.GetBuildingMinimumMaximum(Row);
+                var BuildingMinimumMaximum = _Game.GetBuildingMinimumMaximum(Row);
 
                 if(BuildingMinimumMaximum.Second.ToInt64() - BuildingMinimumMaximum.First.ToInt64() > 0)
                 {
@@ -769,7 +769,7 @@ namespace ButtonOffice
                 }
             }
             EventArguments.Graphics.FillRectangle(new System.Drawing.SolidBrush(Data.GroundColor), 0, _GetDrawingY(0), _DrawingBoard.Width, _DrawingBoard.Height);
-            foreach(ButtonOffice.Office Office in _Game.Offices)
+            foreach(var Office in _Game.Offices)
             {
                 _DrawRectangle(EventArguments.Graphics, Office.GetRectangle(), Office.BackgroundColor, Office.BorderColor);
 
@@ -794,18 +794,18 @@ namespace ButtonOffice
                 }
                 _DrawRectangle(EventArguments.Graphics, Office.ThirdLamp.GetRectangle(), LampColor, System.Drawing.Color.Black);
             }
-            foreach(ButtonOffice.Bathroom Bathroom in _Game.Bathrooms)
+            foreach(var Bathroom in _Game.Bathrooms)
             {
                 _DrawRectangle(EventArguments.Graphics, Bathroom.GetRectangle(), Bathroom.GetBackgroundColor(), Bathroom.GetBorderColor());
             }
-            foreach(Person Person in _Game.Persons)
+            foreach(var Person in _Game.Persons)
             {
                 if(Person.IsHidden() == false)
                 {
                     _DrawRectangle(EventArguments.Graphics, Person.GetRectangle(), _MixToWhite(Person.BackgroundColor, Person.GetActionFraction()), _MixToWhite(Person.BorderColor, Person.GetAnimationFraction()));
                 }
             }
-            foreach(ButtonOffice.Office Office in _Game.Offices)
+            foreach(var Office in _Game.Offices)
             {
                 System.Drawing.Color PersonAtDeskColor;
                 System.Drawing.Color PersonColor;
@@ -910,11 +910,11 @@ namespace ButtonOffice
                 }
             }
 
-            System.Drawing.Font Font = new System.Drawing.Font("Arial", 16.0f);
-            System.Drawing.StringFormat Format = new System.Drawing.StringFormat();
+            var Font = new System.Drawing.Font("Arial", 16.0f);
+            var Format = new System.Drawing.StringFormat();
 
             Format.Alignment = System.Drawing.StringAlignment.Center;
-            foreach(ButtonOffice.FloatingText FloatingText in _FloatingTexts)
+            foreach(var FloatingText in _FloatingTexts)
             {
                 EventArguments.Graphics.DrawString(FloatingText.Text, Font, new System.Drawing.SolidBrush(FloatingText.Color), _MovePointByOffset(_GetDrawingLocation(FloatingText.Origin), FloatingText.Offset), Format);
             }
@@ -933,11 +933,11 @@ namespace ButtonOffice
 
         private void _DrawEllipse(System.Drawing.Graphics Graphics, System.Drawing.RectangleF GameRectangle, System.Drawing.Color BackgroundColor, System.Drawing.Color BorderColor)
         {
-            System.Drawing.Rectangle BackgroundRectangle = _GetDrawingRectangle(GameRectangle);
+            var BackgroundRectangle = _GetDrawingRectangle(GameRectangle);
 
             Graphics.FillEllipse(new System.Drawing.SolidBrush(BackgroundColor), BackgroundRectangle);
 
-            System.Drawing.Rectangle ForegroundRectangle = BackgroundRectangle;
+            var ForegroundRectangle = BackgroundRectangle;
 
             ForegroundRectangle.Width -= 1;
             ForegroundRectangle.Height -= 1;
@@ -946,11 +946,11 @@ namespace ButtonOffice
 
         private void _DrawRectangle(System.Drawing.Graphics Graphics, System.Drawing.RectangleF GameRectangle, System.Drawing.Color BackgroundColor, System.Drawing.Color BorderColor)
         {
-            System.Drawing.Rectangle BackgroundRectangle = _GetDrawingRectangle(GameRectangle);
+            var BackgroundRectangle = _GetDrawingRectangle(GameRectangle);
 
             Graphics.FillRectangle(new System.Drawing.SolidBrush(BackgroundColor), BackgroundRectangle);
 
-            System.Drawing.Rectangle ForegroundRectangle = BackgroundRectangle;
+            var ForegroundRectangle = BackgroundRectangle;
 
             ForegroundRectangle.Width -= 1;
             ForegroundRectangle.Height -= 1;
@@ -959,11 +959,11 @@ namespace ButtonOffice
 
         private void _DrawRectangle(System.Drawing.Graphics Graphics, Single GameX, Single GameY, Single GameWidth, Single GameHeight, System.Drawing.Color BackgroundColor, System.Drawing.Color BorderColor)
         {
-            System.Drawing.Rectangle BackgroundRectangle = _GetDrawingRectangle(GameX, GameY, GameWidth, GameHeight);
+            var BackgroundRectangle = _GetDrawingRectangle(GameX, GameY, GameWidth, GameHeight);
 
             Graphics.FillRectangle(new System.Drawing.SolidBrush(BackgroundColor), BackgroundRectangle);
 
-            System.Drawing.Rectangle ForegroundRectangle = BackgroundRectangle;
+            var ForegroundRectangle = BackgroundRectangle;
 
             ForegroundRectangle.Width -= 1;
             ForegroundRectangle.Height -= 1;
@@ -993,15 +993,15 @@ namespace ButtonOffice
 
         private System.Drawing.Rectangle _GetDrawingRectangle(System.Drawing.RectangleF GamingRectangle)
         {
-            System.Drawing.Point DrawingPoint = _GetDrawingLocation(GamingRectangle.Location);
-            System.Drawing.Size DrawingSize = _GetDrawingSize(GamingRectangle.Size);
+            var DrawingPoint = _GetDrawingLocation(GamingRectangle.Location);
+            var DrawingSize = _GetDrawingSize(GamingRectangle.Size);
 
             return new System.Drawing.Rectangle(DrawingPoint.X, DrawingPoint.Y - DrawingSize.Height, DrawingSize.Width, DrawingSize.Height);
         }
 
         private System.Drawing.Rectangle _GetDrawingRectangle(Single GamingX, Single GamingY, Single GamingWidth, Single GamingHeight)
         {
-            System.Int32 DrawingHeight = _GetDrawingHeight(GamingHeight);
+            var DrawingHeight = _GetDrawingHeight(GamingHeight);
 
             return new System.Drawing.Rectangle(_GetDrawingX(GamingX), _GetDrawingY(GamingY) - DrawingHeight, _GetDrawingWidth(GamingWidth), DrawingHeight);
         }
@@ -1048,14 +1048,14 @@ namespace ButtonOffice
 
         private void _OnTimerTicked(System.Object Sender, System.EventArgs EventArguments)
         {
-            System.DateTime Now = System.DateTime.Now;
-            Single Seconds = (Now - _LastTick).TotalSeconds.ToSingle();
+            var Now = System.DateTime.Now;
+            var Seconds = (Now - _LastTick).TotalSeconds.ToSingle();
 
             if((Seconds > 0.0f) && (Seconds < 0.05f))
             {
                 _Game.Move(Data.GameMinutesPerSecond * Seconds);
 
-                System.Int32 Index = 0;
+                var Index = 0;
 
                 while(Index < _FloatingTexts.Count)
                 {
@@ -1169,7 +1169,7 @@ namespace ButtonOffice
         {
             _StopGame();
 
-            System.Windows.Forms.SaveFileDialog SaveFileDialog = new System.Windows.Forms.SaveFileDialog();
+            var SaveFileDialog = new System.Windows.Forms.SaveFileDialog();
 
             if(SaveFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
@@ -1182,7 +1182,7 @@ namespace ButtonOffice
         {
             _StopGame();
 
-            System.Windows.Forms.OpenFileDialog OpenFileDialog = new System.Windows.Forms.OpenFileDialog();
+            var OpenFileDialog = new System.Windows.Forms.OpenFileDialog();
 
             if(OpenFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
@@ -1214,9 +1214,9 @@ namespace ButtonOffice
             _UncheckAllToolButtons();
             _CameraVelocity = new System.Drawing.PointF(0.0f, 0.0f);
             _FloatingTexts.Clear();
-            _Game.OnEarnMoney += delegate(System.UInt64 Cents, System.Drawing.PointF Location)
+            _Game.OnEarnMoney += delegate(UInt64 Cents, System.Drawing.PointF Location)
             {
-                ButtonOffice.FloatingText FloatingText = new ButtonOffice.FloatingText();
+                var FloatingText = new ButtonOffice.FloatingText();
 
                 FloatingText.SetColor(Data.EarnMoneyFloatingTextColor);
                 FloatingText.SetOffset(new System.Drawing.PointF(0.0f, 0.0f));
@@ -1225,9 +1225,9 @@ namespace ButtonOffice
                 FloatingText.SetTimeout(1.2f);
                 _FloatingTexts.Add(FloatingText);
             };
-            _Game.OnSpendMoney += delegate(System.UInt64 Cents, System.Drawing.PointF Location)
+            _Game.OnSpendMoney += delegate(UInt64 Cents, System.Drawing.PointF Location)
             {
-                ButtonOffice.FloatingText FloatingText = new ButtonOffice.FloatingText();
+                var FloatingText = new ButtonOffice.FloatingText();
 
                 FloatingText.SetColor(Data.SpendMoneyFloatingTextColor);
                 FloatingText.SetOffset(new System.Drawing.PointF(0.0f, 0.0f));

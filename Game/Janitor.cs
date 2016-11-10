@@ -1,18 +1,21 @@
-﻿namespace ButtonOffice
+﻿using System.Collections.Generic;
+using ButtonOffice.Goals;
+
+namespace ButtonOffice
 {
     public class Janitor : Person
     {
-        private readonly System.Collections.Generic.Queue<ButtonOffice.Desk> _CleaningTargets;
+        private readonly Queue<Desk> _CleaningTargets;
 
         public Janitor()
         {
             _ArrivesAtMinuteOfDay = RandomNumberGenerator.GetUInt32(Data.JanitorStartMinute, 300) % 1440;
             _BackgroundColor = Data.JanitorBackgroundColor;
             _BorderColor = Data.JanitorBorderColor;
-            _CleaningTargets = new System.Collections.Generic.Queue<ButtonOffice.Desk>();
+            _CleaningTargets = new Queue<Desk>();
             _Wage = Data.JanitorWage;
             _WorkMinutes = Data.JanitorWorkMinutes;
-            _Mind.SetRootGoal(new ButtonOffice.Goals.JanitorThink());
+            _Mind.SetRootGoal(new JanitorThink());
         }
 
         public void ClearCleaningTargets()
@@ -25,12 +28,12 @@
             _CleaningTargets.Dequeue();
         }
 
-        public void EnqueueCleaningTarget(ButtonOffice.Desk Desk)
+        public void EnqueueCleaningTarget(Desk Desk)
         {
             _CleaningTargets.Enqueue(Desk);
         }
 
-        public ButtonOffice.Desk PeekCleaningTarget()
+        public Desk PeekCleaningTarget()
         {
             if(_CleaningTargets.Count > 0)
             {

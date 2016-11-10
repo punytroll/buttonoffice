@@ -77,8 +77,8 @@
     /// </summary>
     public static System.Single GetDistanceSquared(this System.Drawing.PointF This, System.Drawing.PointF That)
     {
-        System.Single DeltaX = That.X - This.X;
-        System.Single DeltaY = That.Y - This.Y;
+        var DeltaX = That.X - This.X;
+        var DeltaY = That.Y - This.Y;
 
         return DeltaX * DeltaX + DeltaY * DeltaY;
     }
@@ -104,7 +104,7 @@
     /// </summary>
     public static Type PopFirst<Type>(this System.Collections.Generic.List<Type> List)
     {
-        Type Result = List[0];
+        var Result = List[0];
 
         List.RemoveAt(0);
 

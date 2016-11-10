@@ -1,10 +1,13 @@
-﻿namespace ButtonOffice
+﻿using System;
+using System.Drawing;
+
+namespace ButtonOffice
 {
     public class Bathroom : PersistentObject
     {
-        private System.Drawing.Color _BackgroundColor;
-        private System.Drawing.Color _BorderColor;
-        private System.Drawing.RectangleF _Rectangle;
+        private Color _BackgroundColor;
+        private Color _BorderColor;
+        private RectangleF _Rectangle;
 
         public Bathroom()
         {
@@ -12,72 +15,72 @@
             _BorderColor = Data.BathroomBorderColor;
         }
 
-        public System.Drawing.Color GetBackgroundColor()
+        public Color GetBackgroundColor()
         {
             return _BackgroundColor;
         }
 
-        public System.Drawing.Color GetBorderColor()
+        public Color GetBorderColor()
         {
             return _BorderColor;
         }
 
-        public System.Single GetHeight()
+        public Single GetHeight()
         {
             return _Rectangle.Height;
         }
 
-        public System.Drawing.PointF GetMidLocation()
+        public PointF GetMidLocation()
         {
             return _Rectangle.GetMidPoint();
         }
 
-        public System.Drawing.RectangleF GetRectangle()
+        public RectangleF GetRectangle()
         {
             return _Rectangle;
         }
 
-        public System.Single GetRight()
+        public Single GetRight()
         {
             return _Rectangle.Right;
         }
 
-        public System.Single GetWidth()
+        public Single GetWidth()
         {
             return _Rectangle.Width;
         }
 
-        public System.Single GetX()
+        public Single GetX()
         {
             return _Rectangle.X;
         }
 
-        public System.Single GetY()
+        public Single GetY()
         {
             return _Rectangle.Y;
         }
 
-        public void SetHeight(System.Single Height)
+        public void SetHeight(Single Height)
         {
             _Rectangle.Height = Height;
         }
 
-        public void SetRectangle(System.Drawing.RectangleF Rectangle)
+        public void SetRectangle(RectangleF Rectangle)
         {
             _Rectangle = Rectangle;
         }
 
-        public void SetWidth(System.Single Width)
+        public void SetWidth(Single Width)
         {
             _Rectangle.Width = Width;
         }
 
-        public void SetX(System.Single X)
+        public void SetX(Single X)
         {
             _Rectangle.X = X;
         }
 
-        public void SetY(System.Single Y)
+        public void SetY(Single Y)
         {
             _Rectangle.Y = Y;
         }

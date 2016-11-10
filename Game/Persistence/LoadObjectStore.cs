@@ -92,7 +92,7 @@ namespace ButtonOffice
             return _LoadPersistentObject(_GetPropertyElement(_Element, PropertyName)) as Computer;
         }
 
-        public List<ButtonOffice.Desk> LoadDesks(String ListName)
+        public List<Desk> LoadDesks(String ListName)
         {
             var Result = new List<Desk>();
 
@@ -141,12 +141,12 @@ namespace ButtonOffice
             return (GoalState)Enum.Parse(typeof(GoalState), _GetPropertyValue(_Element, PropertyName, "ButtonOffice.GoalState"));
         }
 
-        public Janitor LoadJanitorProperty(System.String PropertyName)
+        public Janitor LoadJanitorProperty(String PropertyName)
         {
-            return _LoadPersonProperty(_Element, PropertyName) as ButtonOffice.Janitor;
+            return _LoadPersonProperty(_Element, PropertyName) as Janitor;
         }
 
-        public Lamp LoadLampProperty(System.String PropertyName)
+        public Lamp LoadLampProperty(String PropertyName)
         {
             return _LoadPersistentObject(_GetPropertyElement(_Element, PropertyName)) as Lamp;
         }

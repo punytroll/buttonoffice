@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Drawing;
 
 namespace ButtonOffice
@@ -118,12 +119,12 @@ namespace ButtonOffice
         {
             if(Person == null)
             {
-                System.Diagnostics.Debug.Assert(_Person != null);
+                Debug.Assert(_Person != null);
                 _Person = null;
             }
             else
             {
-                System.Diagnostics.Debug.Assert(_Person == null);
+                Debug.Assert(_Person == null);
                 _Person = Person;
             }
         }

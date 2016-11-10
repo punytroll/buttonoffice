@@ -68,18 +68,18 @@ namespace ButtonOffice
             ParentElement.AppendChild(_CreateReference(Name, PersistentObject));
         }
 
-        private System.Xml.XmlAttribute _CreateAttribute(System.String Name, System.String Value)
+        private System.Xml.XmlAttribute _CreateAttribute(String Name, String Value)
         {
-            System.Xml.XmlAttribute Result = _Document.CreateAttribute(Name);
+            var Result = _Document.CreateAttribute(Name);
 
             Result.Value = Value;
 
             return Result;
         }
 
-        private System.Xml.XmlElement _CreateProperty(System.String Name, System.String Type, System.String Value)
+        private System.Xml.XmlElement _CreateProperty(String Name, String Type, String Value)
         {
-            System.Xml.XmlElement Result = _Document.CreateElement(Name);
+            var Result = _Document.CreateElement(Name);
 
             Result.Attributes.Append(_CreateAttribute("type", Type));
             Result.AppendChild(_Document.CreateTextNode(Value));
@@ -87,7 +87,7 @@ namespace ButtonOffice
             return Result;
         }
 
-        private System.Xml.XmlElement _CreateReference(System.String Name, PersistentObject PersistentObject)
+        private System.Xml.XmlElement _CreateReference(String Name, PersistentObject PersistentObject)
         {
             if(PersistentObject != null)
             {
@@ -108,7 +108,7 @@ namespace ButtonOffice
             return Result;
         }
 
-        private System.UInt32 _GetIdentifier(PersistentObject PersistentObject)
+        private UInt32 _GetIdentifier(PersistentObject PersistentObject)
         {
             if(_Objects.ContainsKey(PersistentObject) == false)
             {

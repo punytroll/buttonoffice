@@ -1,8 +1,11 @@
-﻿namespace ButtonOffice
+﻿using System;
+using ButtonOffice.Goals;
+
+namespace ButtonOffice
 {
     internal class ITTech : Person
     {
-        private System.Pair<Office, BrokenThing> _RepairingTarget;
+        private Pair<Office, BrokenThing> _RepairingTarget;
 
         public ITTech()
         {
@@ -12,15 +15,15 @@
             _RepairingTarget = null;
             _Wage = Data.ITTechWage;
             _WorkMinutes = Data.ITTechWorkMinutes;
-            _Mind.SetRootGoal(new ButtonOffice.Goals.ITTechThink());
+            _Mind.SetRootGoal(new ITTechThink());
         }
 
-        public System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing> GetRepairingTarget()
+        public Pair<Office, BrokenThing> GetRepairingTarget()
         {
             return _RepairingTarget;
         }
 
-        public void SetRepairingTarget(System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing> RepairingTarget)
+        public void SetRepairingTarget(Pair<Office, BrokenThing> RepairingTarget)
         {
             _RepairingTarget = RepairingTarget;
         }

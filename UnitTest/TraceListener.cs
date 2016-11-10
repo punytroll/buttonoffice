@@ -8,7 +8,7 @@
 
         public override void Fail(System.String Message, System.String DetailMessage)
         {
-            throw new ButtonOffice.UnitTest.AssertException((ButtonOffice.AssertMessages)(System.Enum.Parse(typeof(ButtonOffice.AssertMessages), Message)));
+            throw new AssertException((AssertMessages)(System.Enum.Parse(typeof(AssertMessages), Message)));
         }
 
         public override void Write(System.String Message)

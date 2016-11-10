@@ -1,8 +1,11 @@
-﻿namespace ButtonOffice
+﻿using System;
+using ButtonOffice.Goals;
+
+namespace ButtonOffice
 {
     public class Accountant : Person
     {
-        private System.UInt64 _BonusPromille;
+        private UInt64 _BonusPromille;
 
         public Accountant()
         {
@@ -12,10 +15,10 @@
             _BonusPromille = Data.AccountantBonusPromille;
             _Wage = Data.AccountantWage;
             _WorkMinutes = Data.AccountantWorkMinutes;
-            _Mind.SetRootGoal(new ButtonOffice.Goals.AccountantThink());
+            _Mind.SetRootGoal(new AccountantThink());
         }
 
-        public System.UInt64 GetBonusPromille()
+        public UInt64 GetBonusPromille()
         {
             return _BonusPromille;
         }

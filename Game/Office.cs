@@ -1,20 +1,23 @@
-﻿namespace ButtonOffice
+﻿using System;
+using System.Drawing;
+
+namespace ButtonOffice
 {
     public class Office : PersistentObject
     {
-        private System.Drawing.Color _BackgroundColor;
-        private System.Drawing.Color _BorderColor;
-        private ButtonOffice.Cat _Cat;
-        private ButtonOffice.Desk _FirstDesk;
-        private ButtonOffice.Lamp _FirstLamp;
-        private ButtonOffice.Desk _FourthDesk;
-        private System.Drawing.RectangleF _Rectangle;
-        private ButtonOffice.Desk _SecondDesk;
-        private ButtonOffice.Lamp _SecondLamp;
-        private ButtonOffice.Desk _ThirdDesk;
-        private ButtonOffice.Lamp _ThirdLamp;
+        private Color _BackgroundColor;
+        private Color _BorderColor;
+        private Cat _Cat;
+        private Desk _FirstDesk;
+        private Lamp _FirstLamp;
+        private Desk _FourthDesk;
+        private RectangleF _Rectangle;
+        private Desk _SecondDesk;
+        private Lamp _SecondLamp;
+        private Desk _ThirdDesk;
+        private Lamp _ThirdLamp;
 
-        public System.Drawing.Color BackgroundColor
+        public Color BackgroundColor
         {
             get
             {
@@ -22,7 +25,7 @@
             }
         }
 
-        public System.Drawing.Color BorderColor
+        public Color BorderColor
         {
             get
             {
@@ -30,7 +33,7 @@
             }
         }
 
-        public ButtonOffice.Cat Cat
+        public Cat Cat
         {
             get
             {
@@ -42,7 +45,7 @@
             }
         }
 
-        public ButtonOffice.Desk FirstDesk
+        public Desk FirstDesk
         {
             get
             {
@@ -50,7 +53,7 @@
             }
         }
 
-        public ButtonOffice.Desk SecondDesk
+        public Desk SecondDesk
         {
             get
             {
@@ -58,7 +61,7 @@
             }
         }
 
-        public ButtonOffice.Desk ThirdDesk
+        public Desk ThirdDesk
         {
             get
             {
@@ -66,7 +69,7 @@
             }
         }
 
-        public ButtonOffice.Desk FourthDesk
+        public Desk FourthDesk
         {
             get
             {
@@ -74,7 +77,7 @@
             }
         }
 
-        public ButtonOffice.Lamp FirstLamp
+        public Lamp FirstLamp
         {
             get
             {
@@ -82,7 +85,7 @@
             }
         }
 
-        public ButtonOffice.Lamp SecondLamp
+        public Lamp SecondLamp
         {
             get
             {
@@ -90,7 +93,7 @@
             }
         }
 
-        public ButtonOffice.Lamp ThirdLamp
+        public Lamp ThirdLamp
         {
             get
             {
@@ -110,71 +113,71 @@
             _ThirdDesk.Office = this;
             _FourthDesk = new Desk();
             _FourthDesk.Office = this;
-            _FirstLamp = new ButtonOffice.Lamp();
-            _SecondLamp = new ButtonOffice.Lamp();
-            _ThirdLamp = new ButtonOffice.Lamp();
+            _FirstLamp = new Lamp();
+            _SecondLamp = new Lamp();
+            _ThirdLamp = new Lamp();
         }
 
-        public System.Single GetHeight()
+        public Single GetHeight()
         {
             return _Rectangle.Height;
         }
 
-        public System.Drawing.PointF GetMidLocation()
+        public PointF GetMidLocation()
         {
             return _Rectangle.GetMidPoint();
         }
 
-        public System.Drawing.RectangleF GetRectangle()
+        public RectangleF GetRectangle()
         {
             return _Rectangle;
         }
 
-        public System.Single GetRight()
+        public Single GetRight()
         {
             return _Rectangle.Right;
         }
 
-        public System.Single GetWidth()
+        public Single GetWidth()
         {
             return _Rectangle.Width;
         }
 
-        public System.Single GetX()
+        public Single GetX()
         {
             return _Rectangle.X;
         }
 
-        public System.Single GetY()
+        public Single GetY()
         {
             return _Rectangle.Y;
         }
 
-        public void SetHeight(System.Single Height)
+        public void SetHeight(Single Height)
         {
             _Rectangle.Height = Height;
             _UpdateInterior();
         }
 
-        public void SetRectangle(System.Drawing.RectangleF Rectangle)
+        public void SetRectangle(RectangleF Rectangle)
         {
             _Rectangle = Rectangle;
             _UpdateInterior();
         }
 
-        public void SetWidth(System.Single Width)
+        public void SetWidth(Single Width)
         {
             _Rectangle.Width = Width;
             _UpdateInterior();
         }
 
-        public void SetX(System.Single X)
+        public void SetX(Single X)
         {
             _Rectangle.X = X;
             _UpdateInterior();
         }
 
-        public void SetY(System.Single Y)
+        public void SetY(Single Y)
         {
             _Rectangle.Y = Y;
             _UpdateInterior();
@@ -191,14 +194,14 @@
             _ThirdLamp.SetLocation(_Rectangle.X + Data.LampThreeX, _Rectangle.Y + _Rectangle.Height - _ThirdLamp.GetHeight());
         }
 
-        public void Move(ButtonOffice.Game Game, System.Single GameMinutes)
+        public void Move(Game Game, Single GameMinutes)
         {
             if(_FirstLamp.IsBroken() == false)
             {
                 _FirstLamp.SetMinutesUntilBroken(_FirstLamp.GetMinutesUntilBroken() - GameMinutes);
                 if(_FirstLamp.IsBroken() == true)
                 {
-                    Game.EnqueueBrokenThing(new System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing>(this, ButtonOffice.BrokenThing.FirstLamp));
+                    Game.EnqueueBrokenThing(new Pair<Office, BrokenThing>(this, BrokenThing.FirstLamp));
                 }
             }
             if(_SecondLamp.IsBroken() == false)
@@ -206,7 +209,7 @@
                 _SecondLamp.SetMinutesUntilBroken(_SecondLamp.GetMinutesUntilBroken() - GameMinutes);
                 if(_SecondLamp.IsBroken() == true)
                 {
-                    Game.EnqueueBrokenThing(new System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing>(this, ButtonOffice.BrokenThing.SecondLamp));
+                    Game.EnqueueBrokenThing(new Pair<Office, BrokenThing>(this, BrokenThing.SecondLamp));
                 }
             }
             if(_ThirdLamp.IsBroken() == false)
@@ -214,7 +217,7 @@
                 _ThirdLamp.SetMinutesUntilBroken(_ThirdLamp.GetMinutesUntilBroken() - GameMinutes);
                 if(_ThirdLamp.IsBroken() == true)
                 {
-                    Game.EnqueueBrokenThing(new System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing>(this, ButtonOffice.BrokenThing.ThirdLamp));
+                    Game.EnqueueBrokenThing(new Pair<Office, BrokenThing>(this, BrokenThing.ThirdLamp));
                 }
             }
             if(_Cat != null)

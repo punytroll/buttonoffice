@@ -1,27 +1,30 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Drawing;
 
 namespace ButtonOffice
 {
     public class Game : PersistentObject
     {
-        public delegate void MoneyChangeDelegate(System.UInt64 Cents, System.Drawing.PointF Location);
+        public delegate void MoneyChangeDelegate(UInt64 Cents, PointF Location);
         public event MoneyChangeDelegate OnEarnMoney;
         public event MoneyChangeDelegate OnSpendMoney;
 
-        private readonly System.Collections.Generic.List<ButtonOffice.Accountant> _Accountants;
-        private readonly System.Collections.Generic.List<ButtonOffice.Bathroom> _Bathrooms;
-        private readonly System.Collections.Generic.List<System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing>> _BrokenThings;
-        private System.UInt32 _CatStock;
-        private System.UInt64 _Cents;
-        private readonly System.Collections.Generic.List<System.Collections.BitArray> _FreeSpace;
-        private readonly System.Collections.Generic.List<System.Pair<System.Int32, System.Int32>> _BuildingMinimumMaximum;
-        private System.UInt64 _Minutes;
-        private System.UInt32 _NextCatAtNumberOfEmployees;
-        private readonly System.Collections.Generic.List<ButtonOffice.Office> _Offices;
-        private readonly System.Collections.Generic.List<Person> _Persons;
+        private readonly List<Accountant> _Accountants;
+        private readonly List<Bathroom> _Bathrooms;
+        private readonly List<Pair<Office, BrokenThing>> _BrokenThings;
+        private UInt32 _CatStock;
+        private UInt64 _Cents;
+        private readonly List<BitArray> _FreeSpace;
+        private readonly List<Pair<Int32, Int32>> _BuildingMinimumMaximum;
+        private UInt64 _Minutes;
+        private UInt32 _NextCatAtNumberOfEmployees;
+        private readonly List<Office> _Offices;
+        private readonly List<Person> _Persons;
         private Single _SubMinute;
 
-        public System.Collections.Generic.List<ButtonOffice.Bathroom> Bathrooms
+        public List<Bathroom> Bathrooms
         {
             get
             {
@@ -29,7 +32,7 @@ namespace ButtonOffice
             }
         }
 
-        public System.Collections.Generic.List<ButtonOffice.Office> Offices
+        public List<Office> Offices
         {
             get
             {
@@ -37,7 +40,7 @@ namespace ButtonOffice
             }
         }
 
-        public System.Collections.Generic.List<Person> Persons
+        public List<Person> Persons
         {
             get
             {
@@ -45,19 +48,19 @@ namespace ButtonOffice
             }
         }
 
-        public static ButtonOffice.Game CreateNew()
+        public static Game CreateNew()
         {
-            ButtonOffice.Game Result = new ButtonOffice.Game();
+            var Result = new Game();
 
             Result._CatStock = 0;
             Result._Cents = Data.StartCents;
-            for(System.Int32 Index = 0; Index < Data.WorldBlockHeight; ++Index)
+            for(var Index = 0; Index < Data.WorldBlockHeight; ++Index)
             {
-                Result._FreeSpace.Add(new System.Collections.BitArray(Data.WorldBlockWidth, true));
+                Result._FreeSpace.Add(new BitArray(Data.WorldBlockWidth, true));
             }
-            for(System.Int32 Index = 0; Index < Data.WorldBlockHeight; ++Index)
+            for(var Index = 0; Index < Data.WorldBlockHeight; ++Index)
             {
-                Result._BuildingMinimumMaximum.Add(new System.Pair<System.Int32, System.Int32>(System.Int32.MaxValue, System.Int32.MinValue));
+                Result._BuildingMinimumMaximum.Add(new Pair<Int32, Int32>(Int32.MaxValue, Int32.MinValue));
             }
             Result._Minutes = Data.StartMinutes;
             Result._NextCatAtNumberOfEmployees = 20;
@@ -66,10 +69,10 @@ namespace ButtonOffice
             return Result;
         }
 
-        public static ButtonOffice.Game LoadFromFileName(System.String FileName)
+        public static Game LoadFromFileName(String FileName)
         {
-            ButtonOffice.GameLoader GameLoader = new GameLoader(FileName);
-            ButtonOffice.Game Result = new ButtonOffice.Game();
+            var GameLoader = new GameLoader(FileName);
+            var Result = new Game();
 
             GameLoader.Load(Result);
 
@@ -78,13 +81,13 @@ namespace ButtonOffice
 
         private Game()
         {
-            _Accountants = new System.Collections.Generic.List<ButtonOffice.Accountant>();
-            _Bathrooms = new System.Collections.Generic.List<ButtonOffice.Bathroom>();
-            _BrokenThings = new System.Collections.Generic.List<System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing>>();
-            _FreeSpace = new System.Collections.Generic.List<System.Collections.BitArray>();
-            _BuildingMinimumMaximum = new System.Collections.Generic.List<System.Pair<System.Int32, System.Int32>>();
-            _Offices = new System.Collections.Generic.List<ButtonOffice.Office>();
-            _Persons = new System.Collections.Generic.List<Person>();
+            _Accountants = new List<Accountant>();
+            _Bathrooms = new List<Bathroom>();
+            _BrokenThings = new List<Pair<Office, BrokenThing>>();
+            _FreeSpace = new List<BitArray>();
+            _BuildingMinimumMaximum = new List<Pair<Int32, Int32>>();
+            _Offices = new List<Office>();
+            _Persons = new List<Person>();
         }
 
         public void Move(Single GameMinutes)
@@ -95,21 +98,21 @@ namespace ButtonOffice
                 _Minutes += 1;
                 _SubMinute -= 1.0f;
             }
-            foreach(ButtonOffice.Office Office in _Offices)
+            foreach(var Office in _Offices)
             {
                 Office.Move(this, GameMinutes);
             }
-            foreach(Person Person in _Persons)
+            foreach(var Person in _Persons)
             {
                 Person.Move(this, GameMinutes);
             }
         }
 
-        public System.UInt64 GetCurrentBonusPromille()
+        public UInt64 GetCurrentBonusPromille()
         {
-            System.UInt64 Result = 1000;
+            var Result = 1000UL;
 
-            foreach(ButtonOffice.Accountant Accountant in _Accountants)
+            foreach(var Accountant in _Accountants)
             {
                 if((Accountant.GetAtDesk() == true) && (Accountant.GetDesk().GetComputer().IsBroken() == false))
                 {
@@ -120,53 +123,53 @@ namespace ButtonOffice
             return Result;
         }
 
-        public System.UInt32 GetCatStock()
+        public UInt32 GetCatStock()
         {
             return _CatStock;
         }
 
-        public void AddCents(System.UInt64 Cents)
+        public void AddCents(UInt64 Cents)
         {
             _Cents += Cents;
         }
 
-        public void SubtractCents(System.UInt64 Cents)
+        public void SubtractCents(UInt64 Cents)
         {
             _Cents -= Cents;
         }
 
-        public System.UInt64 GetDay()
+        public UInt64 GetDay()
         {
             return _Minutes / 1440;
         }
 
-        public System.UInt64 GetTotalMinutes()
+        public UInt64 GetTotalMinutes()
         {
             return _Minutes;
         }
 
-        public System.UInt64 GetMinuteOfDay()
+        public UInt64 GetMinuteOfDay()
         {
             return _Minutes % 1440;
         }
 
-        public System.UInt64 GetFirstMinuteOfDay(System.UInt64 Day)
+        public UInt64 GetFirstMinuteOfDay(UInt64 Day)
         {
             return Day * 1440;
         }
 
-        public System.UInt64 GetFirstMinuteOfToday()
+        public UInt64 GetFirstMinuteOfToday()
         {
             return GetDay() * 1440;
         }
 
-        public Boolean BuildOffice(System.Drawing.RectangleF Rectangle)
+        public Boolean BuildOffice(RectangleF Rectangle)
         {
             if(_CanBuild(Data.OfficeBuildCost, Rectangle) == true)
             {
                 _Build(Data.OfficeBuildCost, Rectangle);
 
-                ButtonOffice.Office Office = new ButtonOffice.Office();
+                var Office = new Office();
 
                 Office.SetRectangle(Rectangle);
                 _Offices.Add(Office);
@@ -179,13 +182,13 @@ namespace ButtonOffice
             }
         }
 
-        public Boolean BuildBathroom(System.Drawing.RectangleF Rectangle)
+        public Boolean BuildBathroom(RectangleF Rectangle)
         {
             if(_CanBuild(Data.BathroomBuildCost, Rectangle) == true)
             {
                 _Build(Data.BathroomBuildCost, Rectangle);
 
-                ButtonOffice.Bathroom Bathroom = new ButtonOffice.Bathroom();
+                var Bathroom = new Bathroom();
 
                 Bathroom.SetRectangle(Rectangle);
                 _Bathrooms.Add(Bathroom);
@@ -198,17 +201,17 @@ namespace ButtonOffice
             }
         }
 
-        public Boolean HireAccountant(System.Drawing.RectangleF Rectangle)
+        public Boolean HireAccountant(RectangleF Rectangle)
         {
             if(_Cents >= Data.AccountantHireCost)
             {
-                ButtonOffice.Desk Desk = GetDesk(Rectangle.Location);
+                var Desk = GetDesk(Rectangle.Location);
 
                 if((Desk != null) && (Desk.IsFree() == true))
                 {
                     _Cents -= Data.AccountantHireCost;
 
-                    ButtonOffice.Accountant Accountant = new ButtonOffice.Accountant();
+                    var Accountant = new Accountant();
 
                     Accountant.AssignDesk(Desk);
                     _Persons.Add(Accountant);
@@ -227,17 +230,17 @@ namespace ButtonOffice
             return false;
         }
 
-        public Boolean HireWorker(System.Drawing.RectangleF Rectangle)
+        public Boolean HireWorker(RectangleF Rectangle)
         {
             if(_Cents >= Data.WorkerHireCost)
             {
-                ButtonOffice.Desk Desk = GetDesk(Rectangle.Location);
+                var Desk = GetDesk(Rectangle.Location);
 
                 if((Desk != null) && (Desk.IsFree() == true))
                 {
                     _Cents -= Data.WorkerHireCost;
 
-                    ButtonOffice.Worker Worker = new ButtonOffice.Worker();
+                    var Worker = new Worker();
 
                     Worker.AssignDesk(Desk);
                     _Persons.Add(Worker);
@@ -255,17 +258,17 @@ namespace ButtonOffice
             return false;
         }
 
-        public Boolean HireITTech(System.Drawing.RectangleF Rectangle)
+        public Boolean HireITTech(RectangleF Rectangle)
         {
             if(_Cents >= Data.ITTechHireCost)
             {
-                ButtonOffice.Desk Desk = GetDesk(Rectangle.Location);
+                var Desk = GetDesk(Rectangle.Location);
 
                 if((Desk != null) && (Desk.IsFree() == true))
                 {
                     _Cents -= Data.ITTechHireCost;
 
-                    ButtonOffice.ITTech ITTech = new ButtonOffice.ITTech();
+                    var ITTech = new ITTech();
 
                     ITTech.AssignDesk(Desk);
                     _Persons.Add(ITTech);
@@ -283,17 +286,17 @@ namespace ButtonOffice
             return false;
         }
 
-        public Boolean HireJanitor(System.Drawing.RectangleF Rectangle)
+        public Boolean HireJanitor(RectangleF Rectangle)
         {
             if(_Cents >= Data.JanitorHireCost)
             {
-                ButtonOffice.Desk Desk = GetDesk(Rectangle.Location);
+                var Desk = GetDesk(Rectangle.Location);
 
                 if((Desk != null) && (Desk.IsFree() == true))
                 {
                     _Cents -= Data.JanitorHireCost;
 
-                    ButtonOffice.Janitor Janitor = new ButtonOffice.Janitor();
+                    var Janitor = new Janitor();
 
                     Janitor.AssignDesk(Desk);
                     _Persons.Add(Janitor);
@@ -315,31 +318,31 @@ namespace ButtonOffice
         {
             Person.Fire();
             _Persons.Remove(Person);
-            if(Person is ButtonOffice.ITTech)
+            if(Person is ITTech)
             {
-                ButtonOffice.ITTech ITTech = Person as ITTech;
-                System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing> BrokenThing = ITTech.GetRepairingTarget();
+                var ITTech = Person as ITTech;
+                var BrokenThing = ITTech.GetRepairingTarget();
 
                 if(BrokenThing != null)
                 {
                     _BrokenThings.Add(BrokenThing);
                 }
             }
-            else if(Person is ButtonOffice.Accountant)
+            else if(Person is Accountant)
             {
-                _Accountants.Remove(Person as ButtonOffice.Accountant);
+                _Accountants.Remove(Person as Accountant);
             }
         }
 
-        public Boolean PlaceCat(System.Drawing.RectangleF Rectangle)
+        public Boolean PlaceCat(RectangleF Rectangle)
         {
             if(_CatStock > 0)
             {
-                ButtonOffice.Office Office = GetOffice(Rectangle.Location);
+                var Office = GetOffice(Rectangle.Location);
 
                 if((Office != null) && (Office.Cat == null))
                 {
-                    ButtonOffice.Cat Cat = new ButtonOffice.Cat();
+                    var Cat = new Cat();
 
                     Cat.SetRectangle(Rectangle);
                     Cat.AssignOffice(Office);
@@ -352,9 +355,9 @@ namespace ButtonOffice
             return false;
         }
 
-        public ButtonOffice.Office GetOffice(System.Drawing.PointF Location)
+        public Office GetOffice(PointF Location)
         {
-            foreach(ButtonOffice.Office Office in _Offices)
+            foreach(var Office in _Offices)
             {
                 if(Office.GetRectangle().Contains(Location) == true)
                 {
@@ -365,12 +368,12 @@ namespace ButtonOffice
             return null;
         }
 
-        private ButtonOffice.Desk _GetDesk(ButtonOffice.Office Office, System.Drawing.PointF Location)
+        private Desk _GetDesk(Office Office, PointF Location)
         {
             System.Diagnostics.Debug.Assert(Office != null);
 
-            Single NearestDeskDistanceSquared = System.Single.MaxValue;
-            ButtonOffice.Desk NearestDesk = null;
+            var NearestDeskDistanceSquared = Single.MaxValue;
+            Desk NearestDesk = null;
             Single DeskDistanceSquared;
 
             DeskDistanceSquared = Office.FirstDesk.GetMidLocation().GetDistanceSquared(Location);
@@ -401,43 +404,37 @@ namespace ButtonOffice
             return NearestDesk;
         }
 
-        public void FireEarnMoney(System.UInt64 Cents, System.Drawing.PointF Location)
+        public void FireEarnMoney(UInt64 Cents, PointF Location)
         {
-            if(OnEarnMoney != null)
-            {
-                OnEarnMoney(Cents, Location);
-            }
+            OnEarnMoney?.Invoke(Cents, Location);
         }
 
-        public void FireSpendMoney(System.UInt64 Cents, System.Drawing.PointF Location)
+        public void FireSpendMoney(UInt64 Cents, PointF Location)
         {
-            if(OnSpendMoney != null)
-            {
-                OnSpendMoney(Cents, Location);
-            }
+            OnSpendMoney?.Invoke(Cents, Location);
         }
 
-        public System.UInt64 GetCents()
+        public UInt64 GetCents()
         {
             return _Cents;
         }
 
-        private System.UInt64 _GetEuros(System.UInt64 Cents)
+        private UInt64 _GetEuros(UInt64 Cents)
         {
             return Cents / 100;
         }
 
-        private System.UInt64 _GetCents(System.UInt64 Cents)
+        private UInt64 _GetCents(UInt64 Cents)
         {
             return Cents % 100;
         }
 
-        public System.String GetMoneyString(System.UInt64 Cents)
+        public String GetMoneyString(UInt64 Cents)
         {
             return _GetEuros(Cents) + "." + _GetCents(Cents).ToString("00") + "€";
         }
 
-        public System.Pair<System.Int32, System.Int32> GetBuildingMinimumMaximum(System.Int32 Row)
+        public Pair<Int32, Int32> GetBuildingMinimumMaximum(Int32 Row)
         {
             return _BuildingMinimumMaximum[Row];
         }
@@ -450,7 +447,7 @@ namespace ButtonOffice
             GameSaver.WriteToFile(FileName);
         }
 
-        public void MovePerson(Person Person, ButtonOffice.Desk Desk)
+        public void MovePerson(Person Person, Desk Desk)
         {
             System.Diagnostics.Debug.Assert(Person != null);
             System.Diagnostics.Debug.Assert(Desk != null);
@@ -460,26 +457,26 @@ namespace ButtonOffice
             Person.AssignDesk(Desk);
         }
 
-        public ButtonOffice.Desk GetDesk(System.Drawing.PointF Location)
+        public Desk GetDesk(PointF Location)
         {
-            ButtonOffice.Office Office = GetOffice(Location);
+            var Office = GetOffice(Location);
 
             if(Office == null)
             {
                 return null;
             }
 
-            ButtonOffice.Desk Desk = _GetDesk(Office, Location);
+            var Desk = _GetDesk(Office, Location);
 
             return Desk;
         }
 
-        public void EnqueueBrokenThing(System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing> BrokenThing)
+        public void EnqueueBrokenThing(Pair<Office, BrokenThing> BrokenThing)
         {
             _BrokenThings.Add(BrokenThing);
         }
 
-        public System.Pair<ButtonOffice.Office, ButtonOffice.BrokenThing> DequeueBrokenThing()
+        public Pair<Office, BrokenThing> DequeueBrokenThing()
         {
             if(_BrokenThings.Count > 0)
             {
@@ -491,7 +488,7 @@ namespace ButtonOffice
             }
         }
 
-        private void _Build(System.UInt64 Cost, System.Drawing.RectangleF Rectangle)
+        private void _Build(UInt64 Cost, RectangleF Rectangle)
         {
             _Cents -= Cost;
             FireSpendMoney(Cost, Rectangle.GetMidPoint());
@@ -499,26 +496,26 @@ namespace ButtonOffice
             _WidenBuilding(Rectangle);
         }
 
-        private Boolean _CanBuild(System.UInt64 Cost, System.Drawing.RectangleF Rectangle)
+        private Boolean _CanBuild(UInt64 Cost, RectangleF Rectangle)
         {
             return (_EnoughCents(Cost) == true) && (_InBuildableWorld(Rectangle) == true) && (_InFreeSpace(Rectangle) == true) && (_CompletelyOnTopOfBuilding(Rectangle) == true);
         }
 
-        private Boolean _EnoughCents(System.UInt64 Cents)
+        private Boolean _EnoughCents(UInt64 Cents)
         {
             return _Cents >= Cents;
         }
 
-        private Boolean _InBuildableWorld(System.Drawing.RectangleF Rectangle)
+        private Boolean _InBuildableWorld(RectangleF Rectangle)
         {
             return (Rectangle.Y >= 0.0f) && (Rectangle.X >= 0.0f) && (Rectangle.X + Rectangle.Width < Data.WorldBlockWidth.ToSingle());
         }
 
-        private Boolean _InFreeSpace(System.Drawing.RectangleF Rectangle)
+        private Boolean _InFreeSpace(RectangleF Rectangle)
         {
-            Boolean Result = true;
+            var Result = true;
 
-            for(System.Int32 Column = 0; Column < Rectangle.Width.GetFlooredAsInt32(); ++Column)
+            for(var Column = 0; Column < Rectangle.Width.GetFlooredAsInt32(); ++Column)
             {
                 Result &= _FreeSpace[Rectangle.Y.GetFlooredAsInt32()][Rectangle.X.GetFlooredAsInt32() + Column];
             }
@@ -526,9 +523,9 @@ namespace ButtonOffice
             return Result;
         }
 
-        private Boolean _CompletelyOnTopOfBuilding(System.Drawing.RectangleF Rectangle)
+        private Boolean _CompletelyOnTopOfBuilding(RectangleF Rectangle)
         {
-            Boolean Result = true;
+            var Result = true;
 
             if(Rectangle.Y > 0.0f)
             {
@@ -539,15 +536,15 @@ namespace ButtonOffice
             return Result;
         }
 
-        private void _OccupyFreeSpace(System.Drawing.RectangleF Rectangle)
+        private void _OccupyFreeSpace(RectangleF Rectangle)
         {
-            for(System.Int32 Column = 0; Column < Rectangle.Width.GetFlooredAsInt32(); ++Column)
+            for(var Column = 0; Column < Rectangle.Width.GetFlooredAsInt32(); ++Column)
             {
                 _FreeSpace[Rectangle.Y.GetFlooredAsInt32()][Rectangle.X.GetFlooredAsInt32() + Column] = false;
             }
         }
 
-        private void _WidenBuilding(System.Drawing.RectangleF Rectangle)
+        private void _WidenBuilding(RectangleF Rectangle)
         {
             if(_BuildingMinimumMaximum[Rectangle.Y.GetFlooredAsInt32()].First > Rectangle.X.GetFlooredAsInt32())
             {
@@ -593,32 +590,32 @@ namespace ButtonOffice
             _Cents = ObjectStore.LoadUInt64Property("cents");
             _Minutes = ObjectStore.LoadUInt64Property("minutes");
             _NextCatAtNumberOfEmployees = ObjectStore.LoadUInt32Property("next-cat-at-number-of-employees");
-            foreach(ButtonOffice.Office Office in ObjectStore.LoadOffices("offices"))
+            foreach(var Office in ObjectStore.LoadOffices("offices"))
             {
                 _Offices.Add(Office);
             }
-            foreach(Person Person in ObjectStore.LoadPersons("persons"))
+            foreach(var Person in ObjectStore.LoadPersons("persons"))
             {
                 _Persons.Add(Person);
             }
             _SubMinute = ObjectStore.LoadSingleProperty("sub-minute");
 
-            System.Int32 WorldWidth = ObjectStore.LoadInt32Property("world-width");
-            System.Int32 WorldHeight = ObjectStore.LoadInt32Property("world-height");
+            var WorldWidth = ObjectStore.LoadInt32Property("world-width");
+            var WorldHeight = ObjectStore.LoadInt32Property("world-height");
 
-            for(System.Int32 Index = 0; Index < WorldHeight; ++Index)
+            for(var Index = 0; Index < WorldHeight; ++Index)
             {
-                _FreeSpace.Add(new System.Collections.BitArray(WorldWidth, true));
+                _FreeSpace.Add(new BitArray(WorldWidth, true));
             }
-            for(System.Int32 Index = 0; Index < WorldHeight; ++Index)
+            for(var Index = 0; Index < WorldHeight; ++Index)
             {
-                _BuildingMinimumMaximum.Add(new System.Pair<System.Int32, System.Int32>(System.Int32.MaxValue, System.Int32.MinValue));
+                _BuildingMinimumMaximum.Add(new Pair<Int32, Int32>(Int32.MaxValue, Int32.MinValue));
             }
-            foreach(ButtonOffice.Office Office in _Offices)
+            foreach(var Office in _Offices)
             {
-                System.Drawing.RectangleF Rectangle = Office.GetRectangle();
+                var Rectangle = Office.GetRectangle();
 
-                for(System.Int32 Column = 0; Column < Rectangle.Width.GetFlooredAsInt32(); ++Column)
+                for(var Column = 0; Column < Rectangle.Width.GetFlooredAsInt32(); ++Column)
                 {
                     _FreeSpace[Rectangle.Y.GetFlooredAsInt32()][Rectangle.X.GetFlooredAsInt32() + Column] = false;
                 }

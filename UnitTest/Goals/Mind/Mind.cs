@@ -144,7 +144,7 @@ namespace ButtonOffice.UnitTest
             }
         }
 
-        [ButtonOffice.UnitTest.Test()]
+        [Test()]
         internal static void Test_002_AddGoalToMind()
         {
             var Game = ButtonOffice.Game.CreateNew();
