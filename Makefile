@@ -14,8 +14,11 @@ COMMON_SOURCES = \
 GAME_SOURCES = \
 	Game/Data/Data.cs \
 	Game/Persistence/GameLoader.cs \
+	Game/Persistence/GameLoadException.cs \
 	Game/Persistence/GameSaver.cs \
+	Game/Persistence/LoadObjectStore.cs \
 	Game/Persistence/PersistentObject.cs \
+	Game/Persistence/SaveObjectStore.cs \
 	Game/Accountant.cs \
 	Game/AssertMessages.cs \
 	Game/Bathroom.cs \
