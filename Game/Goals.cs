@@ -94,6 +94,109 @@ namespace ButtonOffice.Goals
         }
     }
 
+    internal class CatThink : Goal
+    {
+        private ActionState _ActionState;
+        private Single _MinutesToActionStateChange;
+
+        public CatThink()
+        {
+            _ActionState = ActionState.Stay;
+            _MinutesToActionStateChange = RandomNumberGenerator.GetSingle(10.0f, 15.0f);
+        }
+
+        protected override void _OnExecute(Game Game, PersistentObject Actor, Single DeltaMinutes)
+        {
+            var Cat = Actor as Cat;
+
+            Debug.Assert(Cat != null);
+            switch(_ActionState)
+            {
+            case ActionState.Stay:
+                {
+                    if(_MinutesToActionStateChange < 0.0f)
+                    {
+                        if(RandomNumberGenerator.GetBoolean() == true)
+                        {
+                            _ActionState = ActionState.WalkLeft;
+                        }
+                        else
+                        {
+                            _ActionState = ActionState.WalkRight;
+                        }
+                        _MinutesToActionStateChange = RandomNumberGenerator.GetSingle(20.0f, 20.0f);
+                    }
+                    _MinutesToActionStateChange -= DeltaMinutes;
+
+                    break;
+                }
+            case ActionState.WalkLeft:
+                {
+                    if(_MinutesToActionStateChange < 0.0f)
+                    {
+                        if(RandomNumberGenerator.GetBoolean(0.8) == true)
+                        {
+                            _ActionState = ActionState.Stay;
+                            _MinutesToActionStateChange = RandomNumberGenerator.GetSingle(30.0f, 30.0f);
+                        }
+                        else
+                        {
+                            _ActionState = ActionState.WalkRight;
+                            _MinutesToActionStateChange = RandomNumberGenerator.GetSingle(10.0f, 8.0f);
+                        }
+                    }
+                    Cat.SetX(Cat.GetX() - DeltaMinutes * Data.CatWalkSpeed);
+                    if(Cat.GetX() <= Cat.Office.GetX())
+                    {
+                        _ActionState = ActionState.WalkRight;
+                    }
+                    _MinutesToActionStateChange -= DeltaMinutes;
+
+                    break;
+                }
+            case ActionState.WalkRight:
+                {
+
+                    if(_MinutesToActionStateChange < 0.0f)
+                    {
+                        if(RandomNumberGenerator.GetBoolean(0.8) == true)
+                        {
+                            _ActionState = ActionState.Stay;
+                            _MinutesToActionStateChange = RandomNumberGenerator.GetSingle(30.0f, 30.0f);
+                        }
+                        else
+                        {
+                            _ActionState = ActionState.WalkLeft;
+                            _MinutesToActionStateChange = RandomNumberGenerator.GetSingle(10.0f, 8.0f);
+                        }
+                    }
+                    Cat.SetX(Cat.GetX() + DeltaMinutes * Data.CatWalkSpeed);
+                    if(Cat.GetRight() >= Cat.Office.GetRight())
+                    {
+                        _ActionState = ActionState.WalkLeft;
+                    }
+                    _MinutesToActionStateChange -= DeltaMinutes;
+
+                    break;
+                }
+            }
+        }
+
+        public override void Load(LoadObjectStore ObjectStore)
+        {
+            base.Load(ObjectStore);
+            _ActionState = ObjectStore.LoadActionStateProperty("action-state");
+            _MinutesToActionStateChange = ObjectStore.LoadSingleProperty("minutes-to-action-state-change");
+        }
+
+        public override void Save(SaveObjectStore ObjectStore)
+        {
+            base.Save(ObjectStore);
+            ObjectStore.Save("action-state", _ActionState);
+            ObjectStore.Save("minutes-to-action-state-change", _MinutesToActionStateChange);
+        }
+    }
+
     internal class CleanDesk : Goal
     {
         private Desk _CleaningTarget;
