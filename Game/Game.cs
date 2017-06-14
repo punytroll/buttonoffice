@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 
 namespace ButtonOffice
@@ -110,14 +111,16 @@ namespace ButtonOffice
             return _CatStock;
         }
 
-        public void AddCents(UInt64 Cents)
+        public void EarnMoney(UInt64 Cents, PointF Location)
         {
             _Cents += Cents;
+            OnEarnMoney?.Invoke(Cents, Location);
         }
 
-        public void SubtractCents(UInt64 Cents)
+        public void SpendMoney(UInt64 Cents, PointF Location)
         {
             _Cents -= Cents;
+            OnSpendMoney?.Invoke(Cents, Location);
         }
 
         public UInt64 GetDay()
@@ -203,7 +206,7 @@ namespace ButtonOffice
                         _NextCatAtNumberOfEmployees += 20;
                         _CatStock += 1;
                     }
-                    FireSpendMoney(Data.AccountantHireCost, Desk.GetMidLocation());
+                    OnSpendMoney?.Invoke(Data.AccountantHireCost, Desk.GetMidLocation());
 
                     return true;
                 }
@@ -231,7 +234,7 @@ namespace ButtonOffice
                         _NextCatAtNumberOfEmployees += 20;
                         _CatStock += 1;
                     }
-                    FireSpendMoney(Data.WorkerHireCost, Desk.GetMidLocation());
+                    OnSpendMoney?.Invoke(Data.WorkerHireCost, Desk.GetMidLocation());
 
                     return true;
                 }
@@ -259,7 +262,7 @@ namespace ButtonOffice
                         _NextCatAtNumberOfEmployees += 20;
                         _CatStock += 1;
                     }
-                    FireSpendMoney(Data.ITTechHireCost, Desk.GetMidLocation());
+                    OnSpendMoney?.Invoke(Data.ITTechHireCost, Desk.GetMidLocation());
 
                     return true;
                 }
@@ -287,7 +290,7 @@ namespace ButtonOffice
                         _NextCatAtNumberOfEmployees += 20;
                         _CatStock += 1;
                     }
-                    FireSpendMoney(Data.JanitorHireCost, Desk.GetMidLocation());
+                    OnSpendMoney?.Invoke(Data.JanitorHireCost, Desk.GetMidLocation());
 
                     return true;
                 }
@@ -352,7 +355,7 @@ namespace ButtonOffice
 
         private Desk _GetDesk(Office Office, PointF Location)
         {
-            System.Diagnostics.Debug.Assert(Office != null);
+            Debug.Assert(Office != null);
 
             var NearestDeskDistanceSquared = Single.MaxValue;
             Desk NearestDesk = null;
@@ -384,16 +387,6 @@ namespace ButtonOffice
             }
 
             return NearestDesk;
-        }
-
-        public void FireEarnMoney(UInt64 Cents, PointF Location)
-        {
-            OnEarnMoney?.Invoke(Cents, Location);
-        }
-
-        public void FireSpendMoney(UInt64 Cents, PointF Location)
-        {
-            OnSpendMoney?.Invoke(Cents, Location);
         }
 
         public UInt64 GetCents()
@@ -431,9 +424,9 @@ namespace ButtonOffice
 
         public void MovePerson(Person Person, Desk Desk)
         {
-            System.Diagnostics.Debug.Assert(Person != null);
-            System.Diagnostics.Debug.Assert(Desk != null);
-            System.Diagnostics.Debug.Assert(Desk.IsFree() == true);
+            Debug.Assert(Person != null);
+            Debug.Assert(Desk != null);
+            Debug.Assert(Desk.IsFree() == true);
 
             Person.SetAtDesk(false);
             Person.AssignDesk(Desk);
@@ -473,7 +466,7 @@ namespace ButtonOffice
         private void _Build(UInt64 Cost, RectangleF Rectangle)
         {
             _Cents -= Cost;
-            FireSpendMoney(Cost, Rectangle.GetMidPoint());
+            OnSpendMoney?.Invoke(Cost, Rectangle.GetMidPoint());
             _OccupyFreeSpace(Rectangle);
             _WidenBuilding(Rectangle);
         }

@@ -358,8 +358,7 @@ namespace ButtonOffice.Goals
             var Person = Actor as Person;
 
             Debug.Assert(Person != null);
-            Game.SubtractCents(Person.GetWage());
-            Game.FireSpendMoney(Person.GetWage(), Person.GetMidLocation());
+            Game.SpendMoney(Person.GetWage(), Person.GetMidLocation());
 
             var WalkTo = new WalkTo();
 
@@ -551,8 +550,7 @@ namespace ButtonOffice.Goals
 
                             Person.SetActionFraction(Person.GetActionFraction() - 1.0f);
                             Person.GetDesk().TrashLevel += 1.0f;
-                            Game.AddCents(Revenue);
-                            Game.FireEarnMoney(Revenue, Person.GetMidLocation());
+                            Game.EarnMoney(Revenue, Person.GetMidLocation());
                         }
                         Person.SetAnimationFraction(Person.GetAnimationFraction() + Data.WorkerWorkSpeed * DeltaMinutes);
                         while(Person.GetAnimationFraction() >= 1.0f)
