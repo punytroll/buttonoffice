@@ -1,52 +1,29 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace ButtonOffice
 {
-    internal class MainWindow : System.Windows.Forms.Form
+    internal partial class MainWindow
     {
-        private System.Drawing.PointF _CameraVelocity;
-        private System.Collections.Generic.List<ButtonOffice.FloatingText> _FloatingTexts;
-        private System.Windows.Forms.CheckBox _MoveButton;
+        private PointF _CameraVelocity;
+        private List<FloatingText> _FloatingTexts;
         private Person _MovePerson;
         private Game _Game;
-        private System.Collections.Generic.List<System.Windows.Forms.ToolStripButton> _ToolButtons;
-        private System.Nullable<System.Drawing.Point> _DragPoint;
-        private System.Drawing.Point _DrawingOffset;
-        private ButtonOffice.EntityPrototype _EntityPrototype;
-        private System.Windows.Forms.Timer _Timer;
-        private System.ComponentModel.IContainer components;
-        private System.Windows.Forms.ToolStripContainer _ToolStripContainer;
-        private System.Windows.Forms.ToolStrip _GameTools;
-        private System.Windows.Forms.ToolStripButton _BuildOfficeButton;
-        private System.Windows.Forms.ToolStripButton _HireWorkerButton;
-        private System.Windows.Forms.StatusStrip _StatusBar;
-        private System.Windows.Forms.ToolStripStatusLabel _TimeLabel;
-        private System.Windows.Forms.ToolStripStatusLabel _MoneyLabel;
-        private System.Windows.Forms.ToolStripStatusLabel _EmployeesLabel;
-        private System.DateTime _LastTick;
-        private System.Windows.Forms.SplitContainer _MainSplitContainer;
-        private DrawingBoard _DrawingBoard;
-        private System.Windows.Forms.ToolStripStatusLabel _PositionLabel;
-        private System.Windows.Forms.ToolStripButton _HireITTechButton;
+        private List<ToolStripButton> _ToolButtons;
+        private Point? _DragPoint;
+        private Point _DrawingOffset;
+        private EntityPrototype _EntityPrototype;
+        private DateTime _LastTick;
         private Person _SelectedPerson;
-        private System.Windows.Forms.ToolStripButton _HireJanitorButton;
-        private System.Windows.Forms.ToolStripButton _PlaceCatButton;
-        private ButtonOffice.Office _SelectedOffice;
-        private System.Windows.Forms.ToolStrip _SystemTools;
-        private System.Windows.Forms.ToolStripDropDownButton _LoadButton;
-        private System.Windows.Forms.ToolStripMenuItem _LoadGameButton;
-        private System.Windows.Forms.ToolStripMenuItem _NewGameButton;
-        private System.Windows.Forms.ToolStripMenuItem _QuitApplicationButton;
-        private System.Windows.Forms.ToolStripMenuItem _SaveGameButton;
-        private System.Windows.Forms.ToolStripButton _HireAccountantButton;
-        private System.Windows.Forms.ToolStripButton _BuildBathroomButton;
+        private Office _SelectedOffice;
         private Single _Zoom;
     
         public MainWindow()
         {
             InitializeComponent();
-            _ToolButtons = new System.Collections.Generic.List<System.Windows.Forms.ToolStripButton>();
+            _ToolButtons = new List<ToolStripButton>();
             _ToolButtons.Add(_HireITTechButton);
             _ToolButtons.Add(_HireJanitorButton);
             _ToolButtons.Add(_HireWorkerButton);
@@ -54,324 +31,24 @@ namespace ButtonOffice
             _ToolButtons.Add(_BuildBathroomButton);
             _ToolButtons.Add(_HireAccountantButton);
             _ToolButtons.Add(_PlaceCatButton);
-            _FloatingTexts = new System.Collections.Generic.List<ButtonOffice.FloatingText>();
-            _Game = ButtonOffice.Game.CreateNew();
+            _FloatingTexts = new List<FloatingText>();
+            _Game = Game.CreateNew();
             _OnNewGame();
-            _DrawingBoard.MouseWheel += delegate(System.Object Sender, System.Windows.Forms.MouseEventArgs EventArguments)
-            {
-                if(EventArguments.Delta > 0)
-                {
-                    _Zoom *= 1.2f;
-                    _DrawingOffset.X = ((_DrawingOffset.X - EventArguments.X).ToSingle() * 1.2f).GetFlooredAsInt32() + EventArguments.X;
-                    _DrawingOffset.Y = ((_DrawingOffset.Y - (_DrawingBoard.Height - EventArguments.Y)).ToSingle() * 1.2f).GetFlooredAsInt32() + (_DrawingBoard.Height - EventArguments.Y);
-                }
-                else
-                {
-                    _Zoom /= 1.2f;
-                    _DrawingOffset.X = ((_DrawingOffset.X - EventArguments.X).ToSingle() / 1.2f).GetFlooredAsInt32() + EventArguments.X;
-                    _DrawingOffset.Y = ((_DrawingOffset.Y - (_DrawingBoard.Height - EventArguments.Y)).ToSingle() / 1.2f).GetFlooredAsInt32() + (_DrawingBoard.Height - EventArguments.Y);
-                }
-            };
-        }
-
-        private void InitializeComponent()
-        {
-            this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.ToolStripSeparator Separator1;
-            this._Timer = new System.Windows.Forms.Timer(this.components);
-            this._ToolStripContainer = new System.Windows.Forms.ToolStripContainer();
-            this._StatusBar = new System.Windows.Forms.StatusStrip();
-            this._TimeLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this._MoneyLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this._EmployeesLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this._PositionLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this._MainSplitContainer = new System.Windows.Forms.SplitContainer();
-            this._DrawingBoard = new ButtonOffice.DrawingBoard();
-            this._SystemTools = new System.Windows.Forms.ToolStrip();
-            this._LoadButton = new System.Windows.Forms.ToolStripDropDownButton();
-            this._NewGameButton = new System.Windows.Forms.ToolStripMenuItem();
-            this._SaveGameButton = new System.Windows.Forms.ToolStripMenuItem();
-            this._LoadGameButton = new System.Windows.Forms.ToolStripMenuItem();
-            this._QuitApplicationButton = new System.Windows.Forms.ToolStripMenuItem();
-            this._GameTools = new System.Windows.Forms.ToolStrip();
-            this._BuildOfficeButton = new System.Windows.Forms.ToolStripButton();
-            this._BuildBathroomButton = new System.Windows.Forms.ToolStripButton();
-            this._HireWorkerButton = new System.Windows.Forms.ToolStripButton();
-            this._HireITTechButton = new System.Windows.Forms.ToolStripButton();
-            this._HireJanitorButton = new System.Windows.Forms.ToolStripButton();
-            this._HireAccountantButton = new System.Windows.Forms.ToolStripButton();
-            this._PlaceCatButton = new System.Windows.Forms.ToolStripButton();
-            Separator1 = new System.Windows.Forms.ToolStripSeparator();
-            this._ToolStripContainer.BottomToolStripPanel.SuspendLayout();
-            this._ToolStripContainer.ContentPanel.SuspendLayout();
-            this._ToolStripContainer.TopToolStripPanel.SuspendLayout();
-            this._ToolStripContainer.SuspendLayout();
-            this._StatusBar.SuspendLayout();
-            this._MainSplitContainer.Panel1.SuspendLayout();
-            this._MainSplitContainer.SuspendLayout();
-            this._SystemTools.SuspendLayout();
-            this._GameTools.SuspendLayout();
-            this.SuspendLayout();
-            // 
-            // Separator1
-            // 
-            Separator1.Name = "Separator1";
-            Separator1.Size = new System.Drawing.Size(97, 6);
-            // 
-            // _Timer
-            // 
-            this._Timer.Interval = 10;
-            this._Timer.Tick += new System.EventHandler(this._OnTimerTicked);
-            // 
-            // _ToolStripContainer
-            // 
-            // 
-            // _ToolStripContainer.BottomToolStripPanel
-            // 
-            this._ToolStripContainer.BottomToolStripPanel.Controls.Add(this._StatusBar);
-            // 
-            // _ToolStripContainer.ContentPanel
-            // 
-            this._ToolStripContainer.ContentPanel.Controls.Add(this._MainSplitContainer);
-            this._ToolStripContainer.ContentPanel.Size = new System.Drawing.Size(910, 481);
-            this._ToolStripContainer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._ToolStripContainer.Location = new System.Drawing.Point(0, 0);
-            this._ToolStripContainer.Name = "_ToolStripContainer";
-            this._ToolStripContainer.Size = new System.Drawing.Size(910, 528);
-            this._ToolStripContainer.TabIndex = 3;
-            this._ToolStripContainer.Text = "toolStripContainer1";
-            // 
-            // _ToolStripContainer.TopToolStripPanel
-            // 
-            this._ToolStripContainer.TopToolStripPanel.Controls.Add(this._SystemTools);
-            this._ToolStripContainer.TopToolStripPanel.Controls.Add(this._GameTools);
-            // 
-            // _StatusBar
-            // 
-            this._StatusBar.Dock = System.Windows.Forms.DockStyle.None;
-            this._StatusBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this._TimeLabel,
-            this._MoneyLabel,
-            this._EmployeesLabel,
-            this._PositionLabel});
-            this._StatusBar.Location = new System.Drawing.Point(0, 0);
-            this._StatusBar.Name = "_StatusBar";
-            this._StatusBar.Size = new System.Drawing.Size(910, 22);
-            this._StatusBar.TabIndex = 0;
-            // 
-            // _TimeLabel
-            // 
-            this._TimeLabel.Name = "_TimeLabel";
-            this._TimeLabel.Size = new System.Drawing.Size(70, 17);
-            this._TimeLabel.Text = "Day && Time";
-            // 
-            // _MoneyLabel
-            // 
-            this._MoneyLabel.Name = "_MoneyLabel";
-            this._MoneyLabel.Size = new System.Drawing.Size(44, 17);
-            this._MoneyLabel.Text = "Money";
-            // 
-            // _EmployeesLabel
-            // 
-            this._EmployeesLabel.Name = "_EmployeesLabel";
-            this._EmployeesLabel.Size = new System.Drawing.Size(64, 17);
-            this._EmployeesLabel.Text = "Employees";
-            // 
-            // _PositionLabel
-            // 
-            this._PositionLabel.Name = "_PositionLabel";
-            this._PositionLabel.Size = new System.Drawing.Size(50, 17);
-            this._PositionLabel.Text = "Position";
-            // 
-            // _MainSplitContainer
-            // 
-            this._MainSplitContainer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._MainSplitContainer.Location = new System.Drawing.Point(0, 0);
-            this._MainSplitContainer.Name = "_MainSplitContainer";
-            // 
-            // _MainSplitContainer.Panel1
-            // 
-            this._MainSplitContainer.Panel1.Controls.Add(this._DrawingBoard);
-            this._MainSplitContainer.Panel2Collapsed = true;
-            this._MainSplitContainer.Size = new System.Drawing.Size(910, 481);
-            this._MainSplitContainer.SplitterDistance = 750;
-            this._MainSplitContainer.TabIndex = 3;
-            // 
-            // _DrawingBoard
-            // 
-            this._DrawingBoard.BackColor = System.Drawing.SystemColors.ControlDark;
-            this._DrawingBoard.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._DrawingBoard.Location = new System.Drawing.Point(0, 0);
-            this._DrawingBoard.Name = "_DrawingBoard";
-            this._DrawingBoard.Size = new System.Drawing.Size(910, 481);
-            this._DrawingBoard.TabIndex = 4;
-            this._DrawingBoard.Paint += new System.Windows.Forms.PaintEventHandler(this._OnDrawingBoardPaint);
-            this._DrawingBoard.MouseMove += new System.Windows.Forms.MouseEventHandler(this._OnDrawingBoardMouseMoved);
-            this._DrawingBoard.KeyUp += new System.Windows.Forms.KeyEventHandler(this._DrawingBoardKeyUp);
-            this._DrawingBoard.MouseDown += new System.Windows.Forms.MouseEventHandler(this._OnDrawingBoardMouseDown);
-            this._DrawingBoard.MouseUp += new System.Windows.Forms.MouseEventHandler(this._OnDrawingBoardMouseUp);
-            this._DrawingBoard.KeyDown += new System.Windows.Forms.KeyEventHandler(this._DrawingBoardKeyDown);
-            // 
-            // _SystemTools
-            // 
-            this._SystemTools.Dock = System.Windows.Forms.DockStyle.None;
-            this._SystemTools.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this._LoadButton});
-            this._SystemTools.Location = new System.Drawing.Point(3, 0);
-            this._SystemTools.Name = "_SystemTools";
-            this._SystemTools.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this._SystemTools.Size = new System.Drawing.Size(54, 25);
-            this._SystemTools.TabIndex = 2;
-            // 
-            // _LoadButton
-            // 
-            this._LoadButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this._LoadButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this._NewGameButton,
-            this._SaveGameButton,
-            this._LoadGameButton,
-            Separator1,
-            this._QuitApplicationButton});
-            this._LoadButton.Name = "_LoadButton";
-            this._LoadButton.ShowDropDownArrow = false;
-            this._LoadButton.Size = new System.Drawing.Size(42, 22);
-            this._LoadButton.Text = "Game";
-            // 
-            // _NewGameButton
-            // 
-            this._NewGameButton.Name = "_NewGameButton";
-            this._NewGameButton.Size = new System.Drawing.Size(100, 22);
-            this._NewGameButton.Text = "New";
-            this._NewGameButton.Click += new System.EventHandler(this._OnNewGameButtonClicked);
-            // 
-            // _SaveGameButton
-            // 
-            this._SaveGameButton.Name = "_SaveGameButton";
-            this._SaveGameButton.Size = new System.Drawing.Size(100, 22);
-            this._SaveGameButton.Text = "Save";
-            this._SaveGameButton.Click += new System.EventHandler(this._OnSaveGameButtonClicked);
-            // 
-            // _LoadGameButton
-            // 
-            this._LoadGameButton.Name = "_LoadGameButton";
-            this._LoadGameButton.Size = new System.Drawing.Size(100, 22);
-            this._LoadGameButton.Text = "Load";
-            this._LoadGameButton.Click += new System.EventHandler(this._OnLoadGameButtonClicked);
-            // 
-            // _QuitApplicationButton
-            // 
-            this._QuitApplicationButton.Name = "_QuitApplicationButton";
-            this._QuitApplicationButton.Size = new System.Drawing.Size(100, 22);
-            this._QuitApplicationButton.Text = "Quit";
-            this._QuitApplicationButton.Click += new System.EventHandler(this._OnQuitApplicationButtonClicked);
-            // 
-            // _GameTools
-            // 
-            this._GameTools.Dock = System.Windows.Forms.DockStyle.None;
-            this._GameTools.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this._BuildOfficeButton,
-            this._BuildBathroomButton,
-            this._HireWorkerButton,
-            this._HireITTechButton,
-            this._HireJanitorButton,
-            this._HireAccountantButton,
-            this._PlaceCatButton});
-            this._GameTools.Location = new System.Drawing.Point(57, 0);
-            this._GameTools.Name = "_GameTools";
-            this._GameTools.Padding = new System.Windows.Forms.Padding(0);
-            this._GameTools.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this._GameTools.Size = new System.Drawing.Size(396, 25);
-            this._GameTools.TabIndex = 1;
-            // 
-            // _BuildOfficeButton
-            // 
-            this._BuildOfficeButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this._BuildOfficeButton.Name = "_BuildOfficeButton";
-            this._BuildOfficeButton.Size = new System.Drawing.Size(43, 22);
-            this._BuildOfficeButton.Text = "Office";
-            this._BuildOfficeButton.ToolTipText = "Build office";
-            this._BuildOfficeButton.CheckedChanged += new System.EventHandler(this._OnBuildOfficeButtonCheckedChanged);
-            this._BuildOfficeButton.Click += new System.EventHandler(this._OnToolButtonClicked);
-            // 
-            // _BuildBathroomButton
-            // 
-            this._BuildBathroomButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this._BuildBathroomButton.ImageTransparentColor = System.Drawing.Color.Transparent;
-            this._BuildBathroomButton.Name = "_BuildBathroomButton";
-            this._BuildBathroomButton.Size = new System.Drawing.Size(64, 22);
-            this._BuildBathroomButton.Text = "Bathroom";
-            this._BuildBathroomButton.CheckedChanged += new System.EventHandler(this._BuildBathroomButtonCheckedChanged);
-            this._BuildBathroomButton.Click += new System.EventHandler(this._OnToolButtonClicked);
-            // 
-            // _HireWorkerButton
-            // 
-            this._HireWorkerButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this._HireWorkerButton.Name = "_HireWorkerButton";
-            this._HireWorkerButton.Size = new System.Drawing.Size(49, 22);
-            this._HireWorkerButton.Text = "Worker";
-            this._HireWorkerButton.CheckedChanged += new System.EventHandler(this._OnHireWorkerButtonCheckedChanged);
-            this._HireWorkerButton.Click += new System.EventHandler(this._OnToolButtonClicked);
-            // 
-            // _HireITTechButton
-            // 
-            this._HireITTechButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this._HireITTechButton.Name = "_HireITTechButton";
-            this._HireITTechButton.Size = new System.Drawing.Size(50, 22);
-            this._HireITTechButton.Text = "IT Tech";
-            this._HireITTechButton.CheckedChanged += new System.EventHandler(this._OnHireITTechButtonCheckedChanged);
-            this._HireITTechButton.Click += new System.EventHandler(this._OnToolButtonClicked);
-            // 
-            // _HireJanitorButton
-            // 
-            this._HireJanitorButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this._HireJanitorButton.Name = "_HireJanitorButton";
-            this._HireJanitorButton.Size = new System.Drawing.Size(46, 22);
-            this._HireJanitorButton.Text = "Janitor";
-            this._HireJanitorButton.CheckedChanged += new System.EventHandler(this._OnHireJanitorButtonCheckedChanged);
-            this._HireJanitorButton.Click += new System.EventHandler(this._OnToolButtonClicked);
-            // 
-            // _HireAccountantButton
-            // 
-            this._HireAccountantButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this._HireAccountantButton.Name = "_HireAccountantButton";
-            this._HireAccountantButton.Size = new System.Drawing.Size(73, 22);
-            this._HireAccountantButton.Text = "Accountant";
-            this._HireAccountantButton.CheckedChanged += new System.EventHandler(this._OnHireAccountantButtonCheckedChanged);
-            this._HireAccountantButton.Click += new System.EventHandler(this._OnToolButtonClicked);
-            // 
-            // _PlaceCatButton
-            // 
-            this._PlaceCatButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this._PlaceCatButton.Name = "_PlaceCatButton";
-            this._PlaceCatButton.Size = new System.Drawing.Size(29, 22);
-            this._PlaceCatButton.Text = "Cat";
-            this._PlaceCatButton.CheckedChanged += new System.EventHandler(this._OnPlaceCatButtonCheckedChanged);
-            this._PlaceCatButton.Click += new System.EventHandler(this._OnToolButtonClicked);
-            // 
-            // MainWindow
-            // 
-            this.ClientSize = new System.Drawing.Size(910, 528);
-            this.Controls.Add(this._ToolStripContainer);
-            this.Name = "MainWindow";
-            this.Load += new System.EventHandler(this._OnMainWindowLoaded);
-            this.Resize += new System.EventHandler(this._OnMainWindowResized);
-            this._ToolStripContainer.BottomToolStripPanel.ResumeLayout(false);
-            this._ToolStripContainer.BottomToolStripPanel.PerformLayout();
-            this._ToolStripContainer.ContentPanel.ResumeLayout(false);
-            this._ToolStripContainer.TopToolStripPanel.ResumeLayout(false);
-            this._ToolStripContainer.TopToolStripPanel.PerformLayout();
-            this._ToolStripContainer.ResumeLayout(false);
-            this._ToolStripContainer.PerformLayout();
-            this._StatusBar.ResumeLayout(false);
-            this._StatusBar.PerformLayout();
-            this._MainSplitContainer.Panel1.ResumeLayout(false);
-            this._MainSplitContainer.ResumeLayout(false);
-            this._SystemTools.ResumeLayout(false);
-            this._SystemTools.PerformLayout();
-            this._GameTools.ResumeLayout(false);
-            this._GameTools.PerformLayout();
-            this.ResumeLayout(false);
-
+            _DrawingBoard.MouseWheel += delegate(Object Sender, MouseEventArgs EventArguments)
+                                        {
+                                            if(EventArguments.Delta > 0)
+                                            {
+                                                _Zoom *= 1.2f;
+                                                _DrawingOffset.X = ((_DrawingOffset.X - EventArguments.X).ToSingle() * 1.2f).GetFlooredAsInt32() + EventArguments.X;
+                                                _DrawingOffset.Y = ((_DrawingOffset.Y - (_DrawingBoard.Height - EventArguments.Y)).ToSingle() * 1.2f).GetFlooredAsInt32() + (_DrawingBoard.Height - EventArguments.Y);
+                                            }
+                                            else
+                                            {
+                                                _Zoom /= 1.2f;
+                                                _DrawingOffset.X = ((_DrawingOffset.X - EventArguments.X).ToSingle() / 1.2f).GetFlooredAsInt32() + EventArguments.X;
+                                                _DrawingOffset.Y = ((_DrawingOffset.Y - (_DrawingBoard.Height - EventArguments.Y)).ToSingle() / 1.2f).GetFlooredAsInt32() + (_DrawingBoard.Height - EventArguments.Y);
+                                            }
+                                        };
         }
 
         private void _UncheckAllToolButtons()
@@ -382,7 +59,7 @@ namespace ButtonOffice
             }
         }
 
-        private void _ToggleOneToolButton(System.Windows.Forms.ToolStripButton ToggleButton)
+        private void _ToggleOneToolButton(ToolStripButton ToggleButton)
         {
             if(ToggleButton.Checked == true)
             {
@@ -410,20 +87,17 @@ namespace ButtonOffice
             }
         }
 
-        private void _OnToolButtonClicked(System.Object Sender, System.EventArgs EventArguments)
+        private void _OnToolButtonClicked(Object Sender, EventArgs EventArguments)
         {
-            _ToggleOneToolButton(Sender as System.Windows.Forms.ToolStripButton);
+            _ToggleOneToolButton(Sender as ToolStripButton);
         }
 
-        private void _OnBuildOfficeButtonCheckedChanged(System.Object Sender, System.EventArgs EventArguments)
+        private void _OnBuildOfficeButtonCheckedChanged(Object Sender, EventArgs EventArguments)
         {
-            if(_EntityPrototype != null)
-            {
-                _EntityPrototype = null;
-            }
+            _EntityPrototype = null;
             if(_BuildOfficeButton.Checked == true)
             {
-                _EntityPrototype = new EntityPrototype(ButtonOffice.Type.Office);
+                _EntityPrototype = new EntityPrototype(Type.Office);
                 _EntityPrototype.BackgroundColor = Data.OfficeBackgroundColor;
                 _EntityPrototype.BorderColor = Data.OfficeBorderColor;
                 _EntityPrototype.SetHeight(Data.OfficeBlockHeight);
@@ -431,15 +105,12 @@ namespace ButtonOffice
             }
         }
 
-        private void _BuildBathroomButtonCheckedChanged(System.Object Sender, System.EventArgs EventArguments)
+        private void _OnBuildBathroomButtonCheckedChanged(Object Sender, EventArgs EventArguments)
         {
-            if(_EntityPrototype != null)
+             _EntityPrototype = null;
+            if(_BuildBathroomButton.Checked == true)
             {
-                _EntityPrototype = null;
-            }
-            if((Sender as System.Windows.Forms.ToolStripButton).Checked == true)
-            {
-                _EntityPrototype = new EntityPrototype(ButtonOffice.Type.Bathroom);
+                _EntityPrototype = new EntityPrototype(Type.Bathroom);
                 _EntityPrototype.BackgroundColor = Data.BathroomBackgroundColor;
                 _EntityPrototype.BorderColor = Data.BathroomBorderColor;
                 _EntityPrototype.SetHeight(Data.BathroomBlockHeight);
@@ -447,15 +118,12 @@ namespace ButtonOffice
             }
         }
 
-        private void _OnHireITTechButtonCheckedChanged(System.Object Sender, System.EventArgs EventArguments)
+        private void _OnHireITTechButtonCheckedChanged(Object Sender, EventArgs EventArguments)
         {
-            if(_EntityPrototype != null)
+            _EntityPrototype = null;
+            if(_HireITTechButton.Checked == true)
             {
-                _EntityPrototype = null;
-            }
-            else
-            {
-                _EntityPrototype = new EntityPrototype(ButtonOffice.Type.ITTech);
+                _EntityPrototype = new EntityPrototype(Type.ITTech);
                 _EntityPrototype.BackgroundColor = Data.ITTechBackgroundColor;
                 _EntityPrototype.BorderColor = Data.ITTechBorderColor;
                 _EntityPrototype.SetHeight(Data.PersonHeight);
@@ -463,15 +131,12 @@ namespace ButtonOffice
             }
         }
 
-        private void _OnHireJanitorButtonCheckedChanged(System.Object Sender, System.EventArgs EventArguments)
+        private void _OnHireJanitorButtonCheckedChanged(Object Sender, EventArgs EventArguments)
         {
-            if(_EntityPrototype != null)
-            {
-                _EntityPrototype = null;
-            }
+            _EntityPrototype = null;
             if(_HireJanitorButton.Checked == true)
             {
-                _EntityPrototype = new EntityPrototype(ButtonOffice.Type.Janitor);
+                _EntityPrototype = new EntityPrototype(Type.Janitor);
                 _EntityPrototype.BackgroundColor = Data.JanitorBackgroundColor;
                 _EntityPrototype.BorderColor = Data.JanitorBorderColor;
                 _EntityPrototype.SetHeight(Data.PersonHeight);
@@ -479,15 +144,12 @@ namespace ButtonOffice
             }
         }
 
-        private void _OnHireWorkerButtonCheckedChanged(System.Object Sender, System.EventArgs EventArguments)
+        private void _OnHireWorkerButtonCheckedChanged(Object Sender, EventArgs EventArguments)
         {
-            if(_EntityPrototype != null)
-            {
-                _EntityPrototype = null;
-            }
+            _EntityPrototype = null;
             if(_HireWorkerButton.Checked == true)
             {
-                _EntityPrototype = new EntityPrototype(ButtonOffice.Type.Worker);
+                _EntityPrototype = new EntityPrototype(Type.Worker);
                 _EntityPrototype.BackgroundColor = Data.WorkerBackgroundColor;
                 _EntityPrototype.BorderColor = Data.WorkerBorderColor;
                 _EntityPrototype.SetHeight(Data.PersonHeight);
@@ -495,15 +157,12 @@ namespace ButtonOffice
             }
         }
 
-        private void _OnHireAccountantButtonCheckedChanged(System.Object Sender, System.EventArgs EventArguments)
+        private void _OnHireAccountantButtonCheckedChanged(Object Sender, EventArgs EventArguments)
         {
-            if(_EntityPrototype != null)
-            {
-                _EntityPrototype = null;
-            }
+            _EntityPrototype = null;
             if(_HireAccountantButton.Checked == true)
             {
-                _EntityPrototype = new EntityPrototype(ButtonOffice.Type.Accountant);
+                _EntityPrototype = new EntityPrototype(Type.Accountant);
                 _EntityPrototype.BackgroundColor = Data.AccountantBackgroundColor;
                 _EntityPrototype.BorderColor = Data.AccountantBorderColor;
                 _EntityPrototype.SetHeight(Data.PersonHeight);
@@ -511,15 +170,12 @@ namespace ButtonOffice
             }
         }
 
-        private void _OnPlaceCatButtonCheckedChanged(System.Object Sender, System.EventArgs EventArguments)
+        private void _OnPlaceCatButtonCheckedChanged(Object Sender, EventArgs EventArguments)
         {
-            if(_EntityPrototype != null)
-            {
-                _EntityPrototype = null;
-            }
+            _EntityPrototype = null;
             if(_PlaceCatButton.Checked == true)
             {
-                _EntityPrototype = new EntityPrototype(ButtonOffice.Type.Cat);
+                _EntityPrototype = new EntityPrototype(Type.Cat);
                 _EntityPrototype.BackgroundColor = Data.CatBackgroundColor;
                 _EntityPrototype.BorderColor = Data.CatBorderColor;
                 _EntityPrototype.SetHeight(Data.CatHeight);
@@ -527,7 +183,7 @@ namespace ButtonOffice
             }
         }
 
-        private void _OnDrawingBoardMouseMoved(System.Object Sender, System.Windows.Forms.MouseEventArgs EventArguments)
+        private void _OnDrawingBoardMouseMoved(Object Sender, MouseEventArgs EventArguments)
         {
             if(_DragPoint.HasValue == true)
             {
@@ -546,84 +202,84 @@ namespace ButtonOffice
 
             var GamingLocation = _GetGamingLocation(EventArguments.Location);
 
-            _PositionLabel.Text = "Location: " + GamingLocation.X.GetFlooredAsInt32().ToString() + " / " + GamingLocation.Y.GetFlooredAsInt32().ToString();
+            _PositionLabel.Text = "Location: " + GamingLocation.X.GetFlooredAsInt32() + " / " + GamingLocation.Y.GetFlooredAsInt32();
         }
 
-        private void _OnDrawingBoardMouseDown(System.Object Sender, System.Windows.Forms.MouseEventArgs EventArguments)
+        private void _OnDrawingBoardMouseDown(Object Sender, MouseEventArgs EventArguments)
         {
-            if(EventArguments.Button == System.Windows.Forms.MouseButtons.Right)
+            if(EventArguments.Button == MouseButtons.Right)
             {
                 _DragPoint = EventArguments.Location;
             }
-            else if(EventArguments.Button == System.Windows.Forms.MouseButtons.Left)
+            else if(EventArguments.Button == MouseButtons.Left)
             {
                 if((_EntityPrototype != null) && (_EntityPrototype.HasLocation() == true))
                 {
-                    if(_EntityPrototype.Type == ButtonOffice.Type.Office)
+                    if(_EntityPrototype.Type == Type.Office)
                     {
                         if(_Game.BuildOffice(_EntityPrototype.Rectangle) == true)
                         {
-                            if(System.Windows.Forms.Control.ModifierKeys != System.Windows.Forms.Keys.Shift)
+                            if(ModifierKeys != Keys.Shift)
                             {
                                 _BuildOfficeButton.Checked = false;
                             }
                         }
                     }
-                    else if(_EntityPrototype.Type == ButtonOffice.Type.Bathroom)
+                    else if(_EntityPrototype.Type == Type.Bathroom)
                     {
                         if(_Game.BuildBathroom(_EntityPrototype.Rectangle) == true)
                         {
-                            if(System.Windows.Forms.Control.ModifierKeys != System.Windows.Forms.Keys.Shift)
+                            if(ModifierKeys != Keys.Shift)
                             {
                                 _BuildBathroomButton.Checked = false;
                             }
                         }
                     }
-                    else if(_EntityPrototype.Type == ButtonOffice.Type.Worker)
+                    else if(_EntityPrototype.Type == Type.Worker)
                     {
                         if(_Game.HireWorker(_EntityPrototype.Rectangle) == true)
                         {
-                            if(System.Windows.Forms.Control.ModifierKeys != System.Windows.Forms.Keys.Shift)
+                            if(ModifierKeys != Keys.Shift)
                             {
                                 _HireWorkerButton.Checked = false;
                             }
                         }
                     }
-                    else if(_EntityPrototype.Type == ButtonOffice.Type.ITTech)
+                    else if(_EntityPrototype.Type == Type.ITTech)
                     {
                         if(_Game.HireITTech(_EntityPrototype.Rectangle) == true)
                         {
-                            if(System.Windows.Forms.Control.ModifierKeys != System.Windows.Forms.Keys.Shift)
+                            if(ModifierKeys != Keys.Shift)
                             {
                                 _HireITTechButton.Checked = false;
                             }
                         }
                     }
-                    else if(_EntityPrototype.Type == ButtonOffice.Type.Janitor)
+                    else if(_EntityPrototype.Type == Type.Janitor)
                     {
                         if(_Game.HireJanitor(_EntityPrototype.Rectangle) == true)
                         {
-                            if(System.Windows.Forms.Control.ModifierKeys != System.Windows.Forms.Keys.Shift)
+                            if(ModifierKeys != Keys.Shift)
                             {
                                 _HireJanitorButton.Checked = false;
                             }
                         }
                     }
-                    else if(_EntityPrototype.Type == ButtonOffice.Type.Accountant)
+                    else if(_EntityPrototype.Type == Type.Accountant)
                     {
                         if(_Game.HireAccountant(_EntityPrototype.Rectangle) == true)
                         {
-                            if(System.Windows.Forms.Control.ModifierKeys != System.Windows.Forms.Keys.Shift)
+                            if(ModifierKeys != Keys.Shift)
                             {
                                 _HireAccountantButton.Checked = false;
                             }
                         }
                     }
-                    else if(_EntityPrototype.Type == ButtonOffice.Type.Cat)
+                    else if(_EntityPrototype.Type == Type.Cat)
                     {
                         if(_Game.PlaceCat(_EntityPrototype.Rectangle) == true)
                         {
-                            if(System.Windows.Forms.Control.ModifierKeys != System.Windows.Forms.Keys.Shift)
+                            if(ModifierKeys != Keys.Shift)
                             {
                                 _PlaceCatButton.Checked = false;
                             }
@@ -658,48 +314,48 @@ namespace ButtonOffice
                                 _SelectedPerson = Person;
                                 Selected = true;
 
-                                var TypeLabel = new System.Windows.Forms.Label();
+                                var TypeLabel = new Label();
 
-                                TypeLabel.Location = new System.Drawing.Point(10, 20);
-                                TypeLabel.Size = new System.Drawing.Size(100, 20);
+                                TypeLabel.Location = new Point(10, 20);
+                                TypeLabel.Size = new Size(100, 20);
                                 TypeLabel.Text = Person.GetType().Name;
                                 _MainSplitContainer.Panel2.Controls.Add(TypeLabel);
 
-                                var NameCaptionLabel = new System.Windows.Forms.Label();
+                                var NameCaptionLabel = new Label();
 
-                                NameCaptionLabel.Location = new System.Drawing.Point(10, 40);
-                                NameCaptionLabel.Size = new System.Drawing.Size(100, 20);
+                                NameCaptionLabel.Location = new Point(10, 40);
+                                NameCaptionLabel.Size = new Size(100, 20);
                                 NameCaptionLabel.Text = "Name:";
                                 _MainSplitContainer.Panel2.Controls.Add(NameCaptionLabel);
 
-                                var NameLabel = new System.Windows.Forms.Label();
+                                var NameLabel = new Label();
 
-                                NameLabel.Location = new System.Drawing.Point(110, 40);
-                                NameLabel.Size = new System.Drawing.Size(100, 20);
+                                NameLabel.Location = new Point(110, 40);
+                                NameLabel.Size = new Size(100, 20);
                                 NameLabel.Text = Person.Name;
                                 _MainSplitContainer.Panel2.Controls.Add(NameLabel);
 
-                                var FireButton = new System.Windows.Forms.Button();
+                                var FireButton = new Button();
 
-                                FireButton.Location = new System.Drawing.Point(10, 80);
-                                FireButton.Size = new System.Drawing.Size(100, 20);
+                                FireButton.Location = new Point(10, 80);
+                                FireButton.Size = new Size(100, 20);
                                 FireButton.Text = "Fire";
-                                FireButton.Click += delegate(System.Object DelegateSender, System.EventArgs DelegateEventArguments)
-                                {
-                                    _Game.FirePerson(Person);
-                                    _MainSplitContainer.Panel2Collapsed = true;
-                                    _MainSplitContainer.Panel2.Controls.Clear();
-                                };
+                                FireButton.Click += delegate
+                                                    {
+                                                        _Game.FirePerson(Person);
+                                                        _MainSplitContainer.Panel2Collapsed = true;
+                                                        _MainSplitContainer.Panel2.Controls.Clear();
+                                                    };
                                 _MainSplitContainer.Panel2.Controls.Add(FireButton);
-                                _MoveButton = new System.Windows.Forms.CheckBox();
-                                _MoveButton.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-                                _MoveButton.Location = new System.Drawing.Point(10, 120);
-                                _MoveButton.Size = new System.Drawing.Size(100, 20);
+                                _MoveButton = new CheckBox();
+                                _MoveButton.TextAlign = ContentAlignment.MiddleCenter;
+                                _MoveButton.Location = new Point(10, 120);
+                                _MoveButton.Size = new Size(100, 20);
                                 _MoveButton.Text = "Move";
-                                _MoveButton.Appearance = System.Windows.Forms.Appearance.Button;
+                                _MoveButton.Appearance = Appearance.Button;
                                 _MoveButton.Checked = false;
-                                _MoveButton.CheckedChanged += delegate(System.Object DelegateSender, System.EventArgs DelegateEventArguments)
-                                {
+                                _MoveButton.CheckedChanged += delegate
+                                                              {
                                     if(_MoveButton.Checked == true)
                                     {
                                         _UncheckAllToolButtons();
@@ -725,10 +381,10 @@ namespace ButtonOffice
                                 _SelectedOffice = Office;
                                 Selected = true;
 
-                                var NameCaptionLabel = new System.Windows.Forms.Label();
+                                var NameCaptionLabel = new Label();
 
-                                NameCaptionLabel.Location = new System.Drawing.Point(10, 20);
-                                NameCaptionLabel.Size = new System.Drawing.Size(100, 20);
+                                NameCaptionLabel.Location = new Point(10, 20);
+                                NameCaptionLabel.Size = new Size(100, 20);
                                 NameCaptionLabel.Text = "Office";
                                 _MainSplitContainer.Panel2.Controls.Add(NameCaptionLabel);
 
@@ -741,17 +397,17 @@ namespace ButtonOffice
             }
         }
 
-        private void _OnDrawingBoardMouseUp(System.Object Sender, System.Windows.Forms.MouseEventArgs EventArguments)
+        private void _OnDrawingBoardMouseUp(Object Sender, MouseEventArgs EventArguments)
         {
-            _DragPoint = new System.Nullable<System.Drawing.Point>();
+            _DragPoint = new Point?();
         }
 
-        private System.Drawing.Color _MixToWhite(System.Drawing.Color Color, Single Fraction)
+        private Color _MixToWhite(Color Color, Single Fraction)
         {
-            return System.Drawing.Color.FromArgb((Color.R + (255 - Color.R) * Fraction).GetTruncatedAsInt32(), (Color.G + (255 - Color.G) * Fraction).GetTruncatedAsInt32(), (Color.B + (255 - Color.B) * Fraction).GetTruncatedAsInt32());
+            return Color.FromArgb((Color.R + (255 - Color.R) * Fraction).GetTruncatedAsInt32(), (Color.G + (255 - Color.G) * Fraction).GetTruncatedAsInt32(), (Color.B + (255 - Color.B) * Fraction).GetTruncatedAsInt32());
         }
 
-        private void _OnDrawingBoardPaint(System.Object Sender, System.Windows.Forms.PaintEventArgs EventArguments)
+        private void _OnDrawingBoardPaint(Object Sender, PaintEventArgs EventArguments)
         {
             _DrawingOffset.X += _CameraVelocity.X.GetFlooredAsInt32();
             _DrawingOffset.Y += _CameraVelocity.Y.GetFlooredAsInt32();
@@ -761,38 +417,38 @@ namespace ButtonOffice
 
                 if(BuildingMinimumMaximum.Second.ToInt64() - BuildingMinimumMaximum.First.ToInt64() > 0)
                 {
-                    _DrawRectangle(EventArguments.Graphics, new System.Drawing.RectangleF(BuildingMinimumMaximum.First.ToSingle(), Row.ToSingle(), (BuildingMinimumMaximum.Second - BuildingMinimumMaximum.First).ToSingle(), 1.0f), Data.BuildingBackgroundColor, Data.BuildingBorderColor);
+                    _DrawRectangle(EventArguments.Graphics, new RectangleF(BuildingMinimumMaximum.First.ToSingle(), Row.ToSingle(), (BuildingMinimumMaximum.Second - BuildingMinimumMaximum.First).ToSingle(), 1.0f), Data.BuildingBackgroundColor, Data.BuildingBorderColor);
                 }
                 else
                 {
                     break;
                 }
             }
-            EventArguments.Graphics.FillRectangle(new System.Drawing.SolidBrush(Data.GroundColor), 0, _GetDrawingY(0), _DrawingBoard.Width, _DrawingBoard.Height);
+            EventArguments.Graphics.FillRectangle(new SolidBrush(Data.GroundColor), 0, _GetDrawingY(0), _DrawingBoard.Width, _DrawingBoard.Height);
             foreach(var Office in _Game.Offices)
             {
                 _DrawRectangle(EventArguments.Graphics, Office.GetRectangle(), Office.BackgroundColor, Office.BorderColor);
 
-                System.Drawing.Color LampColor;
+                Color LampColor;
 
-                LampColor = System.Drawing.Color.Yellow;
+                LampColor = Color.Yellow;
                 if(Office.FirstLamp.IsBroken() == true)
                 {
-                    LampColor = System.Drawing.Color.Gray;
+                    LampColor = Color.Gray;
                 }
-                _DrawRectangle(EventArguments.Graphics, Office.FirstLamp.GetRectangle(), LampColor, System.Drawing.Color.Black);
-                LampColor = System.Drawing.Color.Yellow;
+                _DrawRectangle(EventArguments.Graphics, Office.FirstLamp.GetRectangle(), LampColor, Color.Black);
+                LampColor = Color.Yellow;
                 if(Office.SecondLamp.IsBroken() == true)
                 {
-                    LampColor = System.Drawing.Color.Gray;
+                    LampColor = Color.Gray;
                 }
-                _DrawRectangle(EventArguments.Graphics, Office.SecondLamp.GetRectangle(), LampColor, System.Drawing.Color.Black);
-                LampColor = System.Drawing.Color.Yellow;
+                _DrawRectangle(EventArguments.Graphics, Office.SecondLamp.GetRectangle(), LampColor, Color.Black);
+                LampColor = Color.Yellow;
                 if(Office.ThirdLamp.IsBroken() == true)
                 {
-                    LampColor = System.Drawing.Color.Gray;
+                    LampColor = Color.Gray;
                 }
-                _DrawRectangle(EventArguments.Graphics, Office.ThirdLamp.GetRectangle(), LampColor, System.Drawing.Color.Black);
+                _DrawRectangle(EventArguments.Graphics, Office.ThirdLamp.GetRectangle(), LampColor, Color.Black);
             }
             foreach(var Bathroom in _Game.Bathrooms)
             {
@@ -807,20 +463,20 @@ namespace ButtonOffice
             }
             foreach(var Office in _Game.Offices)
             {
-                System.Drawing.Color PersonAtDeskColor;
-                System.Drawing.Color PersonColor;
-                System.Drawing.Color ComputerColor;
+                Color PersonAtDeskColor;
+                Color PersonColor;
+                Color ComputerColor;
 
                 // first desk
-                PersonAtDeskColor = System.Drawing.Color.White;
-                PersonColor = System.Drawing.Color.White;
+                PersonAtDeskColor = Color.White;
+                PersonColor = Color.White;
                 ComputerColor = Data.ComputerBackgroundColor;
                 if(Office.FirstDesk.IsFree() == false)
                 {
                     PersonColor = Office.FirstDesk.GetPerson().BackgroundColor;
                     if(Office.FirstDesk.GetPerson().GetAtDesk() == true)
                     {
-                        PersonAtDeskColor = System.Drawing.Color.Black;
+                        PersonAtDeskColor = Color.Black;
                     }
                     else
                     {
@@ -829,21 +485,21 @@ namespace ButtonOffice
                 }
                 if(Office.FirstDesk.GetComputer().IsBroken() == true)
                 {
-                    ComputerColor = System.Drawing.Color.Red;
+                    ComputerColor = Color.Red;
                 }
-                _DrawRectangle(EventArguments.Graphics, Office.FirstDesk.GetRectangle(), Data.DeskBackgroundColor, System.Drawing.Color.Black);
+                _DrawRectangle(EventArguments.Graphics, Office.FirstDesk.GetRectangle(), Data.DeskBackgroundColor, Color.Black);
                 _DrawRectangle(EventArguments.Graphics, Office.FirstDesk.GetX() + (Office.FirstDesk.GetWidth() - Data.PersonTagWidth) / 2.0f, Office.FirstDesk.GetY() + (Office.FirstDesk.GetHeight() - Data.PersonTagHeight) / 2.0f, Data.PersonTagWidth, Data.PersonTagHeight, PersonColor, PersonAtDeskColor);
                 _DrawRectangle(EventArguments.Graphics, Office.FirstDesk.GetX() + (Office.FirstDesk.GetWidth() - Data.ComputerWidth) / 2.0f, Office.FirstDesk.GetY() + Office.FirstDesk.GetHeight() + 0.04f, Data.ComputerWidth, Data.ComputerHeight, ComputerColor, Data.ComputerBorderColor);
                 // second desk
-                PersonAtDeskColor = System.Drawing.Color.White;
-                PersonColor = System.Drawing.Color.White;
+                PersonAtDeskColor = Color.White;
+                PersonColor = Color.White;
                 ComputerColor = Data.ComputerBackgroundColor;
                 if(Office.SecondDesk.IsFree() == false)
                 {
                     PersonColor = Office.SecondDesk.GetPerson().BackgroundColor;
                     if(Office.SecondDesk.GetPerson().GetAtDesk() == true)
                     {
-                        PersonAtDeskColor = System.Drawing.Color.Black;
+                        PersonAtDeskColor = Color.Black;
                     }
                     else
                     {
@@ -852,21 +508,21 @@ namespace ButtonOffice
                 }
                 if(Office.SecondDesk.GetComputer().IsBroken() == true)
                 {
-                    ComputerColor = System.Drawing.Color.Red;
+                    ComputerColor = Color.Red;
                 }
-                _DrawRectangle(EventArguments.Graphics, Office.SecondDesk.GetRectangle(), Data.DeskBackgroundColor, System.Drawing.Color.Black);
+                _DrawRectangle(EventArguments.Graphics, Office.SecondDesk.GetRectangle(), Data.DeskBackgroundColor, Color.Black);
                 _DrawRectangle(EventArguments.Graphics, Office.SecondDesk.GetX() + (Office.SecondDesk.GetWidth() - Data.PersonTagWidth) / 2.0f, Office.SecondDesk.GetY() + (Office.SecondDesk.GetHeight() - Data.PersonTagHeight) / 2.0f, Data.PersonTagWidth, Data.PersonTagHeight, PersonColor, PersonAtDeskColor);
                 _DrawRectangle(EventArguments.Graphics, Office.SecondDesk.GetX() + (Office.SecondDesk.GetWidth() - Data.ComputerWidth) / 2.0f, Office.SecondDesk.GetY() + Office.SecondDesk.GetHeight() + 0.04f, Data.ComputerWidth, Data.ComputerHeight, ComputerColor, Data.ComputerBorderColor);
                 // third desk
-                PersonAtDeskColor = System.Drawing.Color.White;
-                PersonColor = System.Drawing.Color.White;
+                PersonAtDeskColor = Color.White;
+                PersonColor = Color.White;
                 ComputerColor = Data.ComputerBackgroundColor;
                 if(Office.ThirdDesk.IsFree() == false)
                 {
                     PersonColor = Office.ThirdDesk.GetPerson().BackgroundColor;
                     if(Office.ThirdDesk.GetPerson().GetAtDesk() == true)
                     {
-                        PersonAtDeskColor = System.Drawing.Color.Black;
+                        PersonAtDeskColor = Color.Black;
                     }
                     else
                     {
@@ -875,21 +531,21 @@ namespace ButtonOffice
                 }
                 if(Office.ThirdDesk.GetComputer().IsBroken() == true)
                 {
-                    ComputerColor = System.Drawing.Color.Red;
+                    ComputerColor = Color.Red;
                 }
-                _DrawRectangle(EventArguments.Graphics, Office.ThirdDesk.GetRectangle(), Data.DeskBackgroundColor, System.Drawing.Color.Black);
+                _DrawRectangle(EventArguments.Graphics, Office.ThirdDesk.GetRectangle(), Data.DeskBackgroundColor, Color.Black);
                 _DrawRectangle(EventArguments.Graphics, Office.ThirdDesk.GetX() + (Office.ThirdDesk.GetWidth() - Data.PersonTagWidth) / 2.0f, Office.ThirdDesk.GetY() + (Office.ThirdDesk.GetHeight() - Data.PersonTagHeight) / 2.0f, Data.PersonTagWidth, Data.PersonTagHeight, PersonColor, PersonAtDeskColor);
                 _DrawRectangle(EventArguments.Graphics, Office.ThirdDesk.GetX() + (Office.ThirdDesk.GetWidth() - Data.ComputerWidth) / 2.0f, Office.ThirdDesk.GetY() + Office.ThirdDesk.GetHeight() + 0.04f, Data.ComputerWidth, Data.ComputerHeight, ComputerColor, Data.ComputerBorderColor);
                 // fourth desk
-                PersonAtDeskColor = System.Drawing.Color.White;
-                PersonColor = System.Drawing.Color.White;
+                PersonAtDeskColor = Color.White;
+                PersonColor = Color.White;
                 ComputerColor = Data.ComputerBackgroundColor;
                 if(Office.FourthDesk.IsFree() == false)
                 {
                     PersonColor = Office.FourthDesk.GetPerson().BackgroundColor;
                     if(Office.FourthDesk.GetPerson().GetAtDesk() == true)
                     {
-                        PersonAtDeskColor = System.Drawing.Color.Black;
+                        PersonAtDeskColor = Color.Black;
                     }
                     else
                     {
@@ -898,9 +554,9 @@ namespace ButtonOffice
                 }
                 if(Office.FourthDesk.GetComputer().IsBroken() == true)
                 {
-                    ComputerColor = System.Drawing.Color.Red;
+                    ComputerColor = Color.Red;
                 }
-                _DrawRectangle(EventArguments.Graphics, Office.FourthDesk.GetRectangle(), Data.DeskBackgroundColor, System.Drawing.Color.Black);
+                _DrawRectangle(EventArguments.Graphics, Office.FourthDesk.GetRectangle(), Data.DeskBackgroundColor, Color.Black);
                 _DrawRectangle(EventArguments.Graphics, Office.FourthDesk.GetX() + (Office.FourthDesk.GetWidth() - Data.PersonTagWidth) / 2.0f, Office.FourthDesk.GetY() + (Office.FourthDesk.GetHeight() - Data.PersonTagHeight) / 2.0f, Data.PersonTagWidth, Data.PersonTagHeight, PersonColor, PersonAtDeskColor);
                 _DrawRectangle(EventArguments.Graphics, Office.FourthDesk.GetX() + (Office.FourthDesk.GetWidth() - Data.ComputerWidth) / 2.0f, Office.FourthDesk.GetY() + Office.FourthDesk.GetHeight() + 0.04f, Data.ComputerWidth, Data.ComputerHeight, ComputerColor, Data.ComputerBorderColor);
                 // cat
@@ -910,145 +566,145 @@ namespace ButtonOffice
                 }
             }
 
-            var Font = new System.Drawing.Font("Arial", 16.0f);
-            var Format = new System.Drawing.StringFormat();
+            var Font = new Font("Arial", 16.0f);
+            var Format = new StringFormat();
 
-            Format.Alignment = System.Drawing.StringAlignment.Center;
+            Format.Alignment = StringAlignment.Center;
             foreach(var FloatingText in _FloatingTexts)
             {
-                EventArguments.Graphics.DrawString(FloatingText.Text, Font, new System.Drawing.SolidBrush(FloatingText.Color), _MovePointByOffset(_GetDrawingLocation(FloatingText.Origin), FloatingText.Offset), Format);
+                EventArguments.Graphics.DrawString(FloatingText.Text, Font, new SolidBrush(FloatingText.Color), _MovePointByOffset(_GetDrawingLocation(FloatingText.Origin), FloatingText.Offset), Format);
             }
             if((_EntityPrototype != null) && (_EntityPrototype.HasLocation() == true))
             {
-                if(_EntityPrototype.Type == ButtonOffice.Type.Cat)
+                if(_EntityPrototype.Type == Type.Cat)
                 {
-                    _DrawEllipse(EventArguments.Graphics, _EntityPrototype.Rectangle, System.Drawing.Color.FromArgb(150, _EntityPrototype.BackgroundColor), System.Drawing.Color.FromArgb(150, _EntityPrototype.BorderColor));
+                    _DrawEllipse(EventArguments.Graphics, _EntityPrototype.Rectangle, Color.FromArgb(150, _EntityPrototype.BackgroundColor), Color.FromArgb(150, _EntityPrototype.BorderColor));
                 }
                 else
                 {
-                    _DrawRectangle(EventArguments.Graphics, _EntityPrototype.Rectangle, System.Drawing.Color.FromArgb(150, _EntityPrototype.BackgroundColor), System.Drawing.Color.FromArgb(150, _EntityPrototype.BorderColor));
+                    _DrawRectangle(EventArguments.Graphics, _EntityPrototype.Rectangle, Color.FromArgb(150, _EntityPrototype.BackgroundColor), Color.FromArgb(150, _EntityPrototype.BorderColor));
                 }
             }
         }
 
-        private void _DrawEllipse(System.Drawing.Graphics Graphics, System.Drawing.RectangleF GameRectangle, System.Drawing.Color BackgroundColor, System.Drawing.Color BorderColor)
+        private void _DrawEllipse(Graphics Graphics, RectangleF GameRectangle, Color BackgroundColor, Color BorderColor)
         {
             var BackgroundRectangle = _GetDrawingRectangle(GameRectangle);
 
-            Graphics.FillEllipse(new System.Drawing.SolidBrush(BackgroundColor), BackgroundRectangle);
+            Graphics.FillEllipse(new SolidBrush(BackgroundColor), BackgroundRectangle);
 
             var ForegroundRectangle = BackgroundRectangle;
 
             ForegroundRectangle.Width -= 1;
             ForegroundRectangle.Height -= 1;
-            Graphics.DrawEllipse(new System.Drawing.Pen(BorderColor), ForegroundRectangle);
+            Graphics.DrawEllipse(new Pen(BorderColor), ForegroundRectangle);
         }
 
-        private void _DrawRectangle(System.Drawing.Graphics Graphics, System.Drawing.RectangleF GameRectangle, System.Drawing.Color BackgroundColor, System.Drawing.Color BorderColor)
+        private void _DrawRectangle(Graphics Graphics, RectangleF GameRectangle, Color BackgroundColor, Color BorderColor)
         {
             var BackgroundRectangle = _GetDrawingRectangle(GameRectangle);
 
-            Graphics.FillRectangle(new System.Drawing.SolidBrush(BackgroundColor), BackgroundRectangle);
+            Graphics.FillRectangle(new SolidBrush(BackgroundColor), BackgroundRectangle);
 
             var ForegroundRectangle = BackgroundRectangle;
 
             ForegroundRectangle.Width -= 1;
             ForegroundRectangle.Height -= 1;
-            Graphics.DrawRectangle(new System.Drawing.Pen(BorderColor), ForegroundRectangle);
+            Graphics.DrawRectangle(new Pen(BorderColor), ForegroundRectangle);
         }
 
-        private void _DrawRectangle(System.Drawing.Graphics Graphics, Single GameX, Single GameY, Single GameWidth, Single GameHeight, System.Drawing.Color BackgroundColor, System.Drawing.Color BorderColor)
+        private void _DrawRectangle(Graphics Graphics, Single GameX, Single GameY, Single GameWidth, Single GameHeight, Color BackgroundColor, Color BorderColor)
         {
             var BackgroundRectangle = _GetDrawingRectangle(GameX, GameY, GameWidth, GameHeight);
 
-            Graphics.FillRectangle(new System.Drawing.SolidBrush(BackgroundColor), BackgroundRectangle);
+            Graphics.FillRectangle(new SolidBrush(BackgroundColor), BackgroundRectangle);
 
             var ForegroundRectangle = BackgroundRectangle;
 
             ForegroundRectangle.Width -= 1;
             ForegroundRectangle.Height -= 1;
-            Graphics.DrawRectangle(new System.Drawing.Pen(BorderColor), ForegroundRectangle);
+            Graphics.DrawRectangle(new Pen(BorderColor), ForegroundRectangle);
         }
 
         #region Coordinate system transformations: Game -> Draw
-        private System.Int32 _GetDrawingHeight(Single GamingHeight)
+        private Int32 _GetDrawingHeight(Single GamingHeight)
         {
             return (GamingHeight * Data.BlockHeight.ToSingle() * _Zoom).GetFlooredAsInt32();
         }
 
-        private System.Int32 _GetDrawingWidth(Single GamingWidth)
+        private Int32 _GetDrawingWidth(Single GamingWidth)
         {
             return (GamingWidth * Data.BlockWidth.ToSingle() * _Zoom).GetFlooredAsInt32();
         }
 
-        private System.Int32 _GetDrawingY(Single GamingY)
+        private Int32 _GetDrawingY(Single GamingY)
         {
             return (_DrawingBoard.Height.ToSingle() - (GamingY * Data.BlockHeight.ToSingle() * _Zoom) - _DrawingOffset.Y.ToSingle()).GetFlooredAsInt32();
         }
 
-        private System.Int32 _GetDrawingX(Single GamingX)
+        private Int32 _GetDrawingX(Single GamingX)
         {
             return (GamingX * Data.BlockWidth.ToSingle() * _Zoom + _DrawingOffset.X.ToSingle()).GetFlooredAsInt32();
         }
 
-        private System.Drawing.Rectangle _GetDrawingRectangle(System.Drawing.RectangleF GamingRectangle)
+        private Rectangle _GetDrawingRectangle(RectangleF GamingRectangle)
         {
             var DrawingPoint = _GetDrawingLocation(GamingRectangle.Location);
             var DrawingSize = _GetDrawingSize(GamingRectangle.Size);
 
-            return new System.Drawing.Rectangle(DrawingPoint.X, DrawingPoint.Y - DrawingSize.Height, DrawingSize.Width, DrawingSize.Height);
+            return new Rectangle(DrawingPoint.X, DrawingPoint.Y - DrawingSize.Height, DrawingSize.Width, DrawingSize.Height);
         }
 
-        private System.Drawing.Rectangle _GetDrawingRectangle(Single GamingX, Single GamingY, Single GamingWidth, Single GamingHeight)
+        private Rectangle _GetDrawingRectangle(Single GamingX, Single GamingY, Single GamingWidth, Single GamingHeight)
         {
             var DrawingHeight = _GetDrawingHeight(GamingHeight);
 
-            return new System.Drawing.Rectangle(_GetDrawingX(GamingX), _GetDrawingY(GamingY) - DrawingHeight, _GetDrawingWidth(GamingWidth), DrawingHeight);
+            return new Rectangle(_GetDrawingX(GamingX), _GetDrawingY(GamingY) - DrawingHeight, _GetDrawingWidth(GamingWidth), DrawingHeight);
         }
 
-        private System.Drawing.Size _GetDrawingSize(System.Drawing.SizeF GamingSize)
+        private Size _GetDrawingSize(SizeF GamingSize)
         {
-            return new System.Drawing.Size(_GetDrawingWidth(GamingSize.Width), _GetDrawingHeight(GamingSize.Height));
+            return new Size(_GetDrawingWidth(GamingSize.Width), _GetDrawingHeight(GamingSize.Height));
         }
 
-        private System.Drawing.Point _GetDrawingLocation(System.Drawing.PointF GamingLocation)
+        private Point _GetDrawingLocation(PointF GamingLocation)
         {
-            return new System.Drawing.Point(_GetDrawingX(GamingLocation.X), _GetDrawingY(GamingLocation.Y));
+            return new Point(_GetDrawingX(GamingLocation.X), _GetDrawingY(GamingLocation.Y));
         }
         #endregion
 
         #region Coordinate system transformations: Draw -> Game
-        private Single _GetGamingX(System.Int32 DrawingX)
+        private Single _GetGamingX(Int32 DrawingX)
         {
             return (DrawingX - _DrawingOffset.X).ToSingle() / Data.BlockWidth.ToSingle() / _Zoom;
         }
 
-        private Single _GetGamingY(System.Int32 DrawingY)
+        private Single _GetGamingY(Int32 DrawingY)
         {
             return (_DrawingBoard.Height - DrawingY - _DrawingOffset.Y).ToSingle() / Data.BlockHeight.ToSingle() / _Zoom;
         }
 
-        private System.Drawing.PointF _GetGamingLocation(System.Drawing.Point DrawingLocation)
+        private PointF _GetGamingLocation(Point DrawingLocation)
         {
-            return new System.Drawing.PointF(_GetGamingX(DrawingLocation.X), _GetGamingY(DrawingLocation.Y));
+            return new PointF(_GetGamingX(DrawingLocation.X), _GetGamingY(DrawingLocation.Y));
         }
         #endregion
 
         #region Coordinate system helper functions
-        private System.Drawing.PointF _MovePointByOffset(System.Drawing.PointF Point, System.Drawing.PointF Offset)
+        private PointF _MovePointByOffset(PointF Point, PointF Offset)
         {
-            return new System.Drawing.PointF(Point.X + Offset.X, Point.Y + Offset.Y);
+            return new PointF(Point.X + Offset.X, Point.Y + Offset.Y);
         }
         #endregion
 
-        private void _OnMainWindowResized(System.Object Sender, System.EventArgs EventArguments)
+        private void _OnMainWindowResized(Object Sender, EventArgs EventArguments)
         {
             _DrawingBoard.Invalidate();
         }
 
-        private void _OnTimerTicked(System.Object Sender, System.EventArgs EventArguments)
+        private void _OnTimerTicked(Object Sender, EventArgs EventArguments)
         {
-            var Now = System.DateTime.Now;
+            var Now = DateTime.Now;
             var Seconds = (Now - _LastTick).TotalSeconds.ToSingle();
 
             if((Seconds > 0.0f) && (Seconds < 0.05f))
@@ -1062,7 +718,7 @@ namespace ButtonOffice
                     _FloatingTexts[Index].SetTimeout(_FloatingTexts[Index].Timeout - Seconds);
                     if(_FloatingTexts[Index].Timeout > 0.0f)
                     {
-                        _FloatingTexts[Index].SetOffset(new System.Drawing.PointF(_FloatingTexts[Index].Offset.X, _FloatingTexts[Index].Offset.Y - Seconds * Data.FloatingTextSpeed));
+                        _FloatingTexts[Index].SetOffset(new PointF(_FloatingTexts[Index].Offset.X, _FloatingTexts[Index].Offset.Y - Seconds * Data.FloatingTextSpeed));
                         ++Index;
                     }
                     else
@@ -1070,9 +726,9 @@ namespace ButtonOffice
                         _FloatingTexts.RemoveAt(Index);
                     }
                 }
-                _TimeLabel.Text = "Day && Time: " + new System.TimeSpan(_Game.GetDay().ToInt32(), 0, _Game.GetMinuteOfDay().ToInt32(), 0).ToString();
+                _TimeLabel.Text = "Day && Time: " + new TimeSpan(_Game.GetDay().ToInt32(), 0, _Game.GetMinuteOfDay().ToInt32(), 0);
                 _MoneyLabel.Text = "Money: " + _Game.GetMoneyString(_Game.GetCents());
-                _EmployeesLabel.Text = "Employees: " + _Game.Persons.Count.ToString();
+                _EmployeesLabel.Text = "Employees: " + _Game.Persons.Count;
                 if(_Game.GetCatStock() > 0)
                 {
                     if(_PlaceCatButton.Enabled == false)
@@ -1085,7 +741,7 @@ namespace ButtonOffice
                     }
                     else
                     {
-                        _PlaceCatButton.Text = "Cat (" + _Game.GetCatStock().ToString() + ")";
+                        _PlaceCatButton.Text = "Cat (" + _Game.GetCatStock() + ")";
                     }
                 }
                 else
@@ -1101,47 +757,47 @@ namespace ButtonOffice
             _LastTick = Now;
         }
 
-        private void _OnMainWindowLoaded(System.Object Sender, System.EventArgs EventArguments)
+        private void _OnMainWindowLoaded(Object Sender, EventArgs EventArguments)
         {
             _DrawingBoard.BackColor = Data.BackgroundColor;
             _StartGame();
         }
 
-        private void _DrawingBoardKeyDown(System.Object Sender, System.Windows.Forms.KeyEventArgs EventArguments)
+        private void _DrawingBoardKeyDown(Object Sender, KeyEventArgs EventArguments)
         {
-            if(EventArguments.KeyCode == System.Windows.Forms.Keys.W)
+            if(EventArguments.KeyCode == Keys.W)
             {
                 _CameraVelocity.Y = -10;
             }
-            else if(EventArguments.KeyCode == System.Windows.Forms.Keys.A)
+            else if(EventArguments.KeyCode == Keys.A)
             {
                 _CameraVelocity.X = 10;
             }
-            else if(EventArguments.KeyCode == System.Windows.Forms.Keys.S)
+            else if(EventArguments.KeyCode == Keys.S)
             {
                 _CameraVelocity.Y = 10;
             }
-            else if(EventArguments.KeyCode == System.Windows.Forms.Keys.D)
+            else if(EventArguments.KeyCode == Keys.D)
             {
                 _CameraVelocity.X = -10;
             }
         }
 
-        private void _DrawingBoardKeyUp(System.Object Sender, System.Windows.Forms.KeyEventArgs EventArguments)
+        private void _DrawingBoardKeyUp(Object Sender, KeyEventArgs EventArguments)
         {
-            if(EventArguments.KeyCode == System.Windows.Forms.Keys.W)
+            if(EventArguments.KeyCode == Keys.W)
             {
                 _CameraVelocity.Y = 0;
             }
-            else if(EventArguments.KeyCode == System.Windows.Forms.Keys.A)
+            else if(EventArguments.KeyCode == Keys.A)
             {
                 _CameraVelocity.X = 0;
             }
-            else if(EventArguments.KeyCode == System.Windows.Forms.Keys.S)
+            else if(EventArguments.KeyCode == Keys.S)
             {
                 _CameraVelocity.Y = 0;
             }
-            else if(EventArguments.KeyCode == System.Windows.Forms.Keys.D)
+            else if(EventArguments.KeyCode == Keys.D)
             {
                 _CameraVelocity.X = 0;
             }
@@ -1157,40 +813,40 @@ namespace ButtonOffice
             _Timer.Start();
         }
 
-        private void _OnNewGameButtonClicked(System.Object Sender, System.EventArgs EventArguments)
+        private void _OnNewGameButtonClicked(Object Sender, EventArgs EventArguments)
         {
             _StopGame();
-            _Game = ButtonOffice.Game.CreateNew();
+            _Game = Game.CreateNew();
             _OnNewGame();
             _StartGame();
         }
 
-        private void _OnSaveGameButtonClicked(System.Object Sender, System.EventArgs EventArguments)
+        private void _OnSaveGameButtonClicked(Object Sender, EventArgs EventArguments)
         {
             _StopGame();
 
-            var SaveFileDialog = new System.Windows.Forms.SaveFileDialog();
+            var SaveFileDialog = new SaveFileDialog();
 
-            if(SaveFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            if(SaveFileDialog.ShowDialog() == DialogResult.OK)
             {
                 _Game.SaveToFile(SaveFileDialog.FileName);
             }
             _StartGame();
         }
 
-        private void _OnLoadGameButtonClicked(System.Object Sender, System.EventArgs EventArguments)
+        private void _OnLoadGameButtonClicked(Object Sender, EventArgs EventArguments)
         {
             _StopGame();
 
-            var OpenFileDialog = new System.Windows.Forms.OpenFileDialog();
+            var OpenFileDialog = new OpenFileDialog();
 
-            if(OpenFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            if(OpenFileDialog.ShowDialog() == DialogResult.OK)
             {
                 var OldGame = _Game;
 
                 try
                 {
-                    _Game = ButtonOffice.Game.LoadFromFileName(OpenFileDialog.FileName);
+                    _Game = Game.LoadFromFileName(OpenFileDialog.FileName);
                     _OnNewGame();
                 }
                 catch(GameLoadException Exception)
@@ -1202,7 +858,7 @@ namespace ButtonOffice
             _StartGame();
         }
 
-        private void _OnQuitApplicationButtonClicked(System.Object Sender, System.EventArgs EventArguments)
+        private void _OnQuitApplicationButtonClicked(Object Sender, EventArgs EventArguments)
         {
             _StopGame();
             Close();
@@ -1212,34 +868,34 @@ namespace ButtonOffice
         {
             // uncheck all buttons
             _UncheckAllToolButtons();
-            _CameraVelocity = new System.Drawing.PointF(0.0f, 0.0f);
+            _CameraVelocity = new PointF(0.0f, 0.0f);
             _FloatingTexts.Clear();
-            _Game.OnEarnMoney += delegate(UInt64 Cents, System.Drawing.PointF Location)
-            {
-                var FloatingText = new ButtonOffice.FloatingText();
+            _Game.OnEarnMoney += delegate(UInt64 Cents, PointF Location)
+                                 {
+                                     var FloatingText = new FloatingText();
 
-                FloatingText.SetColor(Data.EarnMoneyFloatingTextColor);
-                FloatingText.SetOffset(new System.Drawing.PointF(0.0f, 0.0f));
-                FloatingText.SetOrigin(Location);
-                FloatingText.SetText(_Game.GetMoneyString(Cents));
-                FloatingText.SetTimeout(1.2f);
-                _FloatingTexts.Add(FloatingText);
-            };
-            _Game.OnSpendMoney += delegate(UInt64 Cents, System.Drawing.PointF Location)
-            {
-                var FloatingText = new ButtonOffice.FloatingText();
+                                     FloatingText.SetColor(Data.EarnMoneyFloatingTextColor);
+                                     FloatingText.SetOffset(new PointF(0.0f, 0.0f));
+                                     FloatingText.SetOrigin(Location);
+                                     FloatingText.SetText(_Game.GetMoneyString(Cents));
+                                     FloatingText.SetTimeout(1.2f);
+                                     _FloatingTexts.Add(FloatingText);
+                                 };
+            _Game.OnSpendMoney += delegate(UInt64 Cents, PointF Location)
+                                  {
+                                      var FloatingText = new FloatingText();
 
-                FloatingText.SetColor(Data.SpendMoneyFloatingTextColor);
-                FloatingText.SetOffset(new System.Drawing.PointF(0.0f, 0.0f));
-                FloatingText.SetOrigin(Location);
-                FloatingText.SetText(_Game.GetMoneyString(Cents));
-                FloatingText.SetTimeout(1.2f);
-                _FloatingTexts.Add(FloatingText);
-            };
+                                      FloatingText.SetColor(Data.SpendMoneyFloatingTextColor);
+                                      FloatingText.SetOffset(new PointF(0.0f, 0.0f));
+                                      FloatingText.SetOrigin(Location);
+                                      FloatingText.SetText(_Game.GetMoneyString(Cents));
+                                      FloatingText.SetTimeout(1.2f);
+                                      _FloatingTexts.Add(FloatingText);
+                                  };
             _EntityPrototype = null;
-            _DragPoint = new System.Nullable<System.Drawing.Point>();
-            _DrawingOffset = new System.Drawing.Point(-Data.WorldBlockWidth * Data.BlockWidth / 2, 2 * Data.BlockHeight);
-            _LastTick = System.DateTime.MinValue;
+            _DragPoint = new Point?();
+            _DrawingOffset = new Point(-Data.WorldBlockWidth * Data.BlockWidth / 2, 2 * Data.BlockHeight);
+            _LastTick = DateTime.MinValue;
             _MoveButton = null;
             _MovePerson = null;
             _Zoom = 1.0f;
