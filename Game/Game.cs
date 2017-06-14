@@ -24,29 +24,11 @@ namespace ButtonOffice
         private readonly List<Person> _Persons;
         private Single _SubMinute;
 
-        public List<Bathroom> Bathrooms
-        {
-            get
-            {
-                return _Bathrooms;
-            }
-        }
+        public List<Bathroom> Bathrooms => _Bathrooms;
 
-        public List<Office> Offices
-        {
-            get
-            {
-                return _Offices;
-            }
-        }
+        public List<Office> Offices => _Offices;
 
-        public List<Person> Persons
-        {
-            get
-            {
-                return _Persons;
-            }
-        }
+        public List<Person> Persons => _Persons;
 
         public static Game CreateNew()
         {
@@ -538,21 +520,27 @@ namespace ButtonOffice
 
         private void _OccupyFreeSpace(RectangleF Rectangle)
         {
-            for(var Column = 0; Column < Rectangle.Width.GetFlooredAsInt32(); ++Column)
+            for(var Row = 0; Row < Rectangle.Height.GetFlooredAsInt32(); ++Row)
             {
-                _FreeSpace[Rectangle.Y.GetFlooredAsInt32()][Rectangle.X.GetFlooredAsInt32() + Column] = false;
+                for(var Column = 0; Column < Rectangle.Width.GetFlooredAsInt32(); ++Column)
+                {
+                    _FreeSpace[Rectangle.Y.GetFlooredAsInt32() + Row][Rectangle.X.GetFlooredAsInt32() + Column] = false;
+                }
             }
         }
 
         private void _WidenBuilding(RectangleF Rectangle)
         {
-            if(_BuildingMinimumMaximum[Rectangle.Y.GetFlooredAsInt32()].First > Rectangle.X.GetFlooredAsInt32())
+            for(var Row = 0; Row < Rectangle.Height.GetFlooredAsInt32(); ++Row)
             {
-                _BuildingMinimumMaximum[Rectangle.Y.GetFlooredAsInt32()].First = Rectangle.X.GetFlooredAsInt32();
-            }
-            if(_BuildingMinimumMaximum[Rectangle.Y.GetFlooredAsInt32()].Second < Rectangle.Right.GetFlooredAsInt32())
-            {
-                _BuildingMinimumMaximum[Rectangle.Y.GetFlooredAsInt32()].Second = Rectangle.Right.GetFlooredAsInt32();
+                if(_BuildingMinimumMaximum[Rectangle.Y.GetFlooredAsInt32() + Row].First > Rectangle.X.GetFlooredAsInt32())
+                {
+                    _BuildingMinimumMaximum[Rectangle.Y.GetFlooredAsInt32() + Row].First = Rectangle.X.GetFlooredAsInt32();
+                }
+                if(_BuildingMinimumMaximum[Rectangle.Y.GetFlooredAsInt32() + Row].Second < Rectangle.Right.GetFlooredAsInt32())
+                {
+                    _BuildingMinimumMaximum[Rectangle.Y.GetFlooredAsInt32() + Row].Second = Rectangle.Right.GetFlooredAsInt32();
+                }
             }
         }
 
@@ -613,20 +601,13 @@ namespace ButtonOffice
             }
             foreach(var Office in _Offices)
             {
-                var Rectangle = Office.GetRectangle();
-
-                for(var Column = 0; Column < Rectangle.Width.GetFlooredAsInt32(); ++Column)
-                {
-                    _FreeSpace[Rectangle.Y.GetFlooredAsInt32()][Rectangle.X.GetFlooredAsInt32() + Column] = false;
-                }
-                if(_BuildingMinimumMaximum[Rectangle.Y.GetFlooredAsInt32()].First > Rectangle.X.GetFlooredAsInt32())
-                {
-                    _BuildingMinimumMaximum[Rectangle.Y.GetFlooredAsInt32()].First = Rectangle.X.GetFlooredAsInt32();
-                }
-                if(_BuildingMinimumMaximum[Rectangle.Y.GetFlooredAsInt32()].Second < Rectangle.Right.GetFlooredAsInt32())
-                {
-                    _BuildingMinimumMaximum[Rectangle.Y.GetFlooredAsInt32()].Second = Rectangle.Right.GetFlooredAsInt32();
-                }
+                _OccupyFreeSpace(Office.GetRectangle());
+                _WidenBuilding(Office.GetRectangle());
+            }
+            foreach(var Bathroom in _Bathrooms)
+            {
+                _OccupyFreeSpace(Bathroom.GetRectangle());
+                _WidenBuilding(Bathroom.GetRectangle());
             }
         }
     }
