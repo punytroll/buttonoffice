@@ -17,7 +17,8 @@ namespace ButtonOffice
         private readonly List<Pair<Office, BrokenThing>> _BrokenThings;
         private UInt32 _CatStock;
         private UInt64 _Cents;
-        private readonly List<BitArray> _FreeSpace;
+        private readonly List<BitArray> _FreeSpaceForRooms;
+        private readonly List<BitArray> _FreeSpaceForTransportation;
         private readonly List<Pair<Int32, Int32>> _BuildingMinimumMaximum;
         private UInt64 _Minutes;
         private UInt32 _NextCatAtNumberOfEmployees;
@@ -39,7 +40,8 @@ namespace ButtonOffice
             Result._Cents = Data.StartCents;
             for(var Index = 0; Index < Data.WorldBlockHeight; ++Index)
             {
-                Result._FreeSpace.Add(new BitArray(Data.WorldBlockWidth, true));
+                Result._FreeSpaceForRooms.Add(new BitArray(Data.WorldBlockWidth, true));
+                Result._FreeSpaceForTransportation.Add(new BitArray(Data.WorldBlockWidth, true));
             }
             for(var Index = 0; Index < Data.WorldBlockHeight; ++Index)
             {
@@ -67,7 +69,7 @@ namespace ButtonOffice
             _Accountants = new List<Accountant>();
             _Bathrooms = new List<Bathroom>();
             _BrokenThings = new List<Pair<Office, BrokenThing>>();
-            _FreeSpace = new List<BitArray>();
+            _FreeSpaceForRooms = new List<BitArray>();
             _BuildingMinimumMaximum = new List<Pair<Int32, Int32>>();
             _Offices = new List<Office>();
             _Persons = new List<Person>();
@@ -150,9 +152,9 @@ namespace ButtonOffice
 
         public Boolean BuildOffice(RectangleF Rectangle)
         {
-            if(_CanBuild(Data.OfficeBuildCost, Rectangle) == true)
+            if(_CanBuildRoom(Data.OfficeBuildCost, Rectangle) == true)
             {
-                _Build(Data.OfficeBuildCost, Rectangle);
+                _BuildRoom(Data.OfficeBuildCost, Rectangle);
 
                 var Office = new Office();
 
@@ -169,9 +171,9 @@ namespace ButtonOffice
 
         public Boolean BuildBathroom(RectangleF Rectangle)
         {
-            if(_CanBuild(Data.BathroomBuildCost, Rectangle) == true)
+            if(_CanBuildRoom(Data.BathroomBuildCost, Rectangle) == true)
             {
-                _Build(Data.BathroomBuildCost, Rectangle);
+                _BuildRoom(Data.BathroomBuildCost, Rectangle);
 
                 var Bathroom = new Bathroom();
 
@@ -459,16 +461,16 @@ namespace ButtonOffice
             }
         }
 
-        private void _Build(UInt64 Cost, RectangleF Rectangle)
+        private void _BuildRoom(UInt64 Cost, RectangleF Rectangle)
         {
             SpendMoney(Cost, Rectangle.GetMidPoint());
-            _OccupyFreeSpace(Rectangle);
+            _OccupyFreeSpaceForRoom(Rectangle);
             _WidenBuilding(Rectangle);
         }
 
-        private Boolean _CanBuild(UInt64 Cost, RectangleF Rectangle)
+        private Boolean _CanBuildRoom(UInt64 Cost, RectangleF Rectangle)
         {
-            return (_EnoughCents(Cost) == true) && (_InBuildableWorld(Rectangle) == true) && (_InFreeSpace(Rectangle) == true) && (_CompletelyOnTopOfBuilding(Rectangle) == true);
+            return (_EnoughCents(Cost) == true) && (_InBuildableWorld(Rectangle) == true) && (_InFreeSpaceForRoom(Rectangle) == true) && (_CompletelyOnTopOfBuilding(Rectangle) == true);
         }
 
         private Boolean _EnoughCents(UInt64 Cents)
@@ -481,13 +483,13 @@ namespace ButtonOffice
             return (Rectangle.Y >= 0.0f) && (Rectangle.X >= 0.0f) && (Rectangle.X + Rectangle.Width < Data.WorldBlockWidth.ToSingle());
         }
 
-        private Boolean _InFreeSpace(RectangleF Rectangle)
+        private Boolean _InFreeSpaceForRoom(RectangleF Rectangle)
         {
             var Result = true;
 
             for(var Column = 0; Column < Rectangle.Width.GetFlooredAsInt32(); ++Column)
             {
-                Result &= _FreeSpace[Rectangle.Y.GetFlooredAsInt32()][Rectangle.X.GetFlooredAsInt32() + Column];
+                Result &= _FreeSpaceForRooms[Rectangle.Y.GetFlooredAsInt32()][Rectangle.X.GetFlooredAsInt32() + Column];
             }
 
             return Result;
@@ -506,13 +508,13 @@ namespace ButtonOffice
             return Result;
         }
 
-        private void _OccupyFreeSpace(RectangleF Rectangle)
+        private void _OccupyFreeSpaceForRoom(RectangleF Rectangle)
         {
             for(var Row = 0; Row < Rectangle.Height.GetFlooredAsInt32(); ++Row)
             {
                 for(var Column = 0; Column < Rectangle.Width.GetFlooredAsInt32(); ++Column)
                 {
-                    _FreeSpace[Rectangle.Y.GetFlooredAsInt32() + Row][Rectangle.X.GetFlooredAsInt32() + Column] = false;
+                    _FreeSpaceForRooms[Rectangle.Y.GetFlooredAsInt32() + Row][Rectangle.X.GetFlooredAsInt32() + Column] = false;
                 }
             }
         }
@@ -581,7 +583,8 @@ namespace ButtonOffice
 
             for(var Index = 0; Index < WorldHeight; ++Index)
             {
-                _FreeSpace.Add(new BitArray(WorldWidth, true));
+                _FreeSpaceForRooms.Add(new BitArray(WorldWidth, true));
+				_FreeSpaceForTransportation.Add(new BitArray(WorldWidth, false));
             }
             for(var Index = 0; Index < WorldHeight; ++Index)
             {
@@ -589,12 +592,12 @@ namespace ButtonOffice
             }
             foreach(var Office in _Offices)
             {
-                _OccupyFreeSpace(Office.GetRectangle());
+                _OccupyFreeSpaceForRoom(Office.GetRectangle());
                 _WidenBuilding(Office.GetRectangle());
             }
             foreach(var Bathroom in _Bathrooms)
             {
-                _OccupyFreeSpace(Bathroom.GetRectangle());
+                _OccupyFreeSpaceForRoom(Bathroom.GetRectangle());
                 _WidenBuilding(Bathroom.GetRectangle());
             }
         }
