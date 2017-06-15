@@ -194,7 +194,7 @@ namespace ButtonOffice
 
                 if((Desk != null) && (Desk.IsFree() == true))
                 {
-                    _Cents -= Data.AccountantHireCost;
+                    SpendMoney(Data.AccountantHireCost, Desk.GetMidLocation());
 
                     var Accountant = new Accountant();
 
@@ -206,7 +206,6 @@ namespace ButtonOffice
                         _NextCatAtNumberOfEmployees += 20;
                         _CatStock += 1;
                     }
-                    OnSpendMoney?.Invoke(Data.AccountantHireCost, Desk.GetMidLocation());
 
                     return true;
                 }
@@ -223,7 +222,7 @@ namespace ButtonOffice
 
                 if((Desk != null) && (Desk.IsFree() == true))
                 {
-                    _Cents -= Data.WorkerHireCost;
+                    SpendMoney(Data.WorkerHireCost, Desk.GetMidLocation());
 
                     var Worker = new Worker();
 
@@ -234,7 +233,6 @@ namespace ButtonOffice
                         _NextCatAtNumberOfEmployees += 20;
                         _CatStock += 1;
                     }
-                    OnSpendMoney?.Invoke(Data.WorkerHireCost, Desk.GetMidLocation());
 
                     return true;
                 }
@@ -251,7 +249,7 @@ namespace ButtonOffice
 
                 if((Desk != null) && (Desk.IsFree() == true))
                 {
-                    _Cents -= Data.ITTechHireCost;
+                    SpendMoney(Data.ITTechHireCost, Desk.GetMidLocation());
 
                     var ITTech = new ITTech();
 
@@ -262,7 +260,6 @@ namespace ButtonOffice
                         _NextCatAtNumberOfEmployees += 20;
                         _CatStock += 1;
                     }
-                    OnSpendMoney?.Invoke(Data.ITTechHireCost, Desk.GetMidLocation());
 
                     return true;
                 }
@@ -279,7 +276,7 @@ namespace ButtonOffice
 
                 if((Desk != null) && (Desk.IsFree() == true))
                 {
-                    _Cents -= Data.JanitorHireCost;
+					SpendMoney(Data.JanitorHireCost, Desk.GetMidLocation());
 
                     var Janitor = new Janitor();
 
@@ -290,7 +287,6 @@ namespace ButtonOffice
                         _NextCatAtNumberOfEmployees += 20;
                         _CatStock += 1;
                     }
-                    OnSpendMoney?.Invoke(Data.JanitorHireCost, Desk.GetMidLocation());
 
                     return true;
                 }
@@ -465,8 +461,7 @@ namespace ButtonOffice
 
         private void _Build(UInt64 Cost, RectangleF Rectangle)
         {
-            _Cents -= Cost;
-            OnSpendMoney?.Invoke(Cost, Rectangle.GetMidPoint());
+            SpendMoney(Cost, Rectangle.GetMidPoint());
             _OccupyFreeSpace(Rectangle);
             _WidenBuilding(Rectangle);
         }
