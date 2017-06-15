@@ -3,6 +3,7 @@ ButtonOffice.suo
 ButtonOffice/bin
 ButtonOffice/obj
 ButtonOffice/ButtonOffice.csproj.user
+ButtonOffice/MainWindow.resources
 Common/bin
 Common/obj
 Common/Common.csproj.user
@@ -14,5 +15,5 @@ UnitTest/obj
 UnitTest/UnitTest.csproj.user
 _ReSharper.ButtonOffice
 buttonoffice.mono
-.vs
 buttonoffice.mono.mdb
+.vs

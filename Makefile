@@ -5,7 +5,11 @@ BUTTON_OFFICE_SOURCES = \
 	ButtonOffice/DrawingBoard.cs \
 	ButtonOffice/EntityPrototype.cs \
 	ButtonOffice/FloatingText.cs \
-	ButtonOffice/MainWindow.cs
+	ButtonOffice/MainWindow.cs \
+	ButtonOffice/MainWindow.designer.cs
+
+BUTTON_OFFICE_RESOURCES = \
+	ButtonOffice/MainWindow.resources
 
 COMMON_SOURCES = \
 	Common/Extensions.cs \
@@ -43,7 +47,13 @@ SOURCES = \
 	$(COMMON_SOURCES) \
 	$(GAME_SOURCES)
 
+RESOURCES = \
+	$(BUTTON_OFFICE_RESOURCES)
+
 all: buttonoffice.mono
 
-buttonoffice.mono: $(SOURCES)
-	dmcs $^ -out:$@ -debug -d:DEBUG -reference:System.Drawing,System.Windows.Forms
+buttonoffice.mono: $(SOURCES) $(RESOURCES)
+	mcs $(filter %.cs, $^) -out:$@ -debug -d:DEBUG -reference:System.Drawing -reference:System.Windows.Forms $(foreach resources, $(filter %.resources, $^), -resource:$(resources))
+
+%.resources: %.resx
+	resgen $<
