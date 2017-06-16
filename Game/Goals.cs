@@ -324,10 +324,10 @@ namespace ButtonOffice.Goals
 
                     if(CleaningTarget != null)
                     {
-                        var WalkTo = new WalkTo();
+                        var WalkToLocation = new WalkToLocation();
 
-                        WalkTo.SetWalkTo(CleaningTarget.GetLocation());
-                        AppendSubGoal(WalkTo);
+                        WalkToLocation.SetLocation(new PointF(CleaningTarget.GetX() + CleaningTarget.GetWidth() / 2.0f, CleaningTarget.GetY()));
+                        AppendSubGoal(WalkToLocation);
 
                         var CleanDesk = new CleanDesk();
 
@@ -360,18 +360,18 @@ namespace ButtonOffice.Goals
             Debug.Assert(Person != null);
             Game.SpendMoney(Person.GetWage(), Person.GetMidLocation());
 
-            var WalkTo = new WalkTo();
+            var WalkToLocation = new WalkToLocation();
 
             if(Person.GetLivingSide() == LivingSide.Left)
             {
-                WalkTo.SetWalkTo(new PointF(-10.0f, 0.0f));
+                WalkToLocation.SetLocation(new PointF(-10.0f, 0.0f));
             }
             else
             {
-                WalkTo.SetWalkTo(new PointF(Game.WorldBlockWidth + 10.0f, 0.0f));
+                WalkToLocation.SetLocation(new PointF(Game.WorldBlockWidth + 10.0f, 0.0f));
             }
             Person.SetAtDesk(false);
-            AppendSubGoal(WalkTo);
+            AppendSubGoal(WalkToLocation);
         }
 
         protected override void _OnExecute(Game Game, PersistentObject Actor, Single DeltaMinutes)
@@ -717,28 +717,28 @@ namespace ButtonOffice.Goals
                             }
                         case ButtonOffice.BrokenThing.FirstLamp:
                             {
-                                var WalkTo = new WalkTo();
+                                var WalkToLocation = new WalkToLocation();
 
-                                WalkTo.SetWalkTo(new PointF(BrokenThing.First.FirstLamp.GetX(), BrokenThing.First.GetY()));
-                                AppendSubGoal(WalkTo);
+                                WalkToLocation.SetLocation(new PointF(BrokenThing.First.FirstLamp.GetX() + BrokenThing.First.FirstLamp.GetWidth() / 2.0f, BrokenThing.First.GetY()));
+                                AppendSubGoal(WalkToLocation);
 
                                 break;
                             }
                         case ButtonOffice.BrokenThing.SecondLamp:
                             {
-                                var WalkTo = new WalkTo();
+                                var WalkToLocation = new WalkToLocation();
 
-                                WalkTo.SetWalkTo(new PointF(BrokenThing.First.SecondLamp.GetX(), BrokenThing.First.GetY()));
-                                AppendSubGoal(WalkTo);
+                                WalkToLocation.SetLocation(new PointF(BrokenThing.First.SecondLamp.GetX() + BrokenThing.First.SecondLamp.GetWidth() / 2.0f, BrokenThing.First.GetY()));
+                                AppendSubGoal(WalkToLocation);
 
                                 break;
                             }
                         case ButtonOffice.BrokenThing.ThirdLamp:
                             {
-                                var WalkTo = new WalkTo();
+                                var WalkToLocation = new WalkToLocation();
 
-                                WalkTo.SetWalkTo(new PointF(BrokenThing.First.ThirdLamp.GetX(), BrokenThing.First.GetY()));
-                                AppendSubGoal(WalkTo);
+                                WalkToLocation.SetLocation(new PointF(BrokenThing.First.ThirdLamp.GetX() + BrokenThing.First.ThirdLamp.GetWidth() / 2.0f, BrokenThing.First.GetY()));
+                                AppendSubGoal(WalkToLocation);
 
                                 break;
                             }
@@ -795,13 +795,13 @@ namespace ButtonOffice.Goals
         }
     }
 
-    internal class WalkTo : Goal
+    internal class WalkOnSameFloor : Goal
     {
-        private PointF _WalkTo;
+        private Single _X;
 
-        public void SetWalkTo(PointF WalkTo)
+        public void SetX(Single X)
         {
-            _WalkTo = WalkTo;
+            _X = X;
         }
 
         protected override void _OnInitialize(Game Game, PersistentObject Actor)
@@ -820,19 +820,23 @@ namespace ButtonOffice.Goals
 
             Debug.Assert(Person != null);
 
-            var DeltaX = _WalkTo.X - Person.GetX();
-            var DeltaY = _WalkTo.Y - Person.GetY();
-            var Norm = Math.Sqrt(DeltaX * DeltaX + DeltaY * DeltaY).ToSingle();
+            var DeltaX = _X - Person.GetX();
 
-            if(Norm > 0.1)
+            if(Math.Abs(DeltaX) > 0.1)
             {
-                DeltaX = DeltaX / Norm * Data.PersonSpeed * DeltaMinutes;
-                DeltaY = DeltaY / Norm * Data.PersonSpeed * DeltaMinutes;
-                Person.SetLocation(Person.GetX() + DeltaX, Person.GetY() + DeltaY);
+                if(DeltaX > 0.0f)
+                {
+                    DeltaX = Data.PersonSpeed * DeltaMinutes;
+                }
+                else
+                {
+                    DeltaX = -Data.PersonSpeed * DeltaMinutes;
+                }
+                Person.SetLocation(Person.GetX() + DeltaX, Person.GetY());
             }
             else
             {
-                Person.SetLocation(_WalkTo);
+                Person.SetLocation(_X, Person.GetY());
                 Finish(Game, Person);
             }
         }
@@ -850,13 +854,80 @@ namespace ButtonOffice.Goals
         public override void Save(SaveObjectStore ObjectStore)
         {
             base.Save(ObjectStore);
-            ObjectStore.Save("walk-to", _WalkTo);
+            ObjectStore.Save("x", _X);
         }
 
         public override void Load(LoadObjectStore ObjectStore)
         {
             base.Load(ObjectStore);
-            _WalkTo = ObjectStore.LoadPointProperty("walk-to");
+            _X = ObjectStore.LoadSingleProperty("x");
+        }
+    }
+
+    internal class WalkToLocation : Goal
+    {
+        private PointF _Location;
+
+        public WalkToLocation()
+        {
+        }
+
+        public void SetLocation(PointF Location)
+        {
+            _Location = Location;
+        }
+
+        protected override void _OnInitialize(Game Game, PersistentObject Actor)
+        {
+            var Person = Actor as Person;
+
+            Debug.Assert(Person != null);
+
+            var TransportationPath = Game.GetTransportationPath(new PointF(Person.GetX() + Person.GetWidth() / 2.0f, Person.GetY()), _Location);
+
+            if(TransportationPath != null)
+            {
+                foreach(var TransportationNode in TransportationPath)
+                {
+                    var WalkOnSameFloor = new WalkOnSameFloor();
+
+                    WalkOnSameFloor.SetX(TransportationNode.GetX() - Person.GetWidth() / 2.0f);
+                    AppendSubGoal(WalkOnSameFloor);
+
+                    var CreateUseGoalFunction = TransportationNode.GetCreateUseGoalFunction();
+
+                    if(CreateUseGoalFunction != null)
+                    {
+                        var UseGoal = CreateUseGoalFunction();
+
+                        AppendSubGoal(UseGoal);
+                    }
+                }
+            }
+            else
+            {
+                Abort(Game, Person);
+            }
+        }
+
+        protected override void _OnExecute(Game Game, PersistentObject Actor, Single DeltaMinutes)
+        {
+            if(HasSubGoals() == false)
+            {
+                Finish(Game, Actor);
+            }
+        }
+
+        public override void Save(SaveObjectStore ObjectStore)
+        {
+            base.Save(ObjectStore);
+            ObjectStore.Save("location", _Location);
+        }
+
+        public override void Load(LoadObjectStore ObjectStore)
+        {
+            base.Load(ObjectStore);
+            _Location = ObjectStore.LoadPointProperty("location");
         }
     }
 
@@ -878,14 +949,10 @@ namespace ButtonOffice.Goals
         {
             Debug.Assert(_Desk != null);
 
-            var Person = Actor as Person;
+            var WalkToLocation = new WalkToLocation();
 
-            Debug.Assert(Person != null);
-
-            var WalkTo = new WalkTo();
-
-            WalkTo.SetWalkTo(new PointF(_Desk.GetX() + (_Desk.GetWidth() - Person.GetWidth()) / 2.0f, _Desk.GetY()));
-            AppendSubGoal(WalkTo);
+            WalkToLocation.SetLocation(new PointF(_Desk.GetX() + _Desk.GetWidth() / 2.0f, _Desk.GetY()));
+            AppendSubGoal(WalkToLocation);
         }
 
         protected override void _OnExecute(Game Game, PersistentObject Actor, Single DeltaMinutes)

@@ -155,6 +155,65 @@ namespace ButtonOffice
             return GetDay() * 1440;
         }
 
+        internal List<TransportationNode> GetTransportationPath(PointF FromLocation, PointF ToLocation)
+        {
+            var Result = new List<TransportationNode>();
+            var CurrentFloor = FromLocation.Y.GetTruncatedAsInt32();
+            var TargetFloor = ToLocation.Y.GetTruncatedAsInt32();
+            var Upwards = TargetFloor - CurrentFloor > 0;
+
+            while(CurrentFloor != TargetFloor)
+            {
+                var FoundStairs = false;
+
+                foreach(var Stairs in _Stairs)
+                {
+                    var StairsFloors = Stairs.Floors;
+
+                    if((StairsFloors.Contains(CurrentFloor) == true) && (((Upwards == true) & (StairsFloors.Contains(CurrentFloor + 1) == true)) || ((Upwards == false) && (StairsFloors.Contains(CurrentFloor - 1) == true))))
+                    {
+                        FoundStairs = true;
+
+                        var StairsTransportationNode = new TransportationNode();
+
+                        StairsTransportationNode.SetX(Stairs.GetX() + (Stairs.GetWidth() / 2.0f));
+                        if(Upwards == true)
+                        {
+                            StairsTransportationNode.SetY(Stairs.GetY());
+                            CurrentFloor += 1;
+                        }
+                        else
+                        {
+                            StairsTransportationNode.SetY(Stairs.GetY() + 1.0f);
+                            CurrentFloor -= 1;
+                        }
+                        StairsTransportationNode.SetCreateUseGoalFunction(Stairs.CreateUseGoal);
+                        Result.Add(StairsTransportationNode);
+
+                        break;
+                    }
+                }
+                if(FoundStairs == false)
+                {
+                    break;
+                }
+            }
+            if(CurrentFloor == TargetFloor)
+            {
+                var TransportationNode = new TransportationNode();
+
+                TransportationNode.SetX(ToLocation.X);
+                TransportationNode.SetY(ToLocation.Y);
+                Result.Add(TransportationNode);
+
+                return Result;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         public Boolean BuildBathroom(RectangleF Rectangle)
         {
             if(_CanBuildRoom(Data.BathroomBuildCost, Rectangle) == true)

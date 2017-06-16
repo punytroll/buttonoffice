@@ -235,6 +235,11 @@ namespace ButtonOffice
             return Result;
         }
 
+        public Stairs LoadStairsProperty(String PropertyName)
+        {
+            return _LoadStairs(_GetPropertyElement(_Element, PropertyName));
+        }
+
         public UInt32 LoadUInt32Property(String PropertyName)
         {
             return Convert.ToUInt32(_GetPropertyValue(_Element, PropertyName, "System.UInt32"), _GameLoader.CultureInfo);

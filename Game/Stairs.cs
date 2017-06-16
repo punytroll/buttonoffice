@@ -1,4 +1,7 @@
+using ButtonOffice.Goals;
 using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 
 namespace ButtonOffice
@@ -8,6 +11,14 @@ namespace ButtonOffice
         private Color _BackgroundColor;
         private Color _BorderColor;
         private RectangleF _Rectangle;
+
+        public List<Int32> Floors
+        {
+            get
+            {
+                return new List<Int32>() { _Rectangle.Y.GetTruncatedAsInt32(), _Rectangle.Y.GetTruncatedAsInt32() + 1 };
+            }
+        }
 
         public Stairs()
         {
@@ -83,6 +94,15 @@ namespace ButtonOffice
         public void SetY(Single Y)
         {
             _Rectangle.Y = Y;
+        }
+
+        public Goal CreateUseGoal()
+        {
+            var Result = new UseStairs();
+
+            Result.SetStairs(this);
+
+            return Result;
         }
 
         public override void Save(SaveObjectStore ObjectStore)

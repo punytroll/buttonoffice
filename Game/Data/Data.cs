@@ -86,10 +86,11 @@ namespace ButtonOffice
         public static readonly String SaveGameFileVersion = "4";
         public static readonly Color SpendMoneyFloatingTextColor = Color.FromArgb(220, 220, 20, 20);
         public static readonly Color StairsBackgroundColor = Color.FromArgb(180, 192, 160, 160);
-        public static readonly Single StairsBlockHeight = 2.0f;
-        public static readonly Single StairsBlockWidth = 6.0f;
+        public static readonly Single StairsBlockHeight = 1.0f;
+        public static readonly Single StairsBlockWidth = 4.0f;
         public static readonly Color StairsBorderColor = Color.FromArgb(180, 0, 0, 0);
         public static readonly UInt64 StairsBuildCost = 100000ul;
+        public static readonly Single StairsSpeed = 0.25f;
         public static readonly Color WorkerBackgroundColor = Color.FromArgb(255, 120, 120, 120);
         public static readonly Color WorkerBorderColor = Color.FromArgb(255, 0, 0, 0);
         public static readonly UInt64 WorkerHireCost = 30000ul;
