@@ -396,10 +396,14 @@ namespace ButtonOffice.Goals
 
             Debug.Assert(Person != null);
 
-            var WalkTo = new WalkTo();
+            var Desk = Person.GetDesk();
 
-            WalkTo.SetWalkTo(new PointF(Person.GetDesk().GetX() + (Person.GetDesk().GetWidth() - Person.GetWidth()) / 2.0f, Person.GetDesk().GetY()));
-            AppendSubGoal(WalkTo);
+            Debug.Assert(Desk != null);
+
+            var WalkToDesk = new WalkToDesk();
+
+            WalkToDesk.SetDesk(Desk);
+            AppendSubGoal(WalkToDesk);
         }
 
         protected override void _OnExecute(Game Game, PersistentObject Actor, Single DeltaMinutes)
@@ -672,55 +676,73 @@ namespace ButtonOffice.Goals
 
                     if(BrokenThing != null)
                     {
-                        var WalkTo = new WalkTo();
-
                         ITTech.SetRepairingTarget(BrokenThing);
                         switch(BrokenThing.Second)
                         {
                         case ButtonOffice.BrokenThing.FirstComputer:
                             {
-                                WalkTo.SetWalkTo(new PointF(BrokenThing.First.FirstDesk.GetX(), BrokenThing.First.GetY()));
+                                var WalkToDesk = new WalkToDesk();
+
+                                WalkToDesk.SetDesk(BrokenThing.First.FirstDesk);
+                                AppendSubGoal(WalkToDesk);
 
                                 break;
                             }
                         case ButtonOffice.BrokenThing.SecondComputer:
                             {
-                                WalkTo.SetWalkTo(new PointF(BrokenThing.First.SecondDesk.GetX(), BrokenThing.First.GetY()));
+                                var WalkToDesk = new WalkToDesk();
+
+                                WalkToDesk.SetDesk(BrokenThing.First.SecondDesk);
+                                AppendSubGoal(WalkToDesk);
 
                                 break;
                             }
                         case ButtonOffice.BrokenThing.ThirdComputer:
                             {
-                                WalkTo.SetWalkTo(new PointF(BrokenThing.First.ThirdDesk.GetX(), BrokenThing.First.GetY()));
+                                var WalkToDesk = new WalkToDesk();
+
+                                WalkToDesk.SetDesk(BrokenThing.First.ThirdDesk);
+                                AppendSubGoal(WalkToDesk);
 
                                 break;
                             }
                         case ButtonOffice.BrokenThing.FourthComputer:
                             {
-                                WalkTo.SetWalkTo(new PointF(BrokenThing.First.FourthDesk.GetX(), BrokenThing.First.GetY()));
+                                var WalkToDesk = new WalkToDesk();
+
+                                WalkToDesk.SetDesk(BrokenThing.First.FourthDesk);
+                                AppendSubGoal(WalkToDesk);
 
                                 break;
                             }
                         case ButtonOffice.BrokenThing.FirstLamp:
                             {
+                                var WalkTo = new WalkTo();
+
                                 WalkTo.SetWalkTo(new PointF(BrokenThing.First.FirstLamp.GetX(), BrokenThing.First.GetY()));
+                                AppendSubGoal(WalkTo);
 
                                 break;
                             }
                         case ButtonOffice.BrokenThing.SecondLamp:
                             {
+                                var WalkTo = new WalkTo();
+
                                 WalkTo.SetWalkTo(new PointF(BrokenThing.First.SecondLamp.GetX(), BrokenThing.First.GetY()));
+                                AppendSubGoal(WalkTo);
 
                                 break;
                             }
                         case ButtonOffice.BrokenThing.ThirdLamp:
                             {
+                                var WalkTo = new WalkTo();
+
                                 WalkTo.SetWalkTo(new PointF(BrokenThing.First.ThirdLamp.GetX(), BrokenThing.First.GetY()));
+                                AppendSubGoal(WalkTo);
 
                                 break;
                             }
                         }
-                        AppendSubGoal(WalkTo);
                         AppendSubGoal(new Repair());
                         AppendSubGoal(new GoToOwnDesk());
                         ITTech.SetAtDesk(false);
@@ -835,6 +857,55 @@ namespace ButtonOffice.Goals
         {
             base.Load(ObjectStore);
             _WalkTo = ObjectStore.LoadPointProperty("walk-to");
+        }
+    }
+
+    internal class WalkToDesk : Goal
+    {
+        private Desk _Desk;
+
+        public WalkToDesk()
+        {
+            _Desk = null;
+        }
+
+        public void SetDesk(Desk Desk)
+        {
+            _Desk = Desk;
+        }
+
+        protected override void _OnInitialize(Game Game, PersistentObject Actor)
+        {
+            Debug.Assert(_Desk != null);
+
+            var Person = Actor as Person;
+
+            Debug.Assert(Person != null);
+
+            var WalkTo = new WalkTo();
+
+            WalkTo.SetWalkTo(new PointF(_Desk.GetX() + (_Desk.GetWidth() - Person.GetWidth()) / 2.0f, _Desk.GetY()));
+            AppendSubGoal(WalkTo);
+        }
+
+        protected override void _OnExecute(Game Game, PersistentObject Actor, Single DeltaMinutes)
+        {
+            if(HasSubGoals() == false)
+            {
+                Finish(Game, Actor);
+            }
+        }
+
+        public override void Save(SaveObjectStore ObjectStore)
+        {
+            base.Save(ObjectStore);
+            ObjectStore.Save("desk", _Desk);
+        }
+
+        public override void Load(LoadObjectStore ObjectStore)
+        {
+            base.Load(ObjectStore);
+            _Desk = ObjectStore.LoadDeskProperty("desk");
         }
     }
 
