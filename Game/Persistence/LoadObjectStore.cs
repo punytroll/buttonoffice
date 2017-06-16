@@ -223,6 +223,18 @@ namespace ButtonOffice
             return _GetPropertyValue(_Element, PropertyName, "System.String");
         }
 
+        public List<Stairs> LoadStairs(String ListName)
+        {
+            var Result = new List<Stairs>();
+
+            foreach(var Node in _GetPropertyElements(_Element, ListName, "item"))
+            {
+                Result.Add(_LoadStairs(Node as XmlElement));
+            }
+
+            return Result;
+        }
+
         public UInt32 LoadUInt32Property(String PropertyName)
         {
             return Convert.ToUInt32(_GetPropertyValue(_Element, PropertyName, "System.UInt32"), _GameLoader.CultureInfo);
@@ -322,6 +334,11 @@ namespace ButtonOffice
         private Person _LoadPersonProperty(XmlElement Element, String PropertyName)
         {
             return _LoadPerson(_GetPropertyElement(Element, PropertyName));
+        }
+
+        private Stairs _LoadStairs(XmlElement Element)
+        {
+            return _LoadPersistentObject(Element) as Stairs;
         }
 
         private Single _LoadSingleProperty(XmlElement Element, String PropertyName)

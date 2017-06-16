@@ -24,6 +24,7 @@ namespace ButtonOffice
         private UInt32 _NextCatAtNumberOfEmployees;
         private readonly List<Office> _Offices;
         private readonly List<Person> _Persons;
+        private readonly List<Stairs> _Stairs;
         private Single _SubMinute;
 
         public List<Bathroom> Bathrooms => _Bathrooms;
@@ -31,6 +32,8 @@ namespace ButtonOffice
         public List<Office> Offices => _Offices;
 
         public List<Person> Persons => _Persons;
+
+        public List<Stairs> Stairs => _Stairs;
 
         public static Game CreateNew()
         {
@@ -70,9 +73,11 @@ namespace ButtonOffice
             _Bathrooms = new List<Bathroom>();
             _BrokenThings = new List<Pair<Office, BrokenThing>>();
             _FreeSpaceForRooms = new List<BitArray>();
+            _FreeSpaceForTransportation = new List<BitArray>();
             _BuildingMinimumMaximum = new List<Pair<Int32, Int32>>();
             _Offices = new List<Office>();
             _Persons = new List<Person>();
+            _Stairs = new List<Stairs>();
         }
 
         public void Move(Single GameMinutes)
@@ -188,6 +193,25 @@ namespace ButtonOffice
             }
         }
 
+        public Boolean BuildStairs(RectangleF Rectangle)
+        {
+            if(_CanBuildTransportation(Data.StairsBuildCost, Rectangle) == true)
+            {
+                _BuildTransportation(Data.StairsBuildCost, Rectangle);
+
+                var Stairs = new Stairs();
+
+                Stairs.SetRectangle(Rectangle);
+                _Stairs.Add(Stairs);
+
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         public Boolean HireAccountant(RectangleF Rectangle)
         {
             if(_Cents >= Data.AccountantHireCost)
@@ -278,7 +302,7 @@ namespace ButtonOffice
 
                 if((Desk != null) && (Desk.IsFree() == true))
                 {
-					SpendMoney(Data.JanitorHireCost, Desk.GetMidLocation());
+                    SpendMoney(Data.JanitorHireCost, Desk.GetMidLocation());
 
                     var Janitor = new Janitor();
 
@@ -468,9 +492,21 @@ namespace ButtonOffice
             _WidenBuilding(Rectangle);
         }
 
+        private void _BuildTransportation(UInt64 Cost, RectangleF Rectangle)
+        {
+            SpendMoney(Cost, Rectangle.GetMidPoint());
+            _OccupyFreeSpaceForTransportation(Rectangle);
+            _WidenBuilding(Rectangle);
+        }
+
         private Boolean _CanBuildRoom(UInt64 Cost, RectangleF Rectangle)
         {
             return (_EnoughCents(Cost) == true) && (_InBuildableWorld(Rectangle) == true) && (_InFreeSpaceForRoom(Rectangle) == true) && (_CompletelyOnTopOfBuilding(Rectangle) == true);
+        }
+
+        private Boolean _CanBuildTransportation(UInt64 Cost, RectangleF Rectangle)
+        {
+            return (_EnoughCents(Cost) == true) && (_InBuildableWorld(Rectangle) == true) && (_InFreeSpaceForTransportation(Rectangle) == true) && (_CompletelyOnTopOfBuilding(Rectangle) == true);
         }
 
         private Boolean _EnoughCents(UInt64 Cents)
@@ -490,6 +526,18 @@ namespace ButtonOffice
             for(var Column = 0; Column < Rectangle.Width.GetFlooredAsInt32(); ++Column)
             {
                 Result &= _FreeSpaceForRooms[Rectangle.Y.GetFlooredAsInt32()][Rectangle.X.GetFlooredAsInt32() + Column];
+            }
+
+            return Result;
+        }
+
+        private Boolean _InFreeSpaceForTransportation(RectangleF Rectangle)
+        {
+            var Result = true;
+
+            for(var Column = 0; Column < Rectangle.Width.GetFlooredAsInt32(); ++Column)
+            {
+                Result &= _FreeSpaceForTransportation[Rectangle.Y.GetFlooredAsInt32()][Rectangle.X.GetFlooredAsInt32() + Column];
             }
 
             return Result;
@@ -515,6 +563,17 @@ namespace ButtonOffice
                 for(var Column = 0; Column < Rectangle.Width.GetFlooredAsInt32(); ++Column)
                 {
                     _FreeSpaceForRooms[Rectangle.Y.GetFlooredAsInt32() + Row][Rectangle.X.GetFlooredAsInt32() + Column] = false;
+                }
+            }
+        }
+
+        private void _OccupyFreeSpaceForTransportation(RectangleF Rectangle)
+        {
+            for(var Row = 0; Row < Rectangle.Height.GetFlooredAsInt32(); ++Row)
+            {
+                for(var Column = 0; Column < Rectangle.Width.GetFlooredAsInt32(); ++Column)
+                {
+                    _FreeSpaceForTransportation[Rectangle.Y.GetFlooredAsInt32() + Row][Rectangle.X.GetFlooredAsInt32() + Column] = false;
                 }
             }
         }
@@ -545,6 +604,7 @@ namespace ButtonOffice
             ObjectStore.Save("next-cat-at-number-of-employees", _NextCatAtNumberOfEmployees);
             ObjectStore.Save("offices", _Offices);
             ObjectStore.Save("persons", _Persons);
+            ObjectStore.Save("stairs", _Stairs);
             ObjectStore.Save("sub-minute", _SubMinute);
             ObjectStore.Save("world-width", Data.WorldBlockWidth);
             ObjectStore.Save("world-height", Data.WorldBlockHeight);
@@ -576,6 +636,10 @@ namespace ButtonOffice
             {
                 _Persons.Add(Person);
             }
+            foreach(var Stairs in ObjectStore.LoadStairs("stairs"))
+            {
+                _Stairs.Add(Stairs);
+            }
             _SubMinute = ObjectStore.LoadSingleProperty("sub-minute");
 
             var WorldWidth = ObjectStore.LoadInt32Property("world-width");
@@ -584,21 +648,26 @@ namespace ButtonOffice
             for(var Index = 0; Index < WorldHeight; ++Index)
             {
                 _FreeSpaceForRooms.Add(new BitArray(WorldWidth, true));
-				_FreeSpaceForTransportation.Add(new BitArray(WorldWidth, false));
+                _FreeSpaceForTransportation.Add(new BitArray(WorldWidth, false));
             }
             for(var Index = 0; Index < WorldHeight; ++Index)
             {
                 _BuildingMinimumMaximum.Add(new Pair<Int32, Int32>(Int32.MaxValue, Int32.MinValue));
+            }
+            foreach(var Bathroom in _Bathrooms)
+            {
+                _OccupyFreeSpaceForRoom(Bathroom.GetRectangle());
+                _WidenBuilding(Bathroom.GetRectangle());
             }
             foreach(var Office in _Offices)
             {
                 _OccupyFreeSpaceForRoom(Office.GetRectangle());
                 _WidenBuilding(Office.GetRectangle());
             }
-            foreach(var Bathroom in _Bathrooms)
+            foreach(var Stairs in _Stairs)
             {
-                _OccupyFreeSpaceForRoom(Bathroom.GetRectangle());
-                _WidenBuilding(Bathroom.GetRectangle());
+                _OccupyFreeSpaceForTransportation(Stairs.GetRectangle());
+                _WidenBuilding(Stairs.GetRectangle());
             }
         }
     }

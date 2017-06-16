@@ -66,6 +66,7 @@
         ITTech,
         Janitor,
         Office,
+        Stairs,
         Worker
     }
 }

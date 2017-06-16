@@ -19,17 +19,18 @@ namespace ButtonOffice
         private Person _SelectedPerson;
         private Office _SelectedOffice;
         private Single _Zoom;
-    
+
         public MainWindow()
         {
             InitializeComponent();
             _ToolButtons = new List<ToolStripButton>();
+            _ToolButtons.Add(_BuildBathroomButton);
+            _ToolButtons.Add(_BuildOfficeButton);
+            _ToolButtons.Add(_BuildStairsButton);
+            _ToolButtons.Add(_HireAccountantButton);
             _ToolButtons.Add(_HireITTechButton);
             _ToolButtons.Add(_HireJanitorButton);
             _ToolButtons.Add(_HireWorkerButton);
-            _ToolButtons.Add(_BuildOfficeButton);
-            _ToolButtons.Add(_BuildBathroomButton);
-            _ToolButtons.Add(_HireAccountantButton);
             _ToolButtons.Add(_PlaceCatButton);
             _FloatingTexts = new List<FloatingText>();
             _Game = Game.CreateNew();
@@ -92,6 +93,19 @@ namespace ButtonOffice
             _ToggleOneToolButton(Sender as ToolStripButton);
         }
 
+        private void _OnBuildBathroomButtonCheckedChanged(Object Sender, EventArgs EventArguments)
+        {
+             _EntityPrototype = null;
+            if(_BuildBathroomButton.Checked == true)
+            {
+                _EntityPrototype = new EntityPrototype(Type.Bathroom);
+                _EntityPrototype.BackgroundColor = Data.BathroomBackgroundColor;
+                _EntityPrototype.BorderColor = Data.BathroomBorderColor;
+                _EntityPrototype.SetHeight(Data.BathroomBlockHeight);
+                _EntityPrototype.SetWidth(Data.BathroomBlockWidth);
+            }
+        }
+
         private void _OnBuildOfficeButtonCheckedChanged(Object Sender, EventArgs EventArguments)
         {
             _EntityPrototype = null;
@@ -105,16 +119,16 @@ namespace ButtonOffice
             }
         }
 
-        private void _OnBuildBathroomButtonCheckedChanged(Object Sender, EventArgs EventArguments)
+        private void _OnBuildStairsButtonCheckedChanged(Object Sender, EventArgs EventArguments)
         {
-             _EntityPrototype = null;
-            if(_BuildBathroomButton.Checked == true)
+            _EntityPrototype = null;
+            if(_BuildStairsButton.Checked == true)
             {
-                _EntityPrototype = new EntityPrototype(Type.Bathroom);
-                _EntityPrototype.BackgroundColor = Data.BathroomBackgroundColor;
-                _EntityPrototype.BorderColor = Data.BathroomBorderColor;
-                _EntityPrototype.SetHeight(Data.BathroomBlockHeight);
-                _EntityPrototype.SetWidth(Data.BathroomBlockWidth);
+                _EntityPrototype = new EntityPrototype(Type.Stairs);
+                _EntityPrototype.BackgroundColor = Data.StairsBackgroundColor;
+                _EntityPrototype.BorderColor = Data.StairsBorderColor;
+                _EntityPrototype.SetHeight(Data.StairsBlockHeight);
+                _EntityPrototype.SetWidth(Data.StairsBlockWidth);
             }
         }
 
@@ -215,7 +229,17 @@ namespace ButtonOffice
             {
                 if((_EntityPrototype != null) && (_EntityPrototype.HasLocation() == true))
                 {
-                    if(_EntityPrototype.Type == Type.Office)
+                    if(_EntityPrototype.Type == Type.Bathroom)
+                    {
+                        if(_Game.BuildBathroom(_EntityPrototype.Rectangle) == true)
+                        {
+                            if(ModifierKeys != Keys.Shift)
+                            {
+                                _BuildBathroomButton.Checked = false;
+                            }
+                        }
+                    }
+                    else if(_EntityPrototype.Type == Type.Office)
                     {
                         if(_Game.BuildOffice(_EntityPrototype.Rectangle) == true)
                         {
@@ -225,13 +249,13 @@ namespace ButtonOffice
                             }
                         }
                     }
-                    else if(_EntityPrototype.Type == Type.Bathroom)
+                    else if(_EntityPrototype.Type == Type.Stairs)
                     {
-                        if(_Game.BuildBathroom(_EntityPrototype.Rectangle) == true)
+                        if(_Game.BuildStairs(_EntityPrototype.Rectangle) == true)
                         {
                             if(ModifierKeys != Keys.Shift)
                             {
-                                _BuildBathroomButton.Checked = false;
+                                _BuildStairsButton.Checked = false;
                             }
                         }
                     }
@@ -564,6 +588,10 @@ namespace ButtonOffice
                 {
                     _DrawEllipse(EventArguments.Graphics, Office.Cat.GetRectangle(), Office.Cat.BackgroundColor, Office.Cat.BorderColor);
                 }
+            }
+            foreach(var Stairs in _Game.Stairs)
+            {
+                _DrawRectangle(EventArguments.Graphics, Stairs.GetRectangle(), Stairs.GetBackgroundColor(), Stairs.GetBorderColor());
             }
 
             var Font = new Font("Arial", 16.0f);

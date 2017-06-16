@@ -24,8 +24,9 @@ namespace ButtonOffice
             this._LoadGameButton = new System.Windows.Forms.ToolStripMenuItem();
             this._QuitApplicationButton = new System.Windows.Forms.ToolStripMenuItem();
             this._GameTools = new System.Windows.Forms.ToolStrip();
-            this._BuildOfficeButton = new System.Windows.Forms.ToolStripButton();
             this._BuildBathroomButton = new System.Windows.Forms.ToolStripButton();
+            this._BuildOfficeButton = new System.Windows.Forms.ToolStripButton();
+            this._BuildStairsButton = new System.Windows.Forms.ToolStripButton();
             this._HireWorkerButton = new System.Windows.Forms.ToolStripButton();
             this._HireITTechButton = new System.Windows.Forms.ToolStripButton();
             this._HireJanitorButton = new System.Windows.Forms.ToolStripButton();
@@ -201,6 +202,7 @@ namespace ButtonOffice
             this._GameTools.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this._BuildOfficeButton,
             this._BuildBathroomButton,
+            this._BuildStairsButton,
             this._HireWorkerButton,
             this._HireITTechButton,
             this._HireJanitorButton,
@@ -232,6 +234,16 @@ namespace ButtonOffice
             this._BuildBathroomButton.Text = "Bathroom";
             this._BuildBathroomButton.CheckedChanged += new System.EventHandler(this._OnBuildBathroomButtonCheckedChanged);
             this._BuildBathroomButton.Click += new System.EventHandler(this._OnToolButtonClicked);
+            // 
+            // _BuildStairsButton
+            // 
+            this._BuildStairsButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this._BuildStairsButton.ImageTransparentColor = System.Drawing.Color.Transparent;
+            this._BuildStairsButton.Name = "_BuildStairsButton";
+            this._BuildStairsButton.Size = new System.Drawing.Size(64, 22);
+            this._BuildStairsButton.Text = "Stairs";
+            this._BuildStairsButton.CheckedChanged += new System.EventHandler(this._OnBuildStairsButtonCheckedChanged);
+            this._BuildStairsButton.Click += new System.EventHandler(this._OnToolButtonClicked);
             // 
             // _HireWorkerButton
             // 
@@ -308,25 +320,26 @@ namespace ButtonOffice
         private System.Windows.Forms.Timer _Timer;
         private System.Windows.Forms.ToolStripContainer _ToolStripContainer;
         private System.Windows.Forms.ToolStrip _GameTools;
+        private System.Windows.Forms.ToolStripButton _BuildBathroomButton;
         private System.Windows.Forms.ToolStripButton _BuildOfficeButton;
+        private System.Windows.Forms.ToolStripButton _BuildStairsButton;
+        private System.Windows.Forms.ToolStripButton _HireAccountantButton;
+        private System.Windows.Forms.ToolStripButton _HireITTechButton;
+        private System.Windows.Forms.ToolStripButton _HireJanitorButton;
         private System.Windows.Forms.ToolStripButton _HireWorkerButton;
+        private System.Windows.Forms.ToolStripButton _PlaceCatButton;
+        private System.Windows.Forms.ToolStrip _SystemTools;
         private System.Windows.Forms.StatusStrip _StatusBar;
         private System.Windows.Forms.ToolStripStatusLabel _TimeLabel;
         private System.Windows.Forms.ToolStripStatusLabel _MoneyLabel;
         private System.Windows.Forms.ToolStripStatusLabel _EmployeesLabel;
         private System.Windows.Forms.SplitContainer _MainSplitContainer;
         private System.Windows.Forms.ToolStripStatusLabel _PositionLabel;
-        private System.Windows.Forms.ToolStripButton _HireITTechButton;
-        private System.Windows.Forms.ToolStripButton _HireJanitorButton;
-        private System.Windows.Forms.ToolStripButton _PlaceCatButton;
-        private System.Windows.Forms.ToolStrip _SystemTools;
         private System.Windows.Forms.ToolStripDropDownButton _LoadButton;
         private System.Windows.Forms.ToolStripMenuItem _LoadGameButton;
         private System.Windows.Forms.ToolStripMenuItem _NewGameButton;
         private System.Windows.Forms.ToolStripMenuItem _QuitApplicationButton;
         private System.Windows.Forms.ToolStripMenuItem _SaveGameButton;
-        private System.Windows.Forms.ToolStripButton _HireAccountantButton;
-        private System.Windows.Forms.ToolStripButton _BuildBathroomButton;
         private DrawingBoard _DrawingBoard;
     }
 }
