@@ -368,7 +368,7 @@ namespace ButtonOffice.Goals
             }
             else
             {
-                WalkTo.SetWalkTo(new PointF(Data.WorldBlockWidth + 10.0f, 0.0f));
+                WalkTo.SetWalkTo(new PointF(Game.WorldBlockWidth + 10.0f, 0.0f));
             }
             Person.SetAtDesk(false);
             AppendSubGoal(WalkTo);
@@ -431,7 +431,7 @@ namespace ButtonOffice.Goals
             }
             else
             {
-                Person.SetLocation(Data.WorldBlockWidth + 10.0f, 0.0f);
+                Person.SetLocation(Game.WorldBlockWidth + 10.0f, 0.0f);
             }
             AppendSubGoal(new GoToOwnDesk());
         }

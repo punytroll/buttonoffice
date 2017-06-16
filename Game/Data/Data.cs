@@ -67,6 +67,10 @@ namespace ButtonOffice
         public static readonly Single LampWidth = 3.0f;
         public static readonly Single MeanMinutesToBrokenComputer = 500.0f;
         public static readonly Single MeanMinutesToBrokenLamp = 1500.0f;
+        public static readonly UInt64 NewGameCents = 5000000ul;
+        public static readonly UInt64 NewGameMinutes = 480ul;
+        public static readonly Int32 NewGameWorldBlockHeight = 136;
+        public static readonly Int32 NewGameWorldBlockWidth = 132;
         public static readonly Color OfficeBackgroundColor = Color.FromArgb(255, 255, 255, 255);
         public static readonly Single OfficeBlockHeight = 1.0f;
         public static readonly Single OfficeBlockWidth = 15.0f;
@@ -86,8 +90,6 @@ namespace ButtonOffice
         public static readonly Single StairsBlockWidth = 6.0f;
         public static readonly Color StairsBorderColor = Color.FromArgb(180, 0, 0, 0);
         public static readonly UInt64 StairsBuildCost = 100000ul;
-        public static readonly UInt64 StartCents = 5000000ul;
-        public static readonly UInt64 StartMinutes = 480ul;
         public static readonly Color WorkerBackgroundColor = Color.FromArgb(255, 120, 120, 120);
         public static readonly Color WorkerBorderColor = Color.FromArgb(255, 0, 0, 0);
         public static readonly UInt64 WorkerHireCost = 30000ul;
@@ -95,7 +97,5 @@ namespace ButtonOffice
         public static readonly UInt64 WorkerWage = 1000ul;
         public static readonly UInt32 WorkerWorkMinutes = 540u;
         public static readonly Single WorkerWorkSpeed = 0.22f;
-        public static readonly Int32 WorldBlockHeight = 136;
-        public static readonly Int32 WorldBlockWidth = 132;
     }
 }

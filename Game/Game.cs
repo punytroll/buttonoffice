@@ -26,6 +26,8 @@ namespace ButtonOffice
         private readonly List<Person> _Persons;
         private readonly List<Stairs> _Stairs;
         private Single _SubMinute;
+        private Int32 _WorldBlockHeight;
+        private Int32 _WorldBlockWidth;
 
         public List<Bathroom> Bathrooms => _Bathrooms;
 
@@ -35,24 +37,22 @@ namespace ButtonOffice
 
         public List<Stairs> Stairs => _Stairs;
 
+        public Int32 WorldBlockHeight => _WorldBlockHeight;
+
+        public Int32 WorldBlockWidth => _WorldBlockWidth;
+
         public static Game CreateNew()
         {
             var Result = new Game();
 
             Result._CatStock = 0;
-            Result._Cents = Data.StartCents;
-            for(var Index = 0; Index < Data.WorldBlockHeight; ++Index)
-            {
-                Result._FreeSpaceForRooms.Add(new BitArray(Data.WorldBlockWidth, true));
-                Result._FreeSpaceForTransportation.Add(new BitArray(Data.WorldBlockWidth, true));
-            }
-            for(var Index = 0; Index < Data.WorldBlockHeight; ++Index)
-            {
-                Result._BuildingMinimumMaximum.Add(new Pair<Int32, Int32>(Int32.MaxValue, Int32.MinValue));
-            }
-            Result._Minutes = Data.StartMinutes;
+            Result._Cents = Data.NewGameCents;
+            Result._Minutes = Data.NewGameMinutes;
             Result._NextCatAtNumberOfEmployees = 20;
             Result._SubMinute = 0.0f;
+            Result._WorldBlockHeight = Data.NewGameWorldBlockHeight;
+            Result._WorldBlockWidth = Data.NewGameWorldBlockWidth;
+            Result._InitializeFreeSpacesAndMinimumMaximum();
 
             return Result;
         }
@@ -516,7 +516,7 @@ namespace ButtonOffice
 
         private Boolean _InBuildableWorld(RectangleF Rectangle)
         {
-            return (Rectangle.Y >= 0.0f) && (Rectangle.X >= 0.0f) && (Rectangle.X + Rectangle.Width < Data.WorldBlockWidth.ToSingle());
+            return (Rectangle.Y >= 0.0f) && (Rectangle.X >= 0.0f) && (Rectangle.X + Rectangle.Width < _WorldBlockWidth.ToSingle());
         }
 
         private Boolean _InFreeSpaceForRoom(RectangleF Rectangle)
@@ -554,6 +554,22 @@ namespace ButtonOffice
             }
 
             return Result;
+        }
+
+        private void _InitializeFreeSpacesAndMinimumMaximum()
+        {
+            _FreeSpaceForRooms.Clear();
+            _FreeSpaceForTransportation.Clear();
+            for(var Index = 0; Index < _WorldBlockHeight; ++Index)
+            {
+                _FreeSpaceForRooms.Add(new BitArray(_WorldBlockWidth, true));
+                _FreeSpaceForTransportation.Add(new BitArray(_WorldBlockWidth, true));
+            }
+            _BuildingMinimumMaximum.Clear();
+            for(var Index = 0; Index < _WorldBlockHeight; ++Index)
+            {
+                _BuildingMinimumMaximum.Add(new Pair<Int32, Int32>(Int32.MaxValue, Int32.MinValue));
+            }
         }
 
         private void _OccupyFreeSpaceForRoom(RectangleF Rectangle)
@@ -606,8 +622,8 @@ namespace ButtonOffice
             ObjectStore.Save("persons", _Persons);
             ObjectStore.Save("stairs", _Stairs);
             ObjectStore.Save("sub-minute", _SubMinute);
-            ObjectStore.Save("world-width", Data.WorldBlockWidth);
-            ObjectStore.Save("world-height", Data.WorldBlockHeight);
+            ObjectStore.Save("world-width", _WorldBlockWidth);
+            ObjectStore.Save("world-height", _WorldBlockHeight);
         }
 
         public override void Load(LoadObjectStore ObjectStore)
@@ -641,19 +657,9 @@ namespace ButtonOffice
                 _Stairs.Add(Stairs);
             }
             _SubMinute = ObjectStore.LoadSingleProperty("sub-minute");
-
-            var WorldWidth = ObjectStore.LoadInt32Property("world-width");
-            var WorldHeight = ObjectStore.LoadInt32Property("world-height");
-
-            for(var Index = 0; Index < WorldHeight; ++Index)
-            {
-                _FreeSpaceForRooms.Add(new BitArray(WorldWidth, true));
-                _FreeSpaceForTransportation.Add(new BitArray(WorldWidth, false));
-            }
-            for(var Index = 0; Index < WorldHeight; ++Index)
-            {
-                _BuildingMinimumMaximum.Add(new Pair<Int32, Int32>(Int32.MaxValue, Int32.MinValue));
-            }
+            _WorldBlockWidth = ObjectStore.LoadInt32Property("world-width");
+            _WorldBlockHeight = ObjectStore.LoadInt32Property("world-height");
+            _InitializeFreeSpacesAndMinimumMaximum();
             foreach(var Bathroom in _Bathrooms)
             {
                 _OccupyFreeSpaceForRoom(Bathroom.GetRectangle());

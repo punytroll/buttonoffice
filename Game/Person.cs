@@ -55,13 +55,12 @@ namespace ButtonOffice
             if(RandomNumberGenerator.GetBoolean() == true)
             {
                 _LivingSide = LivingSide.Left;
-                SetLocation(-10.0f, 0.0f);
             }
             else
             {
                 _LivingSide = LivingSide.Right;
-                SetLocation(Data.WorldBlockWidth + 10.0f, 0.0f);
             }
+            SetLocation(-1000.0f, 0.0f);
             _Mind = new Mind();
             _Rectangle.Height = RandomNumberGenerator.GetSingle(Data.PersonHeight, Data.PersonHeightSpread);
             _Rectangle.Width = RandomNumberGenerator.GetSingle(Data.PersonWidth, Data.PersonWidthSpread);
