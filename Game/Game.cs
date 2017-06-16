@@ -150,25 +150,6 @@ namespace ButtonOffice
             return GetDay() * 1440;
         }
 
-        public Boolean BuildOffice(RectangleF Rectangle)
-        {
-            if(_CanBuildRoom(Data.OfficeBuildCost, Rectangle) == true)
-            {
-                _BuildRoom(Data.OfficeBuildCost, Rectangle);
-
-                var Office = new Office();
-
-                Office.SetRectangle(Rectangle);
-                _Offices.Add(Office);
-
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
         public Boolean BuildBathroom(RectangleF Rectangle)
         {
             if(_CanBuildRoom(Data.BathroomBuildCost, Rectangle) == true)
@@ -179,6 +160,25 @@ namespace ButtonOffice
 
                 Bathroom.SetRectangle(Rectangle);
                 _Bathrooms.Add(Bathroom);
+
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public Boolean BuildOffice(RectangleF Rectangle)
+        {
+            if(_CanBuildRoom(Data.OfficeBuildCost, Rectangle) == true)
+            {
+                _BuildRoom(Data.OfficeBuildCost, Rectangle);
+
+                var Office = new Office();
+
+                Office.SetRectangle(Rectangle);
+                _Offices.Add(Office);
 
                 return true;
             }
