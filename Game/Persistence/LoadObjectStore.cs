@@ -75,6 +75,18 @@ namespace ButtonOffice
             return _LoadBrokenThing(_GetPropertyElement(_Element, PropertyName));
         }
 
+        public List<Building> LoadBuildings(String ListName)
+        {
+            var Result = new List<Building>();
+
+            foreach(var Node in _GetPropertyElements(_Element, ListName, "item"))
+            {
+                Result.Add(_LoadBuilding(Node as XmlElement));
+            }
+
+            return Result;
+        }
+
         public Cat LoadCatProperty(String PropertyName)
         {
             return _LoadPersistentObject(_GetPropertyElement(_Element, PropertyName)) as Cat;
@@ -285,6 +297,11 @@ namespace ButtonOffice
         private Byte _LoadByteProperty(XmlElement Element, String PropertyName)
         {
             return Convert.ToByte(_GetPropertyValue(Element, PropertyName, "System.Byte"), _GameLoader.CultureInfo);
+        }
+
+        private Building _LoadBuilding(XmlElement Element)
+        {
+            return _LoadPersistentObject(Element) as Building;
         }
 
         private Desk _LoadDesk(XmlElement Element)

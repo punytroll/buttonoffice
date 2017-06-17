@@ -15,6 +15,7 @@ namespace ButtonOffice
         private readonly List<Accountant> _Accountants;
         private readonly List<Bathroom> _Bathrooms;
         private readonly List<Pair<Office, BrokenThing>> _BrokenThings;
+        private readonly List<Building> _Buildings;
         private UInt32 _CatStock;
         private UInt64 _Cents;
         private readonly List<BitArray> _FreeSpace;
@@ -29,6 +30,8 @@ namespace ButtonOffice
         private Int32 _WorldBlockWidth;
 
         public List<Bathroom> Bathrooms => _Bathrooms;
+
+        public List<Building> Buildings => _Buildings;
 
         public List<Office> Offices => _Offices;
 
@@ -71,6 +74,7 @@ namespace ButtonOffice
             _Accountants = new List<Accountant>();
             _Bathrooms = new List<Bathroom>();
             _BrokenThings = new List<Pair<Office, BrokenThing>>();
+            _Buildings = new List<Building>();
             _FreeSpace = new List<BitArray>();
             _BuildingMinimumMaximum = new List<Pair<Int32, Int32>>();
             _Offices = new List<Office>();
@@ -86,9 +90,9 @@ namespace ButtonOffice
                 _Minutes += 1;
                 _SubMinute -= 1.0f;
             }
-            foreach(var Office in _Offices)
+            foreach(var Building in _Buildings)
             {
-                Office.Move(this, GameMinutes);
+                Building.Move(this, GameMinutes);
             }
             foreach(var Person in _Persons)
             {
@@ -544,6 +548,7 @@ namespace ButtonOffice
             SpendMoney(Cost, Building.GetMidLocation());
             _OccupyFreeSpace(Building.GetRectangle());
             _WidenBuilding(Building.GetRectangle());
+            _Buildings.Add(Building);
         }
 
         private Boolean _CanBuild(UInt64 Cost, RectangleF Rectangle)
@@ -631,6 +636,7 @@ namespace ButtonOffice
             ObjectStore.Save("accountants", _Accountants);
             ObjectStore.Save("bathrooms", _Bathrooms);
             ObjectStore.Save("broken-things", _BrokenThings);
+            ObjectStore.Save("buildings", _Buildings);
             ObjectStore.Save("cat-stock", _CatStock);
             ObjectStore.Save("cents", _Cents);
             ObjectStore.Save("minutes", _Minutes);
@@ -657,6 +663,10 @@ namespace ButtonOffice
             {
                 _BrokenThings.Add(BrokenThing);
             }
+            foreach(var Building in ObjectStore.LoadBuildings("buildings"))
+            {
+                _Buildings.Add(Building);
+            }
             _CatStock = ObjectStore.LoadUInt32Property("cat-stock");
             _Cents = ObjectStore.LoadUInt64Property("cents");
             _Minutes = ObjectStore.LoadUInt64Property("minutes");
@@ -677,20 +687,10 @@ namespace ButtonOffice
             _WorldBlockWidth = ObjectStore.LoadInt32Property("world-width");
             _WorldBlockHeight = ObjectStore.LoadInt32Property("world-height");
             _InitializeFreeSpaceAndMinimumMaximum();
-            foreach(var Bathroom in _Bathrooms)
+            foreach(var Building in _Buildings)
             {
-                _OccupyFreeSpace(Bathroom.GetRectangle());
-                _WidenBuilding(Bathroom.GetRectangle());
-            }
-            foreach(var Office in _Offices)
-            {
-                _OccupyFreeSpace(Office.GetRectangle());
-                _WidenBuilding(Office.GetRectangle());
-            }
-            foreach(var Stairs in _Stairs)
-            {
-                _OccupyFreeSpace(Stairs.GetRectangle());
-                _WidenBuilding(Stairs.GetRectangle());
+                _OccupyFreeSpace(Building.GetRectangle());
+                _WidenBuilding(Building.GetRectangle());
             }
         }
     }

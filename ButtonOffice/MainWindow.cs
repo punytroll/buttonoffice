@@ -394,17 +394,17 @@ namespace ButtonOffice
                     }
                     if(_SelectedObject == null)
                     {
-                        foreach(var Office in _Game.Offices)
+                        foreach(var Building in _Game.Buildings)
                         {
-                            if(Office.GetRectangle().Contains(GamingLocation) == true)
+                            if(Building.GetRectangle().Contains(GamingLocation) == true)
                             {
-                                _SelectedObject = Office;
+                                _SelectedObject = Building;
 
                                 var NameCaptionLabel = new Label();
 
                                 NameCaptionLabel.Location = new Point(10, 20);
                                 NameCaptionLabel.Size = new Size(100, 20);
-                                NameCaptionLabel.Text = "Office";
+                                NameCaptionLabel.Text = Building.GetType().Name;
                                 _MainSplitContainer.Panel2.Controls.Add(NameCaptionLabel);
 
                                 break;
