@@ -1,14 +1,17 @@
-﻿namespace ButtonOffice
+﻿using System;
+using System.Drawing;
+
+namespace ButtonOffice
 {
     internal class EntityPrototype
     {
-        private System.Drawing.Color _BackgroundColor;
-        private System.Drawing.Color _BorderColor;
-        private System.Boolean _HasLocation;
-        private System.Drawing.RectangleF _Rectangle;
-        private ButtonOffice.Type _Type;
+        private Color _BackgroundColor;
+        private Color _BorderColor;
+        private Boolean _HasLocation;
+        private RectangleF _Rectangle;
+        private Type _Type;
 
-        public System.Drawing.Color BackgroundColor
+        public Color BackgroundColor
         {
             get
             {
@@ -20,7 +23,7 @@
             }
         }
 
-        public System.Drawing.Color BorderColor
+        public Color BorderColor
         {
             get
             {
@@ -32,7 +35,7 @@
             }
         }
 
-        public System.Drawing.PointF Location
+        public PointF Location
         {
             get
             {
@@ -40,7 +43,7 @@
             }
         }
 
-        public System.Drawing.RectangleF Rectangle
+        public RectangleF Rectangle
         {
             get
             {
@@ -48,7 +51,7 @@
             }
         }
 
-        public ButtonOffice.Type Type
+        public Type Type
         {
             get
             {
@@ -56,39 +59,39 @@
             }
         }
 
-        public EntityPrototype(ButtonOffice.Type Type)
+        public EntityPrototype(Type Type)
         {
             _HasLocation = false;
             _Type = Type;
         }
 
-        public System.Single GetHeight()
+        public Single GetHeight()
         {
             return _Rectangle.Height;
         }
 
-        public System.Single GetWidth()
+        public Single GetWidth()
         {
             return _Rectangle.Width;
         }
 
-        public void SetLocationFromGamingLocation(System.Drawing.PointF Location)
+        public void SetLocationFromGamingLocation(PointF Location)
         {
-            _Rectangle.Location = new System.Drawing.PointF(Location.X - (_Rectangle.Width / 2.0f).GetFloored(), Location.Y - (_Rectangle.Height / 2.0f).GetFloored());
+            _Rectangle.Location = new PointF(Location.X - (_Rectangle.Width / 2.0f).GetFloored(), Location.Y - (_Rectangle.Height / 2.0f).GetFloored());
             _HasLocation = true;
         }
 
-        public System.Boolean HasLocation()
+        public Boolean HasLocation()
         {
             return _HasLocation;
         }
 
-        public void SetHeight(System.Single Height)
+        public void SetHeight(Single Height)
         {
             _Rectangle.Height = Height;
         }
 
-        public void SetWidth(System.Single Width)
+        public void SetWidth(Single Width)
         {
             _Rectangle.Width = Width;
         }
