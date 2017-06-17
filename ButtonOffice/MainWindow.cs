@@ -451,7 +451,7 @@ namespace ButtonOffice
             EventArguments.Graphics.FillRectangle(new SolidBrush(Data.GroundColor), 0, _GetDrawingY(0), _DrawingBoard.Width, _DrawingBoard.Height);
             foreach(var Office in _Game.Offices)
             {
-                _DrawRectangle(EventArguments.Graphics, Office.GetRectangle(), Office.BackgroundColor, Office.BorderColor);
+                _DrawRectangle(EventArguments.Graphics, Office.GetRectangle(), Office.GetBackgroundColor(), Office.GetBorderColor());
 
                 Color LampColor;
 

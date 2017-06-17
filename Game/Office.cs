@@ -3,35 +3,16 @@ using System.Drawing;
 
 namespace ButtonOffice
 {
-    public class Office : PersistentObject
+    public class Office : Building
     {
-        private Color _BackgroundColor;
-        private Color _BorderColor;
         private Cat _Cat;
         private Desk _FirstDesk;
         private Lamp _FirstLamp;
         private Desk _FourthDesk;
-        private RectangleF _Rectangle;
         private Desk _SecondDesk;
         private Lamp _SecondLamp;
         private Desk _ThirdDesk;
         private Lamp _ThirdLamp;
-
-        public Color BackgroundColor
-        {
-            get
-            {
-                return _BackgroundColor;
-            }
-        }
-
-        public Color BorderColor
-        {
-            get
-            {
-                return _BorderColor;
-            }
-        }
 
         public Cat Cat
         {
@@ -118,72 +99,7 @@ namespace ButtonOffice
             _ThirdLamp = new Lamp();
         }
 
-        public Single GetHeight()
-        {
-            return _Rectangle.Height;
-        }
-
-        public PointF GetMidLocation()
-        {
-            return _Rectangle.GetMidPoint();
-        }
-
-        public RectangleF GetRectangle()
-        {
-            return _Rectangle;
-        }
-
-        public Single GetRight()
-        {
-            return _Rectangle.Right;
-        }
-
-        public Single GetWidth()
-        {
-            return _Rectangle.Width;
-        }
-
-        public Single GetX()
-        {
-            return _Rectangle.X;
-        }
-
-        public Single GetY()
-        {
-            return _Rectangle.Y;
-        }
-
-        public void SetHeight(Single Height)
-        {
-            _Rectangle.Height = Height;
-            _UpdateInterior();
-        }
-
-        public void SetRectangle(RectangleF Rectangle)
-        {
-            _Rectangle = Rectangle;
-            _UpdateInterior();
-        }
-
-        public void SetWidth(Single Width)
-        {
-            _Rectangle.Width = Width;
-            _UpdateInterior();
-        }
-
-        public void SetX(Single X)
-        {
-            _Rectangle.X = X;
-            _UpdateInterior();
-        }
-
-        public void SetY(Single Y)
-        {
-            _Rectangle.Y = Y;
-            _UpdateInterior();
-        }
-
-        private void _UpdateInterior()
+        protected override void _UpdateInterior()
         {
             _FirstDesk.SetLocation(_Rectangle.X + Data.DeskOneX, _Rectangle.Y);
             _SecondDesk.SetLocation(_Rectangle.X + Data.DeskTwoX, _Rectangle.Y);
@@ -194,7 +110,7 @@ namespace ButtonOffice
             _ThirdLamp.SetLocation(_Rectangle.X + Data.LampThreeX, _Rectangle.Y + _Rectangle.Height - _ThirdLamp.GetHeight());
         }
 
-        public void Move(Game Game, Single GameMinutes)
+        public override void Move(Game Game, Single GameMinutes)
         {
             if(_FirstLamp.IsBroken() == false)
             {
@@ -229,13 +145,10 @@ namespace ButtonOffice
         public override void Save(SaveObjectStore ObjectStore)
         {
             base.Save(ObjectStore);
-            ObjectStore.Save("background-color", _BackgroundColor);
-            ObjectStore.Save("border-color", _BorderColor);
             ObjectStore.Save("cat", _Cat);
             ObjectStore.Save("first-desk", _FirstDesk);
             ObjectStore.Save("first-lamp", _FirstLamp);
             ObjectStore.Save("fourth-desk", _FourthDesk);
-            ObjectStore.Save("rectangle", _Rectangle);
             ObjectStore.Save("second-desk", _SecondDesk);
             ObjectStore.Save("second-lamp", _SecondLamp);
             ObjectStore.Save("third-desk", _ThirdDesk);
@@ -245,13 +158,10 @@ namespace ButtonOffice
         public override void Load(LoadObjectStore ObjectStore)
         {
             base.Load(ObjectStore);
-            _BackgroundColor = ObjectStore.LoadColorProperty("background-color");
-            _BorderColor = ObjectStore.LoadColorProperty("border-color");
             _Cat = ObjectStore.LoadCatProperty("cat");
             _FirstDesk = ObjectStore.LoadDeskProperty("first-desk");
             _FirstLamp = ObjectStore.LoadLampProperty("first-lamp");
             _FourthDesk = ObjectStore.LoadDeskProperty("fourth-desk");
-            _Rectangle = ObjectStore.LoadRectangleProperty("rectangle");
             _SecondDesk = ObjectStore.LoadDeskProperty("second-desk");
             _SecondLamp = ObjectStore.LoadLampProperty("second-lamp");
             _ThirdDesk = ObjectStore.LoadDeskProperty("third-desk");

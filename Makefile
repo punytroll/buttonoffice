@@ -27,6 +27,7 @@ GAME_SOURCES = \
 	Game/Accountant.cs \
 	Game/AssertMessages.cs \
 	Game/Bathroom.cs \
+	Game/Building.cs \
 	Game/Cat.cs \
 	Game/Computer.cs \
 	Game/Desk.cs \
