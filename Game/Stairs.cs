@@ -8,18 +8,23 @@ namespace ButtonOffice
 {
     public class Stairs : Building
     {
-        public List<Int32> Floors
-        {
-            get
-            {
-                return new List<Int32>() { _Rectangle.Y.GetTruncatedAsInt32(), _Rectangle.Y.GetTruncatedAsInt32() + 1 };
-            }
-        }
-
         public Stairs()
         {
             _BackgroundColor = Data.StairsBackgroundColor;
             _BorderColor = Data.StairsBorderColor;
+        }
+
+        public List<Int32> GetFloors()
+        {
+            var Result = new List<Int32>();
+
+            for(var Floor = _Rectangle.Y.GetTruncatedAsInt32(); Floor < (_Rectangle.Y + _Rectangle.Height).GetTruncatedAsInt32(); ++Floor)
+            {
+                Console.WriteLine(Floor);
+                Result.Add(Floor);
+            }
+
+            return Result;
         }
 
         public Goal CreateUseGoal()

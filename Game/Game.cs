@@ -170,7 +170,7 @@ namespace ButtonOffice
 
                 foreach(var Stairs in _Stairs)
                 {
-                    var StairsFloors = Stairs.Floors;
+                    var StairsFloors = Stairs.GetFloors();
 
                     if((StairsFloors.Contains(CurrentFloor) == true) && (((Upwards == true) & (StairsFloors.Contains(CurrentFloor + 1) == true)) || ((Upwards == false) && (StairsFloors.Contains(CurrentFloor - 1) == true))))
                     {
