@@ -20,18 +20,18 @@ namespace ButtonOffice
 
             for(var Floor = _Rectangle.Y.GetTruncatedAsInt32(); Floor < (_Rectangle.Y + _Rectangle.Height).GetTruncatedAsInt32(); ++Floor)
             {
-                Console.WriteLine(Floor);
                 Result.Add(Floor);
             }
 
             return Result;
         }
 
-        public Goal CreateUseGoal()
+        public Goal CreateUseGoal(Int32 TargetFloor)
         {
             var Result = new UseStairs();
 
             Result.SetStairs(this);
+            Result.SetTargetFloor(TargetFloor);
 
             return Result;
         }

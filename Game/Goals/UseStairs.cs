@@ -5,7 +5,7 @@ namespace ButtonOffice.Goals
 {
     internal class UseStairs : Goal
     {
-        private Boolean _Downwards;
+        private Int32? _TargetFloor;
         private Stairs _Stairs;
 
         public void SetStairs(Stairs Stairs)
@@ -13,41 +13,47 @@ namespace ButtonOffice.Goals
             _Stairs = Stairs;
         }
 
+        public void SetTargetFloor(Int32 TargetFloor)
+        {
+            _TargetFloor = TargetFloor;
+        }
+
         protected override void _OnInitialize(Game Game, PersistentObject Actor)
         {
+            Debug.Assert(_Stairs != null);
+            Debug.Assert(_TargetFloor != null);
+
             var Person = Actor as Person;
 
             Debug.Assert(Person != null);
             Person.SetActionFraction(0.0f);
             Person.SetAnimationState(AnimationState.Walking);
             Person.SetAnimationFraction(0.0f);
-            _Downwards = _Stairs.GetY() < Person.GetY();
         }
 
         protected override void _OnExecute(Game Game, PersistentObject Actor, Single DeltaMinutes)
         {
+            Debug.Assert(_Stairs != null);
+            Debug.Assert(_TargetFloor != null);
+
             var Person = Actor as Person;
 
             Debug.Assert(Person != null);
 
-            var DeltaY = 0.0f;
+            var DeltaY = Data.StairsSpeed * DeltaMinutes;
 
-            if(_Downwards == true)
+            if(Person.GetY() > _TargetFloor)
             {
-                DeltaY = -Data.StairsSpeed * DeltaMinutes;
-            }
-            else
-            {
-                DeltaY = Data.StairsSpeed * DeltaMinutes;
+                DeltaY *= -1.0f;
             }
 
             var NewY = Person.GetY() + DeltaY;
 
-            if(_Downwards == true)
+            if(DeltaY < 0.0f)
             {
-                if(NewY <= _Stairs.GetY())
+                if(NewY <= _TargetFloor)
                 {
-                    Person.SetLocation(Person.GetX(), _Stairs.GetY());
+                    Person.SetLocation(Person.GetX(), _TargetFloor.Value);
                     Finish(Game, Person);
                 }
                 else
@@ -57,9 +63,9 @@ namespace ButtonOffice.Goals
             }
             else
             {
-                if(NewY > _Stairs.GetY() + 1.0f)
+                if(NewY >= _TargetFloor)
                 {
-                    Person.SetLocation(Person.GetX(), _Stairs.GetY() + 1.0f);
+                    Person.SetLocation(Person.GetX(), _TargetFloor.Value);
                     Finish(Game, Person);
                 }
                 else
@@ -82,15 +88,15 @@ namespace ButtonOffice.Goals
         public override void Save(SaveObjectStore ObjectStore)
         {
             base.Save(ObjectStore);
-            ObjectStore.Save("downwards", _Downwards);
             ObjectStore.Save("stairs", _Stairs);
+            ObjectStore.Save("target-floor", _TargetFloor.Value);
         }
 
         public override void Load(LoadObjectStore ObjectStore)
         {
             base.Load(ObjectStore);
-            _Downwards = ObjectStore.LoadBooleanProperty("downwards");
             _Stairs = ObjectStore.LoadStairsProperty("stairs");
+            _TargetFloor = ObjectStore.LoadInt32Property("target-floor");
         }
     }
 }

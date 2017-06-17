@@ -898,7 +898,7 @@ namespace ButtonOffice.Goals
 
                     if(CreateUseGoalFunction != null)
                     {
-                        var UseGoal = CreateUseGoalFunction();
+                        var UseGoal = CreateUseGoalFunction(TransportationNode.GetTargetFloor());
 
                         AppendSubGoal(UseGoal);
                     }

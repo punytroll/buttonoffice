@@ -172,32 +172,40 @@ namespace ButtonOffice
                 {
                     var StairsFloors = Stairs.GetFloors();
 
-                    if((StairsFloors.Contains(CurrentFloor) == true) && (((Upwards == true) & (StairsFloors.Contains(CurrentFloor + 1) == true)) || ((Upwards == false) && (StairsFloors.Contains(CurrentFloor - 1) == true))))
+                    if(StairsFloors.Contains(CurrentFloor) == true)
                     {
-                        FoundStairs = true;
+                        var StairsTargetFloor = CurrentFloor;
 
-                        var StairsTransportationNode = new TransportationNode();
-
-                        StairsTransportationNode.SetX(Stairs.GetX() + (Stairs.GetWidth() / 2.0f));
                         if(Upwards == true)
                         {
-                            StairsTransportationNode.SetY(Stairs.GetY());
-                            CurrentFloor += 1;
+                            while(StairsFloors.Contains(StairsTargetFloor + 1) == true)
+                            {
+                                StairsTargetFloor += 1;
+                                FoundStairs = true;
+                            }
                         }
                         else
                         {
-                            StairsTransportationNode.SetY(Stairs.GetY() + 1.0f);
-                            CurrentFloor -= 1;
+                            while(StairsFloors.Contains(StairsTargetFloor - 1) == true)
+                            {
+                                StairsTargetFloor -= 1;
+                                FoundStairs = true;
+                            }
                         }
-                        StairsTransportationNode.SetCreateUseGoalFunction(Stairs.CreateUseGoal);
-                        Result.Add(StairsTransportationNode);
+                        if(FoundStairs == true)
+                        {
+                            var StairsTransportationNode = new TransportationNode();
 
-                        break;
+                            StairsTransportationNode.SetCreateUseGoalFunction(Stairs.CreateUseGoal);
+                            StairsTransportationNode.SetTargetFloor(StairsTargetFloor);
+                            StairsTransportationNode.SetX(Stairs.GetX() + (Stairs.GetWidth() / 2.0f));
+                            StairsTransportationNode.SetY(CurrentFloor);
+                            Result.Add(StairsTransportationNode);
+                            CurrentFloor = StairsTargetFloor;
+
+                            break;
+                        }
                     }
-                }
-                if(FoundStairs == false)
-                {
-                    break;
                 }
             }
             if(CurrentFloor == TargetFloor)
