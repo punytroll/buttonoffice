@@ -16,8 +16,7 @@ namespace ButtonOffice
         private Point _DrawingOffset;
         private EntityPrototype _EntityPrototype;
         private DateTime _LastTick;
-        private Person _SelectedPerson;
-        private Office _SelectedOffice;
+        private PersistentObject _SelectedObject;
         private Single _Zoom;
 
         public MainWindow()
@@ -324,19 +323,16 @@ namespace ButtonOffice
                 else
                 {
                     var GamingLocation = _GetGamingLocation(EventArguments.Location);
-                    var Selected = false;
 
                     _MainSplitContainer.Panel2.Controls.Clear();
-                    _SelectedOffice = null;
-                    _SelectedPerson = null;
-                    if(Selected == false)
+                    _SelectedObject = null;
+                    if(_SelectedObject == null)
                     {
                         foreach(var Person in _Game.Persons)
                         {
                             if(Person.GetRectangle().Contains(GamingLocation) == true)
                             {
-                                _SelectedPerson = Person;
-                                Selected = true;
+                                _SelectedObject = Person;
 
                                 var TypeLabel = new Label();
 
@@ -396,14 +392,13 @@ namespace ButtonOffice
                             }
                         }
                     }
-                    if(Selected == false)
+                    if(_SelectedObject == null)
                     {
                         foreach(var Office in _Game.Offices)
                         {
                             if(Office.GetRectangle().Contains(GamingLocation) == true)
                             {
-                                _SelectedOffice = Office;
-                                Selected = true;
+                                _SelectedObject = Office;
 
                                 var NameCaptionLabel = new Label();
 
@@ -416,7 +411,7 @@ namespace ButtonOffice
                             }
                         }
                     }
-                    _MainSplitContainer.Panel2Collapsed = !Selected;
+                    _MainSplitContainer.Panel2Collapsed = _SelectedObject == null;
                 }
             }
         }
