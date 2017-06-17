@@ -216,11 +216,10 @@ namespace ButtonOffice
         {
             if(_CanBuild(Data.BathroomBuildCost, Rectangle) == true)
             {
-                _Build(Data.BathroomBuildCost, Rectangle);
-
                 var Bathroom = new Bathroom();
 
                 Bathroom.SetRectangle(Rectangle);
+                _Build(Data.BathroomBuildCost, Bathroom);
                 _Bathrooms.Add(Bathroom);
 
                 return true;
@@ -235,11 +234,10 @@ namespace ButtonOffice
         {
             if(_CanBuild(Data.OfficeBuildCost, Rectangle) == true)
             {
-                _Build(Data.OfficeBuildCost, Rectangle);
-
                 var Office = new Office();
 
                 Office.SetRectangle(Rectangle);
+                _Build(Data.OfficeBuildCost, Office);
                 _Offices.Add(Office);
 
                 return true;
@@ -254,11 +252,10 @@ namespace ButtonOffice
         {
             if(_CanBuild(Data.StairsBuildCost, Rectangle) == true)
             {
-                _Build(Data.StairsBuildCost, Rectangle);
-
                 var Stairs = new Stairs();
 
                 Stairs.SetRectangle(Rectangle);
+                _Build(Data.StairsBuildCost, Stairs);
                 _Stairs.Add(Stairs);
 
                 return true;
@@ -542,11 +539,11 @@ namespace ButtonOffice
             }
         }
 
-        private void _Build(UInt64 Cost, RectangleF Rectangle)
+        private void _Build(UInt64 Cost, Building Building)
         {
-            SpendMoney(Cost, Rectangle.GetMidPoint());
-            _OccupyFreeSpace(Rectangle);
-            _WidenBuilding(Rectangle);
+            SpendMoney(Cost, Building.GetMidLocation());
+            _OccupyFreeSpace(Building.GetRectangle());
+            _WidenBuilding(Building.GetRectangle());
         }
 
         private Boolean _CanBuild(UInt64 Cost, RectangleF Rectangle)
