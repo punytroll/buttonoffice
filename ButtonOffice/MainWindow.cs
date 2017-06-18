@@ -406,6 +406,19 @@ namespace ButtonOffice
                                 NameCaptionLabel.Size = new Size(100, 20);
                                 NameCaptionLabel.Text = Building.GetType().Name;
                                 _MainSplitContainer.Panel2.Controls.Add(NameCaptionLabel);
+                                if(Building is Stairs)
+                                {
+                                    var ExpandUpwardsButton = new Button();
+
+                                    ExpandUpwardsButton.Location = new Point(10, 80);
+                                    ExpandUpwardsButton.Size = new Size(100, 20);
+                                    ExpandUpwardsButton.Text = "Expand upwards";
+                                    ExpandUpwardsButton.Click += delegate
+                                                        {
+                                                            (Building as Stairs).ExpandUpwards(_Game);
+                                                        };
+                                    _MainSplitContainer.Panel2.Controls.Add(ExpandUpwardsButton);
+                                }
 
                                 break;
                             }

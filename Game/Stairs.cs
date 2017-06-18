@@ -35,5 +35,16 @@ namespace ButtonOffice
 
             return Result;
         }
+
+        public void ExpandUpwards(Game Game)
+        {
+            var ExpansionRectangle = new RectangleF(_Rectangle.X, _Rectangle.Y + _Rectangle.Height, _Rectangle.Width, 1.0f);
+
+            if(Game.CanBuild(Data.StairsExpansionCost, ExpansionRectangle) == true)
+            {
+                SetHeight(GetHeight() + 1.0f);
+                Game.UpdateBuilding(Data.StairsExpansionCost, this);
+            }
+        }
     }
 }

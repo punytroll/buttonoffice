@@ -178,7 +178,7 @@ namespace ButtonOffice
 
                         if(Upwards == true)
                         {
-                            while(StairsFloors.Contains(StairsTargetFloor + 1) == true)
+                            while((StairsTargetFloor < TargetFloor) && (StairsFloors.Contains(StairsTargetFloor + 1) == true))
                             {
                                 StairsTargetFloor += 1;
                                 FoundStairs = true;
@@ -186,7 +186,7 @@ namespace ButtonOffice
                         }
                         else
                         {
-                            while(StairsFloors.Contains(StairsTargetFloor - 1) == true)
+                            while((StairsTargetFloor > TargetFloor) && (StairsFloors.Contains(StairsTargetFloor - 1) == true))
                             {
                                 StairsTargetFloor -= 1;
                                 FoundStairs = true;
@@ -226,7 +226,7 @@ namespace ButtonOffice
 
         public Boolean BuildBathroom(RectangleF Rectangle)
         {
-            if(_CanBuild(Data.BathroomBuildCost, Rectangle) == true)
+            if(CanBuild(Data.BathroomBuildCost, Rectangle) == true)
             {
                 var Bathroom = new Bathroom();
 
@@ -244,7 +244,7 @@ namespace ButtonOffice
 
         public Boolean BuildOffice(RectangleF Rectangle)
         {
-            if(_CanBuild(Data.OfficeBuildCost, Rectangle) == true)
+            if(CanBuild(Data.OfficeBuildCost, Rectangle) == true)
             {
                 var Office = new Office();
 
@@ -262,7 +262,7 @@ namespace ButtonOffice
 
         public Boolean BuildStairs(RectangleF Rectangle)
         {
-            if(_CanBuild(Data.StairsBuildCost, Rectangle) == true)
+            if(CanBuild(Data.StairsBuildCost, Rectangle) == true)
             {
                 var Stairs = new Stairs();
 
@@ -559,7 +559,14 @@ namespace ButtonOffice
             _Buildings.Add(Building);
         }
 
-        private Boolean _CanBuild(UInt64 Cost, RectangleF Rectangle)
+        public void UpdateBuilding(UInt64 Cost, Building Building)
+        {
+            SpendMoney(Cost, Building.GetMidLocation());
+            _OccupyFreeSpace(Building.GetRectangle());
+            _WidenBuilding(Building.GetRectangle());
+        }
+
+        public Boolean CanBuild(UInt64 Cost, RectangleF Rectangle)
         {
             return (_EnoughCents(Cost) == true) && (_InBuildableWorld(Rectangle) == true) && (_InFreeSpace(Rectangle) == true) && (_CompletelyOnTopOfBuilding(Rectangle) == true);
         }
