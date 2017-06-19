@@ -1,7 +1,4 @@
-﻿using System;
-using System.Drawing;
-
-namespace ButtonOffice
+﻿namespace ButtonOffice
 {
     public class Bathroom : Building
     {

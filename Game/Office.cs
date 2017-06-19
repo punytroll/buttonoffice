@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Drawing;
 
 namespace ButtonOffice
 {
@@ -26,61 +25,19 @@ namespace ButtonOffice
             }
         }
 
-        public Desk FirstDesk
-        {
-            get
-            {
-                return _FirstDesk;
-            }
-        }
+        public Desk FirstDesk => _FirstDesk;
 
-        public Desk SecondDesk
-        {
-            get
-            {
-                return _SecondDesk;
-            }
-        }
+        public Desk SecondDesk => _SecondDesk;
 
-        public Desk ThirdDesk
-        {
-            get
-            {
-                return _ThirdDesk;
-            }
-        }
+        public Desk ThirdDesk => _ThirdDesk;
 
-        public Desk FourthDesk
-        {
-            get
-            {
-                return _FourthDesk;
-            }
-        }
+        public Desk FourthDesk => _FourthDesk;
 
-        public Lamp FirstLamp
-        {
-            get
-            {
-                return _FirstLamp;
-            }
-        }
+        public Lamp FirstLamp => _FirstLamp;
 
-        public Lamp SecondLamp
-        {
-            get
-            {
-                return _SecondLamp;
-            }
-        }
+        public Lamp SecondLamp => _SecondLamp;
 
-        public Lamp ThirdLamp
-        {
-            get
-            {
-                return _ThirdLamp;
-            }
-        }
+        public Lamp ThirdLamp => _ThirdLamp;
 
         public Office()
         {
@@ -136,10 +93,7 @@ namespace ButtonOffice
                     Game.EnqueueBrokenThing(new Pair<Office, BrokenThing>(this, BrokenThing.ThirdLamp));
                 }
             }
-            if(_Cat != null)
-            {
-                _Cat.Move(Game, GameMinutes);
-            }
+            _Cat?.Move(Game, GameMinutes);
         }
 
         public override void Save(SaveObjectStore ObjectStore)

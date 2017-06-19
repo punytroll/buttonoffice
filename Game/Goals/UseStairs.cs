@@ -87,6 +87,7 @@ namespace ButtonOffice.Goals
 
         public override void Save(SaveObjectStore ObjectStore)
         {
+            Debug.Assert(_TargetFloor != null);
             base.Save(ObjectStore);
             ObjectStore.Save("stairs", _Stairs);
             ObjectStore.Save("target-floor", _TargetFloor.Value);

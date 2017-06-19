@@ -8,10 +8,10 @@ namespace ButtonOffice
     internal partial class MainWindow
     {
         private PointF _CameraVelocity;
-        private List<FloatingText> _FloatingTexts;
+        private readonly List<FloatingText> _FloatingTexts;
         private Person _MovePerson;
         private Game _Game;
-        private List<ToolStripButton> _ToolButtons;
+        private readonly List<ToolStripButton> _ToolButtons;
         private Point? _DragPoint;
         private Point _DrawingOffset;
         private EntityPrototype _EntityPrototype;
@@ -411,13 +411,24 @@ namespace ButtonOffice
                                     var ExpandUpwardsButton = new Button();
 
                                     ExpandUpwardsButton.Location = new Point(10, 80);
-                                    ExpandUpwardsButton.Size = new Size(100, 20);
+                                    ExpandUpwardsButton.Size = new Size(120, 20);
                                     ExpandUpwardsButton.Text = "Expand upwards";
                                     ExpandUpwardsButton.Click += delegate
-                                                        {
-                                                            (Building as Stairs).ExpandUpwards(_Game);
-                                                        };
+                                                                 {
+                                                                     (Building as Stairs)?.ExpandUpwards(_Game);
+                                                                 };
                                     _MainSplitContainer.Panel2.Controls.Add(ExpandUpwardsButton);
+
+                                    var ExpandDownwardsButton = new Button();
+
+                                    ExpandDownwardsButton.Location = new Point(10, 110);
+                                    ExpandDownwardsButton.Size = new Size(120, 20);
+                                    ExpandDownwardsButton.Text = "Expand downwards";
+                                    ExpandDownwardsButton.Click += delegate
+                                                                   {
+                                                                       (Building as Stairs)?.ExpandDownwards(_Game);
+                                                                   };
+                                    _MainSplitContainer.Panel2.Controls.Add(ExpandDownwardsButton);
                                 }
 
                                 break;
@@ -461,9 +472,8 @@ namespace ButtonOffice
             {
                 _DrawRectangle(EventArguments.Graphics, Office.GetRectangle(), Office.GetBackgroundColor(), Office.GetBorderColor());
 
-                Color LampColor;
+                var LampColor = Color.Yellow;
 
-                LampColor = Color.Yellow;
                 if(Office.FirstLamp.IsBroken() == true)
                 {
                     LampColor = Color.Gray;
@@ -495,14 +505,11 @@ namespace ButtonOffice
             }
             foreach(var Office in _Game.Offices)
             {
-                Color PersonAtDeskColor;
-                Color PersonColor;
-                Color ComputerColor;
-
                 // first desk
-                PersonAtDeskColor = Color.White;
-                PersonColor = Color.White;
-                ComputerColor = Data.ComputerBackgroundColor;
+                var PersonAtDeskColor = Color.White;
+                var PersonColor = Color.White;
+                var ComputerColor = Data.ComputerBackgroundColor;
+
                 if(Office.FirstDesk.IsFree() == false)
                 {
                     PersonColor = Office.FirstDesk.GetPerson().BackgroundColor;
@@ -601,14 +608,15 @@ namespace ButtonOffice
             {
                 _DrawRectangle(EventArguments.Graphics, Stairs.GetRectangle(), Stairs.GetBackgroundColor(), Stairs.GetBorderColor());
             }
-
-            var Font = new Font("Arial", 16.0f);
-            var Format = new StringFormat();
-
-            Format.Alignment = StringAlignment.Center;
-            foreach(var FloatingText in _FloatingTexts)
+            using(var FloatingTextFont = new Font("Arial", 16.0f))
             {
-                EventArguments.Graphics.DrawString(FloatingText.Text, Font, new SolidBrush(FloatingText.Color), _MovePointByOffset(_GetDrawingLocation(FloatingText.Origin), FloatingText.Offset), Format);
+                var Format = new StringFormat();
+
+                Format.Alignment = StringAlignment.Center;
+                foreach(var FloatingText in _FloatingTexts)
+                {
+                    EventArguments.Graphics.DrawString(FloatingText.Text, FloatingTextFont, new SolidBrush(FloatingText.Color), _MovePointByOffset(_GetDrawingLocation(FloatingText.Origin), FloatingText.Offset), Format);
+                }
             }
             if((_EntityPrototype != null) && (_EntityPrototype.HasLocation() == true))
             {

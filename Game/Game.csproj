@@ -66,6 +66,7 @@
     <Compile Include="Accountant.cs" />
     <Compile Include="AssertMessages.cs" />
     <Compile Include="Bathroom.cs" />
+    <Compile Include="Building.cs" />
     <Compile Include="Cat.cs" />
     <Compile Include="Computer.cs" />
     <Compile Include="Data\Data.cs" />
@@ -87,6 +88,9 @@
     <Compile Include="Persistence\SaveObjectStore.cs" />
     <Compile Include="Person.cs" />
     <Compile Include="RandomNumberGenerator.cs" />
+    <Compile Include="Stairs.cs" />
+    <Compile Include="TransportationNode.cs" />
+    <Compile Include="Goals\UseStairs.cs" />
     <Compile Include="Worker.cs" />
   </ItemGroup>
   <ItemGroup>

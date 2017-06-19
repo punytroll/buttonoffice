@@ -393,7 +393,7 @@ namespace ButtonOffice
             _Persons.Remove(Person);
             if(Person is ITTech)
             {
-                var ITTech = Person as ITTech;
+                var ITTech = (ITTech)Person;
                 var BrokenThing = ITTech.GetRepairingTarget();
 
                 if(BrokenThing != null)
@@ -403,7 +403,7 @@ namespace ButtonOffice
             }
             else if(Person is Accountant)
             {
-                _Accountants.Remove(Person as Accountant);
+                _Accountants.Remove((Accountant)Person);
             }
         }
 
@@ -447,9 +447,8 @@ namespace ButtonOffice
 
             var NearestDeskDistanceSquared = Single.MaxValue;
             Desk NearestDesk = null;
-            Single DeskDistanceSquared;
+            var DeskDistanceSquared = Office.FirstDesk.GetMidLocation().GetDistanceSquared(Location);
 
-            DeskDistanceSquared = Office.FirstDesk.GetMidLocation().GetDistanceSquared(Location);
             if(DeskDistanceSquared < NearestDeskDistanceSquared)
             {
                 NearestDesk = Office.FirstDesk;
@@ -471,7 +470,6 @@ namespace ButtonOffice
             if(DeskDistanceSquared < NearestDeskDistanceSquared)
             {
                 NearestDesk = Office.FourthDesk;
-                NearestDeskDistanceSquared = DeskDistanceSquared;
             }
 
             return NearestDesk;

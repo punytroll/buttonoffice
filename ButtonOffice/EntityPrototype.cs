@@ -9,7 +9,7 @@ namespace ButtonOffice
         private Color _BorderColor;
         private Boolean _HasLocation;
         private RectangleF _Rectangle;
-        private Type _Type;
+        private readonly Type _Type;
 
         public Color BackgroundColor
         {
@@ -35,29 +35,11 @@ namespace ButtonOffice
             }
         }
 
-        public PointF Location
-        {
-            get
-            {
-                return _Rectangle.Location;
-            }
-        }
+        public PointF Location => _Rectangle.Location;
 
-        public RectangleF Rectangle
-        {
-            get
-            {
-                return _Rectangle;
-            }
-        }
+        public RectangleF Rectangle => _Rectangle;
 
-        public Type Type
-        {
-            get
-            {
-                return _Type;
-            }
-        }
+        public Type Type => _Type;
 
         public EntityPrototype(Type Type)
         {
