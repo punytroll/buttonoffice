@@ -1,40 +1,42 @@
-﻿namespace ButtonOffice
+﻿using System;
+
+namespace ButtonOffice
 {
     internal class RandomNumberGenerator
     {
-        private static readonly System.Random _Random;
+        private static readonly Random _Random;
 
         static RandomNumberGenerator()
         {
-            _Random = new System.Random();
+            _Random = new Random();
         }
 
-        public static System.Boolean GetBoolean()
+        public static Boolean GetBoolean()
         {
             return _Random.NextDouble() < 0.5;
         }
 
-        public static System.Boolean GetBoolean(System.Double TruePercentage)
+        public static Boolean GetBoolean(Double TruePercentage)
         {
             return _Random.NextDouble() < TruePercentage;
         }
 
-        public static System.Single GetSingle()
+        public static Single GetSingle()
         {
             return _Random.NextDouble().ToSingle();
         }
 
-        public static System.Single GetSingle(System.Single Mean, System.Single Spread)
+        public static Single GetSingle(Single Mean, Single Spread)
         {
             return Mean + _Random.NextDouble().ToSingle() * Spread - Spread / 2.0f;
         }
 
-        public static System.Single GetSingleFromExponentialDistribution(System.Single MeanInterval)
+        public static Single GetSingleFromExponentialDistribution(Single MeanInterval)
         {
-            return MeanInterval * -(System.Math.Log(_Random.NextDouble()).ToSingle());
+            return MeanInterval * -(Math.Log(_Random.NextDouble()).ToSingle());
         }
 
-        public static System.UInt32 GetUInt32(System.UInt32 Mean, System.UInt32 Spread)
+        public static UInt32 GetUInt32(UInt32 Mean, UInt32 Spread)
         {
             return Mean + _Random.Next().ToUInt32() % Spread - Spread / 2;
         }
