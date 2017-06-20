@@ -18,7 +18,14 @@ namespace ButtonOffice.UnitTest
                         if(MethodInfo.GetCustomAttributes(typeof(TestAttribute), true).Length > 0)
                         {
                             Console.WriteLine("Calling test " + Type.FullName + "." + MethodInfo.Name + "().");
-                            MethodInfo.Invoke(null, new Object[] { });
+                            try
+                            {
+                                MethodInfo.Invoke(null, new Object[] { });
+                            }
+                            catch(Exception Exception)
+                            {
+                                Console.WriteLine(Exception.InnerException);
+                            }
                         }
                     }
                 }

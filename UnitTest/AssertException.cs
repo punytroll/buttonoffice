@@ -6,13 +6,7 @@ namespace ButtonOffice.UnitTest
     {
         private readonly AssertMessages _AssertMessage;
 
-        public AssertMessages AssertMessage
-        {
-            get
-            {
-                return _AssertMessage;
-            }
-        }
+        public AssertMessages AssertMessage => _AssertMessage;
 
         public AssertException(AssertMessages AssertMessage)
         {

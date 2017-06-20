@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 namespace ButtonOffice.UnitTest
 {
-    [TestCollection()]
+    [TestCollection]
     internal class MindTests
     {
-        [Test()]
+        [Test]
         internal static void Test_001_ConstructedMindIsEmpty()
         {
             var Game = ButtonOffice.Game.CreateNew();
@@ -144,7 +144,7 @@ namespace ButtonOffice.UnitTest
             }
         }
 
-        [Test()]
+        [Test]
         internal static void Test_002_AddGoalToMind()
         {
             var Game = ButtonOffice.Game.CreateNew();

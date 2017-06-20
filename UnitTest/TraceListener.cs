@@ -1,21 +1,22 @@
-﻿namespace ButtonOffice.UnitTest
+﻿using System;
+
+namespace ButtonOffice.UnitTest
 {
     internal class TraceListener : System.Diagnostics.TraceListener
     {
-        public TraceListener()
+        public override void Fail(String Message, String DetailMessage)
+        {
+            if(String.IsNullOrEmpty(Message) == false)
+            {
+                throw new AssertException((AssertMessages)(Enum.Parse(typeof(AssertMessages), Message)));
+            }
+        }
+
+        public override void Write(String Message)
         {
         }
 
-        public override void Fail(System.String Message, System.String DetailMessage)
-        {
-            throw new AssertException((AssertMessages)(System.Enum.Parse(typeof(AssertMessages), Message)));
-        }
-
-        public override void Write(System.String Message)
-        {
-        }
-
-        public override void WriteLine(System.String Message)
+        public override void WriteLine(String Message)
         {
         }
     }

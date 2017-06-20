@@ -5,11 +5,6 @@ namespace ButtonOffice.UnitTest
 {
     internal class Assert
     {
-        internal static void AreEqual<Type>(Type First, Type Second) where Type : IComparable
-        {
-            Debug.Assert(First.CompareTo(Second) == 0);
-        }
-
         internal static void NoAssertion(Action Action)
         {
             var DefaultTraceListenern = Debug.Listeners[0];

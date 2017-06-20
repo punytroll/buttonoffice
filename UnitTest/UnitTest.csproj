@@ -66,11 +66,17 @@
     <Compile Include="Assert.cs" />
     <Compile Include="AssertException.cs" />
     <Compile Include="Attributes.cs" />
+    <Compile Include="ExceptionMissingException.cs" />
     <Compile Include="Goals\Goal\SimpleStateTransitions.cs" />
     <Compile Include="Goals\Mind\Mind.cs" />
+    <Compile Include="ReferencePriorityQueue.cs" />
     <Compile Include="TraceListener.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{c3811a97-6bae-4d36-9504-591612eb5fb7}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Game\Game.csproj">
       <Project>{5DCF8354-B959-464F-A13C-AA4108CE4B5B}</Project>
       <Name>Game</Name>

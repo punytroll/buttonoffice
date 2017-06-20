@@ -1,17 +1,19 @@
-﻿namespace ButtonOffice.UnitTest
+﻿using System.Diagnostics;
+
+namespace ButtonOffice.UnitTest
 {
-    [TestCollection()]
+    [TestCollection]
     internal class GoalSimpleStateTransitions
     {
-        [Test()]
+        [Test]
         internal static void Test_001_ConstructedGoalIsPrestine()
         {
             var Goal = new Goal();
 
-            Assert.AreEqual(Goal.GetState(), GoalState.Pristine);
+            Debug.Assert(Goal.GetState() == GoalState.Pristine);
         }
 
-        [Test()]
+        [Test]
         internal static void Test_002_PrestineGoalCanInitialize()
         {
             var Game = ButtonOffice.Game.CreateNew();
@@ -21,7 +23,7 @@
             Assert.NoAssertion(() => Goal.Initialize(Game, Person));
         }
 
-        [Test()]
+        [Test]
         internal static void Test_003_PrestineGoalInitializedIsReady()
         {
             var Game = ButtonOffice.Game.CreateNew();
@@ -29,10 +31,10 @@
             var Goal = new Goal();
 
             Goal.Initialize(Game, Person);
-            Assert.AreEqual(Goal.GetState(), GoalState.Ready);
+            Debug.Assert(Goal.GetState() == GoalState.Ready);
         }
 
-        [Test()]
+        [Test]
         internal static void Test_004_PrestineGoalCannotResume()
         {
             var Game = ButtonOffice.Game.CreateNew();
@@ -42,7 +44,7 @@
             Assert.Assertion(AssertMessages.CurrentStateIsNotReady, () => Goal.Resume(Game, Person));
         }
 
-        [Test()]
+        [Test]
         internal static void Test_005_PrestineGoalCannotSuspend()
         {
             var Game = ButtonOffice.Game.CreateNew();
@@ -52,7 +54,7 @@
             Assert.Assertion(AssertMessages.CurrentStateIsNotExecuting, () => Goal.Suspend(Game, Person));
         }
 
-        [Test()]
+        [Test]
         internal static void Test_006_PrestineGoalCannotAbort()
         {
             var Game = ButtonOffice.Game.CreateNew();
@@ -62,7 +64,7 @@
             Assert.Assertion(AssertMessages.CurrentStateIsNotReadyOrExecuting, () => Goal.Abort(Game, Person));
         }
 
-        [Test()]
+        [Test]
         internal static void Test_007_PrestineGoalCannotFinish()
         {
             var Game = ButtonOffice.Game.CreateNew();
@@ -72,7 +74,7 @@
             Assert.Assertion(AssertMessages.CurrentStateIsNotExecuting, () => Goal.Finish(Game, Person));
         }
 
-        [Test()]
+        [Test]
         internal static void Test_008_PrestineGoalCannotTerminate()
         {
             var Game = ButtonOffice.Game.CreateNew();
@@ -82,7 +84,7 @@
             Assert.Assertion(AssertMessages.CurrentStateIsNotDone, () => Goal.Terminate(Game, Person));
         }
 
-        [Test()]
+        [Test]
         internal static void Test_009_ReadyGoalCanResume()
         {
             var Game = ButtonOffice.Game.CreateNew();
@@ -93,7 +95,7 @@
             Assert.NoAssertion(() => Goal.Resume(Game, Person));
         }
 
-        [Test()]
+        [Test]
         internal static void Test_010_ReadyGoalResumedIsExecuting()
         {
             var Game = ButtonOffice.Game.CreateNew();
@@ -102,10 +104,10 @@
 
             Goal.Initialize(Game, Person);
             Goal.Resume(Game, Person);
-            Assert.AreEqual(Goal.GetState(), GoalState.Executing);
+            Debug.Assert(Goal.GetState() == GoalState.Executing);
         }
 
-        [Test()]
+        [Test]
         internal static void Test_011_ReadyGoalCanAbort()
         {
             var Game = ButtonOffice.Game.CreateNew();
@@ -116,7 +118,7 @@
             Assert.NoAssertion(() => Goal.Abort(Game, Person));
         }
 
-        [Test()]
+        [Test]
         internal static void Test_012_ReadyGoalAbortedIsDone()
         {
             var Game = ButtonOffice.Game.CreateNew();
@@ -125,10 +127,10 @@
 
             Goal.Initialize(Game, Person);
             Goal.Abort(Game, Person);
-            Assert.AreEqual(Goal.GetState(), GoalState.Done);
+            Debug.Assert(Goal.GetState() == GoalState.Done);
         }
 
-        [Test()]
+        [Test]
         internal static void Test_013_ReadyGoalCannotInitialize()
         {
             var Game = ButtonOffice.Game.CreateNew();
@@ -139,7 +141,7 @@
             Assert.Assertion(AssertMessages.CurrentStateIsNotPrestine, () => Goal.Initialize(Game, Person));
         }
 
-        [Test()]
+        [Test]
         internal static void Test_014_ReadyGoalCannotSuspend()
         {
             var Game = ButtonOffice.Game.CreateNew();
@@ -150,7 +152,7 @@
             Assert.Assertion(AssertMessages.CurrentStateIsNotExecuting, () => Goal.Suspend(Game, Person));
         }
 
-        [Test()]
+        [Test]
         internal static void Test_015_ReadyGoalCannotTerminate()
         {
             var Game = ButtonOffice.Game.CreateNew();
@@ -161,7 +163,7 @@
             Assert.Assertion(AssertMessages.CurrentStateIsNotDone, () => Goal.Terminate(Game, Person));
         }
 
-        [Test()]
+        [Test]
         internal static void Test_016_ReadyGoalCannotFinish()
         {
             var Game = ButtonOffice.Game.CreateNew();
@@ -172,7 +174,7 @@
             Assert.Assertion(AssertMessages.CurrentStateIsNotExecuting, () => Goal.Finish(Game, Person));
         }
 
-        [Test()]
+        [Test]
         internal static void Test_017_ExecutingGoalCanSuspend()
         {
             var Game = ButtonOffice.Game.CreateNew();
@@ -184,7 +186,7 @@
             Assert.NoAssertion(() => Goal.Suspend(Game, Person));
         }
 
-        [Test()]
+        [Test]
         internal static void Test_018_ExecutingGoalSuspendedIsReady()
         {
             var Game = ButtonOffice.Game.CreateNew();
@@ -194,10 +196,10 @@
             Goal.Initialize(Game, Person);
             Goal.Resume(Game, Person);
             Goal.Suspend(Game, Person);
-            Assert.AreEqual(Goal.GetState(), GoalState.Ready);
+            Debug.Assert(Goal.GetState() == GoalState.Ready);
         }
 
-        [Test()]
+        [Test]
         internal static void Test_019_ExecutingGoalCanAbort()
         {
             var Game = ButtonOffice.Game.CreateNew();
@@ -209,7 +211,7 @@
             Assert.NoAssertion(() => Goal.Abort(Game, Person));
         }
 
-        [Test()]
+        [Test]
         internal static void Test_020_ExecutingGoalAbortedIsDone()
         {
             var Game = ButtonOffice.Game.CreateNew();
@@ -219,7 +221,7 @@
             Goal.Initialize(Game, Person);
             Goal.Resume(Game, Person);
             Goal.Abort(Game, Person);
-            Assert.AreEqual(Goal.GetState(), GoalState.Done);
+            Debug.Assert(Goal.GetState() == GoalState.Done);
         }
 
         [Test()]
@@ -234,7 +236,7 @@
             Assert.NoAssertion(() => Goal.Finish(Game, Person));
         }
 
-        [Test()]
+        [Test]
         internal static void Test_022_ExecutingGoalFinishedIsDone()
         {
             var Game = ButtonOffice.Game.CreateNew();
@@ -244,10 +246,10 @@
             Goal.Initialize(Game, Person);
             Goal.Resume(Game, Person);
             Goal.Finish(Game, Person);
-            Assert.AreEqual(Goal.GetState(), GoalState.Done);
+            Debug.Assert(Goal.GetState() == GoalState.Done);
         }
 
-        [Test()]
+        [Test]
         internal static void Test_023_ExecutingGoalCannotInitialize()
         {
             var Game = ButtonOffice.Game.CreateNew();
@@ -259,7 +261,7 @@
             Assert.Assertion(AssertMessages.CurrentStateIsNotPrestine, () => Goal.Initialize(Game, Person));
         }
 
-        [Test()]
+        [Test]
         internal static void Test_024_ExecutingGoalCannotResume()
         {
             var Game = ButtonOffice.Game.CreateNew();
@@ -271,7 +273,7 @@
             Assert.Assertion(AssertMessages.CurrentStateIsNotReady, () => Goal.Resume(Game, Person));
         }
 
-        [Test()]
+        [Test]
         internal static void Test_025_ExecutingGoalCannotTerminate()
         {
             var Game = ButtonOffice.Game.CreateNew();
@@ -283,7 +285,7 @@
             Assert.Assertion(AssertMessages.CurrentStateIsNotDone, () => Goal.Terminate(Game, Person));
         }
 
-        [Test()]
+        [Test]
         internal static void Test_026_DoneGoalCanTerminate()
         {
             var Game = ButtonOffice.Game.CreateNew();
@@ -296,7 +298,7 @@
             Assert.NoAssertion(() => Goal.Terminate(Game, Person));
         }
 
-        [Test()]
+        [Test]
         internal static void Test_027_DoneGoalTerminatedIsTerminated()
         {
             var Game = ButtonOffice.Game.CreateNew();
@@ -307,10 +309,10 @@
             Goal.Resume(Game, Person);
             Goal.Finish(Game, Person);
             Goal.Terminate(Game, Person);
-            Assert.AreEqual(Goal.GetState(), GoalState.Terminated);
+            Debug.Assert(Goal.GetState() == GoalState.Terminated);
         }
 
-        [Test()]
+        [Test]
         internal static void Test_028_DoneGoalCannotInitialize()
         {
             var Game = ButtonOffice.Game.CreateNew();
@@ -323,7 +325,7 @@
             Assert.Assertion(AssertMessages.CurrentStateIsNotPrestine, () => Goal.Initialize(Game, Person));
         }
 
-        [Test()]
+        [Test]
         internal static void Test_029_DoneGoalCannotResume()
         {
             var Game = ButtonOffice.Game.CreateNew();
@@ -336,7 +338,7 @@
             Assert.Assertion(AssertMessages.CurrentStateIsNotReady, () => Goal.Resume(Game, Person));
         }
 
-        [Test()]
+        [Test]
         internal static void Test_030_DoneGoalCannotSuspend()
         {
             var Game = ButtonOffice.Game.CreateNew();
@@ -349,7 +351,7 @@
             Assert.Assertion(AssertMessages.CurrentStateIsNotExecuting, () => Goal.Suspend(Game, Person));
         }
 
-        [Test()]
+        [Test]
         internal static void Test_031_DoneGoalCannotAbort()
         {
             var Game = ButtonOffice.Game.CreateNew();
@@ -362,7 +364,7 @@
             Assert.Assertion(AssertMessages.CurrentStateIsNotReadyOrExecuting, () => Goal.Abort(Game, Person));
         }
 
-        [Test()]
+        [Test]
         internal static void Test_032_DoneGoalCannotFinish()
         {
             var Game = ButtonOffice.Game.CreateNew();
@@ -375,7 +377,7 @@
             Assert.Assertion(AssertMessages.CurrentStateIsNotExecuting, () => Goal.Finish(Game, Person));
         }
 
-        [Test()]
+        [Test]
         internal static void Test_033_TerminatedGoalCannotInitialize()
         {
             var Game = ButtonOffice.Game.CreateNew();
@@ -389,7 +391,7 @@
             Assert.Assertion(AssertMessages.CurrentStateIsNotPrestine, () => Goal.Initialize(Game, Person));
         }
 
-        [Test()]
+        [Test]
         internal static void Test_034_TerminatedGoalCannotResume()
         {
             var Game = ButtonOffice.Game.CreateNew();
@@ -403,7 +405,7 @@
             Assert.Assertion(AssertMessages.CurrentStateIsNotReady, () => Goal.Resume(Game, Person));
         }
 
-        [Test()]
+        [Test]
         internal static void Test_035_TerminatedGoalCannotSuspend()
         {
             var Game = ButtonOffice.Game.CreateNew();
@@ -417,7 +419,7 @@
             Assert.Assertion(AssertMessages.CurrentStateIsNotExecuting, () => Goal.Suspend(Game, Person));
         }
 
-        [Test()]
+        [Test]
         internal static void Test_036_TerminatedGoalCannotAbort()
         {
             var Game = ButtonOffice.Game.CreateNew();
@@ -431,7 +433,7 @@
             Assert.Assertion(AssertMessages.CurrentStateIsNotReadyOrExecuting, () => Goal.Abort(Game, Person));
         }
 
-        [Test()]
+        [Test]
         internal static void Test_037_TerminatedGoalCannotTerminate()
         {
             var Game = ButtonOffice.Game.CreateNew();
@@ -445,7 +447,7 @@
             Assert.Assertion(AssertMessages.CurrentStateIsNotDone, () => Goal.Terminate(Game, Person));
         }
 
-        [Test()]
+        [Test]
         internal static void Test_038_TerminatedGoalCannotFinish()
         {
             var Game = ButtonOffice.Game.CreateNew();
