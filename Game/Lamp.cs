@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Drawing;
 
 namespace ButtonOffice
@@ -6,11 +7,34 @@ namespace ButtonOffice
     public class Lamp : PersistentObject
     {
         private Single _MinutesUntilBroken;
+        private Office _Office;
         private RectangleF _Rectangle;
+
+        public Office Office
+        {
+            get
+            {
+                return _Office;
+            }
+            set
+            {
+                if(value == null)
+                {
+                    Debug.Assert(_Office != null);
+                    _Office = null;
+                }
+                else
+                {
+                    Debug.Assert(_Office == null);
+                    _Office = value;
+                }
+            }
+        }
 
         public Lamp()
         {
             _MinutesUntilBroken = RandomNumberGenerator.GetSingleFromExponentialDistribution(Data.MeanMinutesToBrokenLamp);
+            _Office = null;
             _Rectangle.Height = Data.LampHeight;
             _Rectangle.Width = Data.LampWidth;
         }
@@ -23,6 +47,11 @@ namespace ButtonOffice
         public Single GetMinutesUntilBroken()
         {
             return _MinutesUntilBroken;
+        }
+
+        public Office GetOffice()
+        {
+            return _Office;
         }
 
         public RectangleF GetRectangle()
@@ -85,6 +114,7 @@ namespace ButtonOffice
         {
             base.Save(ObjectStore);
             ObjectStore.Save("minutes-until-broken", _MinutesUntilBroken);
+            ObjectStore.Save("office", _Office);
             ObjectStore.Save("rectangle", _Rectangle);
         }
 
@@ -92,6 +122,7 @@ namespace ButtonOffice
         {
             base.Load(ObjectStore);
             _MinutesUntilBroken = ObjectStore.LoadSingleProperty("minutes-until-broken");
+            _Office = ObjectStore.LoadOfficeProperty("office");
             _Rectangle = ObjectStore.LoadRectangleProperty("rectangle");
         }
     }

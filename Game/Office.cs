@@ -52,8 +52,11 @@ namespace ButtonOffice
             _FourthDesk = new Desk();
             _FourthDesk.Office = this;
             _FirstLamp = new Lamp();
+            _FirstLamp.Office = this;
             _SecondLamp = new Lamp();
+            _SecondLamp.Office = this;
             _ThirdLamp = new Lamp();
+            _ThirdLamp.Office = this;
         }
 
         protected override void _UpdateInterior()

@@ -21,7 +21,16 @@ namespace ButtonOffice
             }
             set
             {
-                _Office = value;
+                if(value == null)
+                {
+                    Debug.Assert(_Office != null);
+                    _Office = null;
+                }
+                else
+                {
+                    Debug.Assert(_Office == null);
+                    _Office = value;
+                }
             }
         }
 
@@ -40,6 +49,7 @@ namespace ButtonOffice
         public Desk()
         {
             _Computer = new Computer();
+            _Office = null;
             _Rectangle.Height = Data.DeskHeight;
             _Rectangle.Width = Data.DeskWidth;
         }
