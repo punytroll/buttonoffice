@@ -324,7 +324,7 @@ namespace ButtonOffice.Goals
 
                     if(CleaningTarget != null)
                     {
-                        var WalkToLocation = new WalkToLocation();
+                        var WalkToLocation = new FindPathToLocation();
 
                         WalkToLocation.SetLocation(new PointF(CleaningTarget.GetX() + CleaningTarget.GetWidth() / 2.0f, CleaningTarget.GetY()));
                         AppendSubGoal(WalkToLocation);
@@ -360,7 +360,7 @@ namespace ButtonOffice.Goals
             Debug.Assert(Person != null);
             Game.SpendMoney(Person.GetWage(), Person.GetMidLocation());
 
-            var WalkToLocation = new WalkToLocation();
+            var WalkToLocation = new FindPathToLocation();
 
             if(Person.GetLivingSide() == LivingSide.Left)
             {
@@ -717,7 +717,7 @@ namespace ButtonOffice.Goals
                             }
                         case ButtonOffice.BrokenThing.FirstLamp:
                             {
-                                var WalkToLocation = new WalkToLocation();
+                                var WalkToLocation = new FindPathToLocation();
 
                                 WalkToLocation.SetLocation(new PointF(BrokenThing.First.FirstLamp.GetX() + BrokenThing.First.FirstLamp.GetWidth() / 2.0f, BrokenThing.First.GetY()));
                                 AppendSubGoal(WalkToLocation);
@@ -726,7 +726,7 @@ namespace ButtonOffice.Goals
                             }
                         case ButtonOffice.BrokenThing.SecondLamp:
                             {
-                                var WalkToLocation = new WalkToLocation();
+                                var WalkToLocation = new FindPathToLocation();
 
                                 WalkToLocation.SetLocation(new PointF(BrokenThing.First.SecondLamp.GetX() + BrokenThing.First.SecondLamp.GetWidth() / 2.0f, BrokenThing.First.GetY()));
                                 AppendSubGoal(WalkToLocation);
@@ -735,7 +735,7 @@ namespace ButtonOffice.Goals
                             }
                         case ButtonOffice.BrokenThing.ThirdLamp:
                             {
-                                var WalkToLocation = new WalkToLocation();
+                                var WalkToLocation = new FindPathToLocation();
 
                                 WalkToLocation.SetLocation(new PointF(BrokenThing.First.ThirdLamp.GetX() + BrokenThing.First.ThirdLamp.GetWidth() / 2.0f, BrokenThing.First.GetY()));
                                 AppendSubGoal(WalkToLocation);
@@ -864,7 +864,7 @@ namespace ButtonOffice.Goals
         }
     }
 
-    internal class WalkToLocation : Goal
+    internal class FindPathToLocation : Goal
     {
         private PointF _Location;
 
@@ -945,7 +945,7 @@ namespace ButtonOffice.Goals
         {
             Debug.Assert(_Desk != null);
 
-            var WalkToLocation = new WalkToLocation();
+            var WalkToLocation = new FindPathToLocation();
 
             WalkToLocation.SetLocation(new PointF(_Desk.GetX() + _Desk.GetWidth() / 2.0f, _Desk.GetY()));
             AppendSubGoal(WalkToLocation);
