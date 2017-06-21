@@ -20,12 +20,11 @@ namespace ButtonOffice
         private UInt64 _Cents;
         private readonly List<BitArray> _FreeSpace;
         private readonly List<Pair<Int32, Int32>> _BuildingMinimumMaximum;
-        private UInt64 _Minutes;
+        private Double _Minutes;
         private UInt32 _NextCatAtNumberOfEmployees;
         private readonly List<Office> _Offices;
         private readonly List<Person> _Persons;
         private readonly List<Stairs> _Stairs;
-        private Single _SubMinute;
         private Int32 _WorldBlockHeight;
         private Int32 _WorldBlockWidth;
 
@@ -51,7 +50,6 @@ namespace ButtonOffice
             Result._Cents = Data.NewGameCents;
             Result._Minutes = Data.NewGameMinutes;
             Result._NextCatAtNumberOfEmployees = 20;
-            Result._SubMinute = 0.0f;
             Result._WorldBlockHeight = Data.NewGameWorldBlockHeight;
             Result._WorldBlockWidth = Data.NewGameWorldBlockWidth;
             Result._InitializeFreeSpaceAndMinimumMaximum();
@@ -82,21 +80,16 @@ namespace ButtonOffice
             _Stairs = new List<Stairs>();
         }
 
-        public void Move(Single GameMinutes)
+        public void Move(Double DeltaGameMinutes)
         {
-            _SubMinute += GameMinutes;
-            while(_SubMinute >= 1.0f)
-            {
-                _Minutes += 1;
-                _SubMinute -= 1.0f;
-            }
+            _Minutes += DeltaGameMinutes;
             foreach(var Building in _Buildings)
             {
-                Building.Move(this, GameMinutes);
+                Building.Move(this, DeltaGameMinutes);
             }
             foreach(var Person in _Persons)
             {
-                Person.Move(this, GameMinutes);
+                Person.Move(this, DeltaGameMinutes);
             }
         }
 
@@ -134,17 +127,17 @@ namespace ButtonOffice
 
         public UInt64 GetDay()
         {
-            return _Minutes / 1440;
+            return Convert.ToUInt64(_Minutes / 1440.0);
         }
 
         public UInt64 GetTotalMinutes()
         {
-            return _Minutes;
+            return Convert.ToUInt64(_Minutes);
         }
 
         public UInt64 GetMinuteOfDay()
         {
-            return _Minutes % 1440;
+            return Convert.ToUInt64(_Minutes) % 1440;
         }
 
         public UInt64 GetFirstMinuteOfDay(UInt64 Day)
@@ -657,7 +650,6 @@ namespace ButtonOffice
             ObjectStore.Save("offices", _Offices);
             ObjectStore.Save("persons", _Persons);
             ObjectStore.Save("stairs", _Stairs);
-            ObjectStore.Save("sub-minute", _SubMinute);
             ObjectStore.Save("world-width", _WorldBlockWidth);
             ObjectStore.Save("world-height", _WorldBlockHeight);
         }
@@ -682,7 +674,7 @@ namespace ButtonOffice
             }
             _CatStock = ObjectStore.LoadUInt32Property("cat-stock");
             _Cents = ObjectStore.LoadUInt64Property("cents");
-            _Minutes = ObjectStore.LoadUInt64Property("minutes");
+            _Minutes = ObjectStore.LoadDoubleProperty("minutes");
             _NextCatAtNumberOfEmployees = ObjectStore.LoadUInt32Property("next-cat-at-number-of-employees");
             foreach(var Office in ObjectStore.LoadOffices("offices"))
             {
@@ -696,7 +688,6 @@ namespace ButtonOffice
             {
                 _Stairs.Add(Stairs);
             }
-            _SubMinute = ObjectStore.LoadSingleProperty("sub-minute");
             _WorldBlockWidth = ObjectStore.LoadInt32Property("world-width");
             _WorldBlockHeight = ObjectStore.LoadInt32Property("world-height");
             _InitializeFreeSpaceAndMinimumMaximum();

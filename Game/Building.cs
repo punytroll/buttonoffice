@@ -9,10 +9,6 @@ namespace ButtonOffice
         protected Color _BorderColor;
         protected RectangleF _Rectangle;
 
-        public Building()
-        {
-        }
-
         public Color GetBackgroundColor()
         {
             return _BackgroundColor;
@@ -92,7 +88,7 @@ namespace ButtonOffice
         {
         }
 
-        public virtual void Move(Game Game, Single GameMinutes)
+        public virtual void Move(Game Game, Double DeltaGameMinutes)
         {
         }
 

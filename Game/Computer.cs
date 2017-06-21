@@ -4,14 +4,14 @@ namespace ButtonOffice
 {
     public class Computer : PersistentObject
     {
-        private Single _MinutesUntilBroken;
+        private Double _MinutesUntilBroken;
 
         public Computer()
         {
-            _MinutesUntilBroken = RandomNumberGenerator.GetSingleFromExponentialDistribution(Data.MeanMinutesToBrokenComputer);
+            _MinutesUntilBroken = RandomNumberGenerator.GetDoubleFromExponentialDistribution(Data.MeanMinutesToBrokenComputer);
         }
 
-        public Single GetMinutesUntilBroken()
+        public Double GetMinutesUntilBroken()
         {
             return _MinutesUntilBroken;
         }
@@ -21,7 +21,7 @@ namespace ButtonOffice
             return _MinutesUntilBroken < 0.0f;
         }
 
-        public void SetMinutesUntilBroken(Single MinutesUntilBroken)
+        public void SetMinutesUntilBroken(Double MinutesUntilBroken)
         {
             _MinutesUntilBroken = MinutesUntilBroken;
         }
@@ -34,7 +34,7 @@ namespace ButtonOffice
         public override void Load(LoadObjectStore ObjectStore)
         {
             base.Load(ObjectStore);
-            _MinutesUntilBroken = ObjectStore.LoadSingleProperty("minutes-until-broken");
+            _MinutesUntilBroken = ObjectStore.LoadDoubleProperty("minutes-until-broken");
         }
     }
 }

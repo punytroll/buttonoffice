@@ -12,7 +12,7 @@ namespace ButtonOffice
             _RootGoal = null;
         }
 
-        public void Move(Game Game, PersistentObject Actor, Single DeltaMinutes)
+        public void Move(Game Game, PersistentObject Actor, Double DeltaGameMinutes)
         {
             var ParentGoals = new List<Goal>();
             var CurrentGoal = _RootGoal;
@@ -35,7 +35,7 @@ namespace ButtonOffice
                 }
                 if(CurrentGoal.GetState() == GoalState.Executing)
                 {
-                    CurrentGoal.Execute(Game, Actor, DeltaMinutes);
+                    CurrentGoal.Execute(Game, Actor, DeltaGameMinutes);
                 }
                 if(CurrentGoal.GetState() == GoalState.Done)
                 {

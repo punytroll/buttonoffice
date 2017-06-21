@@ -38,13 +38,7 @@ namespace ButtonOffice.UnitTest
         {
             private readonly List<TraceEvents> _Trace;
 
-            public List<TraceEvents> Trace
-            {
-                get
-                {
-                    return _Trace;
-                }
-            }
+            public List<TraceEvents> Trace => _Trace;
 
             protected TraceGoal()
             {
@@ -63,15 +57,15 @@ namespace ButtonOffice.UnitTest
             {
             }
 
-            protected override void _OnExecute(Game Game, PersistentObject Actor, Single DeltaMinutes)
+            protected override void _OnExecute(Game Game, PersistentObject Actor, Double DeltaGameMinutes)
             {
                 _Trace.Add(TraceEvents.EnterOnExecute);
-                base._OnExecute(Game, Actor, DeltaMinutes);
-                _OnTraceExecute(Game, Actor, DeltaMinutes);
+                base._OnExecute(Game, Actor, DeltaGameMinutes);
+                _OnTraceExecute(Game, Actor, DeltaGameMinutes);
                 _Trace.Add(TraceEvents.ExitOnExecute);
             }
 
-            protected virtual void _OnTraceExecute(Game Game, PersistentObject Actor, Single DeltaMinutes)
+            protected virtual void _OnTraceExecute(Game Game, PersistentObject Actor, Double DeltaGameMinutes)
             {
             }
 
@@ -136,9 +130,9 @@ namespace ButtonOffice.UnitTest
             }
         }
 
-        private class FinishOnFirstExecute : MindTests.TraceGoal
+        private class FinishOnFirstExecute : TraceGoal
         {
-            protected override void _OnTraceExecute(Game Game, PersistentObject Actor, Single DeltaMinutes)
+            protected override void _OnTraceExecute(Game Game, PersistentObject Actor, Double DeltaGameMinutes)
             {
                 Finish(Game, Actor);
             }
@@ -150,7 +144,7 @@ namespace ButtonOffice.UnitTest
             var Game = ButtonOffice.Game.CreateNew();
             var Mind = new Mind();
             var Person = new Janitor();
-            var Goal = new MindTests.FinishOnFirstExecute();
+            var Goal = new FinishOnFirstExecute();
 
             Mind.SetRootGoal(Goal);
             Mind.Move(Game, Person, 0.1f);

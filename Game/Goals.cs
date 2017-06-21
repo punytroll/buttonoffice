@@ -6,7 +6,7 @@ namespace ButtonOffice.Goals
 {
     internal class AccountantThink : Goal
     {
-        protected override void _OnExecute(Game Game, PersistentObject Actor, Single DeltaMinutes)
+        protected override void _OnExecute(Game Game, PersistentObject Actor, Double DeltaGameMinutes)
         {
             if(HasSubGoals() == false)
             {
@@ -30,7 +30,7 @@ namespace ButtonOffice.Goals
             Person.SetAnimationFraction(0.0f);
         }
 
-        protected override void _OnExecute(Game Game, PersistentObject Actor, Single DeltaMinutes)
+        protected override void _OnExecute(Game Game, PersistentObject Actor, Double DeltaGameMinutes)
         {
             var Person = Actor as Person;
 
@@ -43,7 +43,7 @@ namespace ButtonOffice.Goals
             {
                 if(Person.GetDesk().GetComputer().IsBroken() == false)
                 {
-                    Person.GetDesk().GetComputer().SetMinutesUntilBroken(Person.GetDesk().GetComputer().GetMinutesUntilBroken() - DeltaMinutes);
+                    Person.GetDesk().GetComputer().SetMinutesUntilBroken(Person.GetDesk().GetComputer().GetMinutesUntilBroken() - DeltaGameMinutes);
                     if(Person.GetDesk().GetComputer().IsBroken() == true)
                     {
                         Person.SetActionFraction(0.0f);
@@ -68,13 +68,13 @@ namespace ButtonOffice.Goals
                     }
                     else
                     {
-                        Person.SetActionFraction(Person.GetActionFraction() + Data.AccountantWorkSpeed * DeltaMinutes);
+                        Person.SetActionFraction(Convert.ToSingle(Person.GetActionFraction() + Data.AccountantWorkSpeed * DeltaGameMinutes));
                         while(Person.GetActionFraction() >= 1.0f)
                         {
                             Person.SetActionFraction(Person.GetActionFraction() - 1.0f);
                             Person.GetDesk().TrashLevel += 2.0f;
                         }
-                        Person.SetAnimationFraction(Person.GetAnimationFraction() + Data.AccountantWorkSpeed * DeltaMinutes);
+                        Person.SetAnimationFraction(Convert.ToSingle(Person.GetAnimationFraction() + Data.AccountantWorkSpeed * DeltaGameMinutes));
                         while(Person.GetAnimationFraction() >= 1.0f)
                         {
                             Person.SetAnimationFraction(Person.GetAnimationFraction() - 1.0f);
@@ -97,7 +97,7 @@ namespace ButtonOffice.Goals
     internal class CatThink : Goal
     {
         private ActionState _ActionState;
-        private Single _MinutesToActionStateChange;
+        private Double _MinutesToActionStateChange;
 
         public CatThink()
         {
@@ -105,7 +105,7 @@ namespace ButtonOffice.Goals
             _MinutesToActionStateChange = RandomNumberGenerator.GetSingle(10.0f, 15.0f);
         }
 
-        protected override void _OnExecute(Game Game, PersistentObject Actor, Single DeltaMinutes)
+        protected override void _OnExecute(Game Game, PersistentObject Actor, Double DeltaGameMinutes)
         {
             var Cat = Actor as Cat;
 
@@ -126,7 +126,7 @@ namespace ButtonOffice.Goals
                         }
                         _MinutesToActionStateChange = RandomNumberGenerator.GetSingle(20.0f, 20.0f);
                     }
-                    _MinutesToActionStateChange -= DeltaMinutes;
+                    _MinutesToActionStateChange -= DeltaGameMinutes;
 
                     break;
                 }
@@ -145,12 +145,12 @@ namespace ButtonOffice.Goals
                             _MinutesToActionStateChange = RandomNumberGenerator.GetSingle(10.0f, 8.0f);
                         }
                     }
-                    Cat.SetX(Cat.GetX() - DeltaMinutes * Data.CatWalkSpeed);
+                    Cat.SetX(Convert.ToSingle(Cat.GetX() - DeltaGameMinutes * Data.CatWalkSpeed));
                     if(Cat.GetX() <= Cat.Office.GetX())
                     {
                         _ActionState = ActionState.WalkRight;
                     }
-                    _MinutesToActionStateChange -= DeltaMinutes;
+                    _MinutesToActionStateChange -= DeltaGameMinutes;
 
                     break;
                 }
@@ -170,23 +170,16 @@ namespace ButtonOffice.Goals
                             _MinutesToActionStateChange = RandomNumberGenerator.GetSingle(10.0f, 8.0f);
                         }
                     }
-                    Cat.SetX(Cat.GetX() + DeltaMinutes * Data.CatWalkSpeed);
+                    Cat.SetX(Convert.ToSingle(Cat.GetX() + DeltaGameMinutes * Data.CatWalkSpeed));
                     if(Cat.GetRight() >= Cat.Office.GetRight())
                     {
                         _ActionState = ActionState.WalkLeft;
                     }
-                    _MinutesToActionStateChange -= DeltaMinutes;
+                    _MinutesToActionStateChange -= DeltaGameMinutes;
 
                     break;
                 }
             }
-        }
-
-        public override void Load(LoadObjectStore ObjectStore)
-        {
-            base.Load(ObjectStore);
-            _ActionState = ObjectStore.LoadActionStateProperty("action-state");
-            _MinutesToActionStateChange = ObjectStore.LoadSingleProperty("minutes-to-action-state-change");
         }
 
         public override void Save(SaveObjectStore ObjectStore)
@@ -194,6 +187,13 @@ namespace ButtonOffice.Goals
             base.Save(ObjectStore);
             ObjectStore.Save("action-state", _ActionState);
             ObjectStore.Save("minutes-to-action-state-change", _MinutesToActionStateChange);
+        }
+
+        public override void Load(LoadObjectStore ObjectStore)
+        {
+            base.Load(ObjectStore);
+            _ActionState = ObjectStore.LoadActionStateProperty("action-state");
+            _MinutesToActionStateChange = ObjectStore.LoadDoubleProperty("minutes-to-action-state-change");
         }
     }
 
@@ -234,21 +234,21 @@ namespace ButtonOffice.Goals
             }
         }
 
-        protected override void _OnExecute(Game Game, PersistentObject Actor, Single DeltaMinutes)
+        protected override void _OnExecute(Game Game, PersistentObject Actor, Double DeltaGameMinutes)
         {
             var Janitor = Actor as Janitor;
 
             Debug.Assert(Janitor != null);
             if(_CleaningTarget.TrashLevel > 0.0f)
             {
-                _CleaningTarget.TrashLevel -= Data.JanitorCleanAmount * Data.JanitorCleanSpeed * DeltaMinutes;
+                _CleaningTarget.TrashLevel -= Convert.ToSingle(Data.JanitorCleanAmount * Data.JanitorCleanSpeed * DeltaGameMinutes);
                 if(_CleaningTarget.TrashLevel <= 0.0f)
                 {
                     _CleaningTarget.TrashLevel = 0.0f;
                 }
                 Janitor.SetActionFraction(1.0f - _CleaningTarget.TrashLevel / _StartTrashLevel);
             }
-            Janitor.SetAnimationFraction(Janitor.GetAnimationFraction() + Data.JanitorCleanSpeed * DeltaMinutes);
+            Janitor.SetAnimationFraction(Convert.ToSingle(Janitor.GetAnimationFraction() + Data.JanitorCleanSpeed * DeltaGameMinutes));
             if(((Janitor.GetAnimationFraction() > 1.0f) || (Janitor.GetAnimationFraction() == 0.0f)) && (_CleaningTarget.TrashLevel == 0.0f))
             {
                 Janitor.DequeueCleaningTarget();
@@ -307,7 +307,7 @@ namespace ButtonOffice.Goals
             Janitor.SetAtDesk(false);
         }
 
-        protected override void _OnExecute(Game Game, PersistentObject Actor, Single DeltaMinutes)
+        protected override void _OnExecute(Game Game, PersistentObject Actor, Double DeltaGameMinutes)
         {
             var Janitor = Actor as Janitor;
 
@@ -374,7 +374,7 @@ namespace ButtonOffice.Goals
             AppendSubGoal(WalkToLocation);
         }
 
-        protected override void _OnExecute(Game Game, PersistentObject Actor, Single DeltaMinutes)
+        protected override void _OnExecute(Game Game, PersistentObject Actor, Double DeltaGameMinutes)
         {
             if(HasSubGoals() == false)
             {
@@ -406,7 +406,7 @@ namespace ButtonOffice.Goals
             AppendSubGoal(WalkToDesk);
         }
 
-        protected override void _OnExecute(Game Game, PersistentObject Actor, Single DeltaMinutes)
+        protected override void _OnExecute(Game Game, PersistentObject Actor, Double DeltaGameMinutes)
         {
             if(HasSubGoals() == false)
             {
@@ -440,7 +440,7 @@ namespace ButtonOffice.Goals
             AppendSubGoal(new GoToOwnDesk());
         }
 
-        protected override void _OnExecute(Game Game, PersistentObject Actor, Single DeltaMinutes)
+        protected override void _OnExecute(Game Game, PersistentObject Actor, Double DeltaGameMinutes)
         {
             if(HasSubGoals() == false)
             {
@@ -451,7 +451,7 @@ namespace ButtonOffice.Goals
 
     internal class ITTechThink : Goal
     {
-        protected override void _OnExecute(Game Game, PersistentObject Actor, Single DeltaMinutes)
+        protected override void _OnExecute(Game Game, PersistentObject Actor, Double DeltaGameMinutes)
         {
             if(HasSubGoals() == false)
             {
@@ -466,7 +466,7 @@ namespace ButtonOffice.Goals
 
     internal class JanitorThink : Goal
     {
-        protected override void _OnExecute(Game Game, PersistentObject Actor, Single DeltaMinutes)
+        protected override void _OnExecute(Game Game, PersistentObject Actor, Double DeltaGameMinutes)
         {
             if(HasSubGoals() == false)
             {
@@ -481,7 +481,7 @@ namespace ButtonOffice.Goals
 
     internal class PlanNextWorkDay : Goal
     {
-        protected override void _OnExecute(Game Game, PersistentObject Actor, Single DeltaMinutes)
+        protected override void _OnExecute(Game Game, PersistentObject Actor, Double DeltaGameMinutes)
         {
             var Person = Actor as Person;
 
@@ -509,7 +509,7 @@ namespace ButtonOffice.Goals
             Person.SetAnimationFraction(0.0f);
         }
 
-        protected override void _OnExecute(Game Game, PersistentObject Actor, Single DeltaMinutes)
+        protected override void _OnExecute(Game Game, PersistentObject Actor, Double DeltaGameMinutes)
         {
             var Person = Actor as Person;
 
@@ -522,7 +522,7 @@ namespace ButtonOffice.Goals
             {
                 if(Person.GetDesk().GetComputer().IsBroken() == false)
                 {
-                    Person.GetDesk().GetComputer().SetMinutesUntilBroken(Person.GetDesk().GetComputer().GetMinutesUntilBroken() - DeltaMinutes);
+                    Person.GetDesk().GetComputer().SetMinutesUntilBroken(Person.GetDesk().GetComputer().GetMinutesUntilBroken() - DeltaGameMinutes);
                     if(Person.GetDesk().GetComputer().IsBroken() == true)
                     {
                         Person.SetActionFraction(0.0f);
@@ -547,7 +547,7 @@ namespace ButtonOffice.Goals
                     }
                     else
                     {
-                        Person.SetActionFraction(Person.GetActionFraction() + Data.WorkerWorkSpeed * DeltaMinutes);
+                        Person.SetActionFraction(Convert.ToSingle(Person.GetActionFraction() + Data.WorkerWorkSpeed * DeltaGameMinutes));
                         while(Person.GetActionFraction() >= 1.0f)
                         {
                             var Revenue = 100L * Game.GetCurrentBonusPromille() / 1000L;
@@ -556,7 +556,7 @@ namespace ButtonOffice.Goals
                             Person.GetDesk().TrashLevel += 1.0f;
                             Game.EarnMoney(Revenue, Person.GetMidLocation());
                         }
-                        Person.SetAnimationFraction(Person.GetAnimationFraction() + Data.WorkerWorkSpeed * DeltaMinutes);
+                        Person.SetAnimationFraction(Convert.ToSingle(Person.GetAnimationFraction() + Data.WorkerWorkSpeed * DeltaGameMinutes));
                         while(Person.GetAnimationFraction() >= 1.0f)
                         {
                             Person.SetAnimationFraction(Person.GetAnimationFraction() - 1.0f);
@@ -578,7 +578,7 @@ namespace ButtonOffice.Goals
 
     internal class Repair : Goal
     {
-        protected override void _OnExecute(Game Game, PersistentObject Actor, Single DeltaMinutes)
+        protected override void _OnExecute(Game Game, PersistentObject Actor, Double DeltaGameMinutes)
         {
             var ITTech = Actor as ITTech;
 
@@ -588,60 +588,60 @@ namespace ButtonOffice.Goals
 
             if((RepairingTarget.Second == BrokenThing.FirstComputer) || (RepairingTarget.Second == BrokenThing.SecondComputer) || (RepairingTarget.Second == BrokenThing.ThirdComputer) || (RepairingTarget.Second == BrokenThing.FourthComputer))
             {
-                ITTech.SetActionFraction(ITTech.GetActionFraction() + Data.ITTechRepairComputerSpeed * DeltaMinutes);
+                ITTech.SetActionFraction(Convert.ToSingle(ITTech.GetActionFraction() + Data.ITTechRepairComputerSpeed * DeltaGameMinutes));
             }
             else if((RepairingTarget.Second == BrokenThing.FirstLamp) || (RepairingTarget.Second == BrokenThing.SecondLamp) || (RepairingTarget.Second == BrokenThing.ThirdLamp))
             {
-                ITTech.SetActionFraction(ITTech.GetActionFraction() + Data.ITTechRepairLampSpeed * DeltaMinutes);
+                ITTech.SetActionFraction(Convert.ToSingle(ITTech.GetActionFraction() + Data.ITTechRepairLampSpeed * DeltaGameMinutes));
             }
             if(ITTech.GetActionFraction() >= 1.0f)
             {
                 ITTech.SetActionFraction(1.0f);
             }
-            ITTech.SetAnimationFraction(ITTech.GetAnimationFraction() + Data.ITTechRepairSpeed * DeltaMinutes);
+            ITTech.SetAnimationFraction(Convert.ToSingle(ITTech.GetAnimationFraction() + Data.ITTechRepairSpeed * DeltaGameMinutes));
             if((ITTech.GetActionFraction() == 1.0f) && (ITTech.GetAnimationFraction() >= 1.0f))
             {
                 switch(RepairingTarget.Second)
                 {
                 case BrokenThing.FirstComputer:
                     {
-                        RepairingTarget.First.FirstDesk.GetComputer().SetMinutesUntilBroken(RandomNumberGenerator.GetSingleFromExponentialDistribution(Data.MeanMinutesToBrokenComputer));
+                        RepairingTarget.First.FirstDesk.GetComputer().SetMinutesUntilBroken(RandomNumberGenerator.GetDoubleFromExponentialDistribution(Data.MeanMinutesToBrokenComputer));
 
                         break;
                     }
                 case BrokenThing.SecondComputer:
                     {
-                        RepairingTarget.First.SecondDesk.GetComputer().SetMinutesUntilBroken(RandomNumberGenerator.GetSingleFromExponentialDistribution(Data.MeanMinutesToBrokenComputer));
+                        RepairingTarget.First.SecondDesk.GetComputer().SetMinutesUntilBroken(RandomNumberGenerator.GetDoubleFromExponentialDistribution(Data.MeanMinutesToBrokenComputer));
 
                         break;
                     }
                 case BrokenThing.ThirdComputer:
                     {
-                        RepairingTarget.First.ThirdDesk.GetComputer().SetMinutesUntilBroken(RandomNumberGenerator.GetSingleFromExponentialDistribution(Data.MeanMinutesToBrokenComputer));
+                        RepairingTarget.First.ThirdDesk.GetComputer().SetMinutesUntilBroken(RandomNumberGenerator.GetDoubleFromExponentialDistribution(Data.MeanMinutesToBrokenComputer));
 
                         break;
                     }
                 case BrokenThing.FourthComputer:
                     {
-                        RepairingTarget.First.FourthDesk.GetComputer().SetMinutesUntilBroken(RandomNumberGenerator.GetSingleFromExponentialDistribution(Data.MeanMinutesToBrokenComputer));
+                        RepairingTarget.First.FourthDesk.GetComputer().SetMinutesUntilBroken(RandomNumberGenerator.GetDoubleFromExponentialDistribution(Data.MeanMinutesToBrokenComputer));
 
                         break;
                     }
                 case BrokenThing.FirstLamp:
                     {
-                        RepairingTarget.First.FirstLamp.SetMinutesUntilBroken(RandomNumberGenerator.GetSingleFromExponentialDistribution(Data.MeanMinutesToBrokenLamp));
+                        RepairingTarget.First.FirstLamp.SetMinutesUntilBroken(RandomNumberGenerator.GetDoubleFromExponentialDistribution(Data.MeanMinutesToBrokenLamp));
 
                         break;
                     }
                 case BrokenThing.SecondLamp:
                     {
-                        RepairingTarget.First.SecondLamp.SetMinutesUntilBroken(RandomNumberGenerator.GetSingleFromExponentialDistribution(Data.MeanMinutesToBrokenLamp));
+                        RepairingTarget.First.SecondLamp.SetMinutesUntilBroken(RandomNumberGenerator.GetDoubleFromExponentialDistribution(Data.MeanMinutesToBrokenLamp));
 
                         break;
                     }
                 case BrokenThing.ThirdLamp:
                     {
-                        RepairingTarget.First.ThirdLamp.SetMinutesUntilBroken(RandomNumberGenerator.GetSingleFromExponentialDistribution(Data.MeanMinutesToBrokenLamp));
+                        RepairingTarget.First.ThirdLamp.SetMinutesUntilBroken(RandomNumberGenerator.GetDoubleFromExponentialDistribution(Data.MeanMinutesToBrokenLamp));
 
                         break;
                     }
@@ -659,7 +659,7 @@ namespace ButtonOffice.Goals
 
     internal class StandByForRepairs : Goal
     {
-        protected override void _OnExecute(Game Game, PersistentObject Actor, Single DeltaMinutes)
+        protected override void _OnExecute(Game Game, PersistentObject Actor, Double DeltaGameMinutes)
         {
             var ITTech = Actor as ITTech;
 
@@ -769,7 +769,7 @@ namespace ButtonOffice.Goals
 
     internal class WaitUntilTimeToArrive : Goal
     {
-        protected override void _OnExecute(Game Game, PersistentObject Actor, Single DeltaMinutes)
+        protected override void _OnExecute(Game Game, PersistentObject Actor, Double DeltaGameMinutes)
         {
             var Person = Actor as Person;
 
@@ -783,7 +783,7 @@ namespace ButtonOffice.Goals
 
     internal class WaitUntilTimeToLeave : Goal
     {
-        protected override void _OnExecute(Game Game, PersistentObject Actor, Single DeltaMinutes)
+        protected override void _OnExecute(Game Game, PersistentObject Actor, Double DeltaGameMinutes)
         {
             var Person = Actor as Person;
 
@@ -814,7 +814,7 @@ namespace ButtonOffice.Goals
             Person.SetAnimationFraction(0.0f);
         }
 
-        protected override void _OnExecute(Game Game, PersistentObject Actor, Single DeltaMinutes)
+        protected override void _OnExecute(Game Game, PersistentObject Actor, Double DeltaGameMinutes)
         {
             var Person = Actor as Person;
 
@@ -826,11 +826,11 @@ namespace ButtonOffice.Goals
             {
                 if(DeltaX > 0.0f)
                 {
-                    DeltaX = Data.PersonSpeed * DeltaMinutes;
+                    DeltaX = Convert.ToSingle(Data.PersonSpeed * DeltaGameMinutes);
                 }
                 else
                 {
-                    DeltaX = -Data.PersonSpeed * DeltaMinutes;
+                    DeltaX = Convert.ToSingle(-Data.PersonSpeed * DeltaGameMinutes);
                 }
                 Person.SetLocation(Person.GetX() + DeltaX, Person.GetY());
             }
@@ -867,10 +867,6 @@ namespace ButtonOffice.Goals
     internal class WalkToLocation : Goal
     {
         private PointF _Location;
-
-        public WalkToLocation()
-        {
-        }
 
         public void SetLocation(PointF Location)
         {
@@ -910,7 +906,7 @@ namespace ButtonOffice.Goals
             }
         }
 
-        protected override void _OnExecute(Game Game, PersistentObject Actor, Single DeltaMinutes)
+        protected override void _OnExecute(Game Game, PersistentObject Actor, Double DeltaGameMinutes)
         {
             if(HasSubGoals() == false)
             {
@@ -955,7 +951,7 @@ namespace ButtonOffice.Goals
             AppendSubGoal(WalkToLocation);
         }
 
-        protected override void _OnExecute(Game Game, PersistentObject Actor, Single DeltaMinutes)
+        protected override void _OnExecute(Game Game, PersistentObject Actor, Double DeltaGameMinutes)
         {
             if(HasSubGoals() == false)
             {
@@ -978,7 +974,7 @@ namespace ButtonOffice.Goals
 
     internal class WorkerThink : Goal
     {
-        protected override void _OnExecute(Game Game, PersistentObject Actor, Single DeltaMinutes)
+        protected override void _OnExecute(Game Game, PersistentObject Actor, Double DeltaGameMinutes)
         {
             if(HasSubGoals() == false)
             {

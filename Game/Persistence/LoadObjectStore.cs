@@ -121,6 +121,11 @@ namespace ButtonOffice
             return _LoadDesk(_GetPropertyElement(_Element, PropertyName));
         }
 
+        public Double LoadDoubleProperty(String PropertyName)
+        {
+            return Convert.ToDouble(_GetPropertyValue(_Element, PropertyName, "System.Double"), _GameLoader.CultureInfo);
+        }
+
         public Goal LoadGoalProperty(String PropertyName)
         {
             return _LoadGoal(_GetPropertyElement(_Element, PropertyName));

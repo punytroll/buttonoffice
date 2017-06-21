@@ -241,9 +241,9 @@ namespace ButtonOffice
             _Rectangle.Y = Y;
         }
 
-        public void Move(Game Game, Single DeltaMinutes)
+        public void Move(Game Game, Double DeltaGameMinutes)
         {
-            _Mind.Move(Game, this, DeltaMinutes);
+            _Mind.Move(Game, this, DeltaGameMinutes);
         }
 
         public override void Save(SaveObjectStore ObjectStore)

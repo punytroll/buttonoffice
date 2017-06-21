@@ -65,10 +65,10 @@ namespace ButtonOffice
         public static readonly Single LampThreeX = 11.0f;
         public static readonly Single LampTwoX = 6.0f;
         public static readonly Single LampWidth = 3.0f;
-        public static readonly Single MeanMinutesToBrokenComputer = 500.0f;
-        public static readonly Single MeanMinutesToBrokenLamp = 1500.0f;
+        public static readonly Double MeanMinutesToBrokenComputer = 500.0f;
+        public static readonly Double MeanMinutesToBrokenLamp = 1500.0f;
         public static readonly UInt64 NewGameCents = 5000000ul;
-        public static readonly UInt64 NewGameMinutes = 480ul;
+        public static readonly Double NewGameMinutes = 480.0;
         public static readonly Int32 NewGameWorldBlockHeight = 136;
         public static readonly Int32 NewGameWorldBlockWidth = 132;
         public static readonly Color OfficeBackgroundColor = Color.FromArgb(255, 255, 255, 255);

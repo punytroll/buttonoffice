@@ -21,6 +21,11 @@ namespace ButtonOffice
             return _Random.NextDouble() < TruePercentage;
         }
 
+        public static Double GetDoubleFromExponentialDistribution(Double MeanInterval)
+        {
+            return MeanInterval * -(Math.Log(_Random.NextDouble()));
+        }
+
         public static Single GetSingle()
         {
             return _Random.NextDouble().ToSingle();

@@ -70,11 +70,11 @@ namespace ButtonOffice
             _ThirdLamp.SetLocation(_Rectangle.X + Data.LampThreeX, _Rectangle.Y + _Rectangle.Height - _ThirdLamp.GetHeight());
         }
 
-        public override void Move(Game Game, Single GameMinutes)
+        public override void Move(Game Game, Double DeltaGameMinutes)
         {
             if(_FirstLamp.IsBroken() == false)
             {
-                _FirstLamp.SetMinutesUntilBroken(_FirstLamp.GetMinutesUntilBroken() - GameMinutes);
+                _FirstLamp.SetMinutesUntilBroken(_FirstLamp.GetMinutesUntilBroken() - DeltaGameMinutes);
                 if(_FirstLamp.IsBroken() == true)
                 {
                     Game.EnqueueBrokenThing(new Pair<Office, BrokenThing>(this, BrokenThing.FirstLamp));
@@ -82,7 +82,7 @@ namespace ButtonOffice
             }
             if(_SecondLamp.IsBroken() == false)
             {
-                _SecondLamp.SetMinutesUntilBroken(_SecondLamp.GetMinutesUntilBroken() - GameMinutes);
+                _SecondLamp.SetMinutesUntilBroken(_SecondLamp.GetMinutesUntilBroken() - DeltaGameMinutes);
                 if(_SecondLamp.IsBroken() == true)
                 {
                     Game.EnqueueBrokenThing(new Pair<Office, BrokenThing>(this, BrokenThing.SecondLamp));
@@ -90,13 +90,13 @@ namespace ButtonOffice
             }
             if(_ThirdLamp.IsBroken() == false)
             {
-                _ThirdLamp.SetMinutesUntilBroken(_ThirdLamp.GetMinutesUntilBroken() - GameMinutes);
+                _ThirdLamp.SetMinutesUntilBroken(_ThirdLamp.GetMinutesUntilBroken() - DeltaGameMinutes);
                 if(_ThirdLamp.IsBroken() == true)
                 {
                     Game.EnqueueBrokenThing(new Pair<Office, BrokenThing>(this, BrokenThing.ThirdLamp));
                 }
             }
-            _Cat?.Move(Game, GameMinutes);
+            _Cat?.Move(Game, DeltaGameMinutes);
         }
 
         public override void Save(SaveObjectStore ObjectStore)

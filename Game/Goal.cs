@@ -73,13 +73,13 @@ namespace ButtonOffice
         {
         }
 
-        public void Execute(Game Game, PersistentObject Actor, Single DeltaMinutes)
+        public void Execute(Game Game, PersistentObject Actor, Double DeltaGameMinutes)
         {
             Debug.Assert(_State == GoalState.Executing, AssertMessages.CurrentStateIsNotExecuting.ToString());
-            _OnExecute(Game, Actor, DeltaMinutes);
+            _OnExecute(Game, Actor, DeltaGameMinutes);
         }
 
-        protected virtual void _OnExecute(Game Game, PersistentObject Actor, Single DeltaMinutes)
+        protected virtual void _OnExecute(Game Game, PersistentObject Actor, Double DeltaGameMinutes)
         {
         }
 

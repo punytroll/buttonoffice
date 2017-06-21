@@ -31,7 +31,7 @@ namespace ButtonOffice.Goals
             Person.SetAnimationFraction(0.0f);
         }
 
-        protected override void _OnExecute(Game Game, PersistentObject Actor, Single DeltaMinutes)
+        protected override void _OnExecute(Game Game, PersistentObject Actor, Double DeltaGameMinutes)
         {
             Debug.Assert(_Stairs != null);
             Debug.Assert(_TargetFloor != null);
@@ -40,7 +40,7 @@ namespace ButtonOffice.Goals
 
             Debug.Assert(Person != null);
 
-            var DeltaY = Data.StairsSpeed * DeltaMinutes;
+            var DeltaY = Data.StairsSpeed * Convert.ToSingle(DeltaGameMinutes);
 
             if(Person.GetY() > _TargetFloor)
             {
