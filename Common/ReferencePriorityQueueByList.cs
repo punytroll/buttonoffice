@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ButtonOffice
 {
-    public class ReferencePriorityQueue<ItemType, PriorityType>
+    public class ReferencePriorityQueueByList<ItemType, PriorityType>
         where ItemType : class
         where PriorityType : IComparable<PriorityType>
     {
@@ -18,12 +18,12 @@ namespace ButtonOffice
 
         public Int32 Count => _Nodes.Count;
 
-        public ReferencePriorityQueue()
+        public ReferencePriorityQueueByList()
             : this(Comparer<PriorityType>.Default)
         {
         }
 
-        public ReferencePriorityQueue(IComparer<PriorityType> Comparer)
+        public ReferencePriorityQueueByList(IComparer<PriorityType> Comparer)
         {
             _Nodes = new List<Node>();
             _Comparer = Comparer;

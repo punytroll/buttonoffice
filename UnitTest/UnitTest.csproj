@@ -69,7 +69,7 @@
     <Compile Include="ExceptionMissingException.cs" />
     <Compile Include="Goals\Goal\SimpleStateTransitions.cs" />
     <Compile Include="Goals\Mind\Mind.cs" />
-    <Compile Include="ReferencePriorityQueue.cs" />
+    <Compile Include="ReferencePriorityQueueByList.cs" />
     <Compile Include="TraceListener.cs" />
   </ItemGroup>
   <ItemGroup>
