@@ -1,81 +1,92 @@
-﻿public static partial class Extensions
+﻿using System;
+using System.Drawing;
+
+public static class Extensions
 {
     /// <summary>
     /// Converts the Int32 value to a Single value.
     /// </summary>
-    public static System.Single ToSingle(this System.Int32 Int32)
+    public static Single ToSingle(this Int32 Int32)
     {
-        return System.Convert.ToSingle(Int32);
+        return Convert.ToSingle(Int32);
     }
 
     /// <summary>
     /// Converts the Int32 value to an UInt32 value.
     /// </summary>
-    public static System.UInt32 ToUInt32(this System.Int32 Int32)
+    public static UInt32 ToUInt32(this Int32 Int32)
     {
-        return System.Convert.ToUInt32(Int32);
+        return Convert.ToUInt32(Int32);
     }
 
     /// <summary>
     /// Converts the Int32 value to an Int64 value.
     /// </summary>
-    public static System.Int64 ToInt64(this System.Int32 Int32)
+    public static System.Int64 ToInt64(this Int32 Int32)
     {
-        return System.Convert.ToInt64(Int32);
+        return Convert.ToInt64(Int32);
     }
 
     /// <summary>
     /// Rounds the Single value towards 0 and converts it to an Int32 value.
     /// </summary>
-    public static System.Int32 GetTruncatedAsInt32(this System.Single Single)
+    public static Int32 GetTruncatedAsInt32(this Single Single)
     {
-        return System.Convert.ToInt32(System.Math.Truncate(Single));
+        return Convert.ToInt32(Math.Truncate(Single));
+    }
+
+    /// <summary>
+    /// Rounds the Single value towards 0 and converts it to an Int32 value.
+    /// </summary>
+    public static Int32 GetTruncatedAsInt32(this Double Double)
+    {
+        return Convert.ToInt32(Math.Truncate(Double));
     }
 
     /// <summary>
     /// Rounds the Single value towards −∞ and converts it to an Int32 value.
     /// </summary>
-    public static System.Int32 GetFlooredAsInt32(this System.Single Single)
+    public static Int32 GetFlooredAsInt32(this Single Single)
     {
-        return System.Convert.ToInt32(System.Math.Floor(System.Convert.ToDouble(Single)));
+        return Convert.ToInt32(Math.Floor(Convert.ToDouble(Single)));
     }
 
     /// <summary>
     /// Rounds the Single value towards -∞.
     /// </summary>
-    public static System.Single GetFloored(this System.Single Single)
+    public static Single GetFloored(this Single Single)
     {
-        return System.Convert.ToSingle(System.Math.Floor(System.Convert.ToDouble(Single)));
+        return Convert.ToSingle(Math.Floor(Convert.ToDouble(Single)));
     }
 
     /// <summary>
     /// Converts the UInt64 value to an Int32 value.
     /// </summary>
-    public static System.Int32 ToInt32(this System.UInt64 UInt64)
+    public static Int32 ToInt32(this UInt64 UInt64)
     {
-        return System.Convert.ToInt32(UInt64);
+        return Convert.ToInt32(UInt64);
     }
 
     /// <summary>
     /// Converts the Double value to a Single value.
     /// </summary>
-    public static System.Single ToSingle(this System.Double Double)
+    public static Single ToSingle(this Double Double)
     {
-        return System.Convert.ToSingle(Double);
+        return Convert.ToSingle(Double);
     }
 
     /// <summary>
     /// Rounds both components of the PointF value towards -∞.
     /// </summary>
-    public static System.Drawing.PointF GetFloored(this System.Drawing.PointF Point)
+    public static PointF GetFloored(this PointF Point)
     {
-        return new System.Drawing.PointF(System.Convert.ToSingle(System.Math.Floor(System.Convert.ToDouble(Point.X))), System.Convert.ToSingle(System.Math.Floor(System.Convert.ToDouble(Point.Y))));
+        return new PointF(Convert.ToSingle(Math.Floor(Convert.ToDouble(Point.X))), Convert.ToSingle(Math.Floor(Convert.ToDouble(Point.Y))));
     }
 
     /// <summary>
     /// Calculates the squared distance between two PointF values.
     /// </summary>
-    public static System.Single GetDistanceSquared(this System.Drawing.PointF This, System.Drawing.PointF That)
+    public static Single GetDistanceSquared(this System.Drawing.PointF This, System.Drawing.PointF That)
     {
         var DeltaX = That.X - This.X;
         var DeltaY = That.Y - This.Y;

@@ -26,9 +26,9 @@ namespace ButtonOffice.Goals
             var Person = Actor as Person;
 
             Debug.Assert(Person != null);
-            Person.SetActionFraction(0.0f);
+            Person.SetActionFraction(0.0);
             Person.SetAnimationState(AnimationState.Walking);
-            Person.SetAnimationFraction(0.0f);
+            Person.SetAnimationFraction(0.0);
         }
 
         protected override void _OnExecute(Game Game, PersistentObject Actor, Double DeltaGameMinutes)
@@ -80,9 +80,9 @@ namespace ButtonOffice.Goals
             var Person = Actor as Person;
 
             Debug.Assert(Person != null);
-            Person.SetActionFraction(0.0f);
+            Person.SetActionFraction(0.0);
             Person.SetAnimationState(AnimationState.Standing);
-            Person.SetAnimationFraction(0.0f);
+            Person.SetAnimationFraction(0.0);
         }
 
         public override void Save(SaveObjectStore ObjectStore)

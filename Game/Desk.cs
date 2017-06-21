@@ -11,7 +11,7 @@ namespace ButtonOffice
         private RectangleF _Rectangle ;
         private Office _Office;
         private Person _Person;
-        private Single _TrashLevel;
+        private Double _TrashLevel;
 
         public Office Office
         {
@@ -34,7 +34,7 @@ namespace ButtonOffice
             }
         }
 
-        public Single TrashLevel
+        public Double TrashLevel
         {
             get
             {
@@ -52,6 +52,7 @@ namespace ButtonOffice
             _Office = null;
             _Rectangle.Height = Data.DeskHeight;
             _Rectangle.Width = Data.DeskWidth;
+            _TrashLevel = 0.0;
         }
 
         public Computer GetComputer()
@@ -173,7 +174,7 @@ namespace ButtonOffice
             _Office = ObjectStore.LoadOfficeProperty("office");
             _Person = ObjectStore.LoadPersonProperty("person");
             _Rectangle = ObjectStore.LoadRectangleProperty("rectangle");
-            _TrashLevel = ObjectStore.LoadSingleProperty("trash-level");
+            _TrashLevel = ObjectStore.LoadDoubleProperty("trash-level");
         }
     }
 }

@@ -6,8 +6,8 @@ namespace ButtonOffice
 {
     public abstract class Person : PersistentObject
     {
-        protected Single _ActionFraction;
-        protected Single _AnimationFraction;
+        protected Double _ActionFraction;
+        protected Double _AnimationFraction;
         protected AnimationState _AnimationState;
         protected UInt64 _ArrivesAtMinute;
         protected UInt64 _ArrivesAtMinuteOfDay;
@@ -23,35 +23,17 @@ namespace ButtonOffice
         protected UInt64 _Wage;
         protected UInt64 _WorkMinutes;
 
-        public Color BackgroundColor
-        {
-            get
-            {
-                return _BackgroundColor;
-            }
-        }
+        public Color BackgroundColor => _BackgroundColor;
 
-        public Color BorderColor
-        {
-            get
-            {
-                return _BorderColor;
-            }
-        }
+        public Color BorderColor => _BorderColor;
 
-        public String Name
-        {
-            get
-            {
-                return _Name;
-            }
-        }
+        public String Name => _Name;
 
         protected Person()
         {
-            _ActionFraction = 0.0f;
+            _ActionFraction = 0.0;
             _AnimationState = AnimationState.Hidden;
-            _AnimationFraction = 0.0f;
+            _AnimationFraction = 0.0;
             if(RandomNumberGenerator.GetBoolean() == true)
             {
                 _LivingSide = LivingSide.Left;
@@ -86,12 +68,12 @@ namespace ButtonOffice
             _Desk = null;
         }
 
-        public Single GetActionFraction()
+        public Double GetActionFraction()
         {
             return _ActionFraction;
         }
 
-        public Single GetAnimationFraction()
+        public Double GetAnimationFraction()
         {
             return _AnimationFraction;
         }
@@ -176,12 +158,12 @@ namespace ButtonOffice
             return _AnimationState == AnimationState.Hidden;
         }
 
-        public void SetActionFraction(Single ActionFraction)
+        public void SetActionFraction(Double ActionFraction)
         {
             _ActionFraction = ActionFraction;
         }
 
-        public void SetAnimationFraction(Single AnimationFraction)
+        public void SetAnimationFraction(Double AnimationFraction)
         {
             _AnimationFraction = AnimationFraction;
         }
@@ -270,8 +252,8 @@ namespace ButtonOffice
         public override void Load(LoadObjectStore ObjectStore)
         {
             base.Load(ObjectStore);
-            _ActionFraction = ObjectStore.LoadSingleProperty("action-fraction");
-            _AnimationFraction = ObjectStore.LoadSingleProperty("animation-fraction");
+            _ActionFraction = ObjectStore.LoadDoubleProperty("action-fraction");
+            _AnimationFraction = ObjectStore.LoadDoubleProperty("animation-fraction");
             _AnimationState = ObjectStore.LoadAnimationStateProperty("animation-state");
             _ArrivesAtMinute = ObjectStore.LoadUInt64Property("arrives-at-minute");
             _ArrivesAtMinuteOfDay = ObjectStore.LoadUInt64Property("arrives-at-minute-of-day");

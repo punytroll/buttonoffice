@@ -12,7 +12,7 @@ namespace ButtonOffice
         public static readonly UInt32 AccountantStartMinute = 500u;
         public static readonly UInt64 AccountantWage = 1500ul;
         public static readonly UInt64 AccountantWorkMinutes = 600ul;
-        public static readonly Single AccountantWorkSpeed = 0.15f;
+        public static readonly Double AccountantWorkSpeed = 0.15;
         public static readonly Color BackgroundColor = Color.FromArgb(255, 135, 205, 235);
         public static readonly Color BathroomBackgroundColor = Color.FromArgb(255, 210, 240, 255);
         public static readonly Single BathroomBlockHeight = 1.0f;
@@ -26,7 +26,7 @@ namespace ButtonOffice
         public static readonly Color CatBackgroundColor = Color.FromArgb(255, 0, 0, 0);
         public static readonly Color CatBorderColor = Color.FromArgb(255, 0, 0, 0);
         public static readonly Single CatHeight = 0.3f;
-        public static readonly Single CatWalkSpeed = 0.5f;
+        public static readonly Double CatWalkSpeed = 0.5;
         public static readonly Single CatWidth = 1.0f;
         public static readonly Color ComputerBackgroundColor = Color.FromArgb(255, 245, 245, 220);
         public static readonly Color ComputerBorderColor = Color.FromArgb(255, 0, 0, 0);
@@ -46,16 +46,16 @@ namespace ButtonOffice
         public static readonly Color ITTechBackgroundColor = Color.FromArgb(255, 255, 120, 255);
         public static readonly Color ITTechBorderColor = Color.FromArgb(255, 0, 0, 0);
         public static readonly UInt64 ITTechHireCost = 60000ul;
-        public static readonly Single ITTechRepairSpeed = 0.2f;
-        public static readonly Single ITTechRepairComputerSpeed = 0.06f;
-        public static readonly Single ITTechRepairLampSpeed = 0.1f;
+        public static readonly Double ITTechRepairSpeed = 0.2;
+        public static readonly Double ITTechRepairComputerSpeed = 0.06;
+        public static readonly Double ITTechRepairLampSpeed = 0.1;
         public static readonly UInt32 ITTechStartMinute = 540u;
         public static readonly UInt64 ITTechWage = 2000ul;
         public static readonly UInt32 ITTechWorkMinutes = 540u;
         public static readonly Color JanitorBackgroundColor = Color.FromArgb(255, 120, 120, 255);
         public static readonly Color JanitorBorderColor = Color.FromArgb(255, 0, 0, 0);
-        public static readonly Single JanitorCleanAmount = 2.0f;
-        public static readonly Single JanitorCleanSpeed = 0.5f;
+        public static readonly Double JanitorCleanAmount = 2.0;
+        public static readonly Double JanitorCleanSpeed = 0.5;
         public static readonly UInt64 JanitorHireCost = 30000ul;
         public static readonly UInt32 JanitorStartMinute = 1200u;
         public static readonly UInt64 JanitorWage = 1000ul;
@@ -98,6 +98,6 @@ namespace ButtonOffice
         public static readonly UInt32 WorkerStartMinute = 540u;
         public static readonly UInt64 WorkerWage = 1000ul;
         public static readonly UInt32 WorkerWorkMinutes = 540u;
-        public static readonly Single WorkerWorkSpeed = 0.22f;
+        public static readonly Double WorkerWorkSpeed = 0.22;
     }
 }

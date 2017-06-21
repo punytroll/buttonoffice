@@ -445,7 +445,7 @@ namespace ButtonOffice
             _DragPoint = new Point?();
         }
 
-        private Color _MixToWhite(Color Color, Single Fraction)
+        private Color _MixToWhite(Color Color, Double Fraction)
         {
             return Color.FromArgb((Color.R + (255 - Color.R) * Fraction).GetTruncatedAsInt32(), (Color.G + (255 - Color.G) * Fraction).GetTruncatedAsInt32(), (Color.B + (255 - Color.B) * Fraction).GetTruncatedAsInt32());
         }

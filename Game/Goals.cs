@@ -27,7 +27,7 @@ namespace ButtonOffice.Goals
 
             Debug.Assert(Person != null);
             Person.SetAnimationState(AnimationState.Accounting);
-            Person.SetAnimationFraction(0.0f);
+            Person.SetAnimationFraction(0.0);
         }
 
         protected override void _OnExecute(Game Game, PersistentObject Actor, Double DeltaGameMinutes)
@@ -46,9 +46,9 @@ namespace ButtonOffice.Goals
                     Person.GetDesk().GetComputer().SetMinutesUntilBroken(Person.GetDesk().GetComputer().GetMinutesUntilBroken() - DeltaGameMinutes);
                     if(Person.GetDesk().GetComputer().IsBroken() == true)
                     {
-                        Person.SetActionFraction(0.0f);
+                        Person.SetActionFraction(0.0);
                         Person.SetAnimationState(AnimationState.Standing);
-                        Person.SetAnimationFraction(0.0f);
+                        Person.SetAnimationFraction(0.0);
                         if(Person.GetDesk() == Person.GetDesk().Office.FirstDesk)
                         {
                             Game.EnqueueBrokenThing(new Pair<Office, BrokenThing>(Person.GetDesk().Office, BrokenThing.FirstComputer));
@@ -68,16 +68,16 @@ namespace ButtonOffice.Goals
                     }
                     else
                     {
-                        Person.SetActionFraction(Convert.ToSingle(Person.GetActionFraction() + Data.AccountantWorkSpeed * DeltaGameMinutes));
-                        while(Person.GetActionFraction() >= 1.0f)
+                        Person.SetActionFraction(Person.GetActionFraction() + Data.AccountantWorkSpeed * DeltaGameMinutes);
+                        while(Person.GetActionFraction() >= 1.0)
                         {
-                            Person.SetActionFraction(Person.GetActionFraction() - 1.0f);
-                            Person.GetDesk().TrashLevel += 2.0f;
+                            Person.SetActionFraction(Person.GetActionFraction() - 1.0);
+                            Person.GetDesk().TrashLevel += 2.0;
                         }
-                        Person.SetAnimationFraction(Convert.ToSingle(Person.GetAnimationFraction() + Data.AccountantWorkSpeed * DeltaGameMinutes));
-                        while(Person.GetAnimationFraction() >= 1.0f)
+                        Person.SetAnimationFraction(Person.GetAnimationFraction() + Data.AccountantWorkSpeed * DeltaGameMinutes);
+                        while(Person.GetAnimationFraction() >= 1.0)
                         {
-                            Person.SetAnimationFraction(Person.GetAnimationFraction() - 1.0f);
+                            Person.SetAnimationFraction(Person.GetAnimationFraction() - 1.0);
                         }
                     }
                 }
@@ -90,7 +90,7 @@ namespace ButtonOffice.Goals
 
             Debug.Assert(Person != null);
             Person.SetAnimationState(AnimationState.Standing);
-            Person.SetAnimationFraction(0.0f);
+            Person.SetAnimationFraction(0.0);
         }
     }
 
@@ -102,7 +102,7 @@ namespace ButtonOffice.Goals
         public CatThink()
         {
             _ActionState = ActionState.Stay;
-            _MinutesToActionStateChange = RandomNumberGenerator.GetSingle(10.0f, 15.0f);
+            _MinutesToActionStateChange = RandomNumberGenerator.GetDouble(10.0, 15.0);
         }
 
         protected override void _OnExecute(Game Game, PersistentObject Actor, Double DeltaGameMinutes)
@@ -114,7 +114,7 @@ namespace ButtonOffice.Goals
             {
             case ActionState.Stay:
                 {
-                    if(_MinutesToActionStateChange < 0.0f)
+                    if(_MinutesToActionStateChange < 0.0)
                     {
                         if(RandomNumberGenerator.GetBoolean() == true)
                         {
@@ -124,7 +124,7 @@ namespace ButtonOffice.Goals
                         {
                             _ActionState = ActionState.WalkRight;
                         }
-                        _MinutesToActionStateChange = RandomNumberGenerator.GetSingle(20.0f, 20.0f);
+                        _MinutesToActionStateChange = RandomNumberGenerator.GetDouble(20.0, 20.0);
                     }
                     _MinutesToActionStateChange -= DeltaGameMinutes;
 
@@ -132,17 +132,17 @@ namespace ButtonOffice.Goals
                 }
             case ActionState.WalkLeft:
                 {
-                    if(_MinutesToActionStateChange < 0.0f)
+                    if(_MinutesToActionStateChange < 0.0)
                     {
                         if(RandomNumberGenerator.GetBoolean(0.8) == true)
                         {
                             _ActionState = ActionState.Stay;
-                            _MinutesToActionStateChange = RandomNumberGenerator.GetSingle(30.0f, 30.0f);
+                            _MinutesToActionStateChange = RandomNumberGenerator.GetDouble(30.0, 30.0);
                         }
                         else
                         {
                             _ActionState = ActionState.WalkRight;
-                            _MinutesToActionStateChange = RandomNumberGenerator.GetSingle(10.0f, 8.0f);
+                            _MinutesToActionStateChange = RandomNumberGenerator.GetDouble(10.0, 8.0);
                         }
                     }
                     Cat.SetX(Convert.ToSingle(Cat.GetX() - DeltaGameMinutes * Data.CatWalkSpeed));
@@ -157,17 +157,17 @@ namespace ButtonOffice.Goals
             case ActionState.WalkRight:
                 {
 
-                    if(_MinutesToActionStateChange < 0.0f)
+                    if(_MinutesToActionStateChange < 0.0)
                     {
                         if(RandomNumberGenerator.GetBoolean(0.8) == true)
                         {
                             _ActionState = ActionState.Stay;
-                            _MinutesToActionStateChange = RandomNumberGenerator.GetSingle(30.0f, 30.0f);
+                            _MinutesToActionStateChange = RandomNumberGenerator.GetDouble(30.0, 30.0);
                         }
                         else
                         {
                             _ActionState = ActionState.WalkLeft;
-                            _MinutesToActionStateChange = RandomNumberGenerator.GetSingle(10.0f, 8.0f);
+                            _MinutesToActionStateChange = RandomNumberGenerator.GetDouble(10.0, 8.0);
                         }
                     }
                     Cat.SetX(Convert.ToSingle(Cat.GetX() + DeltaGameMinutes * Data.CatWalkSpeed));
@@ -200,12 +200,12 @@ namespace ButtonOffice.Goals
     internal class CleanDesk : Goal
     {
         private Desk _CleaningTarget;
-        private Single _StartTrashLevel;
+        private Double _StartTrashLevel;
 
         public CleanDesk()
         {
             _CleaningTarget = null;
-            _StartTrashLevel = 0.0f;
+            _StartTrashLevel = 0.0;
         }
 
         public void SetCleaningTarget(Desk CleaningTarget)
@@ -219,13 +219,13 @@ namespace ButtonOffice.Goals
 
             Debug.Assert(Janitor != null);
             Debug.Assert(_CleaningTarget != null);
-            if((_CleaningTarget.GetJanitor() == null) && (_CleaningTarget.TrashLevel > 0.0f))
+            if((_CleaningTarget.GetJanitor() == null) && (_CleaningTarget.TrashLevel > 0.0))
             {
                 _CleaningTarget.SetJanitor(Janitor);
                 _StartTrashLevel = _CleaningTarget.TrashLevel;
-                Janitor.SetActionFraction(0.0f);
+                Janitor.SetActionFraction(0.0);
                 Janitor.SetAnimationState(AnimationState.Cleaning);
-                Janitor.SetAnimationFraction(0.0f);
+                Janitor.SetAnimationFraction(0.0);
             }
             else
             {
@@ -239,24 +239,24 @@ namespace ButtonOffice.Goals
             var Janitor = Actor as Janitor;
 
             Debug.Assert(Janitor != null);
-            if(_CleaningTarget.TrashLevel > 0.0f)
+            if(_CleaningTarget.TrashLevel > 0.0)
             {
                 _CleaningTarget.TrashLevel -= Convert.ToSingle(Data.JanitorCleanAmount * Data.JanitorCleanSpeed * DeltaGameMinutes);
-                if(_CleaningTarget.TrashLevel <= 0.0f)
+                if(_CleaningTarget.TrashLevel <= 0.0)
                 {
-                    _CleaningTarget.TrashLevel = 0.0f;
+                    _CleaningTarget.TrashLevel = 0.0;
                 }
-                Janitor.SetActionFraction(1.0f - _CleaningTarget.TrashLevel / _StartTrashLevel);
+                Janitor.SetActionFraction(1.0 - _CleaningTarget.TrashLevel / _StartTrashLevel);
             }
-            Janitor.SetAnimationFraction(Convert.ToSingle(Janitor.GetAnimationFraction() + Data.JanitorCleanSpeed * DeltaGameMinutes));
-            if(((Janitor.GetAnimationFraction() > 1.0f) || (Janitor.GetAnimationFraction() == 0.0f)) && (_CleaningTarget.TrashLevel == 0.0f))
+            Janitor.SetAnimationFraction(Janitor.GetAnimationFraction() + Data.JanitorCleanSpeed * DeltaGameMinutes);
+            if(((Janitor.GetAnimationFraction() > 1.0) || (Janitor.GetAnimationFraction() == 0.0)) && (_CleaningTarget.TrashLevel == 0.0))
             {
                 Janitor.DequeueCleaningTarget();
                 Finish(Game, Actor);
             }
-            while(Janitor.GetAnimationFraction() > 1.0f)
+            while(Janitor.GetAnimationFraction() > 1.0)
             {
-                Janitor.SetAnimationFraction(Janitor.GetAnimationFraction() - 1.0f);
+                Janitor.SetAnimationFraction(Janitor.GetAnimationFraction() - 1.0);
             }
         }
 
@@ -270,9 +270,9 @@ namespace ButtonOffice.Goals
             {
                 _CleaningTarget.SetJanitor(null);
             }
-            Janitor.SetActionFraction(0.0f);
+            Janitor.SetActionFraction(0.0);
             Janitor.SetAnimationState(AnimationState.Standing);
-            Janitor.SetAnimationFraction(0.0f);
+            Janitor.SetAnimationFraction(0.0);
         }
 
         public override void Save(SaveObjectStore ObjectStore)
@@ -286,7 +286,7 @@ namespace ButtonOffice.Goals
         {
             base.Load(ObjectStore);
             _CleaningTarget = ObjectStore.LoadDeskProperty("cleaning-target");
-            _StartTrashLevel = ObjectStore.LoadSingleProperty("start-trash-level");
+            _StartTrashLevel = ObjectStore.LoadDoubleProperty("start-trash-level");
         }
     }
 
@@ -382,7 +382,7 @@ namespace ButtonOffice.Goals
 
                 Debug.Assert(Person != null);
                 Person.SetAnimationState(AnimationState.Hidden);
-                Person.SetAnimationFraction(0.0f);
+                Person.SetAnimationFraction(0.0);
                 Finish(Game, Actor);
             }
         }
@@ -426,9 +426,9 @@ namespace ButtonOffice.Goals
             var Person = Actor as Person;
 
             Debug.Assert(Person != null);
-            Person.SetActionFraction(0.0f);
+            Person.SetActionFraction(0.0);
             Person.SetAnimationState(AnimationState.Standing);
-            Person.SetAnimationFraction(0.0f);
+            Person.SetAnimationFraction(0.0);
             if(Person.GetLivingSide() == LivingSide.Left)
             {
                 Person.SetLocation(-10.0f, 0.0f);
@@ -506,7 +506,7 @@ namespace ButtonOffice.Goals
 
             Debug.Assert(Person != null);
             Person.SetAnimationState(AnimationState.PushingButton);
-            Person.SetAnimationFraction(0.0f);
+            Person.SetAnimationFraction(0.0);
         }
 
         protected override void _OnExecute(Game Game, PersistentObject Actor, Double DeltaGameMinutes)
@@ -525,9 +525,9 @@ namespace ButtonOffice.Goals
                     Person.GetDesk().GetComputer().SetMinutesUntilBroken(Person.GetDesk().GetComputer().GetMinutesUntilBroken() - DeltaGameMinutes);
                     if(Person.GetDesk().GetComputer().IsBroken() == true)
                     {
-                        Person.SetActionFraction(0.0f);
+                        Person.SetActionFraction(0.0);
                         Person.SetAnimationState(AnimationState.Standing);
-                        Person.SetAnimationFraction(0.0f);
+                        Person.SetAnimationFraction(0.0);
                         if(Person.GetDesk() == Person.GetDesk().Office.FirstDesk)
                         {
                             Game.EnqueueBrokenThing(new Pair<Office, BrokenThing>(Person.GetDesk().Office, BrokenThing.FirstComputer));
@@ -547,19 +547,19 @@ namespace ButtonOffice.Goals
                     }
                     else
                     {
-                        Person.SetActionFraction(Convert.ToSingle(Person.GetActionFraction() + Data.WorkerWorkSpeed * DeltaGameMinutes));
-                        while(Person.GetActionFraction() >= 1.0f)
+                        Person.SetActionFraction(Person.GetActionFraction() + Data.WorkerWorkSpeed * DeltaGameMinutes);
+                        while(Person.GetActionFraction() >= 1.0)
                         {
                             var Revenue = 100L * Game.GetCurrentBonusPromille() / 1000L;
 
-                            Person.SetActionFraction(Person.GetActionFraction() - 1.0f);
-                            Person.GetDesk().TrashLevel += 1.0f;
+                            Person.SetActionFraction(Person.GetActionFraction() - 1.0);
+                            Person.GetDesk().TrashLevel += 1.0;
                             Game.EarnMoney(Revenue, Person.GetMidLocation());
                         }
-                        Person.SetAnimationFraction(Convert.ToSingle(Person.GetAnimationFraction() + Data.WorkerWorkSpeed * DeltaGameMinutes));
-                        while(Person.GetAnimationFraction() >= 1.0f)
+                        Person.SetAnimationFraction(Person.GetAnimationFraction() + Data.WorkerWorkSpeed * DeltaGameMinutes);
+                        while(Person.GetAnimationFraction() >= 1.0)
                         {
-                            Person.SetAnimationFraction(Person.GetAnimationFraction() - 1.0f);
+                            Person.SetAnimationFraction(Person.GetAnimationFraction() - 1.0);
                         }
                     }
                 }
@@ -572,7 +572,7 @@ namespace ButtonOffice.Goals
 
             Debug.Assert(Person != null);
             Person.SetAnimationState(AnimationState.Standing);
-            Person.SetAnimationFraction(0.0f);
+            Person.SetAnimationFraction(0.0);
         }
     }
 
@@ -588,18 +588,18 @@ namespace ButtonOffice.Goals
 
             if((RepairingTarget.Second == BrokenThing.FirstComputer) || (RepairingTarget.Second == BrokenThing.SecondComputer) || (RepairingTarget.Second == BrokenThing.ThirdComputer) || (RepairingTarget.Second == BrokenThing.FourthComputer))
             {
-                ITTech.SetActionFraction(Convert.ToSingle(ITTech.GetActionFraction() + Data.ITTechRepairComputerSpeed * DeltaGameMinutes));
+                ITTech.SetActionFraction(ITTech.GetActionFraction() + Data.ITTechRepairComputerSpeed * DeltaGameMinutes);
             }
             else if((RepairingTarget.Second == BrokenThing.FirstLamp) || (RepairingTarget.Second == BrokenThing.SecondLamp) || (RepairingTarget.Second == BrokenThing.ThirdLamp))
             {
-                ITTech.SetActionFraction(Convert.ToSingle(ITTech.GetActionFraction() + Data.ITTechRepairLampSpeed * DeltaGameMinutes));
+                ITTech.SetActionFraction(ITTech.GetActionFraction() + Data.ITTechRepairLampSpeed * DeltaGameMinutes);
             }
-            if(ITTech.GetActionFraction() >= 1.0f)
+            if(ITTech.GetActionFraction() >= 1.0)
             {
-                ITTech.SetActionFraction(1.0f);
+                ITTech.SetActionFraction(1.0);
             }
-            ITTech.SetAnimationFraction(Convert.ToSingle(ITTech.GetAnimationFraction() + Data.ITTechRepairSpeed * DeltaGameMinutes));
-            if((ITTech.GetActionFraction() == 1.0f) && (ITTech.GetAnimationFraction() >= 1.0f))
+            ITTech.SetAnimationFraction(ITTech.GetAnimationFraction() + Data.ITTechRepairSpeed * DeltaGameMinutes);
+            if((ITTech.GetActionFraction() == 1.0) && (ITTech.GetAnimationFraction() >= 1.0))
             {
                 switch(RepairingTarget.Second)
                 {
@@ -647,12 +647,12 @@ namespace ButtonOffice.Goals
                     }
                 }
                 ITTech.SetRepairingTarget(null);
-                ITTech.GetDesk().TrashLevel += 1.0f;
+                ITTech.GetDesk().TrashLevel += 1.0;
                 Finish(Game, Actor);
             }
-            while(ITTech.GetAnimationFraction() >= 1.0f)
+            while(ITTech.GetAnimationFraction() >= 1.0)
             {
-                ITTech.SetAnimationFraction(ITTech.GetAnimationFraction() - 1.0f);
+                ITTech.SetAnimationFraction(ITTech.GetAnimationFraction() - 1.0);
             }
         }
     }
@@ -809,9 +809,9 @@ namespace ButtonOffice.Goals
             var Person = Actor as Person;
 
             Debug.Assert(Person != null);
-            Person.SetActionFraction(0.0f);
+            Person.SetActionFraction(0.0);
             Person.SetAnimationState(AnimationState.Walking);
-            Person.SetAnimationFraction(0.0f);
+            Person.SetAnimationFraction(0.0);
         }
 
         protected override void _OnExecute(Game Game, PersistentObject Actor, Double DeltaGameMinutes)
@@ -846,9 +846,9 @@ namespace ButtonOffice.Goals
             var Person = Actor as Person;
 
             Debug.Assert(Person != null);
-            Person.SetActionFraction(0.0f);
+            Person.SetActionFraction(0.0);
             Person.SetAnimationState(AnimationState.Standing);
-            Person.SetAnimationFraction(0.0f);
+            Person.SetAnimationFraction(0.0);
         }
 
         public override void Save(SaveObjectStore ObjectStore)
