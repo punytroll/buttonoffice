@@ -7,13 +7,7 @@ namespace ButtonOffice
 {
     public class GameLoader
     {
-        public CultureInfo CultureInfo
-        {
-            get
-            {
-                return _CultureInfo;
-            }
-        }
+        public CultureInfo CultureInfo => _CultureInfo;
 
         readonly CultureInfo _CultureInfo;
         readonly XmlDocument _Document;
