@@ -76,7 +76,7 @@ namespace ButtonOffice
 
         public Boolean IsBroken()
         {
-            return _MinutesUntilBroken < 0.0f;
+            return _MinutesUntilBroken < 0.0;
         }
 
         public void SetHeight(Single Height)
