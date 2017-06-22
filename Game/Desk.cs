@@ -13,6 +13,8 @@ namespace ButtonOffice
         private Person _Person;
         private Double _TrashLevel;
 
+        public Computer Computer => _Computer;
+
         public Office Office
         {
             get
@@ -53,11 +55,6 @@ namespace ButtonOffice
             _Rectangle.Height = Data.DeskHeight;
             _Rectangle.Width = Data.DeskWidth;
             _TrashLevel = 0.0;
-        }
-
-        public Computer GetComputer()
-        {
-            return _Computer;
         }
 
         public Single GetHeight()

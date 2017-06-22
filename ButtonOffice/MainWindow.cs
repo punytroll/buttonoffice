@@ -522,7 +522,7 @@ namespace ButtonOffice
                         PersonAtDeskColor = PersonColor;
                     }
                 }
-                if(Office.FirstDesk.GetComputer().IsBroken() == true)
+                if(Office.FirstDesk.Computer.IsBroken() == true)
                 {
                     ComputerColor = Color.Red;
                 }
@@ -545,7 +545,7 @@ namespace ButtonOffice
                         PersonAtDeskColor = PersonColor;
                     }
                 }
-                if(Office.SecondDesk.GetComputer().IsBroken() == true)
+                if(Office.SecondDesk.Computer.IsBroken() == true)
                 {
                     ComputerColor = Color.Red;
                 }
@@ -568,7 +568,7 @@ namespace ButtonOffice
                         PersonAtDeskColor = PersonColor;
                     }
                 }
-                if(Office.ThirdDesk.GetComputer().IsBroken() == true)
+                if(Office.ThirdDesk.Computer.IsBroken() == true)
                 {
                     ComputerColor = Color.Red;
                 }
@@ -591,7 +591,7 @@ namespace ButtonOffice
                         PersonAtDeskColor = PersonColor;
                     }
                 }
-                if(Office.FourthDesk.GetComputer().IsBroken() == true)
+                if(Office.FourthDesk.Computer.IsBroken() == true)
                 {
                     ComputerColor = Color.Red;
                 }

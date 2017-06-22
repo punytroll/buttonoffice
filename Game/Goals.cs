@@ -41,10 +41,10 @@ namespace ButtonOffice.Goals
             }
             else
             {
-                if(Person.GetDesk().GetComputer().IsBroken() == false)
+                if(Person.GetDesk().Computer.IsBroken() == false)
                 {
-                    Person.GetDesk().GetComputer().SetMinutesUntilBroken(Person.GetDesk().GetComputer().GetMinutesUntilBroken() - DeltaGameMinutes);
-                    if(Person.GetDesk().GetComputer().IsBroken() == true)
+                    Person.GetDesk().Computer.SetMinutesUntilBroken(Person.GetDesk().Computer.GetMinutesUntilBroken() - DeltaGameMinutes);
+                    if(Person.GetDesk().Computer.IsBroken() == true)
                     {
                         Person.SetActionFraction(0.0);
                         Person.SetAnimationState(AnimationState.Standing);
@@ -520,10 +520,10 @@ namespace ButtonOffice.Goals
             }
             else
             {
-                if(Person.GetDesk().GetComputer().IsBroken() == false)
+                if(Person.GetDesk().Computer.IsBroken() == false)
                 {
-                    Person.GetDesk().GetComputer().SetMinutesUntilBroken(Person.GetDesk().GetComputer().GetMinutesUntilBroken() - DeltaGameMinutes);
-                    if(Person.GetDesk().GetComputer().IsBroken() == true)
+                    Person.GetDesk().Computer.SetMinutesUntilBroken(Person.GetDesk().Computer.GetMinutesUntilBroken() - DeltaGameMinutes);
+                    if(Person.GetDesk().Computer.IsBroken() == true)
                     {
                         Person.SetActionFraction(0.0);
                         Person.SetAnimationState(AnimationState.Standing);
@@ -605,25 +605,25 @@ namespace ButtonOffice.Goals
                 {
                 case BrokenThing.FirstComputer:
                     {
-                        RepairingTarget.First.FirstDesk.GetComputer().SetMinutesUntilBroken(RandomNumberGenerator.GetDoubleFromExponentialDistribution(Data.MeanMinutesToBrokenComputer));
+                        RepairingTarget.First.FirstDesk.Computer.SetMinutesUntilBroken(RandomNumberGenerator.GetDoubleFromExponentialDistribution(Data.MeanMinutesToBrokenComputer));
 
                         break;
                     }
                 case BrokenThing.SecondComputer:
                     {
-                        RepairingTarget.First.SecondDesk.GetComputer().SetMinutesUntilBroken(RandomNumberGenerator.GetDoubleFromExponentialDistribution(Data.MeanMinutesToBrokenComputer));
+                        RepairingTarget.First.SecondDesk.Computer.SetMinutesUntilBroken(RandomNumberGenerator.GetDoubleFromExponentialDistribution(Data.MeanMinutesToBrokenComputer));
 
                         break;
                     }
                 case BrokenThing.ThirdComputer:
                     {
-                        RepairingTarget.First.ThirdDesk.GetComputer().SetMinutesUntilBroken(RandomNumberGenerator.GetDoubleFromExponentialDistribution(Data.MeanMinutesToBrokenComputer));
+                        RepairingTarget.First.ThirdDesk.Computer.SetMinutesUntilBroken(RandomNumberGenerator.GetDoubleFromExponentialDistribution(Data.MeanMinutesToBrokenComputer));
 
                         break;
                     }
                 case BrokenThing.FourthComputer:
                     {
-                        RepairingTarget.First.FourthDesk.GetComputer().SetMinutesUntilBroken(RandomNumberGenerator.GetDoubleFromExponentialDistribution(Data.MeanMinutesToBrokenComputer));
+                        RepairingTarget.First.FourthDesk.Computer.SetMinutesUntilBroken(RandomNumberGenerator.GetDoubleFromExponentialDistribution(Data.MeanMinutesToBrokenComputer));
 
                         break;
                     }
