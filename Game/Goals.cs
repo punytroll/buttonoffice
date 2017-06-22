@@ -241,7 +241,7 @@ namespace ButtonOffice.Goals
             Debug.Assert(Janitor != null);
             if(_CleaningTarget.TrashLevel > 0.0)
             {
-                _CleaningTarget.TrashLevel -= Convert.ToSingle(Data.JanitorCleanAmount * Data.JanitorCleanSpeed * DeltaGameMinutes);
+                _CleaningTarget.TrashLevel -= Data.JanitorCleanAmount * Data.JanitorCleanSpeed * DeltaGameMinutes;
                 if(_CleaningTarget.TrashLevel <= 0.0)
                 {
                     _CleaningTarget.TrashLevel = 0.0;

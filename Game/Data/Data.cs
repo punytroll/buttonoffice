@@ -91,7 +91,7 @@ namespace ButtonOffice
         public static readonly Color StairsBorderColor = Color.FromArgb(180, 0, 0, 0);
         public static readonly UInt64 StairsBuildCost = 60000ul;
         public static readonly UInt64 StairsExpansionCost = 40000ul;
-        public static readonly Single StairsSpeed = 0.25f;
+        public static readonly Double StairsSpeed = 0.25;
         public static readonly Color WorkerBackgroundColor = Color.FromArgb(255, 120, 120, 120);
         public static readonly Color WorkerBorderColor = Color.FromArgb(255, 0, 0, 0);
         public static readonly UInt64 WorkerHireCost = 30000ul;

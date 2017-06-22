@@ -40,7 +40,7 @@ namespace ButtonOffice.Goals
 
             Debug.Assert(Person != null);
 
-            var DeltaY = Data.StairsSpeed * Convert.ToSingle(DeltaGameMinutes);
+            var DeltaY = Convert.ToSingle(Data.StairsSpeed * DeltaGameMinutes);
 
             if(Person.GetY() > _TargetFloor)
             {
