@@ -528,7 +528,7 @@ namespace ButtonOffice
                 }
                 _DrawRectangle(EventArguments.Graphics, Office.FirstDesk.GetRectangle(), Data.DeskBackgroundColor, Color.Black);
                 _DrawRectangle(EventArguments.Graphics, Office.FirstDesk.GetX() + (Office.FirstDesk.GetWidth() - Data.PersonTagWidth) / 2.0f, Office.FirstDesk.GetY() + (Office.FirstDesk.GetHeight() - Data.PersonTagHeight) / 2.0f, Data.PersonTagWidth, Data.PersonTagHeight, PersonColor, PersonAtDeskColor);
-                _DrawRectangle(EventArguments.Graphics, Office.FirstDesk.GetX() + (Office.FirstDesk.GetWidth() - Data.ComputerWidth) / 2.0f, Office.FirstDesk.GetY() + Office.FirstDesk.GetHeight() + 0.04f, Data.ComputerWidth, Data.ComputerHeight, ComputerColor, Data.ComputerBorderColor);
+                _DrawRectangle(EventArguments.Graphics, Office.FirstDesk.Computer.GetRectangle(), ComputerColor, Data.ComputerBorderColor);
                 // second desk
                 PersonAtDeskColor = Color.White;
                 PersonColor = Color.White;
@@ -551,7 +551,7 @@ namespace ButtonOffice
                 }
                 _DrawRectangle(EventArguments.Graphics, Office.SecondDesk.GetRectangle(), Data.DeskBackgroundColor, Color.Black);
                 _DrawRectangle(EventArguments.Graphics, Office.SecondDesk.GetX() + (Office.SecondDesk.GetWidth() - Data.PersonTagWidth) / 2.0f, Office.SecondDesk.GetY() + (Office.SecondDesk.GetHeight() - Data.PersonTagHeight) / 2.0f, Data.PersonTagWidth, Data.PersonTagHeight, PersonColor, PersonAtDeskColor);
-                _DrawRectangle(EventArguments.Graphics, Office.SecondDesk.GetX() + (Office.SecondDesk.GetWidth() - Data.ComputerWidth) / 2.0f, Office.SecondDesk.GetY() + Office.SecondDesk.GetHeight() + 0.04f, Data.ComputerWidth, Data.ComputerHeight, ComputerColor, Data.ComputerBorderColor);
+                _DrawRectangle(EventArguments.Graphics, Office.SecondDesk.Computer.GetRectangle(), ComputerColor, Data.ComputerBorderColor);
                 // third desk
                 PersonAtDeskColor = Color.White;
                 PersonColor = Color.White;
@@ -574,7 +574,7 @@ namespace ButtonOffice
                 }
                 _DrawRectangle(EventArguments.Graphics, Office.ThirdDesk.GetRectangle(), Data.DeskBackgroundColor, Color.Black);
                 _DrawRectangle(EventArguments.Graphics, Office.ThirdDesk.GetX() + (Office.ThirdDesk.GetWidth() - Data.PersonTagWidth) / 2.0f, Office.ThirdDesk.GetY() + (Office.ThirdDesk.GetHeight() - Data.PersonTagHeight) / 2.0f, Data.PersonTagWidth, Data.PersonTagHeight, PersonColor, PersonAtDeskColor);
-                _DrawRectangle(EventArguments.Graphics, Office.ThirdDesk.GetX() + (Office.ThirdDesk.GetWidth() - Data.ComputerWidth) / 2.0f, Office.ThirdDesk.GetY() + Office.ThirdDesk.GetHeight() + 0.04f, Data.ComputerWidth, Data.ComputerHeight, ComputerColor, Data.ComputerBorderColor);
+                _DrawRectangle(EventArguments.Graphics, Office.ThirdDesk.Computer.GetRectangle(), ComputerColor, Data.ComputerBorderColor);
                 // fourth desk
                 PersonAtDeskColor = Color.White;
                 PersonColor = Color.White;
@@ -597,7 +597,7 @@ namespace ButtonOffice
                 }
                 _DrawRectangle(EventArguments.Graphics, Office.FourthDesk.GetRectangle(), Data.DeskBackgroundColor, Color.Black);
                 _DrawRectangle(EventArguments.Graphics, Office.FourthDesk.GetX() + (Office.FourthDesk.GetWidth() - Data.PersonTagWidth) / 2.0f, Office.FourthDesk.GetY() + (Office.FourthDesk.GetHeight() - Data.PersonTagHeight) / 2.0f, Data.PersonTagWidth, Data.PersonTagHeight, PersonColor, PersonAtDeskColor);
-                _DrawRectangle(EventArguments.Graphics, Office.FourthDesk.GetX() + (Office.FourthDesk.GetWidth() - Data.ComputerWidth) / 2.0f, Office.FourthDesk.GetY() + Office.FourthDesk.GetHeight() + 0.04f, Data.ComputerWidth, Data.ComputerHeight, ComputerColor, Data.ComputerBorderColor);
+                _DrawRectangle(EventArguments.Graphics, Office.FourthDesk.Computer.GetRectangle(), ComputerColor, Data.ComputerBorderColor);
                 // cat
                 if(Office.Cat != null)
                 {
