@@ -113,7 +113,7 @@ namespace ButtonOffice
 
         public void Save(String PropertyName, Double Double)
         {
-            _GameSaver.CreateChildElement(_Element, PropertyName, typeof(Single).FullName, Double.ToString(_GameSaver.CultureInfo));
+            _GameSaver.CreateChildElement(_Element, PropertyName, typeof(Double).FullName, Double.ToString(_GameSaver.CultureInfo));
         }
 
         public void Save(String PropertyName, String String)
