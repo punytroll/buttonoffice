@@ -5,7 +5,7 @@ namespace ButtonOffice
 {
     internal class ITTech : Person
     {
-        private Pair<Office, BrokenThing> _RepairingTarget;
+        private PersistentObject _RepairingTarget;
 
         public ITTech()
         {
@@ -18,12 +18,12 @@ namespace ButtonOffice
             _Mind.SetRootGoal(new ITTechThink());
         }
 
-        public Pair<Office, BrokenThing> GetRepairingTarget()
+        public PersistentObject GetRepairingTarget()
         {
             return _RepairingTarget;
         }
 
-        public void SetRepairingTarget(Pair<Office, BrokenThing> RepairingTarget)
+        public void SetRepairingTarget(PersistentObject RepairingTarget)
         {
             _RepairingTarget = RepairingTarget;
         }
@@ -37,7 +37,7 @@ namespace ButtonOffice
         public override void Load(LoadObjectStore ObjectStore)
         {
             base.Load(ObjectStore);
-            _RepairingTarget = ObjectStore.LoadBrokenThingProperty("repairing-target");
+            _RepairingTarget = ObjectStore.LoadPersistentObjectProperty("repairing-target");
         }
     }
 }

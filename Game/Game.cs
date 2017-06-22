@@ -14,7 +14,7 @@ namespace ButtonOffice
 
         private readonly List<Accountant> _Accountants;
         private readonly List<Bathroom> _Bathrooms;
-        private readonly List<Pair<Office, BrokenThing>> _BrokenThings;
+        private readonly List<PersistentObject> _BrokenThings;
         private readonly List<Building> _Buildings;
         private UInt32 _CatStock;
         private UInt64 _Cents;
@@ -71,7 +71,7 @@ namespace ButtonOffice
         {
             _Accountants = new List<Accountant>();
             _Bathrooms = new List<Bathroom>();
-            _BrokenThings = new List<Pair<Office, BrokenThing>>();
+            _BrokenThings = new List<PersistentObject>();
             _Buildings = new List<Building>();
             _FreeSpace = new List<BitArray>();
             _BuildingMinimumMaximum = new List<Pair<Int32, Int32>>();
@@ -525,12 +525,12 @@ namespace ButtonOffice
             return Desk;
         }
 
-        public void EnqueueBrokenThing(Pair<Office, BrokenThing> BrokenThing)
+        public void EnqueueBrokenThing(PersistentObject BrokenThing)
         {
             _BrokenThings.Add(BrokenThing);
         }
 
-        public Pair<Office, BrokenThing> DequeueBrokenThing()
+        public PersistentObject DequeueBrokenThing()
         {
             if(_BrokenThings.Count > 0)
             {
@@ -664,7 +664,7 @@ namespace ButtonOffice
             {
                 _Bathrooms.Add(Bathroom);
             }
-            foreach(var BrokenThing in ObjectStore.LoadBrokenThings("broken-things"))
+            foreach(var BrokenThing in ObjectStore.LoadPersistentObjects("broken-things"))
             {
                 _BrokenThings.Add(BrokenThing);
             }

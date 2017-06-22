@@ -49,22 +49,7 @@ namespace ButtonOffice.Goals
                         Person.SetActionFraction(0.0);
                         Person.SetAnimationState(AnimationState.Standing);
                         Person.SetAnimationFraction(0.0);
-                        if(Person.GetDesk() == Person.GetDesk().Office.FirstDesk)
-                        {
-                            Game.EnqueueBrokenThing(new Pair<Office, BrokenThing>(Person.GetDesk().Office, BrokenThing.FirstComputer));
-                        }
-                        else if(Person.GetDesk() == Person.GetDesk().Office.SecondDesk)
-                        {
-                            Game.EnqueueBrokenThing(new Pair<Office, BrokenThing>(Person.GetDesk().Office, BrokenThing.SecondComputer));
-                        }
-                        else if(Person.GetDesk() == Person.GetDesk().Office.ThirdDesk)
-                        {
-                            Game.EnqueueBrokenThing(new Pair<Office, BrokenThing>(Person.GetDesk().Office, BrokenThing.ThirdComputer));
-                        }
-                        else if(Person.GetDesk() == Person.GetDesk().Office.FourthDesk)
-                        {
-                            Game.EnqueueBrokenThing(new Pair<Office, BrokenThing>(Person.GetDesk().Office, BrokenThing.FourthComputer));
-                        }
+                        Game.EnqueueBrokenThing(Person.GetDesk().Computer);
                     }
                     else
                     {
@@ -528,22 +513,7 @@ namespace ButtonOffice.Goals
                         Person.SetActionFraction(0.0);
                         Person.SetAnimationState(AnimationState.Standing);
                         Person.SetAnimationFraction(0.0);
-                        if(Person.GetDesk() == Person.GetDesk().Office.FirstDesk)
-                        {
-                            Game.EnqueueBrokenThing(new Pair<Office, BrokenThing>(Person.GetDesk().Office, BrokenThing.FirstComputer));
-                        }
-                        else if(Person.GetDesk() == Person.GetDesk().Office.SecondDesk)
-                        {
-                            Game.EnqueueBrokenThing(new Pair<Office, BrokenThing>(Person.GetDesk().Office, BrokenThing.SecondComputer));
-                        }
-                        else if(Person.GetDesk() == Person.GetDesk().Office.ThirdDesk)
-                        {
-                            Game.EnqueueBrokenThing(new Pair<Office, BrokenThing>(Person.GetDesk().Office, BrokenThing.ThirdComputer));
-                        }
-                        else if(Person.GetDesk() == Person.GetDesk().Office.FourthDesk)
-                        {
-                            Game.EnqueueBrokenThing(new Pair<Office, BrokenThing>(Person.GetDesk().Office, BrokenThing.FourthComputer));
-                        }
+                        Game.EnqueueBrokenThing(Person.GetDesk().Computer);
                     }
                     else
                     {
@@ -586,11 +556,11 @@ namespace ButtonOffice.Goals
 
             var RepairingTarget = ITTech.GetRepairingTarget();
 
-            if((RepairingTarget.Second == BrokenThing.FirstComputer) || (RepairingTarget.Second == BrokenThing.SecondComputer) || (RepairingTarget.Second == BrokenThing.ThirdComputer) || (RepairingTarget.Second == BrokenThing.FourthComputer))
+            if(RepairingTarget is Computer)
             {
                 ITTech.SetActionFraction(ITTech.GetActionFraction() + Data.ITTechRepairComputerSpeed * DeltaGameMinutes);
             }
-            else if((RepairingTarget.Second == BrokenThing.FirstLamp) || (RepairingTarget.Second == BrokenThing.SecondLamp) || (RepairingTarget.Second == BrokenThing.ThirdLamp))
+            else if(RepairingTarget is Lamp)
             {
                 ITTech.SetActionFraction(ITTech.GetActionFraction() + Data.ITTechRepairLampSpeed * DeltaGameMinutes);
             }
@@ -601,50 +571,13 @@ namespace ButtonOffice.Goals
             ITTech.SetAnimationFraction(ITTech.GetAnimationFraction() + Data.ITTechRepairSpeed * DeltaGameMinutes);
             if((ITTech.GetActionFraction() == 1.0) && (ITTech.GetAnimationFraction() >= 1.0))
             {
-                switch(RepairingTarget.Second)
+                if(RepairingTarget is Computer)
                 {
-                case BrokenThing.FirstComputer:
-                    {
-                        RepairingTarget.First.FirstDesk.Computer.SetMinutesUntilBroken(RandomNumberGenerator.GetDoubleFromExponentialDistribution(Data.MeanMinutesToBrokenComputer));
-
-                        break;
-                    }
-                case BrokenThing.SecondComputer:
-                    {
-                        RepairingTarget.First.SecondDesk.Computer.SetMinutesUntilBroken(RandomNumberGenerator.GetDoubleFromExponentialDistribution(Data.MeanMinutesToBrokenComputer));
-
-                        break;
-                    }
-                case BrokenThing.ThirdComputer:
-                    {
-                        RepairingTarget.First.ThirdDesk.Computer.SetMinutesUntilBroken(RandomNumberGenerator.GetDoubleFromExponentialDistribution(Data.MeanMinutesToBrokenComputer));
-
-                        break;
-                    }
-                case BrokenThing.FourthComputer:
-                    {
-                        RepairingTarget.First.FourthDesk.Computer.SetMinutesUntilBroken(RandomNumberGenerator.GetDoubleFromExponentialDistribution(Data.MeanMinutesToBrokenComputer));
-
-                        break;
-                    }
-                case BrokenThing.FirstLamp:
-                    {
-                        RepairingTarget.First.FirstLamp.SetMinutesUntilBroken(RandomNumberGenerator.GetDoubleFromExponentialDistribution(Data.MeanMinutesToBrokenLamp));
-
-                        break;
-                    }
-                case BrokenThing.SecondLamp:
-                    {
-                        RepairingTarget.First.SecondLamp.SetMinutesUntilBroken(RandomNumberGenerator.GetDoubleFromExponentialDistribution(Data.MeanMinutesToBrokenLamp));
-
-                        break;
-                    }
-                case BrokenThing.ThirdLamp:
-                    {
-                        RepairingTarget.First.ThirdLamp.SetMinutesUntilBroken(RandomNumberGenerator.GetDoubleFromExponentialDistribution(Data.MeanMinutesToBrokenLamp));
-
-                        break;
-                    }
+                    ((Computer)RepairingTarget).SetMinutesUntilBroken(RandomNumberGenerator.GetDoubleFromExponentialDistribution(Data.MeanMinutesToBrokenComputer));
+                }
+                else if(RepairingTarget is Lamp)
+                {
+                    ((Lamp)RepairingTarget).SetMinutesUntilBroken(RandomNumberGenerator.GetDoubleFromExponentialDistribution(Data.MeanMinutesToBrokenLamp));
                 }
                 ITTech.SetRepairingTarget(null);
                 ITTech.GetDesk().TrashLevel += 1.0;
@@ -677,72 +610,22 @@ namespace ButtonOffice.Goals
                     if(BrokenThing != null)
                     {
                         ITTech.SetRepairingTarget(BrokenThing);
-                        switch(BrokenThing.Second)
+
+                        var FindPathToLocation = new FindPathToLocation();
+
+                        if(BrokenThing is Computer)
                         {
-                        case ButtonOffice.BrokenThing.FirstComputer:
-                            {
-                                var WalkToDesk = new WalkToDesk();
+                            var Computer = (Computer)BrokenThing;
 
-                                WalkToDesk.SetDesk(BrokenThing.First.FirstDesk);
-                                AppendSubGoal(WalkToDesk);
-
-                                break;
-                            }
-                        case ButtonOffice.BrokenThing.SecondComputer:
-                            {
-                                var WalkToDesk = new WalkToDesk();
-
-                                WalkToDesk.SetDesk(BrokenThing.First.SecondDesk);
-                                AppendSubGoal(WalkToDesk);
-
-                                break;
-                            }
-                        case ButtonOffice.BrokenThing.ThirdComputer:
-                            {
-                                var WalkToDesk = new WalkToDesk();
-
-                                WalkToDesk.SetDesk(BrokenThing.First.ThirdDesk);
-                                AppendSubGoal(WalkToDesk);
-
-                                break;
-                            }
-                        case ButtonOffice.BrokenThing.FourthComputer:
-                            {
-                                var WalkToDesk = new WalkToDesk();
-
-                                WalkToDesk.SetDesk(BrokenThing.First.FourthDesk);
-                                AppendSubGoal(WalkToDesk);
-
-                                break;
-                            }
-                        case ButtonOffice.BrokenThing.FirstLamp:
-                            {
-                                var WalkToLocation = new FindPathToLocation();
-
-                                WalkToLocation.SetLocation(new PointF(BrokenThing.First.FirstLamp.GetX() + BrokenThing.First.FirstLamp.GetWidth() / 2.0f, BrokenThing.First.GetY()));
-                                AppendSubGoal(WalkToLocation);
-
-                                break;
-                            }
-                        case ButtonOffice.BrokenThing.SecondLamp:
-                            {
-                                var WalkToLocation = new FindPathToLocation();
-
-                                WalkToLocation.SetLocation(new PointF(BrokenThing.First.SecondLamp.GetX() + BrokenThing.First.SecondLamp.GetWidth() / 2.0f, BrokenThing.First.GetY()));
-                                AppendSubGoal(WalkToLocation);
-
-                                break;
-                            }
-                        case ButtonOffice.BrokenThing.ThirdLamp:
-                            {
-                                var WalkToLocation = new FindPathToLocation();
-
-                                WalkToLocation.SetLocation(new PointF(BrokenThing.First.ThirdLamp.GetX() + BrokenThing.First.ThirdLamp.GetWidth() / 2.0f, BrokenThing.First.GetY()));
-                                AppendSubGoal(WalkToLocation);
-
-                                break;
-                            }
+                            FindPathToLocation.SetLocation(new PointF(Computer.GetX() + Computer.GetWidth() / 2.0f, Computer.GetY().GetFloored()));
                         }
+                        else if(BrokenThing is Lamp)
+                        {
+                            var Lamp = (Lamp)BrokenThing;
+
+                            FindPathToLocation.SetLocation(new PointF(Lamp.GetX() + Lamp.GetWidth() / 2.0f, Lamp.GetY().GetFloored()));
+                        }
+                        AppendSubGoal(FindPathToLocation);
                         AppendSubGoal(new Repair());
                         AppendSubGoal(new GoToOwnDesk());
                         ITTech.SetAtDesk(false);

@@ -195,6 +195,28 @@ namespace ButtonOffice
             return _LoadOffice(_GetPropertyElement(_Element, PropertyName));
         }
 
+        public PersistentObject LoadPersistentObjectProperty(String PropertyName)
+        {
+            return _LoadPersistentObject(_GetPropertyElement(_Element, PropertyName));
+        }
+
+        public List<PersistentObject> LoadPersistentObjects(String ListName)
+        {
+            var Result = new List<PersistentObject>();
+
+            foreach(var Node in _GetPropertyElements(_Element, ListName, "item"))
+            {
+                Result.Add(_LoadPersistentObject(Node as XmlElement));
+            }
+
+            return Result;
+        }
+
+        public Person LoadPersonProperty(String PropertyName)
+        {
+            return _LoadPerson(_GetPropertyElement(_Element, PropertyName));
+        }
+
         public List<Person> LoadPersons(String ListName)
         {
             var Result = new List<Person>();
@@ -205,11 +227,6 @@ namespace ButtonOffice
             }
 
             return Result;
-        }
-
-        public Person LoadPersonProperty(String PropertyName)
-        {
-            return _LoadPerson(_GetPropertyElement(_Element, PropertyName));
         }
 
         public PointF LoadPointProperty(String PropertyName)
