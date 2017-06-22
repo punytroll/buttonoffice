@@ -2,23 +2,9 @@
 {
     public enum ActionState
     {
-        Arriving,
-        AtHome,
-        Cleaning,
-        GoingToClean,
-        GoingToDesk,
-        GoingToRepair,
-        Leaving,
-        New,
-        PickTrash,
-        PushingButton,
-        Repairing,
         Stay,
-        WaitingForBrokenThings,
-        WaitingToGoHome,
         WalkLeft,
-        WalkRight,
-        Working
+        WalkRight
     }
 
     public enum AnimationState
@@ -30,17 +16,6 @@
         Repairing,
         Standing,
         Walking
-    }
-
-    public enum BrokenThing
-    {
-        FirstComputer,
-        SecondComputer,
-        ThirdComputer,
-        FourthComputer,
-        FirstLamp,
-        SecondLamp,
-        ThirdLamp
     }
 
     public enum GoalState

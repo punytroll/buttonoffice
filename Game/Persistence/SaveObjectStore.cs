@@ -33,21 +33,6 @@ namespace ButtonOffice
             _GameSaver.CreateChildElement(_Element, PropertyName, typeof(Boolean).FullName, Boolean.ToString(_GameSaver.CultureInfo));
         }
 
-        public void Save(String PropertyName, Pair<Office, BrokenThing> BrokenThing)
-        {
-            _AppendProperty(_Element, PropertyName, BrokenThing);
-        }
-
-        public void Save(String PropertyName, IEnumerable<Pair<Office, BrokenThing>> BrokenThings)
-        {
-            var ListElement = _GameSaver.CreateElement(_Element, PropertyName);
-
-            foreach(var BrokenThing in BrokenThings)
-            {
-                _AppendProperty(ListElement, "item", BrokenThing);
-            }
-        }
-
         public void Save(String PropertyName, Color Color)
         {
             var Result = _GameSaver.CreateChildElement(_Element, PropertyName, typeof(Color).FullName);
@@ -138,17 +123,6 @@ namespace ButtonOffice
         private void _AppendProperty(XmlElement ParentElement, String Name, Single Single)
         {
             _GameSaver.CreateChildElement(ParentElement, Name, typeof(Single).FullName, Single.ToString(_GameSaver.CultureInfo));
-        }
-
-        private void _AppendProperty(XmlElement ParentElement, String Name, Pair<Office, BrokenThing> BrokenThing)
-        {
-            var Result = _GameSaver.CreateChildElement(ParentElement, Name, typeof(Pair<Office, BrokenThing>).FullName);
-
-            if(BrokenThing != null)
-            {
-                _GameSaver.CreateChildElement(Result, "office", BrokenThing.First);
-                _GameSaver.CreateChildElement(Result, "broken-thing", typeof(BrokenThing).FullName, BrokenThing.Second.ToString());
-            }
         }
 
         #endregion

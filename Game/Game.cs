@@ -664,7 +664,7 @@ namespace ButtonOffice
             {
                 _Bathrooms.Add(Bathroom);
             }
-            foreach(var BrokenThing in ObjectStore.LoadPersistentObjects("broken-things"))
+            foreach(var BrokenThing in ObjectStore.LoadObjects("broken-things"))
             {
                 _BrokenThings.Add(BrokenThing);
             }

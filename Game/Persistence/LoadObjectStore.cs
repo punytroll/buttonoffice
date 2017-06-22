@@ -58,23 +58,6 @@ namespace ButtonOffice
             return Convert.ToBoolean(_GetPropertyValue(_Element, PropertyName, "System.Boolean"));
         }
 
-        public List<Pair<Office, BrokenThing>> LoadBrokenThings(String PropertyName)
-        {
-            var Result = new List<Pair<Office, BrokenThing>>();
-
-            foreach(var Node in _GetPropertyElements(_Element, PropertyName, "item"))
-            {
-                Result.Add(_LoadBrokenThing(Node as XmlElement));
-            }
-
-            return Result;
-        }
-
-        public Pair<Office, BrokenThing> LoadBrokenThingProperty(String PropertyName)
-        {
-            return _LoadBrokenThing(_GetPropertyElement(_Element, PropertyName));
-        }
-
         public List<Building> LoadBuildings(String ListName)
         {
             var Result = new List<Building>();
@@ -178,6 +161,23 @@ namespace ButtonOffice
             return _LoadPersistentObject(_GetPropertyElement(_Element, PropertyName)) as Mind;
         }
 
+        public PersistentObject LoadObjectProperty(String PropertyName)
+        {
+            return _LoadPersistentObject(_GetPropertyElement(_Element, PropertyName));
+        }
+
+        public List<PersistentObject> LoadObjects(String ListName)
+        {
+            var Result = new List<PersistentObject>();
+
+            foreach(var Node in _GetPropertyElements(_Element, ListName, "item"))
+            {
+                Result.Add(_LoadPersistentObject(Node as XmlElement));
+            }
+
+            return Result;
+        }
+
         public List<Office> LoadOffices(String ListName)
         {
             var Result = new List<Office>();
@@ -193,23 +193,6 @@ namespace ButtonOffice
         public Office LoadOfficeProperty(String PropertyName)
         {
             return _LoadOffice(_GetPropertyElement(_Element, PropertyName));
-        }
-
-        public PersistentObject LoadPersistentObjectProperty(String PropertyName)
-        {
-            return _LoadPersistentObject(_GetPropertyElement(_Element, PropertyName));
-        }
-
-        public List<PersistentObject> LoadPersistentObjects(String ListName)
-        {
-            var Result = new List<PersistentObject>();
-
-            foreach(var Node in _GetPropertyElements(_Element, ListName, "item"))
-            {
-                Result.Add(_LoadPersistentObject(Node as XmlElement));
-            }
-
-            return Result;
         }
 
         public Person LoadPersonProperty(String PropertyName)
@@ -297,23 +280,6 @@ namespace ButtonOffice
         private Bathroom _LoadBathroom(XmlElement Element)
         {
             return _LoadPersistentObject(Element) as Bathroom;
-        }
-
-        public Pair<Office, BrokenThing> _LoadBrokenThing(XmlElement Element)
-        {
-            Pair<Office, BrokenThing> Result = null;
-
-            if(Element.ChildNodes.Count > 0)
-            {
-                Result = new Pair<Office, BrokenThing>(_LoadOffice(_GetPropertyElement(Element, "office")), _LoadBrokenThingProperty(Element, "broken-thing"));
-            }
-
-            return Result;
-        }
-
-        public BrokenThing _LoadBrokenThingProperty(XmlElement Element, String PropertyName)
-        {
-            return (BrokenThing)Enum.Parse(typeof(BrokenThing), _GetPropertyValue(Element, PropertyName, "ButtonOffice.BrokenThing"));
         }
 
         private Byte _LoadByteProperty(XmlElement Element, String PropertyName)

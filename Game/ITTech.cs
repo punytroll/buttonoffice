@@ -37,7 +37,7 @@ namespace ButtonOffice
         public override void Load(LoadObjectStore ObjectStore)
         {
             base.Load(ObjectStore);
-            _RepairingTarget = ObjectStore.LoadPersistentObjectProperty("repairing-target");
+            _RepairingTarget = ObjectStore.LoadObjectProperty("repairing-target");
         }
     }
 }
