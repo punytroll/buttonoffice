@@ -414,11 +414,13 @@ namespace ButtonOffice
             return Element.Attributes["type"].Value;
         }
 
-        private static void _AssertElementAndType(XmlElement Element, String Type)
+        private static void _AssertElementAndType(XmlElement Element, String ExpectingType)
         {
-            if(_AssertElementAndGetType(Element) != Type)
+            var ReadingType = _AssertElementAndGetType(Element);
+
+            if(ReadingType != ExpectingType)
             {
-                throw new FormatException();
+                throw new FormatException($"Type error for a \"{Element.Name}\" element: expecting \"{ExpectingType}\" but got a \"{ReadingType}\".");
             }
         }
 
