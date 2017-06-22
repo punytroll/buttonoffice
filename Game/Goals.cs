@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Drawing;
+using System.Linq;
 
 namespace ButtonOffice.Goals
 {
@@ -282,7 +283,17 @@ namespace ButtonOffice.Goals
             var Janitor = Actor as Janitor;
 
             Debug.Assert(Janitor != null);
-            foreach(var Office in Game.Offices.GetShuffledCopy())
+            foreach(var Office in Game.Offices.OrderBy(delegate(Office Office)
+                                                       {
+                                                           var Result = Office.GetY() - Janitor.GetDesk().GetY();
+
+                                                           if(Result < 0.0)
+                                                           {
+                                                               Result = Game.WorldBlockHeight - Result;
+                                                           }
+
+                                                           return Result;
+                                                       }).ThenBy((Office) => Office.GetX()))
             {
                 Janitor.EnqueueCleaningTarget(Office.FirstDesk);
                 Janitor.EnqueueCleaningTarget(Office.SecondDesk);
