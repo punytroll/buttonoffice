@@ -27,6 +27,8 @@ namespace ButtonOffice
 
         public Color BorderColor => _BorderColor;
 
+        public Desk Desk => _Desk;
+
         public String Name => _Name;
 
         protected Person()
@@ -96,11 +98,6 @@ namespace ButtonOffice
         public Boolean GetAtDesk()
         {
             return _AtDesk;
-        }
-
-        public Desk GetDesk()
-        {
-            return _Desk;
         }
 
         public Single GetHeight()

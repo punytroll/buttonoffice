@@ -42,15 +42,15 @@ namespace ButtonOffice.Goals
             }
             else
             {
-                if(Person.GetDesk().Computer.IsBroken() == false)
+                if(Person.Desk.Computer.IsBroken() == false)
                 {
-                    Person.GetDesk().Computer.SetMinutesUntilBroken(Person.GetDesk().Computer.GetMinutesUntilBroken() - DeltaGameMinutes);
-                    if(Person.GetDesk().Computer.IsBroken() == true)
+                    Person.Desk.Computer.Use(DeltaGameMinutes);
+                    if(Person.Desk.Computer.IsBroken() == true)
                     {
                         Person.SetActionFraction(0.0);
                         Person.SetAnimationState(AnimationState.Standing);
                         Person.SetAnimationFraction(0.0);
-                        Game.EnqueueBrokenThing(Person.GetDesk().Computer);
+                        Game.EnqueueBrokenThing(Person.Desk.Computer);
                     }
                     else
                     {
@@ -58,7 +58,7 @@ namespace ButtonOffice.Goals
                         while(Person.GetActionFraction() >= 1.0)
                         {
                             Person.SetActionFraction(Person.GetActionFraction() - 1.0);
-                            Person.GetDesk().TrashLevel += 2.0;
+                            Person.Desk.TrashLevel += 2.0;
                         }
                         Person.SetAnimationFraction(Person.GetAnimationFraction() + Data.AccountantWorkSpeed * DeltaGameMinutes);
                         while(Person.GetAnimationFraction() >= 1.0)
@@ -285,7 +285,7 @@ namespace ButtonOffice.Goals
             Debug.Assert(Janitor != null);
             foreach(var Office in Game.Offices.OrderBy(delegate(Office Office)
                                                        {
-                                                           var Result = Office.GetY() - Janitor.GetDesk().GetY();
+                                                           var Result = Office.GetY() - Janitor.Desk.GetY();
 
                                                            if(Result < 0.0)
                                                            {
@@ -392,7 +392,7 @@ namespace ButtonOffice.Goals
 
             Debug.Assert(Person != null);
 
-            var Desk = Person.GetDesk();
+            var Desk = Person.Desk;
 
             Debug.Assert(Desk != null);
 
@@ -516,15 +516,15 @@ namespace ButtonOffice.Goals
             }
             else
             {
-                if(Person.GetDesk().Computer.IsBroken() == false)
+                if(Person.Desk.Computer.IsBroken() == false)
                 {
-                    Person.GetDesk().Computer.SetMinutesUntilBroken(Person.GetDesk().Computer.GetMinutesUntilBroken() - DeltaGameMinutes);
-                    if(Person.GetDesk().Computer.IsBroken() == true)
+                    Person.Desk.Computer.Use(DeltaGameMinutes);
+                    if(Person.Desk.Computer.IsBroken() == true)
                     {
                         Person.SetActionFraction(0.0);
                         Person.SetAnimationState(AnimationState.Standing);
                         Person.SetAnimationFraction(0.0);
-                        Game.EnqueueBrokenThing(Person.GetDesk().Computer);
+                        Game.EnqueueBrokenThing(Person.Desk.Computer);
                     }
                     else
                     {
@@ -534,7 +534,7 @@ namespace ButtonOffice.Goals
                             var Revenue = 100L * Game.GetCurrentBonusPromille() / 1000L;
 
                             Person.SetActionFraction(Person.GetActionFraction() - 1.0);
-                            Person.GetDesk().TrashLevel += 1.0;
+                            Person.Desk.TrashLevel += 1.0;
                             Game.EarnMoney(Revenue, Person.GetMidLocation());
                         }
                         Person.SetAnimationFraction(Person.GetAnimationFraction() + Data.WorkerWorkSpeed * DeltaGameMinutes);
@@ -584,14 +584,14 @@ namespace ButtonOffice.Goals
             {
                 if(RepairingTarget is Computer)
                 {
-                    ((Computer)RepairingTarget).SetMinutesUntilBroken(RandomNumberGenerator.GetDoubleFromExponentialDistribution(Data.MeanMinutesToBrokenComputer));
+                    ((Computer)RepairingTarget).SetRepaired();
                 }
                 else if(RepairingTarget is Lamp)
                 {
                     ((Lamp)RepairingTarget).SetRepaired();
                 }
                 ITTech.SetRepairingTarget(null);
-                ITTech.GetDesk().TrashLevel += 1.0;
+                ITTech.Desk.TrashLevel += 1.0;
                 Finish(Game, Actor);
             }
             while(ITTech.GetAnimationFraction() >= 1.0)

@@ -99,7 +99,7 @@ namespace ButtonOffice
 
             foreach(var Accountant in _Accountants)
             {
-                if((Accountant.GetAtDesk() == true) && (Accountant.GetDesk().Computer.IsBroken() == false))
+                if((Accountant.GetAtDesk() == true) && (Accountant.Desk.Computer.IsBroken() == false))
                 {
                     Result += Accountant.GetBonusPromille();
                 }

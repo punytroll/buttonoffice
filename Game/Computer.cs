@@ -71,9 +71,9 @@ namespace ButtonOffice
             _Rectangle.Y = Y;
         }
 
-        public void SetMinutesUntilBroken(Double MinutesUntilBroken)
+        public void SetRepaired()
         {
-            _MinutesUntilBroken = MinutesUntilBroken;
+            _MinutesUntilBroken = RandomNumberGenerator.GetDoubleFromExponentialDistribution(Data.MeanMinutesToBrokenComputer);
         }
 
         public void SetRectangle(RectangleF Rectangle)
@@ -94,6 +94,11 @@ namespace ButtonOffice
         public void SetY(Single Y)
         {
             _Rectangle.Y = Y;
+        }
+
+        public void Use(Double DeltaGameMinutes)
+        {
+            _MinutesUntilBroken += DeltaGameMinutes;
         }
 
         public override void Save(SaveObjectStore ObjectStore)

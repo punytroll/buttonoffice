@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 
 public static class Extensions
@@ -22,7 +23,7 @@ public static class Extensions
     /// <summary>
     /// Converts the Int32 value to an Int64 value.
     /// </summary>
-    public static System.Int64 ToInt64(this Int32 Int32)
+    public static Int64 ToInt64(this Int32 Int32)
     {
         return Convert.ToInt64(Int32);
     }
@@ -86,7 +87,7 @@ public static class Extensions
     /// <summary>
     /// Calculates the squared distance between two PointF values.
     /// </summary>
-    public static Single GetDistanceSquared(this System.Drawing.PointF This, System.Drawing.PointF That)
+    public static Single GetDistanceSquared(this PointF This, PointF That)
     {
         var DeltaX = That.X - This.X;
         var DeltaY = That.Y - This.Y;
@@ -97,7 +98,7 @@ public static class Extensions
     /// <summary>
     /// Retrieves the first element from a list.
     /// </summary>
-    public static Type GetFirst<Type>(this System.Collections.Generic.List<Type> List)
+    public static ItemType GetFirst<ItemType>(this List<ItemType> List)
     {
         return List[0];
     }
@@ -105,7 +106,7 @@ public static class Extensions
     /// <summary>
     /// Retrieves the last element from a list.
     /// </summary>
-    public static Type GetLast<Type>(this System.Collections.Generic.List<Type> List)
+    public static ItemType GetLast<ItemType>(this List<ItemType> List)
     {
         return List[List.Count - 1];
     }
@@ -113,7 +114,7 @@ public static class Extensions
     /// <summary>
     /// Retrieves and removes the first element from a list.
     /// </summary>
-    public static Type PopFirst<Type>(this System.Collections.Generic.List<Type> List)
+    public static ItemType PopFirst<ItemType>(this List<ItemType> List)
     {
         var Result = List[0];
 
@@ -125,30 +126,8 @@ public static class Extensions
     /// <summary>
     /// Return a PointF value with the mid point coordinates of the rectangle.
     /// </summary>
-    /// <param name="Rectangle"></param>
-    /// <returns></returns>
-    public static System.Drawing.PointF GetMidPoint(this System.Drawing.RectangleF Rectangle)
+    public static PointF GetMidPoint(this RectangleF Rectangle)
     {
-        return new System.Drawing.PointF(Rectangle.X + Rectangle.Width / 2.0f, Rectangle.Y + Rectangle.Height / 2.0f);
-    }
-
-    public static System.Collections.Generic.List<Type> GetShuffledCopy<Type>(this System.Collections.Generic.IList<Type> List)
-    {
-        var Result = new System.Collections.Generic.List<Type>(List);
-        var RandomNumberGenerator = new System.Random();
-        var N = Result.Count;
-
-        while(N > 1)
-        {
-            N--;
-
-            var K = RandomNumberGenerator.Next(N + 1);
-            var Value = Result[K];
-
-            Result[K] = Result[N];
-            Result[N] = Value;
-        }
-
-        return Result;
+        return new PointF(Rectangle.X + Rectangle.Width / 2.0f, Rectangle.Y + Rectangle.Height / 2.0f);
     }
 }
