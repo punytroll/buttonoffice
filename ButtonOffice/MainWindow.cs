@@ -471,26 +471,9 @@ namespace ButtonOffice
             foreach(var Office in _Game.Offices)
             {
                 _DrawRectangle(EventArguments.Graphics, Office.GetRectangle(), Office.GetBackgroundColor(), Office.GetBorderColor());
-
-                var LampColor = Color.Yellow;
-
-                if(Office.FirstLamp.IsBroken() == true)
-                {
-                    LampColor = Color.Gray;
-                }
-                _DrawRectangle(EventArguments.Graphics, Office.FirstLamp.GetRectangle(), LampColor, Color.Black);
-                LampColor = Color.Yellow;
-                if(Office.SecondLamp.IsBroken() == true)
-                {
-                    LampColor = Color.Gray;
-                }
-                _DrawRectangle(EventArguments.Graphics, Office.SecondLamp.GetRectangle(), LampColor, Color.Black);
-                LampColor = Color.Yellow;
-                if(Office.ThirdLamp.IsBroken() == true)
-                {
-                    LampColor = Color.Gray;
-                }
-                _DrawRectangle(EventArguments.Graphics, Office.ThirdLamp.GetRectangle(), LampColor, Color.Black);
+                _DrawRectangle(EventArguments.Graphics, Office.FirstLamp.GetRectangle(), Office.FirstLamp.BackgroundColor, Color.Black);
+                _DrawRectangle(EventArguments.Graphics, Office.SecondLamp.GetRectangle(), Office.SecondLamp.BackgroundColor, Color.Black);
+                _DrawRectangle(EventArguments.Graphics, Office.ThirdLamp.GetRectangle(), Office.ThirdLamp.BackgroundColor, Color.Black);
             }
             foreach(var Bathroom in _Game.Bathrooms)
             {

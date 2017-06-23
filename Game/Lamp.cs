@@ -10,6 +10,21 @@ namespace ButtonOffice
         private Office _Office;
         private RectangleF _Rectangle;
 
+        public Color BackgroundColor
+        {
+            get
+            {
+                if(_MinutesUntilBroken > 0.0)
+                {
+                    return Color.Yellow;
+                }
+                else
+                {
+                    return Color.Gray;
+                }
+            }
+        }
+
         public Office Office
         {
             get
@@ -44,11 +59,6 @@ namespace ButtonOffice
             return _Rectangle.Height;
         }
 
-        public Double GetMinutesUntilBroken()
-        {
-            return _MinutesUntilBroken;
-        }
-
         public Office GetOffice()
         {
             return _Office;
@@ -74,9 +84,16 @@ namespace ButtonOffice
             return _Rectangle.Y;
         }
 
-        public Boolean IsBroken()
+        public void Move(Game Game, Double DeltaGameMinutes)
         {
-            return _MinutesUntilBroken < 0.0;
+            if(_MinutesUntilBroken > 0.0)
+            {
+                _MinutesUntilBroken -= DeltaGameMinutes;
+                if(_MinutesUntilBroken <= 0.0)
+                {
+                    Game.EnqueueBrokenThing(this);
+                }
+            }
         }
 
         public void SetHeight(Single Height)
@@ -90,9 +107,9 @@ namespace ButtonOffice
             _Rectangle.Y = Y;
         }
 
-        public void SetMinutesUntilBroken(Double MinutesUntilBroken)
+        public void SetRepaired()
         {
-            _MinutesUntilBroken = MinutesUntilBroken;
+            _MinutesUntilBroken = RandomNumberGenerator.GetDoubleFromExponentialDistribution(Data.MeanMinutesToBrokenLamp);
         }
 
         public void SetWidth(Single Width)

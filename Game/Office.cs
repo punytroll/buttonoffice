@@ -76,30 +76,9 @@ namespace ButtonOffice
 
         public override void Move(Game Game, Double DeltaGameMinutes)
         {
-            if(_FirstLamp.IsBroken() == false)
-            {
-                _FirstLamp.SetMinutesUntilBroken(_FirstLamp.GetMinutesUntilBroken() - DeltaGameMinutes);
-                if(_FirstLamp.IsBroken() == true)
-                {
-                    Game.EnqueueBrokenThing(_FirstLamp);
-                }
-            }
-            if(_SecondLamp.IsBroken() == false)
-            {
-                _SecondLamp.SetMinutesUntilBroken(_SecondLamp.GetMinutesUntilBroken() - DeltaGameMinutes);
-                if(_SecondLamp.IsBroken() == true)
-                {
-                    Game.EnqueueBrokenThing(_SecondLamp);
-                }
-            }
-            if(_ThirdLamp.IsBroken() == false)
-            {
-                _ThirdLamp.SetMinutesUntilBroken(_ThirdLamp.GetMinutesUntilBroken() - DeltaGameMinutes);
-                if(_ThirdLamp.IsBroken() == true)
-                {
-                    Game.EnqueueBrokenThing(_ThirdLamp);
-                }
-            }
+            _FirstLamp.Move(Game, DeltaGameMinutes);
+            _SecondLamp.Move(Game, DeltaGameMinutes);
+            _ThirdLamp.Move(Game, DeltaGameMinutes);
             _Cat?.Move(Game, DeltaGameMinutes);
         }
 

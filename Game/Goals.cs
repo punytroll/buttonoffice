@@ -588,7 +588,7 @@ namespace ButtonOffice.Goals
                 }
                 else if(RepairingTarget is Lamp)
                 {
-                    ((Lamp)RepairingTarget).SetMinutesUntilBroken(RandomNumberGenerator.GetDoubleFromExponentialDistribution(Data.MeanMinutesToBrokenLamp));
+                    ((Lamp)RepairingTarget).SetRepaired();
                 }
                 ITTech.SetRepairingTarget(null);
                 ITTech.GetDesk().TrashLevel += 1.0;
