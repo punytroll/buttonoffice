@@ -15,13 +15,16 @@ namespace ButtonOffice
         protected Color _BackgroundColor;
         protected Color _BorderColor;
         protected Desk _Desk;
+        private Double _Height;
         protected UInt64 _LeavesAtMinute;
         protected LivingSide _LivingSide;
         protected Mind _Mind;
-        private RectangleF _Rectangle;
         private String _Name;
         protected UInt64 _Wage;
+        private Double _Width;
         protected UInt64 _WorkMinutes;
+        private Double _X;
+        private Double _Y;
 
         public Color BackgroundColor => _BackgroundColor;
 
@@ -44,10 +47,9 @@ namespace ButtonOffice
             {
                 _LivingSide = LivingSide.Right;
             }
-            SetLocation(-1000.0f, 0.0f);
             _Mind = new Mind();
-            _Rectangle.Height = RandomNumberGenerator.GetSingle(Data.PersonHeight, Data.PersonHeightSpread);
-            _Rectangle.Width = RandomNumberGenerator.GetSingle(Data.PersonWidth, Data.PersonWidthSpread);
+            _Height = RandomNumberGenerator.GetDouble(Data.PersonHeightMean, Data.PersonHeightSpread);
+            _Width = RandomNumberGenerator.GetDouble(Data.PersonWidthMean, Data.PersonWidthSpread);
             _Name = "Hagen";
         }
 
@@ -100,9 +102,9 @@ namespace ButtonOffice
             return _AtDesk;
         }
 
-        public Single GetHeight()
+        public Double GetHeight()
         {
-            return _Rectangle.Height;
+            return _Height;
         }
 
         public UInt64 GetLeavesAtMinute()
@@ -117,12 +119,12 @@ namespace ButtonOffice
 
         public PointF GetMidLocation()
         {
-            return new PointF(_Rectangle.X + _Rectangle.Width / 2.0f, _Rectangle.Y + _Rectangle.Height / 2.0f);
+            return new PointF(Convert.ToSingle(_X), Convert.ToSingle(_Y + _Height / 2.0));
         }
 
-        public RectangleF GetRectangle()
+        public RectangleF GetVisualRectangle()
         {
-            return _Rectangle;
+            return new RectangleF(Convert.ToSingle(_X - _Width / 2.0f), Convert.ToSingle(_Y), Convert.ToSingle(_Width), Convert.ToSingle(_Height));
         }
 
         public UInt64 GetWage()
@@ -130,9 +132,9 @@ namespace ButtonOffice
             return _Wage;
         }
 
-        public Single GetWidth()
+        public Double GetWidth()
         {
-            return _Rectangle.Width;
+            return _Width;
         }
 
         public UInt64 GetWorkMinutes()
@@ -140,14 +142,14 @@ namespace ButtonOffice
             return _WorkMinutes;
         }
 
-        public Single GetX()
+        public Double GetX()
         {
-            return _Rectangle.X;
+            return _X;
         }
 
-        public Single GetY()
+        public Double GetY()
         {
-            return _Rectangle.Y;
+            return _Y;
         }
 
         public Boolean IsHidden()
@@ -175,49 +177,20 @@ namespace ButtonOffice
             _AtDesk = AtDesk;
         }
 
-        public void SetHeight(Single Height)
-        {
-            _Rectangle.Height = Height;
-        }
-
-        public void SetLocation(Single X, Single Y)
-        {
-            _Rectangle.X = X;
-            _Rectangle.Y = Y;
-        }
-
-        public void SetLocation(PointF Location)
-        {
-            _Rectangle.Location = Location;
-        }
-
-        public void SetRectangle(Single X, Single Y, Single Width, Single Height)
-        {
-            _Rectangle.X = X;
-            _Rectangle.Y = Y;
-            _Rectangle.Width = Width;
-            _Rectangle.Height = Height;
-        }
-
-        public void SetWidth(Single Width)
-        {
-            _Rectangle.Width = Width;
-        }
-
         public void SetWorkDayMinutes(UInt64 ArrivesAtMinute, UInt64 LeavesAtMinute)
         {
             _ArrivesAtMinute = ArrivesAtMinute;
             _LeavesAtMinute = LeavesAtMinute;
         }
 
-        public void SetX(Single X)
+        public void SetX(Double X)
         {
-            _Rectangle.X = X;
+            _X = X;
         }
 
-        public void SetY(Single Y)
+        public void SetY(Double Y)
         {
-            _Rectangle.Y = Y;
+            _Y = Y;
         }
 
         public void Move(Game Game, Double DeltaGameMinutes)
@@ -237,13 +210,16 @@ namespace ButtonOffice
             ObjectStore.Save("background-color", _BackgroundColor);
             ObjectStore.Save("border-color", _BorderColor);
             ObjectStore.Save("desk", _Desk);
+            ObjectStore.Save("height", _Height);
             ObjectStore.Save("leaves-at-minute", _LeavesAtMinute);
             ObjectStore.Save("living-side", _LivingSide);
             ObjectStore.Save("mind", _Mind);
             ObjectStore.Save("name", _Name);
-            ObjectStore.Save("rectangle", _Rectangle);
             ObjectStore.Save("wage", _Wage);
+            ObjectStore.Save("width", _Width);
             ObjectStore.Save("work-minutes", _WorkMinutes);
+            ObjectStore.Save("x", _X);
+            ObjectStore.Save("y", _Y);
         }
 
         public override void Load(LoadObjectStore ObjectStore)
@@ -258,13 +234,16 @@ namespace ButtonOffice
             _BackgroundColor = ObjectStore.LoadColorProperty("background-color");
             _BorderColor = ObjectStore.LoadColorProperty("border-color");
             _Desk = ObjectStore.LoadDeskProperty("desk");
+            _Height = ObjectStore.LoadDoubleProperty("height");
             _LeavesAtMinute = ObjectStore.LoadUInt64Property("leaves-at-minute");
             _LivingSide = ObjectStore.LoadLivingSideProperty("living-side");
             _Mind = ObjectStore.LoadMindProperty("mind");
             _Name = ObjectStore.LoadStringProperty("name");
-            _Rectangle = ObjectStore.LoadRectangleProperty("rectangle");
             _Wage = ObjectStore.LoadUInt64Property("wage");
+            _Width = ObjectStore.LoadDoubleProperty("width");
             _WorkMinutes = ObjectStore.LoadUInt64Property("work-minutes");
+            _X = ObjectStore.LoadDoubleProperty("x");
+            _Y = ObjectStore.LoadDoubleProperty("y");
         }
     }
 }

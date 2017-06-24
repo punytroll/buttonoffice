@@ -9,6 +9,7 @@ namespace ButtonOffice
         private Color _BorderColor;
         private Boolean _HasLocation;
         private RectangleF _Rectangle;
+        private Boolean _SnapToBlocksHorizontally;
         private readonly Type _Type;
 
         public Color BackgroundColor
@@ -39,11 +40,20 @@ namespace ButtonOffice
 
         public RectangleF Rectangle => _Rectangle;
 
+        public Boolean SnapToBlocksHorizontally
+        {
+            set
+            {
+                _SnapToBlocksHorizontally = value;
+            }
+        }
+
         public Type Type => _Type;
 
         public EntityPrototype(Type Type)
         {
             _HasLocation = false;
+            _SnapToBlocksHorizontally = true;
             _Type = Type;
         }
 
@@ -59,7 +69,14 @@ namespace ButtonOffice
 
         public void SetLocationFromGamingLocation(PointF Location)
         {
-            _Rectangle.Location = new PointF(Location.X - (_Rectangle.Width / 2.0f).GetFloored(), Location.Y - (_Rectangle.Height / 2.0f).GetFloored());
+            if(_SnapToBlocksHorizontally == true)
+            {
+                _Rectangle.Location = new PointF((Location.X - (_Rectangle.Width / 2.0f)).GetRounded(), (Location.Y - _Rectangle.Height / 2.0f).GetRounded());
+            }
+            else
+            {
+                _Rectangle.Location = new PointF(Location.X - (_Rectangle.Width / 2.0f), (Location.Y - _Rectangle.Height / 2.0f).GetRounded());
+            }
             _HasLocation = true;
         }
 
@@ -68,14 +85,14 @@ namespace ButtonOffice
             return _HasLocation;
         }
 
-        public void SetHeight(Single Height)
+        public void SetHeight(Double Height)
         {
-            _Rectangle.Height = Height;
+            _Rectangle.Height = Convert.ToSingle(Height);
         }
 
-        public void SetWidth(Single Width)
+        public void SetWidth(Double Width)
         {
-            _Rectangle.Width = Width;
+            _Rectangle.Width = Convert.ToSingle(Width);
         }
     }
 }

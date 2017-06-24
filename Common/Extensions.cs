@@ -29,6 +29,38 @@ public static class Extensions
     }
 
     /// <summary>
+    /// Rounds the Single value towards −∞ and converts it to an Int32 value.
+    /// </summary>
+    public static Int32 GetFlooredAsInt32(this Single Single)
+    {
+        return Convert.ToInt32(Math.Floor(Convert.ToDouble(Single)));
+    }
+
+    /// <summary>
+    /// Rounds the Double value towards the nearest Int32 value.
+    /// </summary>
+    public static Int32 GetNearestInt32(this Double Double)
+    {
+        return Convert.ToInt32(Math.Round(Double));
+    }
+
+    /// <summary>
+    /// Rounds the Single value towards the nearest Int32 value.
+    /// </summary>
+    public static Int32 GetNearestInt32(this Single Single)
+    {
+        return Convert.ToInt32(Convert.ToDouble(Math.Round(Single)));
+    }
+
+    /// <summary>
+    /// Rounds the Single value towards the nearest integer value and returns it as a Single.
+    /// </summary>
+    public static Single GetRounded(this Single Single)
+    {
+        return Convert.ToSingle(Math.Round(Convert.ToDouble(Single)));
+    }
+
+    /// <summary>
     /// Rounds the Single value towards 0 and converts it to an Int32 value.
     /// </summary>
     public static Int32 GetTruncatedAsInt32(this Single Single)
@@ -42,14 +74,6 @@ public static class Extensions
     public static Int32 GetTruncatedAsInt32(this Double Double)
     {
         return Convert.ToInt32(Math.Truncate(Double));
-    }
-
-    /// <summary>
-    /// Rounds the Single value towards −∞ and converts it to an Int32 value.
-    /// </summary>
-    public static Int32 GetFlooredAsInt32(this Single Single)
-    {
-        return Convert.ToInt32(Math.Floor(Convert.ToDouble(Single)));
     }
 
     /// <summary>

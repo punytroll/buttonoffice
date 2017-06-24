@@ -427,12 +427,13 @@ namespace ButtonOffice.Goals
             Person.SetAnimationFraction(0.0);
             if(Person.GetLivingSide() == LivingSide.Left)
             {
-                Person.SetLocation(-10.0f, 0.0f);
+                Person.SetX(-10.0);
             }
             else
             {
-                Person.SetLocation(Game.WorldBlockWidth + 10.0f, 0.0f);
+                Person.SetX(Game.WorldBlockWidth + 10.0);
             }
+            Person.SetY(0.0);
             AppendSubGoal(new GoToOwnDesk());
         }
 
@@ -686,138 +687,6 @@ namespace ButtonOffice.Goals
             {
                 Finish(Game, Person);
             }
-        }
-    }
-
-    internal class WalkOnSameFloor : Goal
-    {
-        private Single _X;
-
-        public void SetX(Single X)
-        {
-            _X = X;
-        }
-
-        protected override void _OnInitialize(Game Game, PersistentObject Actor)
-        {
-            var Person = Actor as Person;
-
-            Debug.Assert(Person != null);
-            Person.SetActionFraction(0.0);
-            Person.SetAnimationState(AnimationState.Walking);
-            Person.SetAnimationFraction(0.0);
-        }
-
-        protected override void _OnExecute(Game Game, PersistentObject Actor, Double DeltaGameMinutes)
-        {
-            var Person = Actor as Person;
-
-            Debug.Assert(Person != null);
-
-            var DeltaX = _X - Person.GetX();
-
-            if(Math.Abs(DeltaX) > 0.1)
-            {
-                if(DeltaX > 0.0f)
-                {
-                    DeltaX = Convert.ToSingle(Data.PersonSpeed * DeltaGameMinutes);
-                }
-                else
-                {
-                    DeltaX = Convert.ToSingle(-Data.PersonSpeed * DeltaGameMinutes);
-                }
-                Person.SetLocation(Person.GetX() + DeltaX, Person.GetY());
-            }
-            else
-            {
-                Person.SetLocation(_X, Person.GetY());
-                Finish(Game, Person);
-            }
-        }
-
-        protected override void _OnTerminate(Game Game, PersistentObject Actor)
-        {
-            var Person = Actor as Person;
-
-            Debug.Assert(Person != null);
-            Person.SetActionFraction(0.0);
-            Person.SetAnimationState(AnimationState.Standing);
-            Person.SetAnimationFraction(0.0);
-        }
-
-        public override void Save(SaveObjectStore ObjectStore)
-        {
-            base.Save(ObjectStore);
-            ObjectStore.Save("x", _X);
-        }
-
-        public override void Load(LoadObjectStore ObjectStore)
-        {
-            base.Load(ObjectStore);
-            _X = ObjectStore.LoadSingleProperty("x");
-        }
-    }
-
-    internal class FindPathToLocation : Goal
-    {
-        private PointF _Location;
-
-        public void SetLocation(PointF Location)
-        {
-            _Location = Location;
-        }
-
-        protected override void _OnInitialize(Game Game, PersistentObject Actor)
-        {
-            var Person = Actor as Person;
-
-            Debug.Assert(Person != null);
-
-            var TransportationPath = Game.GetTransportationPath(new PointF(Person.GetX() + Person.GetWidth() / 2.0f, Person.GetY()), _Location);
-
-            if(TransportationPath != null)
-            {
-                foreach(var TransportationNode in TransportationPath)
-                {
-                    var WalkOnSameFloor = new WalkOnSameFloor();
-
-                    WalkOnSameFloor.SetX(TransportationNode.GetX() - Person.GetWidth() / 2.0f);
-                    AppendSubGoal(WalkOnSameFloor);
-
-                    var CreateUseGoalFunction = TransportationNode.GetCreateUseGoalFunction();
-
-                    if(CreateUseGoalFunction != null)
-                    {
-                        var UseGoal = CreateUseGoalFunction(TransportationNode.GetTargetFloor());
-
-                        AppendSubGoal(UseGoal);
-                    }
-                }
-            }
-            else
-            {
-                Abort(Game, Person);
-            }
-        }
-
-        protected override void _OnExecute(Game Game, PersistentObject Actor, Double DeltaGameMinutes)
-        {
-            if(HasSubGoals() == false)
-            {
-                Finish(Game, Actor);
-            }
-        }
-
-        public override void Save(SaveObjectStore ObjectStore)
-        {
-            base.Save(ObjectStore);
-            ObjectStore.Save("location", _Location);
-        }
-
-        public override void Load(LoadObjectStore ObjectStore)
-        {
-            base.Load(ObjectStore);
-            _Location = ObjectStore.LoadPointProperty("location");
         }
     }
 

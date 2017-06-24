@@ -17,7 +17,7 @@ namespace ButtonOffice
         {
             var Result = new List<Int32>();
 
-            for(var Floor = _Rectangle.Y.GetTruncatedAsInt32(); Floor < (_Rectangle.Y + _Rectangle.Height).GetTruncatedAsInt32(); ++Floor)
+            for(var Floor = _Rectangle.Y.GetNearestInt32(); Floor < (_Rectangle.Y + _Rectangle.Height).GetNearestInt32(); ++Floor)
             {
                 Result.Add(Floor);
             }
@@ -25,12 +25,12 @@ namespace ButtonOffice
             return Result;
         }
 
-        public Goal CreateUseGoal(Int32 TargetFloor)
+        public Goal CreateUseGoal(Double ToX, Double ToY)
         {
             var Result = new UseStairs();
 
             Result.SetStairs(this);
-            Result.SetTargetFloor(TargetFloor);
+            Result.SetTargetFloor(ToY.GetNearestInt32());
 
             return Result;
         }

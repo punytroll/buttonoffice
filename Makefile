@@ -17,7 +17,9 @@ COMMON_SOURCES = \
 
 GAME_SOURCES = \
 	Game/Data/Data.cs \
+	Game/Goals/FindPathToLocation.cs \
 	Game/Goals/UseStairs.cs \
+	Game/Goals/WalkOnSameFloor.cs \
 	Game/Persistence/GameLoader.cs \
 	Game/Persistence/GameLoadException.cs \
 	Game/Persistence/GameSaver.cs \
@@ -40,10 +42,10 @@ GAME_SOURCES = \
 	Game/Lamp.cs \
 	Game/Mind.cs \
 	Game/Office.cs \
+	Game/PathEdge.cs \
 	Game/Person.cs \
 	Game/RandomNumberGenerator.cs \
 	Game/Stairs.cs \
-	Game/TransportationNode.cs \
 	Game/Worker.cs
 
 SOURCES = \

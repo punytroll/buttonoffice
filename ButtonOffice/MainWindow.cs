@@ -131,16 +131,31 @@ namespace ButtonOffice
             }
         }
 
+        private void _OnHireAccountantButtonCheckedChanged(Object Sender, EventArgs EventArguments)
+        {
+            _EntityPrototype = null;
+            if(_HireAccountantButton.Checked == true)
+            {
+                _EntityPrototype = new EntityPrototype(Type.Accountant);
+                _EntityPrototype.SnapToBlocksHorizontally = false;
+                _EntityPrototype.BackgroundColor = Data.AccountantBackgroundColor;
+                _EntityPrototype.BorderColor = Data.AccountantBorderColor;
+                _EntityPrototype.SetHeight(Data.PersonHeightMean);
+                _EntityPrototype.SetWidth(Data.PersonWidthMean);
+            }
+        }
+
         private void _OnHireITTechButtonCheckedChanged(Object Sender, EventArgs EventArguments)
         {
             _EntityPrototype = null;
             if(_HireITTechButton.Checked == true)
             {
                 _EntityPrototype = new EntityPrototype(Type.ITTech);
+                _EntityPrototype.SnapToBlocksHorizontally = false;
                 _EntityPrototype.BackgroundColor = Data.ITTechBackgroundColor;
                 _EntityPrototype.BorderColor = Data.ITTechBorderColor;
-                _EntityPrototype.SetHeight(Data.PersonHeight);
-                _EntityPrototype.SetWidth(Data.PersonWidth);
+                _EntityPrototype.SetHeight(Data.PersonHeightMean);
+                _EntityPrototype.SetWidth(Data.PersonWidthMean);
             }
         }
 
@@ -150,10 +165,11 @@ namespace ButtonOffice
             if(_HireJanitorButton.Checked == true)
             {
                 _EntityPrototype = new EntityPrototype(Type.Janitor);
+                _EntityPrototype.SnapToBlocksHorizontally = false;
                 _EntityPrototype.BackgroundColor = Data.JanitorBackgroundColor;
                 _EntityPrototype.BorderColor = Data.JanitorBorderColor;
-                _EntityPrototype.SetHeight(Data.PersonHeight);
-                _EntityPrototype.SetWidth(Data.PersonWidth);
+                _EntityPrototype.SetHeight(Data.PersonHeightMean);
+                _EntityPrototype.SetWidth(Data.PersonWidthMean);
             }
         }
 
@@ -163,23 +179,11 @@ namespace ButtonOffice
             if(_HireWorkerButton.Checked == true)
             {
                 _EntityPrototype = new EntityPrototype(Type.Worker);
+                _EntityPrototype.SnapToBlocksHorizontally = false;
                 _EntityPrototype.BackgroundColor = Data.WorkerBackgroundColor;
                 _EntityPrototype.BorderColor = Data.WorkerBorderColor;
-                _EntityPrototype.SetHeight(Data.PersonHeight);
-                _EntityPrototype.SetWidth(Data.PersonWidth);
-            }
-        }
-
-        private void _OnHireAccountantButtonCheckedChanged(Object Sender, EventArgs EventArguments)
-        {
-            _EntityPrototype = null;
-            if(_HireAccountantButton.Checked == true)
-            {
-                _EntityPrototype = new EntityPrototype(Type.Accountant);
-                _EntityPrototype.BackgroundColor = Data.AccountantBackgroundColor;
-                _EntityPrototype.BorderColor = Data.AccountantBorderColor;
-                _EntityPrototype.SetHeight(Data.PersonHeight);
-                _EntityPrototype.SetWidth(Data.PersonWidth);
+                _EntityPrototype.SetHeight(Data.PersonHeightMean);
+                _EntityPrototype.SetWidth(Data.PersonWidthMean);
             }
         }
 
@@ -189,6 +193,7 @@ namespace ButtonOffice
             if(_PlaceCatButton.Checked == true)
             {
                 _EntityPrototype = new EntityPrototype(Type.Cat);
+                _EntityPrototype.SnapToBlocksHorizontally = false;
                 _EntityPrototype.BackgroundColor = Data.CatBackgroundColor;
                 _EntityPrototype.BorderColor = Data.CatBorderColor;
                 _EntityPrototype.SetHeight(Data.CatHeight);
@@ -208,7 +213,7 @@ namespace ButtonOffice
             {
                 if(_EntityPrototype != null)
                 {
-                    _EntityPrototype.SetLocationFromGamingLocation(_GetGamingLocation(EventArguments.Location).GetFloored());
+                    _EntityPrototype.SetLocationFromGamingLocation(_GetGamingLocation(EventArguments.Location));
                     _DrawingBoard.Invalidate();
                 }
             }
@@ -330,7 +335,7 @@ namespace ButtonOffice
                     {
                         foreach(var Person in _Game.Persons)
                         {
-                            if(Person.GetRectangle().Contains(GamingLocation) == true)
+                            if(Person.GetVisualRectangle().Contains(GamingLocation) == true)
                             {
                                 _SelectedObject = Person;
 
@@ -483,7 +488,7 @@ namespace ButtonOffice
             {
                 if(Person.IsHidden() == false)
                 {
-                    _DrawRectangle(EventArguments.Graphics, Person.GetRectangle(), _MixToWhite(Person.BackgroundColor, Person.GetActionFraction()), _MixToWhite(Person.BorderColor, Person.GetAnimationFraction()));
+                    _DrawRectangle(EventArguments.Graphics, Person.GetVisualRectangle(), _MixToWhite(Person.BackgroundColor, Person.GetActionFraction()), _MixToWhite(Person.BorderColor, Person.GetAnimationFraction()));
                 }
             }
             foreach(var Office in _Game.Offices)

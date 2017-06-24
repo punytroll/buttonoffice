@@ -16,7 +16,6 @@ namespace ButtonOffice
             _GameLoader = GameLoader;
         }
 
-
         #region "public loader functions"
 
         public List<Accountant> LoadAccountants(String ListName)

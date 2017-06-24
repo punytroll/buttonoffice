@@ -53,24 +53,24 @@ namespace ButtonOffice.Goals
             {
                 if(NewY <= _TargetFloor)
                 {
-                    Person.SetLocation(Person.GetX(), _TargetFloor.Value);
+                    Person.SetY(_TargetFloor.Value);
                     Finish(Game, Person);
                 }
                 else
                 {
-                    Person.SetLocation(Person.GetX(), NewY);
+                    Person.SetY(NewY);
                 }
             }
             else
             {
                 if(NewY >= _TargetFloor)
                 {
-                    Person.SetLocation(Person.GetX(), _TargetFloor.Value);
+                    Person.SetY(_TargetFloor.Value);
                     Finish(Game, Person);
                 }
                 else
                 {
-                    Person.SetLocation(Person.GetX(), NewY);
+                    Person.SetY(NewY);
                 }
             }
         }

@@ -150,17 +150,16 @@ namespace ButtonOffice
             return GetDay() * 1440;
         }
 
-        internal List<TransportationNode> GetTransportationPath(PointF FromLocation, PointF ToLocation)
+        internal List<PathEdge> GetPath(PointF FromLocation, PointF ToLocation)
         {
-            var Result = new List<TransportationNode>();
+            var Result = new List<PathEdge>();
+            Double CurrentX = FromLocation.X;
             var CurrentFloor = FromLocation.Y.GetTruncatedAsInt32();
             var TargetFloor = ToLocation.Y.GetTruncatedAsInt32();
             var Upwards = TargetFloor - CurrentFloor > 0;
 
             while(CurrentFloor != TargetFloor)
             {
-                var FoundStairs = false;
-
                 foreach(var Stairs in _Stairs)
                 {
                     var StairsFloors = Stairs.GetFloors();
@@ -168,13 +167,14 @@ namespace ButtonOffice
                     if(StairsFloors.Contains(CurrentFloor) == true)
                     {
                         var StairsTargetFloor = CurrentFloor;
+                        var StairsValid = false;
 
                         if(Upwards == true)
                         {
                             while((StairsTargetFloor < TargetFloor) && (StairsFloors.Contains(StairsTargetFloor + 1) == true))
                             {
                                 StairsTargetFloor += 1;
-                                FoundStairs = true;
+                                StairsValid = true;
                             }
                         }
                         else
@@ -182,19 +182,35 @@ namespace ButtonOffice
                             while((StairsTargetFloor > TargetFloor) && (StairsFloors.Contains(StairsTargetFloor - 1) == true))
                             {
                                 StairsTargetFloor -= 1;
-                                FoundStairs = true;
+                                StairsValid = true;
                             }
                         }
-                        if(FoundStairs == true)
+                        if(StairsValid == true)
                         {
-                            var StairsTransportationNode = new TransportationNode();
+                            CurrentX = Stairs.GetX() + (Stairs.GetWidth() / 2.0);
 
-                            StairsTransportationNode.SetCreateUseGoalFunction(Stairs.CreateUseGoal);
-                            StairsTransportationNode.SetTargetFloor(StairsTargetFloor);
-                            StairsTransportationNode.SetX(Stairs.GetX() + (Stairs.GetWidth() / 2.0f));
-                            StairsTransportationNode.SetY(CurrentFloor);
-                            Result.Add(StairsTransportationNode);
+                            // move to the stairs on the current level
+                            var WalkOnSameFloorPathEdge = new PathEdge();
+
+                            WalkOnSameFloorPathEdge.CreateUseGoalFunction = delegate(Double ToX, Double ToY)
+                                                                            {
+                                                                                var ResultGoal = new WalkOnSameFloor();
+
+                                                                                ResultGoal.SetX(ToX);
+
+                                                                                return ResultGoal;
+                                                                            };
+                            WalkOnSameFloorPathEdge.ToX = CurrentX;
+                            WalkOnSameFloorPathEdge.ToY = CurrentFloor;
+                            Result.Add(WalkOnSameFloorPathEdge);
                             CurrentFloor = StairsTargetFloor;
+
+                            var StairsPathEdge = new PathEdge();
+
+                            StairsPathEdge.CreateUseGoalFunction = Stairs.CreateUseGoal;
+                            StairsPathEdge.ToX = Stairs.GetX() + (Stairs.GetWidth() / 2.0);
+                            StairsPathEdge.ToY = CurrentFloor;
+                            Result.Add(StairsPathEdge);
 
                             break;
                         }
@@ -203,11 +219,19 @@ namespace ButtonOffice
             }
             if(CurrentFloor == TargetFloor)
             {
-                var TransportationNode = new TransportationNode();
+                var WalkOnSameFloorPathEdge = new PathEdge();
 
-                TransportationNode.SetX(ToLocation.X);
-                TransportationNode.SetY(ToLocation.Y);
-                Result.Add(TransportationNode);
+                WalkOnSameFloorPathEdge.CreateUseGoalFunction = delegate(Double ToX, Double ToY)
+                                                                {
+                                                                    var ResultGoal = new WalkOnSameFloor();
+
+                                                                    ResultGoal.SetX(ToX);
+
+                                                                    return ResultGoal;
+                                                                };
+                WalkOnSameFloorPathEdge.ToX = ToLocation.X;
+                WalkOnSameFloorPathEdge.ToY = CurrentFloor;
+                Result.Add(WalkOnSameFloorPathEdge);
 
                 return Result;
             }
