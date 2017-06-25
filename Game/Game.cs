@@ -150,7 +150,7 @@ namespace ButtonOffice
             return GetDay() * 1440;
         }
 
-        internal List<PathEdge> GetPath(PointF FromLocation, PointF ToLocation)
+        internal List<PathEdge> GetPath(Vector2 FromLocation, Vector2 ToLocation)
         {
             var Result = new List<PathEdge>();
             Double CurrentX = FromLocation.X;

@@ -322,7 +322,7 @@ namespace ButtonOffice.Goals
                     {
                         var WalkToLocation = new FindPathToLocation();
 
-                        WalkToLocation.SetLocation(new PointF(CleaningTarget.GetX() + CleaningTarget.GetWidth() / 2.0f, CleaningTarget.GetY()));
+                        WalkToLocation.SetLocation(new Vector2(CleaningTarget.GetX() + CleaningTarget.GetWidth() / 2.0, CleaningTarget.GetY()));
                         AppendSubGoal(WalkToLocation);
 
                         var CleanDesk = new CleanDesk();
@@ -360,11 +360,11 @@ namespace ButtonOffice.Goals
 
             if(Person.GetLivingSide() == LivingSide.Left)
             {
-                WalkToLocation.SetLocation(new PointF(-10.0f, 0.0f));
+                WalkToLocation.SetLocation(new Vector2(-10.0, 0.0));
             }
             else
             {
-                WalkToLocation.SetLocation(new PointF(Game.WorldBlockWidth + 10.0f, 0.0f));
+                WalkToLocation.SetLocation(new Vector2(Game.WorldBlockWidth + 10.0, 0.0));
             }
             Person.SetAtDesk(false);
             AppendSubGoal(WalkToLocation);
@@ -629,13 +629,13 @@ namespace ButtonOffice.Goals
                         {
                             var Computer = (Computer)BrokenThing;
 
-                            FindPathToLocation.SetLocation(new PointF(Computer.GetX() + Computer.GetWidth() / 2.0f, Computer.GetY().GetFloored()));
+                            FindPathToLocation.SetLocation(new Vector2(Computer.GetX() + Computer.GetWidth() / 2.0, Computer.GetY().GetFloored()));
                         }
                         else if(BrokenThing is Lamp)
                         {
                             var Lamp = (Lamp)BrokenThing;
 
-                            FindPathToLocation.SetLocation(new PointF(Lamp.GetX() + Lamp.GetWidth() / 2.0f, Lamp.GetY().GetFloored()));
+                            FindPathToLocation.SetLocation(new Vector2(Lamp.GetX() + Lamp.GetWidth() / 2.0, Lamp.GetY().GetFloored()));
                         }
                         AppendSubGoal(FindPathToLocation);
                         AppendSubGoal(new Repair());
@@ -710,7 +710,7 @@ namespace ButtonOffice.Goals
 
             var WalkToLocation = new FindPathToLocation();
 
-            WalkToLocation.SetLocation(new PointF(_Desk.GetX() + _Desk.GetWidth() / 2.0f, _Desk.GetY()));
+            WalkToLocation.SetLocation(new Vector2(_Desk.GetX() + _Desk.GetWidth() / 2.0, _Desk.GetY()));
             AppendSubGoal(WalkToLocation);
         }
 

@@ -6,9 +6,9 @@ namespace ButtonOffice
 {
     internal class FindPathToLocation : Goal
     {
-        private PointF _Location;
+        private Vector2 _Location;
 
-        public void SetLocation(PointF Location)
+        public void SetLocation(Vector2 Location)
         {
             _Location = Location;
         }
@@ -19,7 +19,7 @@ namespace ButtonOffice
 
             Debug.Assert(Person != null);
 
-            var Path = Game.GetPath(new PointF(Convert.ToSingle(Person.GetX()), Convert.ToSingle(Person.GetY())), _Location);
+            var Path = Game.GetPath(new Vector2(Person.GetX(), Person.GetY()), _Location);
 
             if(Path != null)
             {
@@ -57,7 +57,7 @@ namespace ButtonOffice
         public override void Load(LoadObjectStore ObjectStore)
         {
             base.Load(ObjectStore);
-            _Location = ObjectStore.LoadPointProperty("location");
+            _Location = ObjectStore.LoadVector2Property("location");
         }
     }
 }

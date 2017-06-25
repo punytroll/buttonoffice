@@ -43,6 +43,11 @@ namespace ButtonOffice
             _AppendProperty(Result, "opacity", Convert.ToSingle(Color.A) / 255.0f);
         }
 
+        public void Save(String PropertyName, Double Double)
+        {
+            _GameSaver.CreateChildElement(_Element, PropertyName, typeof(Double).FullName, Double.ToString(_GameSaver.CultureInfo));
+        }
+
         public void Save(String PropertyName, GoalState GoalState)
         {
             _GameSaver.CreateChildElement(_Element, PropertyName, typeof(GoalState).FullName, GoalState.ToString());
@@ -96,11 +101,6 @@ namespace ButtonOffice
             _AppendProperty(_Element, PropertyName, Single);
         }
 
-        public void Save(String PropertyName, Double Double)
-        {
-            _GameSaver.CreateChildElement(_Element, PropertyName, typeof(Double).FullName, Double.ToString(_GameSaver.CultureInfo));
-        }
-
         public void Save(String PropertyName, String String)
         {
             _GameSaver.CreateChildElement(_Element, PropertyName, typeof(String).FullName, String);
@@ -116,9 +116,22 @@ namespace ButtonOffice
             _GameSaver.CreateChildElement(_Element, PropertyName, typeof(UInt64).FullName, UInt64.ToString(_GameSaver.CultureInfo));
         }
 
+        public void Save(String PropertyName, Vector2 Vector2)
+        {
+            var Result = _GameSaver.CreateChildElement(_Element, PropertyName, typeof(Vector2).FullName);
+
+            _AppendProperty(Result, "x", Vector2.X);
+            _AppendProperty(Result, "y", Vector2.Y);
+        }
+
         #endregion
 
         #region "private helper functions"
+
+        private void _AppendProperty(XmlElement ParentElement, String Name, Double Double)
+        {
+            _GameSaver.CreateChildElement(ParentElement, Name, typeof(Double).FullName, Double.ToString(_GameSaver.CultureInfo));
+        }
 
         private void _AppendProperty(XmlElement ParentElement, String Name, Single Single)
         {

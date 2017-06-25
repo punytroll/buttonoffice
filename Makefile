@@ -46,6 +46,7 @@ GAME_SOURCES = \
 	Game/Person.cs \
 	Game/RandomNumberGenerator.cs \
 	Game/Stairs.cs \
+	Game/Vector2.cs \
 	Game/Worker.cs
 
 SOURCES = \

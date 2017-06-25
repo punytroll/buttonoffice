@@ -105,7 +105,7 @@ namespace ButtonOffice
 
         public Double LoadDoubleProperty(String PropertyName)
         {
-            return Convert.ToDouble(_GetPropertyValue(_Element, PropertyName, "System.Double"), _GameLoader.CultureInfo);
+            return _LoadDoubleProperty(_Element, PropertyName);
         }
 
         public Goal LoadGoalProperty(String PropertyName)
@@ -266,6 +266,15 @@ namespace ButtonOffice
             return Convert.ToUInt64(_GetPropertyValue(_Element, PropertyName, "System.UInt64"), _GameLoader.CultureInfo);
         }
 
+        public Vector2 LoadVector2Property(String PropertyName)
+        {
+            var PropertyElement = _GetPropertyElement(_Element, PropertyName);
+
+            _AssertElementAndType(PropertyElement, typeof(Vector2).FullName);
+
+            return new Vector2(_LoadDoubleProperty(PropertyElement, "x"), _LoadDoubleProperty(PropertyElement, "y"));
+        }
+
         #endregion
 
 
@@ -294,6 +303,11 @@ namespace ButtonOffice
         private Desk _LoadDesk(XmlElement Element)
         {
             return _LoadPersistentObject(Element) as Desk;
+        }
+
+        private Double _LoadDoubleProperty(XmlElement Element, String PropertyName)
+        {
+            return Convert.ToDouble(_GetPropertyValue(Element, PropertyName, "System.Double"), _GameLoader.CultureInfo);
         }
 
         private Goal _LoadGoal(XmlElement Element)
