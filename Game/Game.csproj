@@ -75,11 +75,14 @@
     <Compile Include="Game.cs" />
     <Compile Include="Goal.cs" />
     <Compile Include="Goals.cs" />
+    <Compile Include="Goals\FindPathToLocation.cs" />
+    <Compile Include="Goals\WalkOnSameFloor.cs" />
     <Compile Include="ITTech.cs" />
     <Compile Include="Janitor.cs" />
     <Compile Include="Lamp.cs" />
     <Compile Include="Mind.cs" />
     <Compile Include="Office.cs" />
+    <Compile Include="PathEdge.cs" />
     <Compile Include="Persistence\GameLoader.cs" />
     <Compile Include="Persistence\GameLoadException.cs" />
     <Compile Include="Persistence\GameSaver.cs" />
@@ -89,8 +92,8 @@
     <Compile Include="Person.cs" />
     <Compile Include="RandomNumberGenerator.cs" />
     <Compile Include="Stairs.cs" />
-    <Compile Include="TransportationNode.cs" />
     <Compile Include="Goals\UseStairs.cs" />
+    <Compile Include="Vector2.cs" />
     <Compile Include="Worker.cs" />
   </ItemGroup>
   <ItemGroup>
