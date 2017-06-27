@@ -78,14 +78,6 @@ namespace ButtonOffice
             }
         }
 
-        public void Save(String PropertyName, PointF PointF)
-        {
-            var Result = _GameSaver.CreateChildElement(_Element, PropertyName, typeof(PointF).FullName);
-
-            _AppendProperty(Result, "x", PointF.X);
-            _AppendProperty(Result, "y", PointF.Y);
-        }
-
         public void Save(String PropertyName, RectangleF RectangleF)
         {
             var Result = _GameSaver.CreateChildElement(_Element, PropertyName, typeof(RectangleF).FullName);

@@ -32,16 +32,4 @@
         Left,
         Right
     }
-
-    public enum Type
-    {
-        Accountant,
-        Bathroom,
-        Cat,
-        ITTech,
-        Janitor,
-        Office,
-        Stairs,
-        Worker
-    }
 }

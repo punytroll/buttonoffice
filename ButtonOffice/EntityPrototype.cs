@@ -3,6 +3,18 @@ using System.Drawing;
 
 namespace ButtonOffice
 {
+    internal enum EntityType
+    {
+        Accountant,
+        Bathroom,
+        Cat,
+        ITTech,
+        Janitor,
+        Office,
+        Stairs,
+        Worker
+    }
+
     internal class EntityPrototype
     {
         private Color _BackgroundColor;
@@ -10,7 +22,7 @@ namespace ButtonOffice
         private Boolean _HasLocation;
         private RectangleF _Rectangle;
         private Boolean _SnapToBlocksHorizontally;
-        private readonly Type _Type;
+        private readonly EntityType _EntityType;
 
         public Color BackgroundColor
         {
@@ -48,13 +60,13 @@ namespace ButtonOffice
             }
         }
 
-        public Type Type => _Type;
+        public EntityType EntityType => _EntityType;
 
-        public EntityPrototype(Type Type)
+        public EntityPrototype(EntityType EntityType)
         {
             _HasLocation = false;
             _SnapToBlocksHorizontally = true;
-            _Type = Type;
+            _EntityType = EntityType;
         }
 
         public Single GetHeight()

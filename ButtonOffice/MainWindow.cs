@@ -97,7 +97,7 @@ namespace ButtonOffice
              _EntityPrototype = null;
             if(_BuildBathroomButton.Checked == true)
             {
-                _EntityPrototype = new EntityPrototype(Type.Bathroom);
+                _EntityPrototype = new EntityPrototype(EntityType.Bathroom);
                 _EntityPrototype.BackgroundColor = Data.BathroomBackgroundColor;
                 _EntityPrototype.BorderColor = Data.BathroomBorderColor;
                 _EntityPrototype.SetHeight(Data.BathroomBlockHeight);
@@ -110,7 +110,7 @@ namespace ButtonOffice
             _EntityPrototype = null;
             if(_BuildOfficeButton.Checked == true)
             {
-                _EntityPrototype = new EntityPrototype(Type.Office);
+                _EntityPrototype = new EntityPrototype(EntityType.Office);
                 _EntityPrototype.BackgroundColor = Data.OfficeBackgroundColor;
                 _EntityPrototype.BorderColor = Data.OfficeBorderColor;
                 _EntityPrototype.SetHeight(Data.OfficeBlockHeight);
@@ -123,7 +123,7 @@ namespace ButtonOffice
             _EntityPrototype = null;
             if(_BuildStairsButton.Checked == true)
             {
-                _EntityPrototype = new EntityPrototype(Type.Stairs);
+                _EntityPrototype = new EntityPrototype(EntityType.Stairs);
                 _EntityPrototype.BackgroundColor = Data.StairsBackgroundColor;
                 _EntityPrototype.BorderColor = Data.StairsBorderColor;
                 _EntityPrototype.SetHeight(Data.StairsBlockHeight);
@@ -136,7 +136,7 @@ namespace ButtonOffice
             _EntityPrototype = null;
             if(_HireAccountantButton.Checked == true)
             {
-                _EntityPrototype = new EntityPrototype(Type.Accountant);
+                _EntityPrototype = new EntityPrototype(EntityType.Accountant);
                 _EntityPrototype.SnapToBlocksHorizontally = false;
                 _EntityPrototype.BackgroundColor = Data.AccountantBackgroundColor;
                 _EntityPrototype.BorderColor = Data.AccountantBorderColor;
@@ -150,7 +150,7 @@ namespace ButtonOffice
             _EntityPrototype = null;
             if(_HireITTechButton.Checked == true)
             {
-                _EntityPrototype = new EntityPrototype(Type.ITTech);
+                _EntityPrototype = new EntityPrototype(EntityType.ITTech);
                 _EntityPrototype.SnapToBlocksHorizontally = false;
                 _EntityPrototype.BackgroundColor = Data.ITTechBackgroundColor;
                 _EntityPrototype.BorderColor = Data.ITTechBorderColor;
@@ -164,7 +164,7 @@ namespace ButtonOffice
             _EntityPrototype = null;
             if(_HireJanitorButton.Checked == true)
             {
-                _EntityPrototype = new EntityPrototype(Type.Janitor);
+                _EntityPrototype = new EntityPrototype(EntityType.Janitor);
                 _EntityPrototype.SnapToBlocksHorizontally = false;
                 _EntityPrototype.BackgroundColor = Data.JanitorBackgroundColor;
                 _EntityPrototype.BorderColor = Data.JanitorBorderColor;
@@ -178,7 +178,7 @@ namespace ButtonOffice
             _EntityPrototype = null;
             if(_HireWorkerButton.Checked == true)
             {
-                _EntityPrototype = new EntityPrototype(Type.Worker);
+                _EntityPrototype = new EntityPrototype(EntityType.Worker);
                 _EntityPrototype.SnapToBlocksHorizontally = false;
                 _EntityPrototype.BackgroundColor = Data.WorkerBackgroundColor;
                 _EntityPrototype.BorderColor = Data.WorkerBorderColor;
@@ -192,7 +192,7 @@ namespace ButtonOffice
             _EntityPrototype = null;
             if(_PlaceCatButton.Checked == true)
             {
-                _EntityPrototype = new EntityPrototype(Type.Cat);
+                _EntityPrototype = new EntityPrototype(EntityType.Cat);
                 _EntityPrototype.SnapToBlocksHorizontally = false;
                 _EntityPrototype.BackgroundColor = Data.CatBackgroundColor;
                 _EntityPrototype.BorderColor = Data.CatBorderColor;
@@ -233,7 +233,7 @@ namespace ButtonOffice
             {
                 if((_EntityPrototype != null) && (_EntityPrototype.HasLocation() == true))
                 {
-                    if(_EntityPrototype.Type == Type.Bathroom)
+                    if(_EntityPrototype.EntityType == EntityType.Bathroom)
                     {
                         if(_Game.BuildBathroom(_EntityPrototype.Rectangle) == true)
                         {
@@ -243,7 +243,7 @@ namespace ButtonOffice
                             }
                         }
                     }
-                    else if(_EntityPrototype.Type == Type.Office)
+                    else if(_EntityPrototype.EntityType == EntityType.Office)
                     {
                         if(_Game.BuildOffice(_EntityPrototype.Rectangle) == true)
                         {
@@ -253,7 +253,7 @@ namespace ButtonOffice
                             }
                         }
                     }
-                    else if(_EntityPrototype.Type == Type.Stairs)
+                    else if(_EntityPrototype.EntityType == EntityType.Stairs)
                     {
                         if(_Game.BuildStairs(_EntityPrototype.Rectangle) == true)
                         {
@@ -263,7 +263,7 @@ namespace ButtonOffice
                             }
                         }
                     }
-                    else if(_EntityPrototype.Type == Type.Worker)
+                    else if(_EntityPrototype.EntityType == EntityType.Worker)
                     {
                         if(_Game.HireWorker(_EntityPrototype.Rectangle) == true)
                         {
@@ -273,7 +273,7 @@ namespace ButtonOffice
                             }
                         }
                     }
-                    else if(_EntityPrototype.Type == Type.ITTech)
+                    else if(_EntityPrototype.EntityType == EntityType.ITTech)
                     {
                         if(_Game.HireITTech(_EntityPrototype.Rectangle) == true)
                         {
@@ -283,7 +283,7 @@ namespace ButtonOffice
                             }
                         }
                     }
-                    else if(_EntityPrototype.Type == Type.Janitor)
+                    else if(_EntityPrototype.EntityType == EntityType.Janitor)
                     {
                         if(_Game.HireJanitor(_EntityPrototype.Rectangle) == true)
                         {
@@ -293,7 +293,7 @@ namespace ButtonOffice
                             }
                         }
                     }
-                    else if(_EntityPrototype.Type == Type.Accountant)
+                    else if(_EntityPrototype.EntityType == EntityType.Accountant)
                     {
                         if(_Game.HireAccountant(_EntityPrototype.Rectangle) == true)
                         {
@@ -303,7 +303,7 @@ namespace ButtonOffice
                             }
                         }
                     }
-                    else if(_EntityPrototype.Type == Type.Cat)
+                    else if(_EntityPrototype.EntityType == EntityType.Cat)
                     {
                         if(_Game.PlaceCat(_EntityPrototype.Rectangle) == true)
                         {
@@ -608,7 +608,7 @@ namespace ButtonOffice
             }
             if((_EntityPrototype != null) && (_EntityPrototype.HasLocation() == true))
             {
-                if(_EntityPrototype.Type == Type.Cat)
+                if(_EntityPrototype.EntityType == EntityType.Cat)
                 {
                     _DrawEllipse(EventArguments.Graphics, _EntityPrototype.Rectangle, Color.FromArgb(150, _EntityPrototype.BackgroundColor), Color.FromArgb(150, _EntityPrototype.BorderColor));
                 }

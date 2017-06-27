@@ -32,12 +32,12 @@ namespace ButtonOffice
 
         public ActionState LoadActionStateProperty(String PropertyName)
         {
-            return (ActionState)Enum.Parse(typeof(ActionState), _GetPropertyValue(_Element, PropertyName, "ButtonOffice.ActionState"));
+            return (ActionState)Enum.Parse(typeof(ActionState), _GetPropertyValue(_Element, PropertyName, typeof(ActionState)));
         }
 
         public AnimationState LoadAnimationStateProperty(String PropertyName)
         {
-            return (AnimationState)Enum.Parse(typeof(AnimationState), _GetPropertyValue(_Element, PropertyName, "ButtonOffice.AnimationState"));
+            return (AnimationState)Enum.Parse(typeof(AnimationState), _GetPropertyValue(_Element, PropertyName, typeof(AnimationState)));
         }
 
         public List<Bathroom> LoadBathrooms(String ListName)
@@ -54,7 +54,7 @@ namespace ButtonOffice
 
         public Boolean LoadBooleanProperty(String PropertyName)
         {
-            return Convert.ToBoolean(_GetPropertyValue(_Element, PropertyName, "System.Boolean"));
+            return Convert.ToBoolean(_GetPropertyValue(_Element, PropertyName, typeof(Boolean)));
         }
 
         public List<Building> LoadBuildings(String ListName)
@@ -115,12 +115,12 @@ namespace ButtonOffice
 
         public Int32 LoadInt32Property(String PropertyName)
         {
-            return Convert.ToInt32(_GetPropertyValue(_Element, PropertyName, "System.Int32"), _GameLoader.CultureInfo);
+            return Convert.ToInt32(_GetPropertyValue(_Element, PropertyName, typeof(Int32)), _GameLoader.CultureInfo);
         }
 
         public Int64 LoadInt64Property(String PropertyName)
         {
-            return Convert.ToInt64(_GetPropertyValue(_Element, PropertyName, "System.Int64"), _GameLoader.CultureInfo);
+            return Convert.ToInt64(_GetPropertyValue(_Element, PropertyName, typeof(Int64)), _GameLoader.CultureInfo);
         }
 
         public List<Goal> LoadGoals(String ListName)
@@ -137,7 +137,7 @@ namespace ButtonOffice
 
         public GoalState LoadGoalState(String PropertyName)
         {
-            return (GoalState)Enum.Parse(typeof(GoalState), _GetPropertyValue(_Element, PropertyName, "ButtonOffice.GoalState"));
+            return (GoalState)Enum.Parse(typeof(GoalState), _GetPropertyValue(_Element, PropertyName, typeof(GoalState)));
         }
 
         public Janitor LoadJanitorProperty(String PropertyName)
@@ -152,7 +152,7 @@ namespace ButtonOffice
 
         public LivingSide LoadLivingSideProperty(String PropertyName)
         {
-            return (LivingSide)Enum.Parse(typeof(LivingSide), _GetPropertyValue(_Element, PropertyName, "ButtonOffice.LivingSide"));
+            return (LivingSide)Enum.Parse(typeof(LivingSide), _GetPropertyValue(_Element, PropertyName, typeof(LivingSide)));
         }
 
         public Mind LoadMindProperty(String PropertyName)
@@ -211,20 +211,11 @@ namespace ButtonOffice
             return Result;
         }
 
-        public PointF LoadPointProperty(String PropertyName)
-        {
-            var PropertyElement = _GetPropertyElement(_Element, PropertyName);
-
-            _AssertElementAndType(PropertyElement, typeof(PointF).FullName);
-
-            return new PointF(_LoadSingleProperty(PropertyElement, "x"), _LoadSingleProperty(PropertyElement, "y"));
-        }
-
         public RectangleF LoadRectangleProperty(String PropertyName)
         {
             var PropertyElement = _GetPropertyElement(_Element, PropertyName);
 
-            _AssertElementAndType(PropertyElement, typeof(RectangleF).FullName);
+            _AssertElementAndType(PropertyElement, typeof(RectangleF));
 
             return new RectangleF(_LoadSingleProperty(PropertyElement, "x"), _LoadSingleProperty(PropertyElement, "y"), _LoadSingleProperty(PropertyElement, "width"), _LoadSingleProperty(PropertyElement, "height"));
         }
@@ -236,7 +227,7 @@ namespace ButtonOffice
 
         public String LoadStringProperty(String PropertyName)
         {
-            return _GetPropertyValue(_Element, PropertyName, "System.String");
+            return _GetPropertyValue(_Element, PropertyName, typeof(String));
         }
 
         public List<Stairs> LoadStairs(String ListName)
@@ -258,19 +249,19 @@ namespace ButtonOffice
 
         public UInt32 LoadUInt32Property(String PropertyName)
         {
-            return Convert.ToUInt32(_GetPropertyValue(_Element, PropertyName, "System.UInt32"), _GameLoader.CultureInfo);
+            return Convert.ToUInt32(_GetPropertyValue(_Element, PropertyName, typeof(UInt32)), _GameLoader.CultureInfo);
         }
 
         public UInt64 LoadUInt64Property(String PropertyName)
         {
-            return Convert.ToUInt64(_GetPropertyValue(_Element, PropertyName, "System.UInt64"), _GameLoader.CultureInfo);
+            return Convert.ToUInt64(_GetPropertyValue(_Element, PropertyName, typeof(UInt64)), _GameLoader.CultureInfo);
         }
 
         public Vector2 LoadVector2Property(String PropertyName)
         {
             var PropertyElement = _GetPropertyElement(_Element, PropertyName);
 
-            _AssertElementAndType(PropertyElement, typeof(Vector2).FullName);
+            _AssertElementAndType(PropertyElement, typeof(Vector2));
 
             return new Vector2(_LoadDoubleProperty(PropertyElement, "x"), _LoadDoubleProperty(PropertyElement, "y"));
         }
@@ -290,11 +281,6 @@ namespace ButtonOffice
             return _LoadPersistentObject(Element) as Bathroom;
         }
 
-        private Byte _LoadByteProperty(XmlElement Element, String PropertyName)
-        {
-            return Convert.ToByte(_GetPropertyValue(Element, PropertyName, "System.Byte"), _GameLoader.CultureInfo);
-        }
-
         private Building _LoadBuilding(XmlElement Element)
         {
             return _LoadPersistentObject(Element) as Building;
@@ -307,7 +293,7 @@ namespace ButtonOffice
 
         private Double _LoadDoubleProperty(XmlElement Element, String PropertyName)
         {
-            return Convert.ToDouble(_GetPropertyValue(Element, PropertyName, "System.Double"), _GameLoader.CultureInfo);
+            return Convert.ToDouble(_GetPropertyValue(Element, PropertyName, typeof(Double)), _GameLoader.CultureInfo);
         }
 
         private Goal _LoadGoal(XmlElement Element)
@@ -333,7 +319,7 @@ namespace ButtonOffice
                 {
                     var ObjectElement = _GameLoader.GetObjectElement(Identifier);
 
-                    Result = Activator.CreateInstance(System.Type.GetType(_AssertElementAndGetType(ObjectElement))) as PersistentObject;
+                    Result = Activator.CreateInstance(_AssertElementAndGetType(ObjectElement)) as PersistentObject;
                     if(Result == null)
                     {
                         throw new FormatException();
@@ -366,12 +352,12 @@ namespace ButtonOffice
 
         private Single _LoadSingleProperty(XmlElement Element, String PropertyName)
         {
-            return Convert.ToSingle(_GetPropertyValue(Element, PropertyName, "System.Single"), _GameLoader.CultureInfo);
+            return Convert.ToSingle(_GetPropertyValue(Element, PropertyName, typeof(Single)), _GameLoader.CultureInfo);
         }
 
         private UInt32 _LoadUInt32(XmlElement Element)
         {
-            return Convert.ToUInt32(_GetTypeSafeValue(Element, "System.UInt32"), _GameLoader.CultureInfo);
+            return Convert.ToUInt32(_GetTypeSafeValue(Element, typeof(UInt32)), _GameLoader.CultureInfo);
         }
 
         #endregion
@@ -396,7 +382,7 @@ namespace ButtonOffice
             return Result;
         }
 
-        private static String _AssertElementAndGetType(XmlElement Element)
+        private static Type _AssertElementAndGetType(XmlElement Element)
         {
             if(Element == null)
             {
@@ -407,16 +393,16 @@ namespace ButtonOffice
                 throw new FormatException();
             }
 
-            return Element.Attributes["type"].Value;
+            return Type.GetType(Element.Attributes["type"].Value);
         }
 
-        private static void _AssertElementAndType(XmlElement Element, String ExpectingType)
+        private static void _AssertElementAndType(XmlElement Element, Type ExpectingType)
         {
             var ReadingType = _AssertElementAndGetType(Element);
 
             if(ReadingType != ExpectingType)
             {
-                throw new FormatException($"Type error for a \"{Element.Name}\" element: expecting \"{ExpectingType}\" but got a \"{ReadingType}\".");
+                throw new FormatException($"Type error for a \"{Element.Name}\" element: expecting \"{ExpectingType.FullName}\" but got a \"{ReadingType.FullName}\".");
             }
         }
 
@@ -430,7 +416,7 @@ namespace ButtonOffice
             return ObjectElement.SelectNodes(PropertyName + "/" + ListElementName);
         }
 
-        private static String _GetPropertyValue(XmlElement ObjectElement, String PropertyName, String PropertyType)
+        private static String _GetPropertyValue(XmlElement ObjectElement, String PropertyName, Type PropertyType)
         {
             var PropertyElement = _GetPropertyElement(ObjectElement, PropertyName);
 
@@ -442,7 +428,7 @@ namespace ButtonOffice
             return _GetTypeSafeValue(PropertyElement, PropertyType);
         }
 
-        private static String _GetTypeSafeValue(XmlElement Element, String Type)
+        private static String _GetTypeSafeValue(XmlElement Element, Type Type)
         {
             _AssertElementAndType(Element, Type);
 
