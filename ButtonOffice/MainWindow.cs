@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -13,6 +14,7 @@ namespace ButtonOffice
         private Game _Game;
         private readonly List<ToolStripButton> _ToolButtons;
         private Point? _DragPoint;
+        private Boolean? _Dragged;
         private Point _DrawingOffset;
         private EntityPrototype _EntityPrototype;
         private DateTime _LastTick;
@@ -89,6 +91,7 @@ namespace ButtonOffice
 
         private void _OnToolButtonClicked(Object Sender, EventArgs EventArguments)
         {
+            _UnselectObject();
             _ToggleOneToolButton(Sender as ToolStripButton);
         }
 
@@ -203,11 +206,13 @@ namespace ButtonOffice
 
         private void _OnDrawingBoardMouseMoved(Object Sender, MouseEventArgs EventArguments)
         {
-            if(_DragPoint.HasValue == true)
+            if(_DragPoint != null)
             {
+                Debug.Assert(_Dragged != null);
                 _DrawingOffset.X -= _DragPoint.Value.X - EventArguments.X;
                 _DrawingOffset.Y += _DragPoint.Value.Y - EventArguments.Y;
                 _DragPoint = EventArguments.Location;
+                _Dragged = true;
             }
             else
             {
@@ -227,7 +232,10 @@ namespace ButtonOffice
         {
             if(EventArguments.Button == MouseButtons.Right)
             {
+                Debug.Assert(_DragPoint == null);
+                Debug.Assert(_Dragged == null);
                 _DragPoint = EventArguments.Location;
+                _Dragged = false;
             }
             else if(EventArguments.Button == MouseButtons.Left)
             {
@@ -447,7 +455,24 @@ namespace ButtonOffice
 
         private void _OnDrawingBoardMouseUp(Object Sender, MouseEventArgs EventArguments)
         {
-            _DragPoint = new Point?();
+            if(EventArguments.Button == MouseButtons.Right)
+            {
+                Debug.Assert(_DragPoint != null);
+                Debug.Assert(_Dragged != null);
+                if(_Dragged == false)
+                {
+                    if(_SelectedObject != null)
+                    {
+                        _UnselectObject();
+                    }
+                    else
+                    {
+                        _UncheckAllToolButtons();
+                    }
+                }
+                _DragPoint = null;
+                _Dragged = null;
+            }
         }
 
         private Color _MixToWhite(Color Color, Double Fraction)
@@ -813,6 +838,17 @@ namespace ButtonOffice
             {
                 _CameraVelocity.X = -10;
             }
+            else if(EventArguments.KeyCode == Keys.Escape)
+            {
+                if(_SelectedObject != null)
+                {
+                    _UnselectObject();
+                }
+                else
+                {
+                    _UncheckAllToolButtons();
+                }
+            }
         }
 
         private void _DrawingBoardKeyUp(Object Sender, KeyEventArgs EventArguments)
@@ -931,6 +967,15 @@ namespace ButtonOffice
             _MoveButton = null;
             _MovePerson = null;
             _Zoom = 1.0f;
+        }
+
+        private void _UnselectObject()
+        {
+            if(_SelectedObject != null)
+            {
+                _SelectedObject = null;
+                _MainSplitContainer.Panel2Collapsed = true;
+            }
         }
     }
 }

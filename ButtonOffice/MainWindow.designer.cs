@@ -24,8 +24,8 @@ namespace ButtonOffice
             this._LoadGameButton = new System.Windows.Forms.ToolStripMenuItem();
             this._QuitApplicationButton = new System.Windows.Forms.ToolStripMenuItem();
             this._GameTools = new System.Windows.Forms.ToolStrip();
-            this._BuildBathroomButton = new System.Windows.Forms.ToolStripButton();
             this._BuildOfficeButton = new System.Windows.Forms.ToolStripButton();
+            this._BuildBathroomButton = new System.Windows.Forms.ToolStripButton();
             this._BuildStairsButton = new System.Windows.Forms.ToolStripButton();
             this._HireWorkerButton = new System.Windows.Forms.ToolStripButton();
             this._HireITTechButton = new System.Windows.Forms.ToolStripButton();
@@ -38,6 +38,7 @@ namespace ButtonOffice
             this._ToolStripContainer.TopToolStripPanel.SuspendLayout();
             this._ToolStripContainer.SuspendLayout();
             this._StatusBar.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this._MainSplitContainer)).BeginInit();
             this._MainSplitContainer.Panel1.SuspendLayout();
             this._MainSplitContainer.SuspendLayout();
             this._SystemTools.SuspendLayout();
@@ -137,11 +138,11 @@ namespace ButtonOffice
             this._DrawingBoard.Size = new System.Drawing.Size(910, 481);
             this._DrawingBoard.TabIndex = 4;
             this._DrawingBoard.Paint += new System.Windows.Forms.PaintEventHandler(this._OnDrawingBoardPaint);
-            this._DrawingBoard.MouseMove += new System.Windows.Forms.MouseEventHandler(this._OnDrawingBoardMouseMoved);
+            this._DrawingBoard.KeyDown += new System.Windows.Forms.KeyEventHandler(this._DrawingBoardKeyDown);
             this._DrawingBoard.KeyUp += new System.Windows.Forms.KeyEventHandler(this._DrawingBoardKeyUp);
             this._DrawingBoard.MouseDown += new System.Windows.Forms.MouseEventHandler(this._OnDrawingBoardMouseDown);
+            this._DrawingBoard.MouseMove += new System.Windows.Forms.MouseEventHandler(this._OnDrawingBoardMouseMoved);
             this._DrawingBoard.MouseUp += new System.Windows.Forms.MouseEventHandler(this._OnDrawingBoardMouseUp);
-            this._DrawingBoard.KeyDown += new System.Windows.Forms.KeyEventHandler(this._DrawingBoardKeyDown);
             // 
             // _SystemTools
             // 
@@ -212,7 +213,7 @@ namespace ButtonOffice
             this._GameTools.Name = "_GameTools";
             this._GameTools.Padding = new System.Windows.Forms.Padding(0);
             this._GameTools.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this._GameTools.Size = new System.Drawing.Size(396, 25);
+            this._GameTools.Size = new System.Drawing.Size(404, 25);
             this._GameTools.TabIndex = 1;
             // 
             // _BuildOfficeButton
@@ -240,7 +241,7 @@ namespace ButtonOffice
             this._BuildStairsButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this._BuildStairsButton.ImageTransparentColor = System.Drawing.Color.Transparent;
             this._BuildStairsButton.Name = "_BuildStairsButton";
-            this._BuildStairsButton.Size = new System.Drawing.Size(64, 22);
+            this._BuildStairsButton.Size = new System.Drawing.Size(39, 22);
             this._BuildStairsButton.Text = "Stairs";
             this._BuildStairsButton.CheckedChanged += new System.EventHandler(this._OnBuildStairsButtonCheckedChanged);
             this._BuildStairsButton.Click += new System.EventHandler(this._OnToolButtonClicked);
@@ -307,12 +308,14 @@ namespace ButtonOffice
             this._StatusBar.ResumeLayout(false);
             this._StatusBar.PerformLayout();
             this._MainSplitContainer.Panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this._MainSplitContainer)).EndInit();
             this._MainSplitContainer.ResumeLayout(false);
             this._SystemTools.ResumeLayout(false);
             this._SystemTools.PerformLayout();
             this._GameTools.ResumeLayout(false);
             this._GameTools.PerformLayout();
             this.ResumeLayout(false);
+
         }
 
         private System.ComponentModel.IContainer components;
