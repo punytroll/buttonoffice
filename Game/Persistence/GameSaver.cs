@@ -8,13 +8,7 @@ namespace ButtonOffice
 {
     public class GameSaver
     {
-        public CultureInfo CultureInfo
-        {
-            get
-            {
-                return _CultureInfo;
-            }
-        }
+        public CultureInfo CultureInfo => _CultureInfo;
 
         private readonly CultureInfo _CultureInfo;
         private readonly XmlDocument _Document;
@@ -43,17 +37,17 @@ namespace ButtonOffice
             _Document.Save(FileName);
         }
 
-        public XmlElement CreateChildElement(XmlElement ParentElement, String Name, String Type)
+        public XmlElement CreateChildElement(XmlElement ParentElement, String Name, Type Type)
         {
             var Result = _Document.CreateElement(Name);
 
             ParentElement.AppendChild(Result);
-            Result.Attributes.Append(_CreateAttribute("type", Type));
+            Result.Attributes.Append(_CreateTypeAttribute(Type));
 
             return Result;
         }
 
-        public XmlElement CreateChildElement(XmlElement ParentElement, String Name, String Type, String Value)
+        public XmlElement CreateChildElement(XmlElement ParentElement, String Name, Type Type, String Value)
         {
             var Result = CreateChildElement(ParentElement, Name, Type);
 
@@ -68,7 +62,12 @@ namespace ButtonOffice
             ParentElement.AppendChild(_CreateReference(Name, PersistentObject));
         }
 
-        private System.Xml.XmlAttribute _CreateAttribute(String Name, String Value)
+        private XmlAttribute _CreateTypeAttribute(Type Value)
+        {
+            return _CreateAttribute("type", Value.AssemblyQualifiedName);
+        }
+
+        private XmlAttribute _CreateAttribute(String Name, String Value)
         {
             var Result = _Document.CreateAttribute(Name);
 
@@ -77,7 +76,7 @@ namespace ButtonOffice
             return Result;
         }
 
-        private System.Xml.XmlElement _CreateProperty(String Name, String Type, String Value)
+        private XmlElement _CreateProperty(String Name, String Type, String Value)
         {
             var Result = _Document.CreateElement(Name);
 
@@ -87,7 +86,7 @@ namespace ButtonOffice
             return Result;
         }
 
-        private System.Xml.XmlElement _CreateReference(String Name, PersistentObject PersistentObject)
+        private XmlElement _CreateReference(String Name, PersistentObject PersistentObject)
         {
             if(PersistentObject != null)
             {
@@ -114,7 +113,7 @@ namespace ButtonOffice
             {
                 var Identifier = _Objects.Count.ToUInt32();
 
-                _Objects.Add(PersistentObject, new System.Pair<System.Boolean, System.UInt32>(false, Identifier));
+                _Objects.Add(PersistentObject, new Pair<Boolean, UInt32>(false, Identifier));
             }
 
             return _Objects[PersistentObject].Second;
@@ -128,7 +127,7 @@ namespace ButtonOffice
                 {
                     var Identifier = _Objects.Count.ToUInt32();
 
-                    _Objects.Add(PersistentObject, new System.Pair<System.Boolean, System.UInt32>(false, Identifier));
+                    _Objects.Add(PersistentObject, new Pair<Boolean, UInt32>(false, Identifier));
                 }
                 if(_Objects[PersistentObject].First == false)
                 {
