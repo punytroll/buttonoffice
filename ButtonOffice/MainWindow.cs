@@ -103,6 +103,7 @@ namespace ButtonOffice
                 _EntityPrototype = new EntityPrototype(EntityType.Bathroom);
                 _EntityPrototype.BackgroundColor = Data.BathroomBackgroundColor;
                 _EntityPrototype.BorderColor = Data.BathroomBorderColor;
+                _EntityPrototype.SetGameFunction(_Game.BuildBathroom);
                 _EntityPrototype.SetHeight(Data.BathroomBlockHeight);
                 _EntityPrototype.SetWidth(Data.BathroomBlockWidth);
             }
@@ -116,6 +117,7 @@ namespace ButtonOffice
                 _EntityPrototype = new EntityPrototype(EntityType.Office);
                 _EntityPrototype.BackgroundColor = Data.OfficeBackgroundColor;
                 _EntityPrototype.BorderColor = Data.OfficeBorderColor;
+                _EntityPrototype.SetGameFunction(_Game.BuildOffice);
                 _EntityPrototype.SetHeight(Data.OfficeBlockHeight);
                 _EntityPrototype.SetWidth(Data.OfficeBlockWidth);
             }
@@ -129,6 +131,7 @@ namespace ButtonOffice
                 _EntityPrototype = new EntityPrototype(EntityType.Stairs);
                 _EntityPrototype.BackgroundColor = Data.StairsBackgroundColor;
                 _EntityPrototype.BorderColor = Data.StairsBorderColor;
+                _EntityPrototype.SetGameFunction(_Game.BuildStairs);
                 _EntityPrototype.SetHeight(Data.StairsBlockHeight);
                 _EntityPrototype.SetWidth(Data.StairsBlockWidth);
             }
@@ -143,6 +146,7 @@ namespace ButtonOffice
                 _EntityPrototype.SnapToBlocksHorizontally = false;
                 _EntityPrototype.BackgroundColor = Data.AccountantBackgroundColor;
                 _EntityPrototype.BorderColor = Data.AccountantBorderColor;
+                _EntityPrototype.SetGameFunction(_Game.HireAccountant);
                 _EntityPrototype.SetHeight(Data.PersonHeightMean);
                 _EntityPrototype.SetWidth(Data.PersonWidthMean);
             }
@@ -157,6 +161,7 @@ namespace ButtonOffice
                 _EntityPrototype.SnapToBlocksHorizontally = false;
                 _EntityPrototype.BackgroundColor = Data.ITTechBackgroundColor;
                 _EntityPrototype.BorderColor = Data.ITTechBorderColor;
+                _EntityPrototype.SetGameFunction(_Game.HireITTech);
                 _EntityPrototype.SetHeight(Data.PersonHeightMean);
                 _EntityPrototype.SetWidth(Data.PersonWidthMean);
             }
@@ -171,6 +176,7 @@ namespace ButtonOffice
                 _EntityPrototype.SnapToBlocksHorizontally = false;
                 _EntityPrototype.BackgroundColor = Data.JanitorBackgroundColor;
                 _EntityPrototype.BorderColor = Data.JanitorBorderColor;
+                _EntityPrototype.SetGameFunction(_Game.HireJanitor);
                 _EntityPrototype.SetHeight(Data.PersonHeightMean);
                 _EntityPrototype.SetWidth(Data.PersonWidthMean);
             }
@@ -185,6 +191,7 @@ namespace ButtonOffice
                 _EntityPrototype.SnapToBlocksHorizontally = false;
                 _EntityPrototype.BackgroundColor = Data.WorkerBackgroundColor;
                 _EntityPrototype.BorderColor = Data.WorkerBorderColor;
+                _EntityPrototype.SetGameFunction(_Game.HireWorker);
                 _EntityPrototype.SetHeight(Data.PersonHeightMean);
                 _EntityPrototype.SetWidth(Data.PersonWidthMean);
             }
@@ -199,6 +206,7 @@ namespace ButtonOffice
                 _EntityPrototype.SnapToBlocksHorizontally = false;
                 _EntityPrototype.BackgroundColor = Data.CatBackgroundColor;
                 _EntityPrototype.BorderColor = Data.CatBorderColor;
+                _EntityPrototype.SetGameFunction(_Game.PlaceCat);
                 _EntityPrototype.SetHeight(Data.CatHeight);
                 _EntityPrototype.SetWidth(Data.CatWidth);
             }
@@ -241,84 +249,11 @@ namespace ButtonOffice
             {
                 if((_EntityPrototype != null) && (_EntityPrototype.HasLocation() == true))
                 {
-                    if(_EntityPrototype.EntityType == EntityType.Bathroom)
+                    if(_EntityPrototype.CallGameFunction() == true)
                     {
-                        if(_Game.BuildBathroom(_EntityPrototype.Rectangle) == true)
+                        if(ModifierKeys != Keys.Shift)
                         {
-                            if(ModifierKeys != Keys.Shift)
-                            {
-                                _BuildBathroomButton.Checked = false;
-                            }
-                        }
-                    }
-                    else if(_EntityPrototype.EntityType == EntityType.Office)
-                    {
-                        if(_Game.BuildOffice(_EntityPrototype.Rectangle) == true)
-                        {
-                            if(ModifierKeys != Keys.Shift)
-                            {
-                                _BuildOfficeButton.Checked = false;
-                            }
-                        }
-                    }
-                    else if(_EntityPrototype.EntityType == EntityType.Stairs)
-                    {
-                        if(_Game.BuildStairs(_EntityPrototype.Rectangle) == true)
-                        {
-                            if(ModifierKeys != Keys.Shift)
-                            {
-                                _BuildStairsButton.Checked = false;
-                            }
-                        }
-                    }
-                    else if(_EntityPrototype.EntityType == EntityType.Worker)
-                    {
-                        if(_Game.HireWorker(_EntityPrototype.Rectangle) == true)
-                        {
-                            if(ModifierKeys != Keys.Shift)
-                            {
-                                _HireWorkerButton.Checked = false;
-                            }
-                        }
-                    }
-                    else if(_EntityPrototype.EntityType == EntityType.ITTech)
-                    {
-                        if(_Game.HireITTech(_EntityPrototype.Rectangle) == true)
-                        {
-                            if(ModifierKeys != Keys.Shift)
-                            {
-                                _HireITTechButton.Checked = false;
-                            }
-                        }
-                    }
-                    else if(_EntityPrototype.EntityType == EntityType.Janitor)
-                    {
-                        if(_Game.HireJanitor(_EntityPrototype.Rectangle) == true)
-                        {
-                            if(ModifierKeys != Keys.Shift)
-                            {
-                                _HireJanitorButton.Checked = false;
-                            }
-                        }
-                    }
-                    else if(_EntityPrototype.EntityType == EntityType.Accountant)
-                    {
-                        if(_Game.HireAccountant(_EntityPrototype.Rectangle) == true)
-                        {
-                            if(ModifierKeys != Keys.Shift)
-                            {
-                                _HireAccountantButton.Checked = false;
-                            }
-                        }
-                    }
-                    else if(_EntityPrototype.EntityType == EntityType.Cat)
-                    {
-                        if(_Game.PlaceCat(_EntityPrototype.Rectangle) == true)
-                        {
-                            if(ModifierKeys != Keys.Shift)
-                            {
-                                _PlaceCatButton.Checked = false;
-                            }
+                            _UncheckAllToolButtons();
                         }
                     }
                 }

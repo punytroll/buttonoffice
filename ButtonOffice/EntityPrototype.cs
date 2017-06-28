@@ -19,6 +19,7 @@ namespace ButtonOffice
     {
         private Color _BackgroundColor;
         private Color _BorderColor;
+        private Func<RectangleF, Boolean> _GameFunction;
         private Boolean _HasLocation;
         private RectangleF _Rectangle;
         private Boolean _SnapToBlocksHorizontally;
@@ -67,6 +68,16 @@ namespace ButtonOffice
             _HasLocation = false;
             _SnapToBlocksHorizontally = true;
             _EntityType = EntityType;
+        }
+
+        public Boolean CallGameFunction()
+        {
+            return _GameFunction(_Rectangle);
+        }
+
+        public void SetGameFunction(Func<RectangleF, Boolean> GameFunction)
+        {
+            _GameFunction = GameFunction;
         }
 
         public Single GetHeight()
