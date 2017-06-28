@@ -3,16 +3,10 @@ using System.Drawing;
 
 namespace ButtonOffice
 {
-    internal enum EntityType
+    internal enum DrawType
     {
-        Accountant,
-        Bathroom,
-        Cat,
-        ITTech,
-        Janitor,
-        Office,
-        Stairs,
-        Worker
+        Rectangle,
+        Ellipse
     }
 
     internal class EntityPrototype
@@ -23,7 +17,7 @@ namespace ButtonOffice
         private Boolean _HasLocation;
         private RectangleF _Rectangle;
         private Boolean _SnapToBlocksHorizontally;
-        private readonly EntityType _EntityType;
+        private DrawType _DrawType;
 
         public Color BackgroundColor
         {
@@ -61,13 +55,23 @@ namespace ButtonOffice
             }
         }
 
-        public EntityType EntityType => _EntityType;
+        public DrawType DrawType
+        {
+            get
+            {
+                return _DrawType;
+            }
+            set
+            {
+                _DrawType = value;
+            }
+        }
 
-        public EntityPrototype(EntityType EntityType)
+        public EntityPrototype()
         {
             _HasLocation = false;
             _SnapToBlocksHorizontally = true;
-            _EntityType = EntityType;
+            _DrawType = DrawType.Rectangle;
         }
 
         public Boolean CallGameFunction()
