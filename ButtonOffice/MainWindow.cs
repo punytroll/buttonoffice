@@ -445,6 +445,10 @@ namespace ButtonOffice
             {
                 _DrawRectangle(EventArguments.Graphics, Bathroom.GetRectangle(), Bathroom.GetBackgroundColor(), Bathroom.GetBorderColor());
             }
+            foreach(var Stairs in _Game.Stairs)
+            {
+                _DrawRectangle(EventArguments.Graphics, Stairs.GetRectangle(), Stairs.GetBackgroundColor(), Stairs.GetBorderColor());
+            }
             foreach(var Person in _Game.Persons)
             {
                 if(Person.IsHidden() == false)
@@ -552,10 +556,6 @@ namespace ButtonOffice
                 {
                     _DrawEllipse(EventArguments.Graphics, Office.Cat.GetRectangle(), Office.Cat.BackgroundColor, Office.Cat.BorderColor);
                 }
-            }
-            foreach(var Stairs in _Game.Stairs)
-            {
-                _DrawRectangle(EventArguments.Graphics, Stairs.GetRectangle(), Stairs.GetBackgroundColor(), Stairs.GetBorderColor());
             }
             using(var FloatingTextFont = new Font("Arial", 16.0f))
             {
