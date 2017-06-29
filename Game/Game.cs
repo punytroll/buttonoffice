@@ -308,8 +308,7 @@ namespace ButtonOffice
                     var Accountant = new Accountant();
 
                     Accountant.AssignDesk(Desk);
-                    _Persons.Add(Accountant);
-                    _Accountants.Add(Accountant);
+                    _AddPerson(Accountant);
                     if(_Persons.Count == _NextCatAtNumberOfEmployees)
                     {
                         _NextCatAtNumberOfEmployees += 20;
@@ -336,7 +335,7 @@ namespace ButtonOffice
                     var Worker = new Worker();
 
                     Worker.AssignDesk(Desk);
-                    _Persons.Add(Worker);
+                    _AddPerson(Worker);
                     if(_Persons.Count == _NextCatAtNumberOfEmployees)
                     {
                         _NextCatAtNumberOfEmployees += 20;
@@ -363,7 +362,7 @@ namespace ButtonOffice
                     var ITTech = new ITTech();
 
                     ITTech.AssignDesk(Desk);
-                    _Persons.Add(ITTech);
+                    _AddPerson(ITTech);
                     if(_Persons.Count == _NextCatAtNumberOfEmployees)
                     {
                         _NextCatAtNumberOfEmployees += 20;
@@ -390,7 +389,7 @@ namespace ButtonOffice
                     var Janitor = new Janitor();
 
                     Janitor.AssignDesk(Desk);
-                    _Persons.Add(Janitor);
+                    _AddPerson(Janitor);
                     if(_Persons.Count == _NextCatAtNumberOfEmployees)
                     {
                         _NextCatAtNumberOfEmployees += 20;
@@ -569,9 +568,7 @@ namespace ButtonOffice
         private void _Build(UInt64 Cost, Building Building)
         {
             SpendMoney(Cost, Building.GetMidLocation());
-            _OccupyFreeSpace(Building.GetRectangle());
-            _WidenBuilding(Building.GetRectangle());
-            _Buildings.Add(Building);
+            _AddBuilding(Building);
         }
 
         public void UpdateBuilding(UInt64 Cost, Building Building)
@@ -663,63 +660,67 @@ namespace ButtonOffice
 
         public override void Save(SaveObjectStore ObjectStore)
         {
-            ObjectStore.Save("accountants", _Accountants);
-            ObjectStore.Save("bathrooms", _Bathrooms);
             ObjectStore.Save("broken-things", _BrokenThings);
             ObjectStore.Save("buildings", _Buildings);
             ObjectStore.Save("cat-stock", _CatStock);
             ObjectStore.Save("cents", _Cents);
             ObjectStore.Save("minutes", _Minutes);
             ObjectStore.Save("next-cat-at-number-of-employees", _NextCatAtNumberOfEmployees);
-            ObjectStore.Save("offices", _Offices);
             ObjectStore.Save("persons", _Persons);
-            ObjectStore.Save("stairs", _Stairs);
             ObjectStore.Save("world-width", _WorldBlockWidth);
             ObjectStore.Save("world-height", _WorldBlockHeight);
         }
 
         public override void Load(LoadObjectStore ObjectStore)
         {
-            foreach(var Accountant in ObjectStore.LoadAccountants("accountants"))
-            {
-                _Accountants.Add(Accountant);
-            }
-            foreach(var Bathroom in ObjectStore.LoadBathrooms("bathrooms"))
-            {
-                _Bathrooms.Add(Bathroom);
-            }
+            // read these at first, so we can initialize the free space and minimum/maximum per floor
+            _WorldBlockWidth = ObjectStore.LoadInt32Property("world-width");
+            _WorldBlockHeight = ObjectStore.LoadInt32Property("world-height");
+            _InitializeFreeSpaceAndMinimumMaximum();
             foreach(var BrokenThing in ObjectStore.LoadObjects("broken-things"))
             {
                 _BrokenThings.Add(BrokenThing);
             }
             foreach(var Building in ObjectStore.LoadBuildings("buildings"))
             {
-                _Buildings.Add(Building);
+                _AddBuilding(Building);
             }
             _CatStock = ObjectStore.LoadUInt32Property("cat-stock");
             _Cents = ObjectStore.LoadUInt64Property("cents");
             _Minutes = ObjectStore.LoadDoubleProperty("minutes");
             _NextCatAtNumberOfEmployees = ObjectStore.LoadUInt32Property("next-cat-at-number-of-employees");
-            foreach(var Office in ObjectStore.LoadOffices("offices"))
-            {
-                _Offices.Add(Office);
-            }
             foreach(var Person in ObjectStore.LoadPersons("persons"))
             {
-                _Persons.Add(Person);
+                _AddPerson(Person);
             }
-            foreach(var Stairs in ObjectStore.LoadStairs("stairs"))
+        }
+
+        private void _AddPerson(Person Person)
+        {
+            _Persons.Add(Person);
+            if(Person is Accountant)
             {
-                _Stairs.Add(Stairs);
+                _Accountants.Add((Accountant)Person);
             }
-            _WorldBlockWidth = ObjectStore.LoadInt32Property("world-width");
-            _WorldBlockHeight = ObjectStore.LoadInt32Property("world-height");
-            _InitializeFreeSpaceAndMinimumMaximum();
-            foreach(var Building in _Buildings)
+        }
+
+        private void _AddBuilding(Building Building)
+        {
+            _Buildings.Add(Building);
+            if(Building is Bathroom)
             {
-                _OccupyFreeSpace(Building.GetRectangle());
-                _WidenBuilding(Building.GetRectangle());
+                _Bathrooms.Add((Bathroom)Building);
             }
+            else if(Building is Office)
+            {
+                _Offices.Add((Office)Building);
+            }
+            else if(Building is Stairs)
+            {
+                _Stairs.Add((Stairs)Building);
+            }
+            _OccupyFreeSpace(Building.GetRectangle());
+            _WidenBuilding(Building.GetRectangle());
         }
     }
 }
