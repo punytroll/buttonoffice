@@ -18,18 +18,6 @@ namespace ButtonOffice
 
         #region "public loader functions"
 
-        public List<Accountant> LoadAccountants(String ListName)
-        {
-            var Result = new List<Accountant>();
-
-            foreach(XmlNode Node in _GetPropertyElements(_Element, ListName, "item"))
-            {
-                Result.Add(_LoadAccountant(Node as XmlElement));
-            }
-
-            return Result;
-        }
-
         public ActionState LoadActionStateProperty(String PropertyName)
         {
             return (ActionState)Enum.Parse(typeof(ActionState), _GetPropertyValue(_Element, PropertyName, typeof(ActionState)));
@@ -38,18 +26,6 @@ namespace ButtonOffice
         public AnimationState LoadAnimationStateProperty(String PropertyName)
         {
             return (AnimationState)Enum.Parse(typeof(AnimationState), _GetPropertyValue(_Element, PropertyName, typeof(AnimationState)));
-        }
-
-        public List<Bathroom> LoadBathrooms(String ListName)
-        {
-            var Result = new List<Bathroom>();
-
-            foreach(var Node in _GetPropertyElements(_Element, ListName, "item"))
-            {
-                Result.Add(_LoadBathroom(Node as XmlElement));
-            }
-
-            return Result;
         }
 
         public Boolean LoadBooleanProperty(String PropertyName)
@@ -118,11 +94,6 @@ namespace ButtonOffice
             return Convert.ToInt32(_GetPropertyValue(_Element, PropertyName, typeof(Int32)), _GameLoader.CultureInfo);
         }
 
-        public Int64 LoadInt64Property(String PropertyName)
-        {
-            return Convert.ToInt64(_GetPropertyValue(_Element, PropertyName, typeof(Int64)), _GameLoader.CultureInfo);
-        }
-
         public List<Goal> LoadGoals(String ListName)
         {
             var Result = new List<Goal>();
@@ -177,18 +148,6 @@ namespace ButtonOffice
             return Result;
         }
 
-        public List<Office> LoadOffices(String ListName)
-        {
-            var Result = new List<Office>();
-
-            foreach(var Node in _GetPropertyElements(_Element, ListName, "item"))
-            {
-                Result.Add(_LoadOffice(Node as XmlElement));
-            }
-
-            return Result;
-        }
-
         public Office LoadOfficeProperty(String PropertyName)
         {
             return _LoadOffice(_GetPropertyElement(_Element, PropertyName));
@@ -220,26 +179,9 @@ namespace ButtonOffice
             return new RectangleF(_LoadSingleProperty(PropertyElement, "x"), _LoadSingleProperty(PropertyElement, "y"), _LoadSingleProperty(PropertyElement, "width"), _LoadSingleProperty(PropertyElement, "height"));
         }
 
-        public Single LoadSingleProperty(String PropertyName)
-        {
-            return _LoadSingleProperty(_Element, PropertyName);
-        }
-
         public String LoadStringProperty(String PropertyName)
         {
             return _GetPropertyValue(_Element, PropertyName, typeof(String));
-        }
-
-        public List<Stairs> LoadStairs(String ListName)
-        {
-            var Result = new List<Stairs>();
-
-            foreach(var Node in _GetPropertyElements(_Element, ListName, "item"))
-            {
-                Result.Add(_LoadStairs(Node as XmlElement));
-            }
-
-            return Result;
         }
 
         public Stairs LoadStairsProperty(String PropertyName)
@@ -270,17 +212,7 @@ namespace ButtonOffice
 
 
         #region "internal loader functions"
-
-        private Accountant _LoadAccountant(XmlElement Element)
-        {
-            return _LoadPersistentObject(Element) as Accountant;
-        }
-
-        private Bathroom _LoadBathroom(XmlElement Element)
-        {
-            return _LoadPersistentObject(Element) as Bathroom;
-        }
-
+        
         private Building _LoadBuilding(XmlElement Element)
         {
             return _LoadPersistentObject(Element) as Building;
