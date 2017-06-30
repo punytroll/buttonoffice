@@ -49,7 +49,7 @@ namespace ButtonOffice
 
                 foreach(var Node in _TransportationNodes)
                 {
-                    if(Node.Floor < LowestNode.Floor)
+                    if((LowestNode == null) || (Node.Floor < LowestNode.Floor))
                     {
                         LowestNode = Node;
                     }
@@ -76,7 +76,7 @@ namespace ButtonOffice
 
                 foreach(var Node in _TransportationNodes)
                 {
-                    if(Node.Floor > HighestNode.Floor)
+                    if((HighestNode == null) || (Node.Floor > HighestNode.Floor))
                     {
                         HighestNode = Node;
                     }
