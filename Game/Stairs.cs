@@ -42,9 +42,6 @@ namespace ButtonOffice
                 Game.UpdateBuilding(Data.StairsExpansionCost, this);
 
                 var NewNode = new Node(_Rectangle.X + _Rectangle.Width / 2.0, _Rectangle.Y.GetNearestInt32());
-
-                Game.Transportation.AddNode(NewNode);
-
                 Node LowestNode = null;
 
                 foreach(var Node in _TransportationNodes)
@@ -58,6 +55,7 @@ namespace ButtonOffice
                 LowestNode.AddEdgeTo(NewNode, Data.StairsWeightDownwards, _CreateUseStairsGoal);
                 LowestNode.AddEdgeFrom(NewNode, Data.StairsWeightUpwards, _CreateUseStairsGoal);
                 _TransportationNodes.Add(NewNode);
+                Game.Transportation.AddNode(NewNode);
             }
         }
 
@@ -70,8 +68,7 @@ namespace ButtonOffice
                 SetHeight(GetHeight() + 1.0f);
                 Game.UpdateBuilding(Data.StairsExpansionCost, this);
 
-                var NewNode = new Node(_Rectangle.X + _Rectangle.Width / 2.0, _Rectangle.Y.GetNearestInt32());
-
+                var NewNode = new Node(_Rectangle.X + _Rectangle.Width / 2.0, (_Rectangle.Y + _Rectangle.Height - 1.0).GetNearestInt32());
                 Node HighestNode = null;
 
                 foreach(var Node in _TransportationNodes)

@@ -148,7 +148,10 @@ namespace ButtonOffice.Transportation
             {
                 PriorityQueue.Enqueue(OutgoingEdge, OutgoingEdge.Weight);
             }
-            while(PriorityQueue.Count > 0)
+
+            var FoundPath = false;
+
+            while((PriorityQueue.Count > 0) && (FoundPath == false))
             {
                 var FrontierEdge = PriorityQueue.Dequeue();
 
@@ -157,7 +160,7 @@ namespace ButtonOffice.Transportation
                     VisitedNodes.Add(FrontierEdge.First.To, new Pair<Edge, Double>(FrontierEdge.First, FrontierEdge.Second));
                     if(FrontierEdge.First.To == ToNode)
                     {
-                        break;
+                        FoundPath = true;
                     }
                     else
                     {
@@ -169,13 +172,20 @@ namespace ButtonOffice.Transportation
                 }
             }
 
-            var Result = new List<Edge>();
-            var BackwardNode = ToNode;
+            List<Edge> Result = null;
 
-            while(BackwardNode != FromNode)
+            if(FoundPath == true)
             {
-                Result.Insert(0, VisitedNodes[BackwardNode].First);
-                BackwardNode = VisitedNodes[BackwardNode].First.From;
+                Result = new List<Edge>();
+
+                var BackwardNode = ToNode;
+
+                while(BackwardNode != FromNode)
+                {
+                    Debug.Assert(VisitedNodes.ContainsKey(BackwardNode) == true);
+                    Result.Insert(0, VisitedNodes[BackwardNode].First);
+                    BackwardNode = VisitedNodes[BackwardNode].First.From;
+                }
             }
             RemoveNode(ToNode);
             RemoveNode(FromNode);
