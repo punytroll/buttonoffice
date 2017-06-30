@@ -24,10 +24,7 @@ namespace ButtonOffice
             {
                 foreach(var Edge in Path)
                 {
-                    var CreateUseGoalFunction = Edge.CreateUseGoalFunction;
-
-                    Debug.Assert(CreateUseGoalFunction != null);
-                    AppendSubGoal(CreateUseGoalFunction());
+                    AppendSubGoal(Edge.CreateUseGoal());
                 }
             }
             else

@@ -4,7 +4,7 @@ using System.Diagnostics;
 
 namespace ButtonOffice.Transportation
 {
-	internal delegate Goal CreateUseGoalDelegate(Edge Edge);
+    internal delegate Goal CreateUseGoalDelegate(Edge Edge);
 
     internal class CostPriority : IComparer<Double>
     {
@@ -131,7 +131,7 @@ namespace ButtonOffice.Transportation
             }
         }
 
-        internal List<PathEdge> GetPath(Vector2 FromLocation, Vector2 ToLocation)
+        internal List<Edge> GetPath(Vector2 FromLocation, Vector2 ToLocation)
         {
             var FromNode = new Node(FromLocation.X, FromLocation.Y.GetNearestInt32());
 
@@ -169,20 +169,13 @@ namespace ButtonOffice.Transportation
                 }
             }
 
-            var Result = new List<PathEdge>();
+            var Result = new List<Edge>();
             var BackwardNode = ToNode;
 
             while(BackwardNode != FromNode)
             {
-                var ShortestEdge = VisitedNodes[BackwardNode].First;
-                var PathEdge = new PathEdge();
-
-                PathEdge.CreateUseGoalFunction = delegate()
-                                                 {
-                                                     return ShortestEdge.CreateUseGoal();
-                                                 };
-                Result.Insert(0, PathEdge);
-                BackwardNode = ShortestEdge.From;
+                Result.Insert(0, VisitedNodes[BackwardNode].First);
+                BackwardNode = VisitedNodes[BackwardNode].First.From;
             }
             RemoveNode(ToNode);
             RemoveNode(FromNode);

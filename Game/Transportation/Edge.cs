@@ -1,17 +1,28 @@
 using System;
+using System.Diagnostics;
 
 namespace ButtonOffice.Transportation
 {
 	internal class Edge
 	{
-        public CreateUseGoalDelegate CreateUseGoalFunction;
-		public Node From;
-		public Node To;
-		public Double Weight;
+        private CreateUseGoalDelegate _CreateUseGoalFunction;
+		internal Node From;
+		internal Node To;
+		internal Double Weight;
+
+        internal CreateUseGoalDelegate CreateUseGoalFunction
+        {
+            set
+            {
+                _CreateUseGoalFunction = value;
+            }
+        }
 
 		internal Goal CreateUseGoal()
 		{
-			return CreateUseGoalFunction(this);
+            Debug.Assert(_CreateUseGoalFunction != null);
+
+			return _CreateUseGoalFunction(this);
 		}
 	}
 }

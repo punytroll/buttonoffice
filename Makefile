@@ -46,7 +46,6 @@ GAME_SOURCES = \
 	Game/Lamp.cs \
 	Game/Mind.cs \
 	Game/Office.cs \
-	Game/PathEdge.cs \
 	Game/Person.cs \
 	Game/RandomNumberGenerator.cs \
 	Game/Stairs.cs \
