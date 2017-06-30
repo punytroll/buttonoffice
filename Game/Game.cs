@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ButtonOffice.Transportation;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -25,6 +26,7 @@ namespace ButtonOffice
         private readonly List<Office> _Offices;
         private readonly List<Person> _Persons;
         private readonly List<Stairs> _Stairs;
+        private readonly Transportation.Transportation _Transportation;
         private Int32 _WorldBlockHeight;
         private Int32 _WorldBlockWidth;
 
@@ -37,6 +39,8 @@ namespace ButtonOffice
         public List<Person> Persons => _Persons;
 
         public List<Stairs> Stairs => _Stairs;
+
+        internal Transportation.Transportation Transportation => _Transportation;
 
         public Int32 WorldBlockHeight => _WorldBlockHeight;
 
@@ -78,6 +82,7 @@ namespace ButtonOffice
             _Offices = new List<Office>();
             _Persons = new List<Person>();
             _Stairs = new List<Stairs>();
+            _Transportation = new Transportation.Transportation();
         }
 
         public void Move(Double DeltaGameMinutes)
@@ -148,97 +153,6 @@ namespace ButtonOffice
         public UInt64 GetFirstMinuteOfToday()
         {
             return GetDay() * 1440;
-        }
-
-        internal List<PathEdge> GetPath(Vector2 FromLocation, Vector2 ToLocation)
-        {
-            var Result = new List<PathEdge>();
-            Double CurrentX = FromLocation.X;
-            var CurrentFloor = FromLocation.Y.GetTruncatedAsInt32();
-            var TargetFloor = ToLocation.Y.GetTruncatedAsInt32();
-            var Upwards = TargetFloor - CurrentFloor > 0;
-
-            while(CurrentFloor != TargetFloor)
-            {
-                foreach(var Stairs in _Stairs)
-                {
-                    var StairsFloors = Stairs.GetFloors();
-
-                    if(StairsFloors.Contains(CurrentFloor) == true)
-                    {
-                        var StairsTargetFloor = CurrentFloor;
-                        var StairsValid = false;
-
-                        if(Upwards == true)
-                        {
-                            while((StairsTargetFloor < TargetFloor) && (StairsFloors.Contains(StairsTargetFloor + 1) == true))
-                            {
-                                StairsTargetFloor += 1;
-                                StairsValid = true;
-                            }
-                        }
-                        else
-                        {
-                            while((StairsTargetFloor > TargetFloor) && (StairsFloors.Contains(StairsTargetFloor - 1) == true))
-                            {
-                                StairsTargetFloor -= 1;
-                                StairsValid = true;
-                            }
-                        }
-                        if(StairsValid == true)
-                        {
-                            CurrentX = Stairs.GetX() + (Stairs.GetWidth() / 2.0);
-
-                            // move to the stairs on the current level
-                            var WalkOnSameFloorPathEdge = new PathEdge();
-
-                            WalkOnSameFloorPathEdge.CreateUseGoalFunction = delegate(Double ToX, Double ToY)
-                                                                            {
-                                                                                var ResultGoal = new WalkOnSameFloor();
-
-                                                                                ResultGoal.SetX(ToX);
-
-                                                                                return ResultGoal;
-                                                                            };
-                            WalkOnSameFloorPathEdge.ToX = CurrentX;
-                            WalkOnSameFloorPathEdge.ToY = CurrentFloor;
-                            Result.Add(WalkOnSameFloorPathEdge);
-                            CurrentFloor = StairsTargetFloor;
-
-                            var StairsPathEdge = new PathEdge();
-
-                            StairsPathEdge.CreateUseGoalFunction = Stairs.CreateUseGoal;
-                            StairsPathEdge.ToX = Stairs.GetX() + (Stairs.GetWidth() / 2.0);
-                            StairsPathEdge.ToY = CurrentFloor;
-                            Result.Add(StairsPathEdge);
-
-                            break;
-                        }
-                    }
-                }
-            }
-            if(CurrentFloor == TargetFloor)
-            {
-                var WalkOnSameFloorPathEdge = new PathEdge();
-
-                WalkOnSameFloorPathEdge.CreateUseGoalFunction = delegate(Double ToX, Double ToY)
-                                                                {
-                                                                    var ResultGoal = new WalkOnSameFloor();
-
-                                                                    ResultGoal.SetX(ToX);
-
-                                                                    return ResultGoal;
-                                                                };
-                WalkOnSameFloorPathEdge.ToX = ToLocation.X;
-                WalkOnSameFloorPathEdge.ToY = CurrentFloor;
-                Result.Add(WalkOnSameFloorPathEdge);
-
-                return Result;
-            }
-            else
-            {
-                return null;
-            }
         }
 
         public Boolean BuildBathroom(RectangleF Rectangle)
@@ -717,7 +631,10 @@ namespace ButtonOffice
             }
             else if(Building is Stairs)
             {
-                _Stairs.Add((Stairs)Building);
+                var Stairs = (Stairs)Building;
+
+                _Stairs.Add(Stairs);
+                Stairs.UpdateTransportation(this);
             }
             _OccupyFreeSpace(Building.GetRectangle());
             _WidenBuilding(Building.GetRectangle());

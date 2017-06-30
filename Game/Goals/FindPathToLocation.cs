@@ -18,7 +18,7 @@ namespace ButtonOffice
 
             Debug.Assert(Person != null);
 
-            var Path = Game.GetPath(new Vector2(Person.GetX(), Person.GetY()), _Location);
+            var Path = Game.Transportation.GetPath(new Vector2(Person.GetX(), Person.GetY()), _Location);
 
             if(Path != null)
             {
@@ -27,10 +27,7 @@ namespace ButtonOffice
                     var CreateUseGoalFunction = Edge.CreateUseGoalFunction;
 
                     Debug.Assert(CreateUseGoalFunction != null);
-
-                    var UseGoal = CreateUseGoalFunction(Edge.ToX, Edge.ToY);
-
-                    AppendSubGoal(UseGoal);
+                    AppendSubGoal(CreateUseGoalFunction());
                 }
             }
             else

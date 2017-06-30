@@ -1,36 +1,32 @@
 using ButtonOffice.Goals;
+using ButtonOffice.Transportation;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 
 namespace ButtonOffice
 {
     public class Stairs : Building
     {
+        private List<Node> _TransportationNodes;
+
         public Stairs()
         {
             _BackgroundColor = Data.StairsBackgroundColor;
             _BorderColor = Data.StairsBorderColor;
+            _TransportationNodes = new List<Node>();
         }
 
-        public List<Int32> GetFloors()
+        private Goal _CreateUseStairsGoal(Edge Edge)
         {
-            var Result = new List<Int32>();
+            Debug.Assert(Edge != null);
+            Debug.Assert(Edge.To != null);
 
-            for(var Floor = _Rectangle.Y.GetNearestInt32(); Floor < (_Rectangle.Y + _Rectangle.Height).GetNearestInt32(); ++Floor)
-            {
-                Result.Add(Floor);
-            }
-
-            return Result;
-        }
-
-        public Goal CreateUseGoal(Double ToX, Double ToY)
-        {
             var Result = new UseStairs();
 
             Result.SetStairs(this);
-            Result.SetTargetFloor(ToY.GetNearestInt32());
+            Result.SetTargetFloor(Edge.To.Floor);
 
             return Result;
         }
@@ -44,6 +40,24 @@ namespace ButtonOffice
                 SetY(GetY() - 1.0f);
                 SetHeight(GetHeight() + 1.0f);
                 Game.UpdateBuilding(Data.StairsExpansionCost, this);
+
+                var NewNode = new Node(_Rectangle.X + _Rectangle.Width / 2.0, _Rectangle.Y.GetNearestInt32());
+
+                Game.Transportation.AddNode(NewNode);
+
+                Node LowestNode = null;
+
+                foreach(var Node in _TransportationNodes)
+                {
+                    if(Node.Floor < LowestNode.Floor)
+                    {
+                        LowestNode = Node;
+                    }
+                }
+                Debug.Assert(LowestNode != null);
+                LowestNode.AddEdgeTo(NewNode, Data.StairsWeightDownwards, _CreateUseStairsGoal);
+                LowestNode.AddEdgeFrom(NewNode, Data.StairsWeightUpwards, _CreateUseStairsGoal);
+                _TransportationNodes.Add(NewNode);
             }
         }
 
@@ -55,6 +69,42 @@ namespace ButtonOffice
             {
                 SetHeight(GetHeight() + 1.0f);
                 Game.UpdateBuilding(Data.StairsExpansionCost, this);
+
+                var NewNode = new Node(_Rectangle.X + _Rectangle.Width / 2.0, _Rectangle.Y.GetNearestInt32());
+
+                Node HighestNode = null;
+
+                foreach(var Node in _TransportationNodes)
+                {
+                    if(Node.Floor > HighestNode.Floor)
+                    {
+                        HighestNode = Node;
+                    }
+                }
+                Debug.Assert(HighestNode != null);
+                HighestNode.AddEdgeTo(NewNode, Data.StairsWeightUpwards, _CreateUseStairsGoal);
+                HighestNode.AddEdgeFrom(NewNode, Data.StairsWeightDownwards, _CreateUseStairsGoal);
+                _TransportationNodes.Add(NewNode);
+                Game.Transportation.AddNode(NewNode);
+            }
+        }
+
+        public void UpdateTransportation(Game Game)
+        {
+            Node LowerNode = null;
+
+            for(var Floor = _Rectangle.Y.GetNearestInt32(); Floor < (_Rectangle.Y + _Rectangle.Height).GetNearestInt32(); ++Floor)
+            {
+                var NewNode = new Node(_Rectangle.X + _Rectangle.Width / 2.0, Floor);
+
+                if(LowerNode != null)
+                {
+                    LowerNode.AddEdgeTo(NewNode, Data.StairsWeightUpwards, _CreateUseStairsGoal);
+                    LowerNode.AddEdgeFrom(NewNode, Data.StairsWeightDownwards, _CreateUseStairsGoal);
+                }
+                _TransportationNodes.Add(NewNode);
+                Game.Transportation.AddNode(NewNode);
+                LowerNode = NewNode;
             }
         }
     }

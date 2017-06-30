@@ -38,7 +38,7 @@ namespace ButtonOffice
                        });
         }
 
-        public ItemType Dequeue()
+        public Pair<ItemType, PriorityType> Dequeue()
         {
             Node Best = null;
             Int32? BestIndex = null;
@@ -57,7 +57,7 @@ namespace ButtonOffice
             {
                 _Nodes.RemoveAt(BestIndex.Value);
 
-                return Best.Item;
+                return new Pair<ItemType, PriorityType>(Best.Item, Best.Priority);
             }
             else
             {

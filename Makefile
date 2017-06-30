@@ -13,7 +13,8 @@ BUTTON_OFFICE_RESOURCES = \
 
 COMMON_SOURCES = \
 	Common/Extensions.cs \
-	Common/Pair.cs
+	Common/Pair.cs \
+	Common/ReferencePriorityQueueByList.cs
 
 GAME_SOURCES = \
 	Game/Data/Data.cs \
@@ -26,6 +27,9 @@ GAME_SOURCES = \
 	Game/Persistence/LoadObjectStore.cs \
 	Game/Persistence/PersistentObject.cs \
 	Game/Persistence/SaveObjectStore.cs \
+	Game/Transportation/Edge.cs \
+	Game/Transportation/Node.cs \
+	Game/Transportation/Transportations.cs \
 	Game/Accountant.cs \
 	Game/AssertMessages.cs \
 	Game/Bathroom.cs \
