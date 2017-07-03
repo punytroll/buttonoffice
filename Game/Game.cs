@@ -1,5 +1,4 @@
-﻿using ButtonOffice.Transportation;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -14,7 +13,6 @@ namespace ButtonOffice
         public event MoneyChangeDelegate OnSpendMoney;
 
         private readonly List<Accountant> _Accountants;
-        private readonly List<Bathroom> _Bathrooms;
         private readonly List<PersistentObject> _BrokenThings;
         private readonly List<Building> _Buildings;
         private UInt32 _CatStock;
@@ -25,20 +23,15 @@ namespace ButtonOffice
         private UInt32 _NextCatAtNumberOfEmployees;
         private readonly List<Office> _Offices;
         private readonly List<Person> _Persons;
-        private readonly List<Stairs> _Stairs;
         private readonly Transportation.Transportation _Transportation;
         private Int32 _WorldBlockHeight;
         private Int32 _WorldBlockWidth;
-
-        public List<Bathroom> Bathrooms => _Bathrooms;
 
         public List<Building> Buildings => _Buildings;
 
         public List<Office> Offices => _Offices;
 
         public List<Person> Persons => _Persons;
-
-        public List<Stairs> Stairs => _Stairs;
 
         internal Transportation.Transportation Transportation => _Transportation;
 
@@ -74,14 +67,12 @@ namespace ButtonOffice
         private Game()
         {
             _Accountants = new List<Accountant>();
-            _Bathrooms = new List<Bathroom>();
             _BrokenThings = new List<PersistentObject>();
             _Buildings = new List<Building>();
             _FreeSpace = new List<BitArray>();
             _BuildingMinimumMaximum = new List<Pair<Int32, Int32>>();
             _Offices = new List<Office>();
             _Persons = new List<Person>();
-            _Stairs = new List<Stairs>();
             _Transportation = new Transportation.Transportation();
         }
 
@@ -163,7 +154,6 @@ namespace ButtonOffice
 
                 Bathroom.SetRectangle(Rectangle);
                 _Build(Data.BathroomBuildCost, Bathroom);
-                _Bathrooms.Add(Bathroom);
 
                 return true;
             }
@@ -199,7 +189,6 @@ namespace ButtonOffice
 
                 Stairs.SetRectangle(Rectangle);
                 _Build(Data.StairsBuildCost, Stairs);
-                _Stairs.Add(Stairs);
 
                 return true;
             }
@@ -621,19 +610,14 @@ namespace ButtonOffice
         private void _AddBuilding(Building Building)
         {
             _Buildings.Add(Building);
-            if(Building is Bathroom)
-            {
-                _Bathrooms.Add((Bathroom)Building);
-            }
-            else if(Building is Office)
+            if(Building is Office)
             {
                 _Offices.Add((Office)Building);
             }
             else if(Building is Stairs)
             {
                 var Stairs = (Stairs)Building;
-
-                _Stairs.Add(Stairs);
+                
                 Stairs.UpdateTransportation(this);
             }
             _OccupyFreeSpace(Building.GetRectangle());

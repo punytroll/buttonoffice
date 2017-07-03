@@ -82,7 +82,6 @@
     <Compile Include="Lamp.cs" />
     <Compile Include="Mind.cs" />
     <Compile Include="Office.cs" />
-    <Compile Include="PathEdge.cs" />
     <Compile Include="Persistence\GameLoader.cs" />
     <Compile Include="Persistence\GameLoadException.cs" />
     <Compile Include="Persistence\GameSaver.cs" />
@@ -93,6 +92,9 @@
     <Compile Include="RandomNumberGenerator.cs" />
     <Compile Include="Stairs.cs" />
     <Compile Include="Goals\UseStairs.cs" />
+    <Compile Include="Transportation\Edge.cs" />
+    <Compile Include="Transportation\Node.cs" />
+    <Compile Include="Transportation\Transportations.cs" />
     <Compile Include="Vector2.cs" />
     <Compile Include="Worker.cs" />
   </ItemGroup>
@@ -114,4 +116,5 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
 </Project>

@@ -441,13 +441,12 @@ namespace ButtonOffice
                 _DrawRectangle(EventArguments.Graphics, Office.SecondLamp.GetRectangle(), Office.SecondLamp.BackgroundColor, Color.Black);
                 _DrawRectangle(EventArguments.Graphics, Office.ThirdLamp.GetRectangle(), Office.ThirdLamp.BackgroundColor, Color.Black);
             }
-            foreach(var Bathroom in _Game.Bathrooms)
+            foreach(var Building in _Game.Buildings)
             {
-                _DrawRectangle(EventArguments.Graphics, Bathroom.GetRectangle(), Bathroom.GetBackgroundColor(), Bathroom.GetBorderColor());
-            }
-            foreach(var Stairs in _Game.Stairs)
-            {
-                _DrawRectangle(EventArguments.Graphics, Stairs.GetRectangle(), Stairs.GetBackgroundColor(), Stairs.GetBorderColor());
+                if(Building is Office == false)
+                {
+                    _DrawRectangle(EventArguments.Graphics, Building.GetRectangle(), Building.GetBackgroundColor(), Building.GetBorderColor());
+                }
             }
             foreach(var Person in _Game.Persons)
             {
