@@ -12,5 +12,13 @@ namespace ButtonOffice
             this.X = X;
             this.Y = Y;
         }
+        
+        public Double GetDistanceSquared(Vector2 Other)
+        {
+            var DeltaX = Other.X - X;
+            var DeltaY = Other.Y - Y;
+
+            return DeltaX * DeltaX + DeltaY * DeltaY;
+        }
     }
 }
