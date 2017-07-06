@@ -64,14 +64,14 @@
   -->
   <ItemGroup>
     <Compile Include="Accountant.cs" />
-    <Compile Include="AssertMessages.cs" />
+    <Compile Include="Basics\AssertMessages.cs" />
     <Compile Include="Bathroom.cs" />
     <Compile Include="Building.cs" />
     <Compile Include="Cat.cs" />
     <Compile Include="Computer.cs" />
     <Compile Include="Data\Data.cs" />
     <Compile Include="Desk.cs" />
-    <Compile Include="Enumerations.cs" />
+    <Compile Include="Basics\Enumerations.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="Goal.cs" />
     <Compile Include="Goals.cs" />
@@ -89,13 +89,13 @@
     <Compile Include="Persistence\PersistentObject.cs" />
     <Compile Include="Persistence\SaveObjectStore.cs" />
     <Compile Include="Person.cs" />
-    <Compile Include="RandomNumberGenerator.cs" />
+    <Compile Include="Basics\RandomNumberGenerator.cs" />
     <Compile Include="Stairs.cs" />
     <Compile Include="Goals\UseStairs.cs" />
     <Compile Include="Transportation\Edge.cs" />
     <Compile Include="Transportation\Node.cs" />
     <Compile Include="Transportation\Transportations.cs" />
-    <Compile Include="Vector2.cs" />
+    <Compile Include="Basics\Vector2.cs" />
     <Compile Include="Worker.cs" />
   </ItemGroup>
   <ItemGroup>

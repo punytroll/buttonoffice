@@ -1,6 +1,5 @@
 using ButtonOffice.Goals;
 using ButtonOffice.Transportation;
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
@@ -9,7 +8,7 @@ namespace ButtonOffice
 {
     public class Stairs : Building
     {
-        private List<Node> _TransportationNodes;
+        private readonly List<Node> _TransportationNodes;
 
         public Stairs()
         {
