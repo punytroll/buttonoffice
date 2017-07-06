@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing.Design;
 
 namespace ButtonOffice.Transportation
 {
@@ -131,7 +132,40 @@ namespace ButtonOffice.Transportation
             }
         }
 
-        internal List<Edge> GetPath(Vector2 FromLocation, Vector2 ToLocation)
+        private Dictionary<Node, Pair<Edge, Double>> _VisitNodes(Node FromNode, Node ToNode)
+        {
+            var VisitedNodes = new Dictionary<Node, Pair<Edge, Double>>();
+            var FrontierPaths = new ReferencePriorityQueueByList<Edge, Double>(new CostPriority());
+
+            foreach(var OutgoingEdge in FromNode.OutgoingEdges)
+            {
+                FrontierPaths.Enqueue(OutgoingEdge, OutgoingEdge.Weight);
+            }
+            while(FrontierPaths.Count > 0)
+            {
+                var FrontierEdge = FrontierPaths.Dequeue();
+
+                if(VisitedNodes.ContainsKey(FrontierEdge.First.To) == false)
+                {
+                    VisitedNodes.Add(FrontierEdge.First.To, new Pair<Edge, Double>(FrontierEdge.First, FrontierEdge.Second));
+                    if(FrontierEdge.First.To == ToNode)
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        foreach(var Edge in FrontierEdge.First.To.OutgoingEdges)
+                        {
+                            FrontierPaths.Enqueue(Edge, FrontierEdge.Second + Edge.Weight);
+                        }
+                    }
+                }
+            }
+
+            return VisitedNodes;
+        }
+
+        internal List<Edge> GetShortestPath(Vector2 FromLocation, Vector2 ToLocation)
         {
             var FromNode = new Node(FromLocation.X, FromLocation.Y.GetNearestInt32());
 
@@ -141,40 +175,11 @@ namespace ButtonOffice.Transportation
 
             AddNode(ToNode);
 
-            var VisitedNodes = new Dictionary<Node, Pair<Edge, Double>>();
-            var PriorityQueue = new ReferencePriorityQueueByList<Edge, Double>(new CostPriority());
-
-            foreach(var OutgoingEdge in FromNode.OutgoingEdges)
-            {
-                PriorityQueue.Enqueue(OutgoingEdge, OutgoingEdge.Weight);
-            }
-
-            var FoundPath = false;
-
-            while((PriorityQueue.Count > 0) && (FoundPath == false))
-            {
-                var FrontierEdge = PriorityQueue.Dequeue();
-
-                if(VisitedNodes.ContainsKey(FrontierEdge.First.To) == false)
-                {
-                    VisitedNodes.Add(FrontierEdge.First.To, new Pair<Edge, Double>(FrontierEdge.First, FrontierEdge.Second));
-                    if(FrontierEdge.First.To == ToNode)
-                    {
-                        FoundPath = true;
-                    }
-                    else
-                    {
-                        foreach(var Edge in FrontierEdge.First.To.OutgoingEdges)
-                        {
-                            PriorityQueue.Enqueue(Edge, FrontierEdge.Second + Edge.Weight);
-                        }
-                    }
-                }
-            }
+            var VisitedNodes = _VisitNodes(FromNode, ToNode);
 
             List<Edge> Result = null;
 
-            if(FoundPath == true)
+            if(VisitedNodes.ContainsKey(ToNode) == true)
             {
                 Result = new List<Edge>();
 
@@ -186,6 +191,29 @@ namespace ButtonOffice.Transportation
                     Result.Insert(0, VisitedNodes[BackwardNode].First);
                     BackwardNode = VisitedNodes[BackwardNode].First.From;
                 }
+            }
+            RemoveNode(ToNode);
+            RemoveNode(FromNode);
+
+            return Result;
+        }
+
+        internal Double? GetShortestPathPathWeight(Vector2 FromLocation, Vector2 ToLocation)
+        {
+            var FromNode = new Node(FromLocation.X, FromLocation.Y.GetNearestInt32());
+
+            AddNode(FromNode);
+
+            var ToNode = new Node(ToLocation.X, ToLocation.Y.GetNearestInt32());
+
+            AddNode(ToNode);
+
+            var VisitedNodes = _VisitNodes(FromNode, ToNode);
+            Double? Result = null;
+
+            if(VisitedNodes.ContainsKey(ToNode) == true)
+            {
+                Result = VisitedNodes[ToNode].Second;
             }
             RemoveNode(ToNode);
             RemoveNode(FromNode);

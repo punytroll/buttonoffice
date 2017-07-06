@@ -320,7 +320,7 @@ namespace ButtonOffice.Goals
 
                     if(CleaningTarget != null)
                     {
-                        var WalkToLocation = new FindPathToLocation();
+                        var WalkToLocation = new TravelToLocation();
 
                         WalkToLocation.SetLocation(new Vector2(CleaningTarget.GetX() + CleaningTarget.GetWidth() / 2.0, CleaningTarget.GetY()));
                         AppendSubGoal(WalkToLocation);
@@ -356,7 +356,7 @@ namespace ButtonOffice.Goals
             Debug.Assert(Person != null);
             Game.SpendMoney(Person.GetWage(), Person.GetMidLocation());
 
-            var WalkToLocation = new FindPathToLocation();
+            var WalkToLocation = new TravelToLocation();
 
             if(Person.GetLivingSide() == LivingSide.Left)
             {
@@ -623,7 +623,7 @@ namespace ButtonOffice.Goals
                     {
                         ITTech.SetRepairingTarget(BrokenThing);
 
-                        var FindPathToLocation = new FindPathToLocation();
+                        var FindPathToLocation = new TravelToLocation();
 
                         if(BrokenThing is Computer)
                         {
@@ -708,7 +708,7 @@ namespace ButtonOffice.Goals
         {
             Debug.Assert(_Desk != null);
 
-            var WalkToLocation = new FindPathToLocation();
+            var WalkToLocation = new TravelToLocation();
 
             WalkToLocation.SetLocation(new Vector2(_Desk.GetX() + _Desk.GetWidth() / 2.0, _Desk.GetY()));
             AppendSubGoal(WalkToLocation);

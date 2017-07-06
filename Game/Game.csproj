@@ -75,7 +75,7 @@
     <Compile Include="Game.cs" />
     <Compile Include="Goal.cs" />
     <Compile Include="Goals.cs" />
-    <Compile Include="Goals\FindPathToLocation.cs" />
+    <Compile Include="Goals\TravelToLocation.cs" />
     <Compile Include="Goals\WalkOnSameFloor.cs" />
     <Compile Include="ITTech.cs" />
     <Compile Include="Janitor.cs" />

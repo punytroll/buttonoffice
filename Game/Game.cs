@@ -399,19 +399,9 @@ namespace ButtonOffice
             return _Cents;
         }
 
-        private UInt64 _GetEuros(UInt64 Cents)
-        {
-            return Cents / 100;
-        }
-
-        private UInt64 _GetCents(UInt64 Cents)
-        {
-            return Cents % 100;
-        }
-
         public String GetMoneyString(UInt64 Cents)
         {
-            return _GetEuros(Cents) + "." + _GetCents(Cents).ToString("00") + "€";
+            return (Cents / 100) + "." + (Cents % 100).ToString("00") + "€";
         }
 
         public Pair<Int32, Int32> GetBuildingMinimumMaximum(Int32 Row)

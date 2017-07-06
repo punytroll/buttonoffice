@@ -3,7 +3,7 @@ using System.Diagnostics;
 
 namespace ButtonOffice
 {
-    internal class FindPathToLocation : Goal
+    internal class TravelToLocation : Goal
     {
         private Vector2 _Location;
 
@@ -18,7 +18,7 @@ namespace ButtonOffice
 
             Debug.Assert(Person != null);
 
-            var Path = Game.Transportation.GetPath(new Vector2(Person.GetX(), Person.GetY()), _Location);
+            var Path = Game.Transportation.GetShortestPath(new Vector2(Person.GetX(), Person.GetY()), _Location);
 
             if(Path != null)
             {
