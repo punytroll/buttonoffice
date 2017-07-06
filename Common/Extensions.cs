@@ -5,6 +5,14 @@ using System.Drawing;
 public static class Extensions
 {
     /// <summary>
+    /// Converts the Int32 value to a Double value.
+    /// </summary>
+    public static Double ToDouble(this Int32 Int32)
+    {
+        return Convert.ToDouble(Int32);
+    }
+
+    /// <summary>
     /// Converts the Int32 value to a Single value.
     /// </summary>
     public static Single ToSingle(this Int32 Int32)
@@ -58,6 +66,14 @@ public static class Extensions
     public static Single GetRounded(this Single Single)
     {
         return Convert.ToSingle(Math.Round(Convert.ToDouble(Single)));
+    }
+
+    /// <summary>
+    /// Rounds the Double value towards the nearest integer value and returns it as a Double.
+    /// </summary>
+    public static Double GetRounded(this Double Double)
+    {
+        return Math.Round(Double);
     }
 
     /// <summary>
