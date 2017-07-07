@@ -289,7 +289,7 @@ namespace ButtonOffice.Goals
 
                                                            if(Result < 0.0)
                                                            {
-                                                               Result = Game.WorldBlockHeight - Result;
+                                                               Result = (Game.HighestFloor - Game.LowestFloor) - Result;
                                                            }
 
                                                            return Result;
@@ -360,11 +360,11 @@ namespace ButtonOffice.Goals
 
             if(Person.GetLivingSide() == LivingSide.Left)
             {
-                WalkToLocation.SetLocation(new Vector2(-10.0, 0.0));
+                WalkToLocation.SetLocation(new Vector2(Game.LeftBorder - 10.0, 0.0));
             }
             else
             {
-                WalkToLocation.SetLocation(new Vector2(Game.WorldBlockWidth + 10.0, 0.0));
+                WalkToLocation.SetLocation(new Vector2(Game.RightBorder + 10.0, 0.0));
             }
             Person.SetAtDesk(false);
             AppendSubGoal(WalkToLocation);
@@ -427,11 +427,11 @@ namespace ButtonOffice.Goals
             Person.SetAnimationFraction(0.0);
             if(Person.GetLivingSide() == LivingSide.Left)
             {
-                Person.SetX(-10.0);
+                Person.SetX(Game.LeftBorder - 10.0);
             }
             else
             {
-                Person.SetX(Game.WorldBlockWidth + 10.0);
+                Person.SetX(Game.RightBorder + 10.0);
             }
             Person.SetY(0.0);
             AppendSubGoal(new GoToOwnDesk());

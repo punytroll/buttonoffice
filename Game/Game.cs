@@ -14,30 +14,36 @@ namespace ButtonOffice
 
         private readonly List<Accountant> _Accountants;
         private readonly List<PersistentObject> _BrokenThings;
+        private readonly List<Pair<Int32, Int32>> _BuildingMinimumMaximum;
         private readonly List<Building> _Buildings;
         private UInt32 _CatStock;
         private UInt64 _Cents;
         private readonly List<BitArray> _FreeSpace;
-        private readonly List<Pair<Int32, Int32>> _BuildingMinimumMaximum;
+        private Int32 _HighestFloor;
+        private Int32 _LeftBorder;
+        private Int32 _LowestFloor;
         private Double _Minutes;
         private UInt32 _NextCatAtNumberOfEmployees;
         private readonly List<Office> _Offices;
         private readonly List<Person> _Persons;
+        private Int32 _RightBorder;
         private readonly Transportation.Transportation _Transportation;
-        private Int32 _WorldBlockHeight;
-        private Int32 _WorldBlockWidth;
 
         public List<Building> Buildings => _Buildings;
+
+        public Int32 HighestFloor => _HighestFloor;
+
+        public Int32 LeftBorder => _LeftBorder;
+
+        public Int32 LowestFloor => _LowestFloor;
 
         public List<Office> Offices => _Offices;
 
         public List<Person> Persons => _Persons;
 
+        public Int32 RightBorder => _RightBorder;
+
         internal Transportation.Transportation Transportation => _Transportation;
-
-        public Int32 WorldBlockHeight => _WorldBlockHeight;
-
-        public Int32 WorldBlockWidth => _WorldBlockWidth;
 
         public static Game CreateNew()
         {
@@ -45,10 +51,12 @@ namespace ButtonOffice
 
             Result._CatStock = 0;
             Result._Cents = Data.NewGameCents;
+            Result._HighestFloor = Data.NewGameHighestFloor;
+            Result._LeftBorder = Data.NewGameLeftBorder;
+            Result._LowestFloor = Data.NewGameLowestFloor;
             Result._Minutes = Data.NewGameMinutes;
             Result._NextCatAtNumberOfEmployees = 20;
-            Result._WorldBlockHeight = Data.NewGameWorldBlockHeight;
-            Result._WorldBlockWidth = Data.NewGameWorldBlockWidth;
+            Result._RightBorder = Data.NewGameRightBorder;
             Result._InitializeFreeSpaceAndMinimumMaximum();
 
             return Result;
@@ -492,7 +500,7 @@ namespace ButtonOffice
 
         private Boolean _InBuildableWorld(RectangleF Rectangle)
         {
-            return (Rectangle.Y >= 0.0f) && (Rectangle.X >= 0.0f) && (Rectangle.X + Rectangle.Width < _WorldBlockWidth.ToSingle());
+            return (Rectangle.X >= _LeftBorder.ToSingle()) && (Rectangle.X + Rectangle.Width < _RightBorder.ToSingle()) && (Rectangle.Y >= _LowestFloor.ToSingle()) && (Rectangle.Y + Rectangle.Height < _HighestFloor.ToSingle());
         }
 
         private Boolean _InFreeSpace(RectangleF Rectangle)
@@ -501,7 +509,7 @@ namespace ButtonOffice
 
             for(var Column = 0; Column < Rectangle.Width.GetFlooredAsInt32(); ++Column)
             {
-                Result &= _FreeSpace[Rectangle.Y.GetFlooredAsInt32()][Rectangle.X.GetFlooredAsInt32() + Column];
+                Result &= _FreeSpace[Rectangle.Y.GetFlooredAsInt32() - _LowestFloor][Rectangle.X.GetFlooredAsInt32() + Column - _LeftBorder];
             }
 
             return Result;
@@ -523,12 +531,12 @@ namespace ButtonOffice
         private void _InitializeFreeSpaceAndMinimumMaximum()
         {
             _FreeSpace.Clear();
-            for(var Index = 0; Index < _WorldBlockHeight; ++Index)
+            for(var Index = _LowestFloor; Index < _HighestFloor; ++Index)
             {
-                _FreeSpace.Add(new BitArray(_WorldBlockWidth, true));
+                _FreeSpace.Add(new BitArray(_RightBorder - _LeftBorder, true));
             }
             _BuildingMinimumMaximum.Clear();
-            for(var Index = 0; Index < _WorldBlockHeight; ++Index)
+            for(var Index = _LowestFloor; Index < _HighestFloor; ++Index)
             {
                 _BuildingMinimumMaximum.Add(new Pair<Int32, Int32>(Int32.MaxValue, Int32.MinValue));
             }
@@ -540,7 +548,7 @@ namespace ButtonOffice
             {
                 for(var Column = 0; Column < Width.GetNearestInt32(); ++Column)
                 {
-                    _FreeSpace[Y.GetNearestInt32() + Row][X.GetNearestInt32() + Column] = false;
+                    _FreeSpace[Y.GetNearestInt32() + Row - _LowestFloor][X.GetNearestInt32() + Column - _LeftBorder] = false;
                 }
             }
         }
@@ -566,18 +574,22 @@ namespace ButtonOffice
             ObjectStore.Save("buildings", _Buildings);
             ObjectStore.Save("cat-stock", _CatStock);
             ObjectStore.Save("cents", _Cents);
+            ObjectStore.Save("highest-floor", _HighestFloor);
+            ObjectStore.Save("left-border", _LeftBorder);
+            ObjectStore.Save("lowest-floor", _LowestFloor);
             ObjectStore.Save("minutes", _Minutes);
             ObjectStore.Save("next-cat-at-number-of-employees", _NextCatAtNumberOfEmployees);
             ObjectStore.Save("persons", _Persons);
-            ObjectStore.Save("world-width", _WorldBlockWidth);
-            ObjectStore.Save("world-height", _WorldBlockHeight);
+            ObjectStore.Save("right-border", _RightBorder);
         }
 
         public override void Load(LoadObjectStore ObjectStore)
         {
             // read these at first, so we can initialize the free space and minimum/maximum per floor
-            _WorldBlockWidth = ObjectStore.LoadInt32Property("world-width");
-            _WorldBlockHeight = ObjectStore.LoadInt32Property("world-height");
+            _HighestFloor = ObjectStore.LoadInt32Property("highest-floor");
+            _LeftBorder = ObjectStore.LoadInt32Property("left-border");
+            _LowestFloor = ObjectStore.LoadInt32Property("lowest-floor");
+            _RightBorder = ObjectStore.LoadInt32Property("right-border");
             _InitializeFreeSpaceAndMinimumMaximum();
             foreach(var BrokenThing in ObjectStore.LoadObjects("broken-things"))
             {

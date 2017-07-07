@@ -19,8 +19,8 @@ namespace ButtonOffice
         public static readonly Single BathroomBlockWidth = 10.0f;
         public static readonly Color BathroomBorderColor = Color.FromArgb(255, 0, 0, 0);
         public static readonly UInt64 BathroomBuildCost = 250000ul;
-        public static readonly Int32 BlockHeight = 50;
-        public static readonly Int32 BlockWidth = 20;
+        public static readonly UInt32 BlockHeight = 50;
+        public static readonly UInt32 BlockWidth = 20;
         public static readonly Color BuildingBackgroundColor = Color.FromArgb(255, 220, 220, 230);
         public static readonly Color BuildingBorderColor = Color.FromArgb(255, 0, 0, 0);
         public static readonly Color CatBackgroundColor = Color.FromArgb(255, 0, 0, 0);
@@ -68,9 +68,11 @@ namespace ButtonOffice
         public static readonly Double MeanMinutesToBrokenComputer = 500.0f;
         public static readonly Double MeanMinutesToBrokenLamp = 1500.0f;
         public static readonly UInt64 NewGameCents = 5000000ul;
+        public static readonly Int32 NewGameHighestFloor = 136;
+        public static readonly Int32 NewGameLowestFloor = 0;
         public static readonly Double NewGameMinutes = 480.0;
-        public static readonly Int32 NewGameWorldBlockHeight = 136;
-        public static readonly Int32 NewGameWorldBlockWidth = 132;
+        public static readonly Int32 NewGameLeftBorder = -66;
+        public static readonly Int32 NewGameRightBorder = 66;
         public static readonly Color OfficeBackgroundColor = Color.FromArgb(255, 255, 255, 255);
         public static readonly Single OfficeBlockHeight = 1.0f;
         public static readonly Single OfficeBlockWidth = 15.0f;
@@ -83,7 +85,7 @@ namespace ButtonOffice
         public static readonly Single PersonTagWidth = 1.0f;
         public static readonly Double PersonWidthMean = 1.6;
         public static readonly Double PersonWidthSpread = 0.5;
-        public static readonly String SaveGameFileVersion = "10";
+        public static readonly String SaveGameFileVersion = "11";
         public static readonly Color SpendMoneyFloatingTextColor = Color.FromArgb(220, 220, 20, 20);
         public static readonly Color StairsBackgroundColor = Color.FromArgb(180, 192, 160, 160);
         public static readonly Single StairsBlockHeight = 2.0f;

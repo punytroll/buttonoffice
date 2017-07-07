@@ -21,6 +21,14 @@ public static class Extensions
     }
 
     /// <summary>
+    /// Converts the UInt32 value to a Single value.
+    /// </summary>
+    public static Single ToSingle(this UInt32 UInt32)
+    {
+        return Convert.ToSingle(UInt32);
+    }
+
+    /// <summary>
     /// Converts the Int32 value to an UInt32 value.
     /// </summary>
     public static UInt32 ToUInt32(this Int32 Int32)

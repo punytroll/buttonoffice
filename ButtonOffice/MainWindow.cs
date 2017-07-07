@@ -420,7 +420,7 @@ namespace ButtonOffice
         {
             _DrawingOffset.X += _CameraVelocity.X.GetFlooredAsInt32();
             _DrawingOffset.Y += _CameraVelocity.Y.GetFlooredAsInt32();
-            for(var Row = 0; Row < _Game.WorldBlockHeight; ++Row)
+            for(var Row = _Game.LowestFloor; Row < _Game.HighestFloor; ++Row)
             {
                 var BuildingMinimumMaximum = _Game.GetBuildingMinimumMaximum(Row);
 
@@ -898,7 +898,7 @@ namespace ButtonOffice
                                   };
             _EntityPrototype = null;
             _DragPoint = new Point?();
-            _DrawingOffset = new Point(-_Game.WorldBlockWidth * Data.BlockWidth / 2, 2 * Data.BlockHeight);
+            _DrawingOffset = new Point(_DrawingBoard.Width / 2, Convert.ToInt32(2 * Data.BlockHeight));
             _LastTick = DateTime.MinValue;
             _MoveButton = null;
             _MovePerson = null;
