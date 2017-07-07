@@ -19,7 +19,7 @@ namespace ButtonOffice
         private EntityPrototype _EntityPrototype;
         private DateTime _LastTick;
         private PersistentObject _SelectedObject;
-        private Single _Zoom;
+        private Double _Zoom;
 
         public MainWindow()
         {
@@ -40,13 +40,13 @@ namespace ButtonOffice
                                         {
                                             if(EventArguments.Delta > 0)
                                             {
-                                                _Zoom *= 1.2f;
+                                                _Zoom *= 1.2;
                                                 _DrawingOffset.X = ((_DrawingOffset.X - EventArguments.X).ToSingle() * 1.2f).GetFlooredAsInt32() + EventArguments.X;
                                                 _DrawingOffset.Y = ((_DrawingOffset.Y - (_DrawingBoard.Height - EventArguments.Y)).ToSingle() * 1.2f).GetFlooredAsInt32() + (_DrawingBoard.Height - EventArguments.Y);
                                             }
                                             else
                                             {
-                                                _Zoom /= 1.2f;
+                                                _Zoom /= 1.2;
                                                 _DrawingOffset.X = ((_DrawingOffset.X - EventArguments.X).ToSingle() / 1.2f).GetFlooredAsInt32() + EventArguments.X;
                                                 _DrawingOffset.Y = ((_DrawingOffset.Y - (_DrawingBoard.Height - EventArguments.Y)).ToSingle() / 1.2f).GetFlooredAsInt32() + (_DrawingBoard.Height - EventArguments.Y);
                                             }
@@ -620,22 +620,22 @@ namespace ButtonOffice
         #region Coordinate system transformations: Game -> Draw
         private Int32 _GetDrawingHeight(Single GamingHeight)
         {
-            return (GamingHeight * Data.BlockHeight.ToSingle() * _Zoom).GetFlooredAsInt32();
+            return (GamingHeight * Data.BlockHeight.ToSingle() * _Zoom).GetNearestInt32();
         }
 
         private Int32 _GetDrawingWidth(Single GamingWidth)
         {
-            return (GamingWidth * Data.BlockWidth.ToSingle() * _Zoom).GetFlooredAsInt32();
+            return (GamingWidth * Data.BlockWidth.ToSingle() * _Zoom).GetNearestInt32();
         }
 
         private Int32 _GetDrawingY(Single GamingY)
         {
-            return (_DrawingBoard.Height.ToSingle() - (GamingY * Data.BlockHeight.ToSingle() * _Zoom) - _DrawingOffset.Y.ToSingle()).GetFlooredAsInt32();
+            return (_DrawingBoard.Height.ToSingle() - (GamingY * Data.BlockHeight.ToSingle() * _Zoom) - _DrawingOffset.Y.ToSingle()).GetNearestInt32();
         }
 
         private Int32 _GetDrawingX(Single GamingX)
         {
-            return (GamingX * Data.BlockWidth.ToSingle() * _Zoom + _DrawingOffset.X.ToSingle()).GetFlooredAsInt32();
+            return (GamingX * Data.BlockWidth.ToSingle() * _Zoom + _DrawingOffset.X.ToSingle()).GetNearestInt32();
         }
 
         private Rectangle _GetDrawingRectangle(RectangleF GamingRectangle)
@@ -667,12 +667,12 @@ namespace ButtonOffice
         #region Coordinate system transformations: Draw -> Game
         private Single _GetGamingX(Int32 DrawingX)
         {
-            return (DrawingX - _DrawingOffset.X).ToSingle() / Data.BlockWidth.ToSingle() / _Zoom;
+            return (DrawingX - _DrawingOffset.X).ToSingle() / Data.BlockWidth.ToSingle() / _Zoom.ToSingle();
         }
 
         private Single _GetGamingY(Int32 DrawingY)
         {
-            return (_DrawingBoard.Height - DrawingY - _DrawingOffset.Y).ToSingle() / Data.BlockHeight.ToSingle() / _Zoom;
+            return (_DrawingBoard.Height - DrawingY - _DrawingOffset.Y).ToSingle() / Data.BlockHeight.ToSingle() / _Zoom.ToSingle();
         }
 
         private PointF _GetGamingLocation(Point DrawingLocation)
