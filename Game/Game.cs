@@ -156,7 +156,7 @@ namespace ButtonOffice
 
         public Boolean BuildBathroom(RectangleF Rectangle)
         {
-            if(CanBuild(Data.BathroomBuildCost, Rectangle) == true)
+            if(CanBuild(Data.BathroomBuildCost, Rectangle.X, Rectangle.Width, Rectangle.Y, Rectangle.Height) == true)
             {
                 var Bathroom = new Bathroom();
 
@@ -176,7 +176,7 @@ namespace ButtonOffice
 
         public Boolean BuildOffice(RectangleF Rectangle)
         {
-            if(CanBuild(Data.OfficeBuildCost, Rectangle) == true)
+            if(CanBuild(Data.OfficeBuildCost, Rectangle.X, Rectangle.Width, Rectangle.Y, Rectangle.Height) == true)
             {
                 var Office = new Office();
 
@@ -197,7 +197,7 @@ namespace ButtonOffice
 
         public Boolean BuildStairs(RectangleF Rectangle)
         {
-            if(CanBuild(Data.StairsBuildCost, Rectangle) == true)
+            if(CanBuild(Data.StairsBuildCost, Rectangle.X, Rectangle.Width, Rectangle.Y, Rectangle.Height) == true)
             {
                 var Stairs = new Stairs();
 
@@ -488,9 +488,9 @@ namespace ButtonOffice
             _WidenBuilding(Building.GetX(), Building.GetWidth(), Building.GetY(), Building.GetHeight());
         }
 
-        public Boolean CanBuild(UInt64 Cost, RectangleF Rectangle)
+        public Boolean CanBuild(UInt64 Cost, Single X, Single Width, Single Y, Single Height)
         {
-            return (_EnoughCents(Cost) == true) && (_InBuildableWorld(Rectangle) == true) && (_InFreeSpace(Rectangle) == true) && (_CompletelyOnTopOfBuilding(Rectangle) == true);
+            return (_EnoughCents(Cost) == true) && (_InBuildableWorld(X, Width, Y, Height) == true) && (_InFreeSpace(X, Width, Y, Height) == true) && (_CompletelyOnTopOfBuilding(X, Width, Y, Height) == true);
         }
 
         private Boolean _EnoughCents(UInt64 Cents)
@@ -498,31 +498,31 @@ namespace ButtonOffice
             return _Cents >= Cents;
         }
 
-        private Boolean _InBuildableWorld(RectangleF Rectangle)
+        private Boolean _InBuildableWorld(Single X, Single Width, Single Y, Single Height)
         {
-            return (Rectangle.X >= _LeftBorder.ToSingle()) && (Rectangle.X + Rectangle.Width < _RightBorder.ToSingle()) && (Rectangle.Y >= _LowestFloor.ToSingle()) && (Rectangle.Y + Rectangle.Height < _HighestFloor.ToSingle());
+            return (X >= _LeftBorder) && (X + Width < _RightBorder) && (Y >= _LowestFloor) && (Y + Height < _HighestFloor);
         }
 
-        private Boolean _InFreeSpace(RectangleF Rectangle)
+        private Boolean _InFreeSpace(Single X, Single Width, Single Y, Single Height)
         {
             var Result = true;
 
-            for(var Column = 0; Column < Rectangle.Width.GetFlooredAsInt32(); ++Column)
+            for(var Column = 0; Column < Width.GetFlooredAsInt32(); ++Column)
             {
-                Result &= _FreeSpace[Rectangle.Y.GetFlooredAsInt32() - _LowestFloor][Rectangle.X.GetFlooredAsInt32() + Column - _LeftBorder];
+                Result &= _FreeSpace[Y.GetFlooredAsInt32() - _LowestFloor][X.GetFlooredAsInt32() + Column - _LeftBorder];
             }
 
             return Result;
         }
 
-        private Boolean _CompletelyOnTopOfBuilding(RectangleF Rectangle)
+        private Boolean _CompletelyOnTopOfBuilding(Single X, Single Width, Single Y, Single Height)
         {
             var Result = true;
 
-            if(Rectangle.Y > 0.0f)
+            if(Y > 0.0f)
             {
-                Result &= _BuildingMinimumMaximum[Rectangle.Y.GetFlooredAsInt32() - 1].First <= Rectangle.X.GetFlooredAsInt32();
-                Result &= _BuildingMinimumMaximum[Rectangle.Y.GetFlooredAsInt32() - 1].Second >= Rectangle.Right.GetFlooredAsInt32();
+                Result &= _BuildingMinimumMaximum[Y.GetFlooredAsInt32() - 1].First <= X.GetFlooredAsInt32();
+                Result &= _BuildingMinimumMaximum[Y.GetFlooredAsInt32() - 1].Second >= (X + Width).GetFlooredAsInt32();
             }
 
             return Result;

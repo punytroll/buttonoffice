@@ -32,9 +32,7 @@ namespace ButtonOffice
 
         public void ExpandDownwards(Game Game)
         {
-            var ExpansionRectangle = new RectangleF(_Rectangle.X, _Rectangle.Y - 1.0f, _Rectangle.Width, 1.0f);
-
-            if(Game.CanBuild(Data.StairsExpansionCost, ExpansionRectangle) == true)
+            if(Game.CanBuild(Data.StairsExpansionCost, _Rectangle.X, _Rectangle.Width, _Rectangle.Y - 1.0f, 1.0f) == true)
             {
                 SetY(GetY() - 1.0f);
                 SetHeight(GetHeight() + 1.0f);
@@ -60,9 +58,7 @@ namespace ButtonOffice
 
         public void ExpandUpwards(Game Game)
         {
-            var ExpansionRectangle = new RectangleF(_Rectangle.X, _Rectangle.Y + _Rectangle.Height, _Rectangle.Width, 1.0f);
-
-            if(Game.CanBuild(Data.StairsExpansionCost, ExpansionRectangle) == true)
+            if(Game.CanBuild(Data.StairsExpansionCost, _Rectangle.X, _Rectangle.Width, _Rectangle.Y + _Rectangle.Height, 1.0f) == true)
             {
                 SetHeight(GetHeight() + 1.0f);
                 Game.UpdateBuilding(Data.StairsExpansionCost, this);
