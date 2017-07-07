@@ -698,9 +698,9 @@ namespace ButtonOffice
         private void _OnTimerTicked(Object Sender, EventArgs EventArguments)
         {
             var Now = DateTime.Now;
-            var Seconds = (Now - _LastTick).TotalSeconds.ToSingle();
+            var Seconds = (Now - _LastTick).TotalSeconds;
 
-            if((Seconds > 0.0f) && (Seconds < 0.05f))
+            if((Seconds > 0.0) && (Seconds < 0.05))
             {
                 _Game.Move(Data.GameMinutesPerSecond * Seconds);
 
@@ -708,10 +708,10 @@ namespace ButtonOffice
 
                 while(Index < _FloatingTexts.Count)
                 {
-                    _FloatingTexts[Index].SetTimeout(_FloatingTexts[Index].Timeout - Seconds);
-                    if(_FloatingTexts[Index].Timeout > 0.0f)
+                    _FloatingTexts[Index].Timeout -= Seconds;
+                    if(_FloatingTexts[Index].Timeout > 0.0)
                     {
-                        _FloatingTexts[Index].SetOffset(new PointF(_FloatingTexts[Index].Offset.X, _FloatingTexts[Index].Offset.Y - Seconds * Data.FloatingTextSpeed));
+                        _FloatingTexts[Index].SetOffset(new PointF(_FloatingTexts[Index].Offset.X, (_FloatingTexts[Index].Offset.Y - Seconds * Data.FloatingTextSpeed).ToSingle()));
                         ++Index;
                     }
                     else
@@ -867,7 +867,7 @@ namespace ButtonOffice
                                      FloatingText.SetOffset(new PointF(0.0f, 0.0f));
                                      FloatingText.SetOrigin(Location);
                                      FloatingText.SetText(_Game.GetMoneyString(Cents));
-                                     FloatingText.SetTimeout(1.2f);
+                                     FloatingText.Timeout = 1.2;
                                      _FloatingTexts.Add(FloatingText);
                                  };
             _Game.OnSpendMoney += delegate(UInt64 Cents, PointF Location)
@@ -878,7 +878,7 @@ namespace ButtonOffice
                                       FloatingText.SetOffset(new PointF(0.0f, 0.0f));
                                       FloatingText.SetOrigin(Location);
                                       FloatingText.SetText(_Game.GetMoneyString(Cents));
-                                      FloatingText.SetTimeout(1.2f);
+                                      FloatingText.Timeout = 1.2;
                                       _FloatingTexts.Add(FloatingText);
                                   };
             _EntityPrototype = null;

@@ -9,7 +9,12 @@ namespace ButtonOffice
         private PointF _Offset;
         private PointF _Origin;
         private String _Text;
-        private Single _Timeout;
+
+        public Double Timeout
+        {
+            get;
+            set;
+        }
 
         public Color Color
         {
@@ -43,14 +48,6 @@ namespace ButtonOffice
             }
         }
 
-        public Single Timeout
-        {
-            get
-            {
-                return _Timeout;
-            }
-        }
-
         public void SetColor(Color Color)
         {
             _Color = Color;
@@ -69,11 +66,6 @@ namespace ButtonOffice
         public void SetText(String Text)
         {
             _Text = Text;
-        }
-
-        public void SetTimeout(Single Timeout)
-        {
-            _Timeout = Timeout;
         }
     }
 }
