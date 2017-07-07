@@ -434,18 +434,16 @@ namespace ButtonOffice
                 }
             }
             EventArguments.Graphics.FillRectangle(new SolidBrush(Data.GroundColor), 0, _GetDrawingY(0), _DrawingBoard.Width, _DrawingBoard.Height);
-            foreach(var Office in _Game.Offices)
-            {
-                _DrawRectangle(EventArguments.Graphics, Office.GetVisualRectangle(), Office.GetBackgroundColor(), Office.GetBorderColor());
-                _DrawRectangle(EventArguments.Graphics, Office.FirstLamp.GetRectangle(), Office.FirstLamp.BackgroundColor, Color.Black);
-                _DrawRectangle(EventArguments.Graphics, Office.SecondLamp.GetRectangle(), Office.SecondLamp.BackgroundColor, Color.Black);
-                _DrawRectangle(EventArguments.Graphics, Office.ThirdLamp.GetRectangle(), Office.ThirdLamp.BackgroundColor, Color.Black);
-            }
             foreach(var Building in _Game.Buildings)
             {
-                if(Building is Office == false)
+                _DrawRectangle(EventArguments.Graphics, Building.GetVisualRectangle(), Building.BackgroundColor, Building.BorderColor);
+                if(Building is Office == true)
                 {
-                    _DrawRectangle(EventArguments.Graphics, Building.GetVisualRectangle(), Building.GetBackgroundColor(), Building.GetBorderColor());
+                    var Office = (Office)Building;
+
+                    _DrawRectangle(EventArguments.Graphics, Office.FirstLamp.GetRectangle(), Office.FirstLamp.BackgroundColor, Color.Black);
+                    _DrawRectangle(EventArguments.Graphics, Office.SecondLamp.GetRectangle(), Office.SecondLamp.BackgroundColor, Color.Black);
+                    _DrawRectangle(EventArguments.Graphics, Office.ThirdLamp.GetRectangle(), Office.ThirdLamp.BackgroundColor, Color.Black);
                 }
             }
             foreach(var Person in _Game.Persons)

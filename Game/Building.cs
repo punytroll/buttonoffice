@@ -14,15 +14,9 @@ namespace ButtonOffice
             return (Location.X >= _Rectangle.X) && (Location.X <= _Rectangle.X + _Rectangle.Width) && (Location.Y >= _Rectangle.Y) && (Location.Y <= _Rectangle.Y + _Rectangle.Height);
         }
 
-        public Color GetBackgroundColor()
-        {
-            return _BackgroundColor;
-        }
+        public Color BackgroundColor => _BackgroundColor;
 
-        public Color GetBorderColor()
-        {
-            return _BorderColor;
-        }
+        public Color BorderColor => _BorderColor;
 
         public Single GetHeight()
         {
