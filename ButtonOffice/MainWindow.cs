@@ -8,6 +8,11 @@ namespace ButtonOffice
 {
     internal partial class MainWindow
     {
+        private Boolean _WPressed;
+        private Boolean _APressed;
+        private Boolean _SPressed;
+        private Boolean _DPressed;
+        private Vector2 _CameraPosition;
         private Vector2 _CameraVelocity;
         private readonly List<FloatingText> _FloatingTexts;
         private Person _MovePerson;
@@ -15,7 +20,6 @@ namespace ButtonOffice
         private readonly List<ToolStripButton> _ToolButtons;
         private Point? _DragPoint;
         private Boolean? _Dragged;
-        private Point _DrawingOffset;
         private EntityPrototype _EntityPrototype;
         private DateTime _LastTick;
         private PersistentObject _SelectedObject;
@@ -41,14 +45,10 @@ namespace ButtonOffice
                                             if(EventArguments.Delta > 0)
                                             {
                                                 _Zoom *= 1.2;
-                                                _DrawingOffset.X = ((_DrawingOffset.X - EventArguments.X).ToSingle() * 1.2f).GetFlooredAsInt32() + EventArguments.X;
-                                                _DrawingOffset.Y = ((_DrawingOffset.Y - (_DrawingBoard.Height - EventArguments.Y)).ToSingle() * 1.2f).GetFlooredAsInt32() + (_DrawingBoard.Height - EventArguments.Y);
                                             }
                                             else
                                             {
                                                 _Zoom /= 1.2;
-                                                _DrawingOffset.X = ((_DrawingOffset.X - EventArguments.X).ToSingle() / 1.2f).GetFlooredAsInt32() + EventArguments.X;
-                                                _DrawingOffset.Y = ((_DrawingOffset.Y - (_DrawingBoard.Height - EventArguments.Y)).ToSingle() / 1.2f).GetFlooredAsInt32() + (_DrawingBoard.Height - EventArguments.Y);
                                             }
                                         };
         }
@@ -218,8 +218,8 @@ namespace ButtonOffice
             if(_DragPoint != null)
             {
                 Debug.Assert(_Dragged != null);
-                _DrawingOffset.X -= _DragPoint.Value.X - EventArguments.X;
-                _DrawingOffset.Y += _DragPoint.Value.Y - EventArguments.Y;
+                _CameraPosition.X += _GetGamingWidth(_DragPoint.Value.X - EventArguments.X);
+                _CameraPosition.Y += _GetGamingHeight(_DragPoint.Value.Y - EventArguments.Y);
                 _DragPoint = EventArguments.Location;
                 _Dragged = true;
             }
@@ -418,8 +418,6 @@ namespace ButtonOffice
 
         private void _OnDrawingBoardPaint(Object Sender, PaintEventArgs EventArguments)
         {
-            _DrawingOffset.X += _CameraVelocity.X.GetNearestInt32();
-            _DrawingOffset.Y += _CameraVelocity.Y.GetNearestInt32();
             for(var Row = _Game.LowestFloor; Row < _Game.HighestFloor; ++Row)
             {
                 var BuildingMinimumMaximum = _Game.GetBuildingMinimumMaximum(Row);
@@ -630,12 +628,12 @@ namespace ButtonOffice
 
         private Int32 _GetDrawingY(Single GamingY)
         {
-            return (_DrawingBoard.Height.ToSingle() - (GamingY * Data.BlockHeight.ToSingle() * _Zoom) - _DrawingOffset.Y.ToSingle()).GetNearestInt32();
+            return (_DrawingBoard.Height / 2) - ((GamingY - _CameraPosition.Y) * Data.BlockHeight * _Zoom).GetNearestInt32();
         }
 
         private Int32 _GetDrawingX(Single GamingX)
         {
-            return (GamingX * Data.BlockWidth.ToSingle() * _Zoom + _DrawingOffset.X.ToSingle()).GetNearestInt32();
+            return ((GamingX - _CameraPosition.X) * Data.BlockWidth * _Zoom).GetNearestInt32() + _DrawingBoard.Width / 2;
         }
 
         private Rectangle _GetDrawingRectangle(RectangleF GamingRectangle)
@@ -665,14 +663,24 @@ namespace ButtonOffice
         #endregion
 
         #region Coordinate system transformations: Draw -> Game
+        private Double _GetGamingHeight(Double DrawingHeight)
+        {
+            return -DrawingHeight / Data.BlockHeight / _Zoom;
+        }
+
+        private Double _GetGamingWidth(Double DrawingWidth)
+        {
+            return DrawingWidth / Data.BlockWidth / _Zoom;
+        }
+
         private Single _GetGamingX(Int32 DrawingX)
         {
-            return (DrawingX - _DrawingOffset.X).ToSingle() / Data.BlockWidth.ToSingle() / _Zoom.ToSingle();
+            return (_CameraPosition.X + (DrawingX.ToDouble() - _DrawingBoard.Width.ToDouble() / 2.0) / Data.BlockWidth.ToDouble() / _Zoom).ToSingle();
         }
 
         private Single _GetGamingY(Int32 DrawingY)
         {
-            return (_DrawingBoard.Height - DrawingY - _DrawingOffset.Y).ToSingle() / Data.BlockHeight.ToSingle() / _Zoom.ToSingle();
+            return (_CameraPosition.Y + (_DrawingBoard.Height.ToDouble() / 2.0 - DrawingY.ToDouble()) / Data.BlockHeight.ToDouble() / _Zoom).ToSingle();
         }
 
         private PointF _GetGamingLocation(Point DrawingLocation)
@@ -700,6 +708,8 @@ namespace ButtonOffice
 
             if((Seconds > 0.0) && (Seconds < 0.05))
             {
+                _CameraPosition.X += _CameraVelocity.X * Seconds;
+                _CameraPosition.Y += _CameraVelocity.Y * Seconds;
                 _Game.Move(Data.GameMinutesPerSecond * Seconds);
 
                 var Index = 0;
@@ -751,19 +761,35 @@ namespace ButtonOffice
         {
             if(EventArguments.KeyCode == Keys.W)
             {
-                _CameraVelocity.Y = -10.0;
+                if(_WPressed == false)
+                {
+                    _CameraVelocity.Y += 500.0 / Data.BlockHeight;
+                    _WPressed = true;
+                }
             }
             else if(EventArguments.KeyCode == Keys.A)
             {
-                _CameraVelocity.X = 10.0;
+                if(_APressed == false)
+                {
+                    _CameraVelocity.X -= 500.0 / Data.BlockWidth;
+                    _APressed = true;
+                }
             }
             else if(EventArguments.KeyCode == Keys.S)
             {
-                _CameraVelocity.Y = 10.0;
+                if(_SPressed == false)
+                {
+                    _CameraVelocity.Y -= 500.0 / Data.BlockHeight;
+                    _SPressed = true;
+                }
             }
             else if(EventArguments.KeyCode == Keys.D)
             {
-                _CameraVelocity.X = -10.0;
+                if(_DPressed == false)
+                {
+                    _CameraVelocity.X += 500.0 / Data.BlockWidth;
+                    _DPressed = true;
+                }
             }
             else if(EventArguments.KeyCode == Keys.Escape)
             {
@@ -780,13 +806,25 @@ namespace ButtonOffice
 
         private void _DrawingBoardKeyUp(Object Sender, KeyEventArgs EventArguments)
         {
-            if((EventArguments.KeyCode == Keys.W) || (EventArguments.KeyCode == Keys.S))
+            if(EventArguments.KeyCode == Keys.W)
             {
-                _CameraVelocity.Y = 0.0;
+                _CameraVelocity.Y -= 500.0 / Data.BlockHeight;
+                _WPressed = false;
             }
-            else if((EventArguments.KeyCode == Keys.A) || (EventArguments.KeyCode == Keys.D))
+            else if(EventArguments.KeyCode == Keys.A)
             {
-                _CameraVelocity.X = 0.0;
+                _CameraVelocity.X += 500.0 / Data.BlockWidth;
+                _APressed = false;
+            }
+            else if(EventArguments.KeyCode == Keys.S)
+            {
+                _CameraVelocity.Y += 500.0 / Data.BlockHeight;
+                _SPressed = false;
+            }
+            else if(EventArguments.KeyCode == Keys.D)
+            {
+                _CameraVelocity.X -= 500.0 / Data.BlockWidth;
+                _DPressed = false;
             }
         }
 
@@ -855,6 +893,7 @@ namespace ButtonOffice
         {
             // uncheck all buttons
             _UncheckAllToolButtons();
+            _CameraPosition = new Vector2(0.0, 0.0);
             _CameraVelocity = new Vector2(0.0, 0.0);
             _FloatingTexts.Clear();
             _Game.OnEarnMoney += delegate(UInt64 Cents, PointF Location)
@@ -881,7 +920,6 @@ namespace ButtonOffice
                                   };
             _EntityPrototype = null;
             _DragPoint = new Point?();
-            _DrawingOffset = new Point(_DrawingBoard.Width / 2, Convert.ToInt32(2 * Data.BlockHeight));
             _LastTick = DateTime.MinValue;
             _MoveButton = null;
             _MovePerson = null;
