@@ -25,7 +25,7 @@ namespace ButtonOffice
 
         public Vector2 GetMidLocation()
         {
-            return _Rectangle.GetMidPointDouble();
+            return _Rectangle.GetMidPoint();
         }
 
         public RectangleF GetVisualRectangle()

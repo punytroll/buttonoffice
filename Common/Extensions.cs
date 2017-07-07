@@ -186,12 +186,4 @@ public static class Extensions
 
         return Result;
     }
-
-    /// <summary>
-    /// Return a PointF value with the mid point coordinates of the rectangle.
-    /// </summary>
-    public static PointF GetMidPointSingle(this RectangleF Rectangle)
-    {
-        return new PointF(Rectangle.X + Rectangle.Width / 2.0f, Rectangle.Y + Rectangle.Height / 2.0f);
-    }
 }

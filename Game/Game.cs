@@ -219,7 +219,7 @@ namespace ButtonOffice
         {
             if(_Cents >= Data.AccountantHireCost)
             {
-                var Desk = GetDesk(Rectangle.GetMidPointDouble());
+                var Desk = GetDesk(Rectangle.GetMidPoint());
 
                 if((Desk != null) && (Desk.IsFree() == true))
                 {
@@ -246,7 +246,7 @@ namespace ButtonOffice
         {
             if(_Cents >= Data.WorkerHireCost)
             {
-                var Desk = GetDesk(Rectangle.GetMidPointDouble());
+                var Desk = GetDesk(Rectangle.GetMidPoint());
 
                 if((Desk != null) && (Desk.IsFree() == true))
                 {
@@ -273,7 +273,7 @@ namespace ButtonOffice
         {
             if(_Cents >= Data.ITTechHireCost)
             {
-                var Desk = GetDesk(Rectangle.GetMidPointDouble());
+                var Desk = GetDesk(Rectangle.GetMidPoint());
 
                 if((Desk != null) && (Desk.IsFree() == true))
                 {
@@ -300,7 +300,7 @@ namespace ButtonOffice
         {
             if(_Cents >= Data.JanitorHireCost)
             {
-                var Desk = GetDesk(Rectangle.GetMidPointDouble());
+                var Desk = GetDesk(Rectangle.GetMidPoint());
 
                 if((Desk != null) && (Desk.IsFree() == true))
                 {
@@ -347,7 +347,7 @@ namespace ButtonOffice
         {
             if(_CatStock > 0)
             {
-                var Office = GetOffice(Rectangle.GetMidPointDouble());
+                var Office = GetOffice(Rectangle.GetMidPoint());
 
                 if((Office != null) && (Office.Cat == null))
                 {
