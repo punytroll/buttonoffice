@@ -20,11 +20,6 @@ namespace ButtonOffice
             return _Rectangle.Height;
         }
 
-        public PointF GetMidLocation()
-        {
-            return _Rectangle.GetMidPoint();
-        }
-
         public Double GetMinutesUntilBroken()
         {
             return _MinutesUntilBroken;

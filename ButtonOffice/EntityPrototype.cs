@@ -94,16 +94,17 @@ namespace ButtonOffice
             return _Rectangle.Width;
         }
 
-        public void SetLocationFromGamingLocation(PointF Location)
+        public void SetLocationFromGamingLocation(Vector2 Location)
         {
             if(_SnapToBlocksHorizontally == true)
             {
-                _Rectangle.Location = new PointF((Location.X - (_Rectangle.Width / 2.0f)).GetRounded(), (Location.Y - _Rectangle.Height / 2.0f).GetRounded());
+                _Rectangle.X = (Location.X.ToSingle() - (_Rectangle.Width / 2.0f)).GetRounded();
             }
             else
             {
-                _Rectangle.Location = new PointF(Location.X - (_Rectangle.Width / 2.0f), (Location.Y - _Rectangle.Height / 2.0f).GetRounded());
+                _Rectangle.X = Location.X.ToSingle() - (_Rectangle.Width / 2.0f);
             }
+            _Rectangle.Y = (Location.Y.ToSingle() - _Rectangle.Height / 2.0f).GetRounded();
             _HasLocation = true;
         }
 

@@ -9,23 +9,23 @@ namespace ButtonOffice
         protected Color _BorderColor;
         protected RectangleF _Rectangle;
 
-        public Boolean Contains(PointF Location)
-        {
-            return (Location.X >= _Rectangle.X) && (Location.X <= _Rectangle.X + _Rectangle.Width) && (Location.Y >= _Rectangle.Y) && (Location.Y <= _Rectangle.Y + _Rectangle.Height);
-        }
-
         public Color BackgroundColor => _BackgroundColor;
 
         public Color BorderColor => _BorderColor;
+
+        public Boolean Contains(Vector2 Location)
+        {
+            return (Location.X >= _Rectangle.X) && (Location.X <= _Rectangle.X + _Rectangle.Width) && (Location.Y >= _Rectangle.Y) && (Location.Y <= _Rectangle.Y + _Rectangle.Height);
+        }
 
         public Single GetHeight()
         {
             return _Rectangle.Height;
         }
 
-        public PointF GetMidLocation()
+        public Vector2 GetMidLocation()
         {
-            return _Rectangle.GetMidPoint();
+            return _Rectangle.GetMidPointDouble();
         }
 
         public RectangleF GetVisualRectangle()

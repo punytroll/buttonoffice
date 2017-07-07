@@ -8,7 +8,7 @@ namespace ButtonOffice
 {
     public class Game : PersistentObject
     {
-        public delegate void MoneyChangeDelegate(UInt64 Cents, PointF Location);
+        public delegate void MoneyChangeDelegate(UInt64 Cents, Vector2 Location);
         public event MoneyChangeDelegate OnEarnMoney;
         public event MoneyChangeDelegate OnSpendMoney;
 
@@ -117,13 +117,13 @@ namespace ButtonOffice
             return _CatStock;
         }
 
-        public void EarnMoney(UInt64 Cents, PointF Location)
+        public void EarnMoney(UInt64 Cents, Vector2 Location)
         {
             _Cents += Cents;
             OnEarnMoney?.Invoke(Cents, Location);
         }
 
-        public void SpendMoney(UInt64 Cents, PointF Location)
+        public void SpendMoney(UInt64 Cents, Vector2 Location)
         {
             _Cents -= Cents;
             OnSpendMoney?.Invoke(Cents, Location);
@@ -219,7 +219,7 @@ namespace ButtonOffice
         {
             if(_Cents >= Data.AccountantHireCost)
             {
-                var Desk = GetDesk(Rectangle.GetMidPoint());
+                var Desk = GetDesk(Rectangle.GetMidPointDouble());
 
                 if((Desk != null) && (Desk.IsFree() == true))
                 {
@@ -246,7 +246,7 @@ namespace ButtonOffice
         {
             if(_Cents >= Data.WorkerHireCost)
             {
-                var Desk = GetDesk(Rectangle.GetMidPoint());
+                var Desk = GetDesk(Rectangle.GetMidPointDouble());
 
                 if((Desk != null) && (Desk.IsFree() == true))
                 {
@@ -273,7 +273,7 @@ namespace ButtonOffice
         {
             if(_Cents >= Data.ITTechHireCost)
             {
-                var Desk = GetDesk(Rectangle.GetMidPoint());
+                var Desk = GetDesk(Rectangle.GetMidPointDouble());
 
                 if((Desk != null) && (Desk.IsFree() == true))
                 {
@@ -300,7 +300,7 @@ namespace ButtonOffice
         {
             if(_Cents >= Data.JanitorHireCost)
             {
-                var Desk = GetDesk(Rectangle.GetMidPoint());
+                var Desk = GetDesk(Rectangle.GetMidPointDouble());
 
                 if((Desk != null) && (Desk.IsFree() == true))
                 {
@@ -347,7 +347,7 @@ namespace ButtonOffice
         {
             if(_CatStock > 0)
             {
-                var Office = GetOffice(Rectangle.Location);
+                var Office = GetOffice(Rectangle.GetMidPointDouble());
 
                 if((Office != null) && (Office.Cat == null))
                 {
@@ -364,7 +364,7 @@ namespace ButtonOffice
             return false;
         }
 
-        public Office GetOffice(PointF Location)
+        public Office GetOffice(Vector2 Location)
         {
             foreach(var Office in _Offices)
             {
@@ -377,11 +377,11 @@ namespace ButtonOffice
             return null;
         }
 
-        private Desk _GetDesk(Office Office, PointF Location)
+        private Desk _GetDesk(Office Office, Vector2 Location)
         {
             Debug.Assert(Office != null);
 
-            var NearestDeskDistanceSquared = Single.MaxValue;
+            var NearestDeskDistanceSquared = Double.MaxValue;
             Desk NearestDesk = null;
             var DeskDistanceSquared = Office.FirstDesk.GetMidLocation().GetDistanceSquared(Location);
 
@@ -444,7 +444,7 @@ namespace ButtonOffice
             Person.AssignDesk(Desk);
         }
 
-        public Desk GetDesk(PointF Location)
+        public Desk GetDesk(Vector2 Location)
         {
             var Office = GetOffice(Location);
 

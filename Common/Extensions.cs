@@ -61,6 +61,14 @@ public static class Extensions
     }
 
     /// <summary>
+    /// Rounds the Double value towards −∞ and converts it to an Int32 value.
+    /// </summary>
+    public static Int32 GetFlooredAsInt32(this Double Double)
+    {
+        return Convert.ToInt32(Math.Floor(Double));
+    }
+
+    /// <summary>
     /// Rounds the Double value towards the nearest Int32 value.
     /// </summary>
     public static Int32 GetNearestInt32(this Double Double)
@@ -182,7 +190,7 @@ public static class Extensions
     /// <summary>
     /// Return a PointF value with the mid point coordinates of the rectangle.
     /// </summary>
-    public static PointF GetMidPoint(this RectangleF Rectangle)
+    public static PointF GetMidPointSingle(this RectangleF Rectangle)
     {
         return new PointF(Rectangle.X + Rectangle.Width / 2.0f, Rectangle.Y + Rectangle.Height / 2.0f);
     }

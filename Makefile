@@ -19,6 +19,7 @@ COMMON_SOURCES = \
 GAME_SOURCES = \
 	Game/Basics/AssertMessages.cs \
 	Game/Basics/Enumerations.cs \
+	Game/Basics/Extensions.cs \
 	Game/Basics/RandomNumberGenerator.cs \
 	Game/Basics/Vector2.cs \
 	Game/Data/Data.cs \

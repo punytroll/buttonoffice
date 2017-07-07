@@ -7,7 +7,7 @@ namespace ButtonOffice
     {
         private Color _Color;
         private PointF _Offset;
-        private PointF _Origin;
+        private Vector2 _Origin;
         private String _Text;
 
         public Double Timeout
@@ -32,7 +32,7 @@ namespace ButtonOffice
             }
         }
 
-        public PointF Origin
+        public Vector2 Origin
         {
             get
             {
@@ -58,7 +58,7 @@ namespace ButtonOffice
             _Offset = Offset;
         }
 
-        public void SetOrigin(PointF Origin)
+        public void SetOrigin(Vector2 Origin)
         {
             _Origin = Origin;
         }

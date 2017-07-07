@@ -65,6 +65,11 @@ namespace ButtonOffice
             _Desk.SetPerson(this);
         }
 
+        public Boolean Contains(Vector2 Location)
+        {
+            return (Math.Abs(_X - Location.X) <= _Width) && (Location.Y >= _Y) && (Location.Y <= _Y + _Height);
+        }
+
         public void Fire()
         {
             Debug.Assert(_Desk != null);
@@ -117,9 +122,9 @@ namespace ButtonOffice
             return _LivingSide;
         }
 
-        public PointF GetMidLocation()
+        public Vector2 GetMidLocation()
         {
-            return new PointF(Convert.ToSingle(_X), Convert.ToSingle(_Y + _Height / 2.0));
+            return new Vector2(_X, _Y + _Height / 2.0);
         }
 
         public RectangleF GetVisualRectangle()

@@ -72,9 +72,9 @@ namespace ButtonOffice
             return _Rectangle.Location;
         }
 
-        public PointF GetMidLocation()
+        public Vector2 GetMidLocation()
         {
-            return new PointF(_Rectangle.X + _Rectangle.Width / 2.0f, _Rectangle.Y + _Rectangle.Height / 2.0f);
+            return new Vector2(_Rectangle.X + _Rectangle.Width / 2.0, _Rectangle.Y + _Rectangle.Height / 2.0);
         }
 
         public Person GetPerson()

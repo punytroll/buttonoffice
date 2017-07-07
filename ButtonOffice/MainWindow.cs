@@ -279,7 +279,7 @@ namespace ButtonOffice
                     {
                         foreach(var Person in _Game.Persons)
                         {
-                            if(Person.GetVisualRectangle().Contains(GamingLocation) == true)
+                            if(Person.Contains(GamingLocation) == true)
                             {
                                 _SelectedObject = Person;
 
@@ -660,6 +660,11 @@ namespace ButtonOffice
         {
             return new Point(_GetDrawingX(GamingLocation.X), _GetDrawingY(GamingLocation.Y));
         }
+
+        private Point _GetDrawingLocation(Vector2 GamingLocation)
+        {
+            return new Point(_GetDrawingX(GamingLocation.X.ToSingle()), _GetDrawingY(GamingLocation.Y.ToSingle()));
+        }
         #endregion
 
         #region Coordinate system transformations: Draw -> Game
@@ -673,19 +678,19 @@ namespace ButtonOffice
             return DrawingWidth / Data.BlockWidth / _Zoom;
         }
 
-        private Single _GetGamingX(Int32 DrawingX)
+        private Double _GetGamingX(Double DrawingX)
         {
-            return (_CameraPosition.X + (DrawingX.ToDouble() - _DrawingBoard.Width.ToDouble() / 2.0) / Data.BlockWidth.ToDouble() / _Zoom).ToSingle();
+            return _CameraPosition.X + (DrawingX - _DrawingBoard.Width.ToDouble() / 2.0) / Data.BlockWidth.ToDouble() / _Zoom;
         }
 
-        private Single _GetGamingY(Int32 DrawingY)
+        private Double _GetGamingY(Double DrawingY)
         {
-            return (_CameraPosition.Y + (_DrawingBoard.Height.ToDouble() / 2.0 - DrawingY.ToDouble()) / Data.BlockHeight.ToDouble() / _Zoom).ToSingle();
+            return _CameraPosition.Y + (_DrawingBoard.Height.ToDouble() / 2.0 - DrawingY) / Data.BlockHeight.ToDouble() / _Zoom;
         }
 
-        private PointF _GetGamingLocation(Point DrawingLocation)
+        private Vector2 _GetGamingLocation(Point DrawingLocation)
         {
-            return new PointF(_GetGamingX(DrawingLocation.X), _GetGamingY(DrawingLocation.Y));
+            return new Vector2(_GetGamingX(DrawingLocation.X), _GetGamingY(DrawingLocation.Y));
         }
         #endregion
 
@@ -896,7 +901,7 @@ namespace ButtonOffice
             _CameraPosition = new Vector2(0.0, 0.0);
             _CameraVelocity = new Vector2(0.0, 0.0);
             _FloatingTexts.Clear();
-            _Game.OnEarnMoney += delegate(UInt64 Cents, PointF Location)
+            _Game.OnEarnMoney += delegate(UInt64 Cents, Vector2 Location)
                                  {
                                      var FloatingText = new FloatingText();
 
@@ -907,7 +912,7 @@ namespace ButtonOffice
                                      FloatingText.Timeout = 1.2;
                                      _FloatingTexts.Add(FloatingText);
                                  };
-            _Game.OnSpendMoney += delegate(UInt64 Cents, PointF Location)
+            _Game.OnSpendMoney += delegate(UInt64 Cents, Vector2 Location)
                                   {
                                       var FloatingText = new FloatingText();
 
