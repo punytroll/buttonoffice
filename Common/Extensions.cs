@@ -13,6 +13,14 @@ public static class Extensions
     }
 
     /// <summary>
+    /// Converts the UInt32 value to a Double value.
+    /// </summary>
+    public static Double ToDouble(this UInt32 UInt32)
+    {
+        return Convert.ToDouble(UInt32);
+    }
+
+    /// <summary>
     /// Converts the Int32 value to a Single value.
     /// </summary>
     public static Single ToSingle(this Int32 Int32)
