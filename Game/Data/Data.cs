@@ -19,8 +19,8 @@ namespace ButtonOffice
         public static readonly Single BathroomBlockWidth = 10.0f;
         public static readonly Color BathroomBorderColor = Color.FromArgb(255, 0, 0, 0);
         public static readonly UInt64 BathroomBuildCost = 250000ul;
-        public static readonly UInt32 BlockHeight = 50;
-        public static readonly UInt32 BlockWidth = 20;
+        public static readonly Double BlockHeight = 50.0;
+        public static readonly Double BlockWidth = 20.0;
         public static readonly Color BuildingBackgroundColor = Color.FromArgb(255, 220, 220, 230);
         public static readonly Color BuildingBorderColor = Color.FromArgb(255, 0, 0, 0);
         public static readonly Color CatBackgroundColor = Color.FromArgb(255, 0, 0, 0);

@@ -431,7 +431,7 @@ namespace ButtonOffice
                     break;
                 }
             }
-            EventArguments.Graphics.FillRectangle(new SolidBrush(Data.GroundColor), 0, _GetDrawingY(0), _DrawingBoard.Width, _DrawingBoard.Height);
+            EventArguments.Graphics.FillRectangle(new SolidBrush(Data.GroundColor), 0, _GetDrawingY(0).GetNearestInt32(), _DrawingBoard.Width, _DrawingBoard.Height);
             foreach(var Building in _Game.Buildings)
             {
                 _DrawRectangle(EventArguments.Graphics, Building.GetVisualRectangle(), Building.BackgroundColor, Building.BorderColor);
@@ -616,24 +616,24 @@ namespace ButtonOffice
         }
 
         #region Coordinate system transformations: Game -> Draw
-        private Int32 _GetDrawingHeight(Single GamingHeight)
+        private Double _GetDrawingHeight(Double GamingHeight)
         {
-            return (GamingHeight * Data.BlockHeight.ToSingle() * _Zoom).GetNearestInt32();
+            return GamingHeight * Data.BlockHeight * _Zoom;
         }
 
-        private Int32 _GetDrawingWidth(Single GamingWidth)
+        private Double _GetDrawingWidth(Double GamingWidth)
         {
-            return (GamingWidth * Data.BlockWidth.ToSingle() * _Zoom).GetNearestInt32();
+            return GamingWidth * Data.BlockWidth * _Zoom;
         }
 
-        private Int32 _GetDrawingY(Single GamingY)
+        private Double _GetDrawingY(Double GamingY)
         {
-            return (_DrawingBoard.Height / 2) - ((GamingY - _CameraPosition.Y) * Data.BlockHeight * _Zoom).GetNearestInt32();
+            return (_DrawingBoard.Height.ToDouble() / 2.0) - (GamingY - _CameraPosition.Y) * Data.BlockHeight * _Zoom;
         }
 
-        private Int32 _GetDrawingX(Single GamingX)
+        private Double _GetDrawingX(Double GamingX)
         {
-            return ((GamingX - _CameraPosition.X) * Data.BlockWidth * _Zoom).GetNearestInt32() + _DrawingBoard.Width / 2;
+            return _DrawingBoard.Width.ToDouble() / 2.0 + (GamingX - _CameraPosition.X) * Data.BlockWidth * _Zoom;
         }
 
         private Rectangle _GetDrawingRectangle(RectangleF GamingRectangle)
@@ -646,24 +646,24 @@ namespace ButtonOffice
 
         private Rectangle _GetDrawingRectangle(Single GamingX, Single GamingY, Single GamingWidth, Single GamingHeight)
         {
-            var DrawingHeight = _GetDrawingHeight(GamingHeight);
+            var DrawingHeight = _GetDrawingHeight(GamingHeight).GetNearestInt32();
 
-            return new Rectangle(_GetDrawingX(GamingX), _GetDrawingY(GamingY) - DrawingHeight, _GetDrawingWidth(GamingWidth), DrawingHeight);
+            return new Rectangle(_GetDrawingX(GamingX).GetNearestInt32(), _GetDrawingY(GamingY).GetNearestInt32() - DrawingHeight, _GetDrawingWidth(GamingWidth).GetNearestInt32(), DrawingHeight);
         }
 
         private Size _GetDrawingSize(SizeF GamingSize)
         {
-            return new Size(_GetDrawingWidth(GamingSize.Width), _GetDrawingHeight(GamingSize.Height));
+            return new Size(_GetDrawingWidth(GamingSize.Width).GetNearestInt32(), _GetDrawingHeight(GamingSize.Height).GetNearestInt32());
         }
 
         private Point _GetDrawingLocation(PointF GamingLocation)
         {
-            return new Point(_GetDrawingX(GamingLocation.X), _GetDrawingY(GamingLocation.Y));
+            return new Point(_GetDrawingX(GamingLocation.X).GetNearestInt32(), _GetDrawingY(GamingLocation.Y).GetNearestInt32());
         }
 
         private Point _GetDrawingLocation(Vector2 GamingLocation)
         {
-            return new Point(_GetDrawingX(GamingLocation.X.ToSingle()), _GetDrawingY(GamingLocation.Y.ToSingle()));
+            return new Point(_GetDrawingX(GamingLocation.X).GetNearestInt32(), _GetDrawingY(GamingLocation.Y).GetNearestInt32());
         }
         #endregion
 
@@ -680,12 +680,12 @@ namespace ButtonOffice
 
         private Double _GetGamingX(Double DrawingX)
         {
-            return _CameraPosition.X + (DrawingX - _DrawingBoard.Width.ToDouble() / 2.0) / Data.BlockWidth.ToDouble() / _Zoom;
+            return _CameraPosition.X + (DrawingX - _DrawingBoard.Width.ToDouble() / 2.0) / Data.BlockWidth / _Zoom;
         }
 
         private Double _GetGamingY(Double DrawingY)
         {
-            return _CameraPosition.Y + (_DrawingBoard.Height.ToDouble() / 2.0 - DrawingY) / Data.BlockHeight.ToDouble() / _Zoom;
+            return _CameraPosition.Y + (_DrawingBoard.Height.ToDouble() / 2.0 - DrawingY) / Data.BlockHeight / _Zoom;
         }
 
         private Vector2 _GetGamingLocation(Point DrawingLocation)
