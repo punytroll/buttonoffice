@@ -17,8 +17,12 @@ COMMON_SOURCES = \
 	Common/ReferencePriorityQueueByList.cs
 
 GAME_SOURCES = \
+	Game/Basics/AssertMessages.cs \
+	Game/Basics/Enumerations.cs \
+	Game/Basics/RandomNumberGenerator.cs \
+	Game/Basics/Vector2.cs \
 	Game/Data/Data.cs \
-	Game/Goals/FindPathToLocation.cs \
+	Game/Goals/TravelToLocation.cs \
 	Game/Goals/UseStairs.cs \
 	Game/Goals/WalkOnSameFloor.cs \
 	Game/Persistence/GameLoader.cs \
@@ -31,13 +35,11 @@ GAME_SOURCES = \
 	Game/Transportation/Node.cs \
 	Game/Transportation/Transportations.cs \
 	Game/Accountant.cs \
-	Game/AssertMessages.cs \
 	Game/Bathroom.cs \
 	Game/Building.cs \
 	Game/Cat.cs \
 	Game/Computer.cs \
 	Game/Desk.cs \
-	Game/Enumerations.cs \
 	Game/Game.cs \
 	Game/Goal.cs \
 	Game/Goals.cs \
@@ -47,9 +49,7 @@ GAME_SOURCES = \
 	Game/Mind.cs \
 	Game/Office.cs \
 	Game/Person.cs \
-	Game/RandomNumberGenerator.cs \
 	Game/Stairs.cs \
-	Game/Vector2.cs \
 	Game/Worker.cs
 
 SOURCES = \
