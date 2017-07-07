@@ -8,7 +8,7 @@ namespace ButtonOffice
 {
     internal partial class MainWindow
     {
-        private PointF _CameraVelocity;
+        private Vector2 _CameraVelocity;
         private readonly List<FloatingText> _FloatingTexts;
         private Person _MovePerson;
         private Game _Game;
@@ -418,8 +418,8 @@ namespace ButtonOffice
 
         private void _OnDrawingBoardPaint(Object Sender, PaintEventArgs EventArguments)
         {
-            _DrawingOffset.X += _CameraVelocity.X.GetFlooredAsInt32();
-            _DrawingOffset.Y += _CameraVelocity.Y.GetFlooredAsInt32();
+            _DrawingOffset.X += _CameraVelocity.X.GetNearestInt32();
+            _DrawingOffset.Y += _CameraVelocity.Y.GetNearestInt32();
             for(var Row = _Game.LowestFloor; Row < _Game.HighestFloor; ++Row)
             {
                 var BuildingMinimumMaximum = _Game.GetBuildingMinimumMaximum(Row);
@@ -753,19 +753,19 @@ namespace ButtonOffice
         {
             if(EventArguments.KeyCode == Keys.W)
             {
-                _CameraVelocity.Y = -10;
+                _CameraVelocity.Y = -10.0;
             }
             else if(EventArguments.KeyCode == Keys.A)
             {
-                _CameraVelocity.X = 10;
+                _CameraVelocity.X = 10.0;
             }
             else if(EventArguments.KeyCode == Keys.S)
             {
-                _CameraVelocity.Y = 10;
+                _CameraVelocity.Y = 10.0;
             }
             else if(EventArguments.KeyCode == Keys.D)
             {
-                _CameraVelocity.X = -10;
+                _CameraVelocity.X = -10.0;
             }
             else if(EventArguments.KeyCode == Keys.Escape)
             {
@@ -782,21 +782,13 @@ namespace ButtonOffice
 
         private void _DrawingBoardKeyUp(Object Sender, KeyEventArgs EventArguments)
         {
-            if(EventArguments.KeyCode == Keys.W)
+            if((EventArguments.KeyCode == Keys.W) || (EventArguments.KeyCode == Keys.S))
             {
-                _CameraVelocity.Y = 0;
+                _CameraVelocity.Y = 0.0;
             }
-            else if(EventArguments.KeyCode == Keys.A)
+            else if((EventArguments.KeyCode == Keys.A) || (EventArguments.KeyCode == Keys.D))
             {
-                _CameraVelocity.X = 0;
-            }
-            else if(EventArguments.KeyCode == Keys.S)
-            {
-                _CameraVelocity.Y = 0;
-            }
-            else if(EventArguments.KeyCode == Keys.D)
-            {
-                _CameraVelocity.X = 0;
+                _CameraVelocity.X = 0.0;
             }
         }
 
@@ -865,7 +857,7 @@ namespace ButtonOffice
         {
             // uncheck all buttons
             _UncheckAllToolButtons();
-            _CameraVelocity = new PointF(0.0f, 0.0f);
+            _CameraVelocity = new Vector2(0.0, 0.0);
             _FloatingTexts.Clear();
             _Game.OnEarnMoney += delegate(UInt64 Cents, PointF Location)
                                  {
