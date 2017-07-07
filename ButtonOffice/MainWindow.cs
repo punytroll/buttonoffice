@@ -728,14 +728,7 @@ namespace ButtonOffice
                     {
                         _PlaceCatButton.Enabled = true;
                     }
-                    if(_Game.GetCatStock() == 1)
-                    {
-                        _PlaceCatButton.Text = "Cat (1)";
-                    }
-                    else
-                    {
-                        _PlaceCatButton.Text = "Cat (" + _Game.GetCatStock() + ")";
-                    }
+                    _PlaceCatButton.Text = $"Cat ({_Game.GetCatStock()})";
                 }
                 else
                 {
