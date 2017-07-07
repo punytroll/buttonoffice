@@ -9,6 +9,11 @@ namespace ButtonOffice
         protected Color _BorderColor;
         protected RectangleF _Rectangle;
 
+        public Boolean Contains(PointF Location)
+        {
+            return (Location.X >= _Rectangle.X) && (Location.X <= _Rectangle.X + _Rectangle.Width) && (Location.Y >= _Rectangle.Y) && (Location.Y <= _Rectangle.Y + _Rectangle.Height);
+        }
+
         public Color GetBackgroundColor()
         {
             return _BackgroundColor;
@@ -29,7 +34,7 @@ namespace ButtonOffice
             return _Rectangle.GetMidPoint();
         }
 
-        public RectangleF GetRectangle()
+        public RectangleF GetVisualRectangle()
         {
             return _Rectangle;
         }
@@ -57,12 +62,6 @@ namespace ButtonOffice
         public void SetHeight(Single Height)
         {
             _Rectangle.Height = Height;
-            _UpdateInterior();
-        }
-
-        public void SetRectangle(RectangleF Rectangle)
-        {
-            _Rectangle = Rectangle;
             _UpdateInterior();
         }
 

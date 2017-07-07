@@ -152,7 +152,10 @@ namespace ButtonOffice
             {
                 var Bathroom = new Bathroom();
 
-                Bathroom.SetRectangle(Rectangle);
+                Bathroom.SetHeight(Rectangle.Height);
+                Bathroom.SetWidth(Rectangle.Width);
+                Bathroom.SetX(Rectangle.X);
+                Bathroom.SetY(Rectangle.Y);
                 _Build(Data.BathroomBuildCost, Bathroom);
 
                 return true;
@@ -169,7 +172,10 @@ namespace ButtonOffice
             {
                 var Office = new Office();
 
-                Office.SetRectangle(Rectangle);
+                Office.SetHeight(Rectangle.Height);
+                Office.SetWidth(Rectangle.Width);
+                Office.SetX(Rectangle.X);
+                Office.SetY(Rectangle.Y);
                 _Build(Data.OfficeBuildCost, Office);
                 _Offices.Add(Office);
 
@@ -187,7 +193,10 @@ namespace ButtonOffice
             {
                 var Stairs = new Stairs();
 
-                Stairs.SetRectangle(Rectangle);
+                Stairs.SetHeight(Rectangle.Height);
+                Stairs.SetWidth(Rectangle.Width);
+                Stairs.SetX(Rectangle.X);
+                Stairs.SetY(Rectangle.Y);
                 _Build(Data.StairsBuildCost, Stairs);
 
                 return true;
@@ -202,7 +211,7 @@ namespace ButtonOffice
         {
             if(_Cents >= Data.AccountantHireCost)
             {
-                var Desk = GetDesk(Rectangle.Location);
+                var Desk = GetDesk(Rectangle.GetMidPoint());
 
                 if((Desk != null) && (Desk.IsFree() == true))
                 {
@@ -229,7 +238,7 @@ namespace ButtonOffice
         {
             if(_Cents >= Data.WorkerHireCost)
             {
-                var Desk = GetDesk(Rectangle.Location);
+                var Desk = GetDesk(Rectangle.GetMidPoint());
 
                 if((Desk != null) && (Desk.IsFree() == true))
                 {
@@ -256,7 +265,7 @@ namespace ButtonOffice
         {
             if(_Cents >= Data.ITTechHireCost)
             {
-                var Desk = GetDesk(Rectangle.Location);
+                var Desk = GetDesk(Rectangle.GetMidPoint());
 
                 if((Desk != null) && (Desk.IsFree() == true))
                 {
@@ -283,7 +292,7 @@ namespace ButtonOffice
         {
             if(_Cents >= Data.JanitorHireCost)
             {
-                var Desk = GetDesk(Rectangle.Location);
+                var Desk = GetDesk(Rectangle.GetMidPoint());
 
                 if((Desk != null) && (Desk.IsFree() == true))
                 {
@@ -351,7 +360,7 @@ namespace ButtonOffice
         {
             foreach(var Office in _Offices)
             {
-                if(Office.GetRectangle().Contains(Location) == true)
+                if(Office.Contains(Location) == true)
                 {
                     return Office;
                 }
@@ -467,8 +476,8 @@ namespace ButtonOffice
         public void UpdateBuilding(UInt64 Cost, Building Building)
         {
             SpendMoney(Cost, Building.GetMidLocation());
-            _OccupyFreeSpace(Building.GetRectangle());
-            _WidenBuilding(Building.GetRectangle());
+            _OccupyFreeSpace(Building.GetX(), Building.GetWidth(), Building.GetY(), Building.GetHeight());
+            _WidenBuilding(Building.GetX(), Building.GetWidth(), Building.GetY(), Building.GetHeight());
         }
 
         public Boolean CanBuild(UInt64 Cost, RectangleF Rectangle)
@@ -525,28 +534,28 @@ namespace ButtonOffice
             }
         }
 
-        private void _OccupyFreeSpace(RectangleF Rectangle)
+        private void _OccupyFreeSpace(Single X, Single Width, Single Y, Single Height)
         {
-            for(var Row = 0; Row < Rectangle.Height.GetFlooredAsInt32(); ++Row)
+            for(var Row = 0; Row < Height.GetNearestInt32(); ++Row)
             {
-                for(var Column = 0; Column < Rectangle.Width.GetFlooredAsInt32(); ++Column)
+                for(var Column = 0; Column < Width.GetNearestInt32(); ++Column)
                 {
-                    _FreeSpace[Rectangle.Y.GetFlooredAsInt32() + Row][Rectangle.X.GetFlooredAsInt32() + Column] = false;
+                    _FreeSpace[Y.GetNearestInt32() + Row][X.GetNearestInt32() + Column] = false;
                 }
             }
         }
 
-        private void _WidenBuilding(RectangleF Rectangle)
+        private void _WidenBuilding(Single X, Single Width, Single Y, Single Height)
         {
-            for(var Row = 0; Row < Rectangle.Height.GetFlooredAsInt32(); ++Row)
+            for(var Row = 0; Row < Height.GetNearestInt32(); ++Row)
             {
-                if(_BuildingMinimumMaximum[Rectangle.Y.GetFlooredAsInt32() + Row].First > Rectangle.X.GetFlooredAsInt32())
+                if(_BuildingMinimumMaximum[Y.GetNearestInt32() + Row].First > X.GetNearestInt32())
                 {
-                    _BuildingMinimumMaximum[Rectangle.Y.GetFlooredAsInt32() + Row].First = Rectangle.X.GetFlooredAsInt32();
+                    _BuildingMinimumMaximum[Y.GetNearestInt32() + Row].First = X.GetNearestInt32();
                 }
-                if(_BuildingMinimumMaximum[Rectangle.Y.GetFlooredAsInt32() + Row].Second < Rectangle.Right.GetFlooredAsInt32())
+                if(_BuildingMinimumMaximum[Y.GetNearestInt32() + Row].Second < (X + Width).GetNearestInt32())
                 {
-                    _BuildingMinimumMaximum[Rectangle.Y.GetFlooredAsInt32() + Row].Second = Rectangle.Right.GetFlooredAsInt32();
+                    _BuildingMinimumMaximum[Y.GetNearestInt32() + Row].Second = (X + Width).GetNearestInt32();
                 }
             }
         }
@@ -607,11 +616,11 @@ namespace ButtonOffice
             else if(Building is Stairs)
             {
                 var Stairs = (Stairs)Building;
-                
+
                 Stairs.UpdateTransportation(this);
             }
-            _OccupyFreeSpace(Building.GetRectangle());
-            _WidenBuilding(Building.GetRectangle());
+            _OccupyFreeSpace(Building.GetX(), Building.GetWidth(), Building.GetY(), Building.GetHeight());
+            _WidenBuilding(Building.GetX(), Building.GetWidth(), Building.GetY(), Building.GetHeight());
         }
     }
 }
