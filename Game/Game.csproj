@@ -65,6 +65,7 @@
   <ItemGroup>
     <Compile Include="Accountant.cs" />
     <Compile Include="Basics\AssertMessages.cs" />
+    <Compile Include="Basics\Extensions.cs" />
     <Compile Include="Bathroom.cs" />
     <Compile Include="Building.cs" />
     <Compile Include="Cat.cs" />

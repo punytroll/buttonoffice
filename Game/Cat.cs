@@ -13,29 +13,11 @@ namespace ButtonOffice
         private Office _Office;
         private RectangleF _Rectangle;
 
-        public Color BackgroundColor
-        {
-            get
-            {
-                return _BackgroundColor;
-            }
-        }
+        public Color BackgroundColor => _BackgroundColor;
 
-        public Color BorderColor
-        {
-            get
-            {
-                return _BorderColor;
-            }
-        }
+        public Color BorderColor => _BorderColor;
 
-        public Office Office
-        {
-            get
-            {
-                return _Office;
-            }
-        }
+        public Office Office => _Office;
 
         public Cat()
         {
