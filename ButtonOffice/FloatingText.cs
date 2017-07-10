@@ -6,7 +6,7 @@ namespace ButtonOffice
     internal class FloatingText
     {
         private Color _Color;
-        private PointF _Offset;
+        private Vector2 _Offset;
         private Vector2 _Origin;
         private String _Text;
 
@@ -24,7 +24,7 @@ namespace ButtonOffice
             }
         }
 
-        public PointF Offset
+        public Vector2 Offset
         {
             get
             {
@@ -53,7 +53,7 @@ namespace ButtonOffice
             _Color = Color;
         }
 
-        public void SetOffset(PointF Offset)
+        public void SetOffset(Vector2 Offset)
         {
             _Offset = Offset;
         }

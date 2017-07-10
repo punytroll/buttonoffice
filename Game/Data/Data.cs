@@ -40,7 +40,7 @@ namespace ButtonOffice
         public static readonly Single DeskTwoX = 4.325f;
         public static readonly Single DeskWidth = 2.6f;
         public static readonly Color EarnMoneyFloatingTextColor = Color.FromArgb(220, 20, 220, 20);
-        public static readonly Single FloatingTextSpeed = 30.0f;
+        public static readonly Double FloatingTextSpeed = 30.0;
         public static readonly Single GameMinutesPerSecond = 5;
         public static readonly Color GroundColor = Color.FromArgb(255, 64, 52, 18);
         public static readonly Color ITTechBackgroundColor = Color.FromArgb(255, 255, 120, 255);
