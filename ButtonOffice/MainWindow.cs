@@ -614,7 +614,7 @@ namespace ButtonOffice
 
         private void _DrawFloatingText(Graphics Graphics, Font Font, FloatingText FloatingText)
         {
-            var DrawingLocation = _MovePointByOffset(_GetDrawingLocation(FloatingText.Origin), FloatingText.Offset);
+            var DrawingLocation = _GetDrawingLocation(FloatingText.Origin) + FloatingText.Offset;
             var Format = new StringFormat();
 
             Format.Alignment = StringAlignment.Center;
@@ -697,13 +697,6 @@ namespace ButtonOffice
         private Vector2 _GetGamingLocation(Point DrawingLocation)
         {
             return new Vector2(_GetGamingX(DrawingLocation.X), _GetGamingY(DrawingLocation.Y));
-        }
-        #endregion
-
-        #region Coordinate system helper functions
-        private static Vector2 _MovePointByOffset(Vector2 Point, Vector2 Offset)
-        {
-            return new Vector2(Point.X + Offset.X, Point.Y + Offset.Y);
         }
         #endregion
 

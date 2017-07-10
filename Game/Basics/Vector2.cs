@@ -20,5 +20,10 @@ namespace ButtonOffice
 
             return DeltaX * DeltaX + DeltaY * DeltaY;
         }
+
+        public static Vector2 operator +(Vector2 One, Vector2 Two)
+        {
+            return new Vector2(One.X + Two.X, One.Y + Two.Y);
+        }
     }
 }
