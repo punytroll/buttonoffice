@@ -4,6 +4,7 @@
 - supervisors
 - researchers
 - research branches and topics
+- happiness
 - hr
 - upgrades to offices
 - promotions to people
@@ -22,7 +23,6 @@
 - cafeteria
 - upgrades to toilet, gym, cafeteria
 - building height
-- hapiness
 - noise from elevators
 - decor
 - day and night
