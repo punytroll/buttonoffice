@@ -19,12 +19,6 @@ namespace ButtonOffice
 
             while(CurrentGoal != null)
             {
-                Goal NextGoal = null;
-
-                if(CurrentGoal.HasSubGoals() == true)
-                {
-                    NextGoal = CurrentGoal.GetFirstSubGoal();
-                }
                 if(CurrentGoal.GetState() == GoalState.Pristine)
                 {
                     CurrentGoal.Initialize(Game, Actor);
@@ -72,13 +66,11 @@ namespace ButtonOffice
                     {
                         _RootGoal = null;
                     }
-                    CurrentGoal = null;
-                    NextGoal = null;
                 }
-                if(NextGoal != null)
+                if(CurrentGoal.HasSubGoals() == true)
                 {
                     ParentGoals.Add(CurrentGoal);
-                    CurrentGoal = NextGoal;
+                    CurrentGoal = CurrentGoal.GetFirstSubGoal();
                 }
                 else
                 {
