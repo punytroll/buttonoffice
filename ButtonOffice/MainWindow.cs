@@ -349,33 +349,39 @@ namespace ButtonOffice
                             {
                                 _SelectedObject = Building;
 
-                                var NameCaptionLabel = new Label();
+                                var NameCaptionLabel = new Label
+                                                       {
+                                                           Location = new Point(10, 20),
+                                                           Size = new Size(100, 20),
+                                                           Text = Building.GetType().Name
+                                                       };
 
-                                NameCaptionLabel.Location = new Point(10, 20);
-                                NameCaptionLabel.Size = new Size(100, 20);
-                                NameCaptionLabel.Text = Building.GetType().Name;
                                 _MainSplitContainer.Panel2.Controls.Add(NameCaptionLabel);
-                                if(Building is Stairs)
+                                if(Building is Stairs oStairs)
                                 {
-                                    var ExpandUpwardsButton = new Button();
+                                    var ExpandUpwardsButton = new Button
+                                                              {
+                                                                  Location = new Point(10, 80),
+                                                                  Size = new Size(120, 20),
+                                                                  Text = "Expand upwards"
+                                                              };
 
-                                    ExpandUpwardsButton.Location = new Point(10, 80);
-                                    ExpandUpwardsButton.Size = new Size(120, 20);
-                                    ExpandUpwardsButton.Text = "Expand upwards";
                                     ExpandUpwardsButton.Click += delegate
                                                                  {
-                                                                     (Building as Stairs)?.ExpandUpwards(_Game);
+                                                                     oStairs.ExpandUpwards(_Game);
                                                                  };
                                     _MainSplitContainer.Panel2.Controls.Add(ExpandUpwardsButton);
 
-                                    var ExpandDownwardsButton = new Button();
+                                    var ExpandDownwardsButton = new Button
+                                                                {
+                                                                    Location = new Point(10, 110),
+                                                                    Size = new Size(120, 20),
+                                                                    Text = "Expand downwards"
+                                                                };
 
-                                    ExpandDownwardsButton.Location = new Point(10, 110);
-                                    ExpandDownwardsButton.Size = new Size(120, 20);
-                                    ExpandDownwardsButton.Text = "Expand downwards";
                                     ExpandDownwardsButton.Click += delegate
                                                                    {
-                                                                       (Building as Stairs)?.ExpandDownwards(_Game);
+                                                                       oStairs.ExpandDownwards(_Game);
                                                                    };
                                     _MainSplitContainer.Panel2.Controls.Add(ExpandDownwardsButton);
                                 }
