@@ -554,12 +554,9 @@ namespace ButtonOffice
             }
             using(var FloatingTextFont = new Font("Arial", 16.0f))
             {
-                var Format = new StringFormat();
-
-                Format.Alignment = StringAlignment.Center;
                 foreach(var FloatingText in _FloatingTexts)
                 {
-                    EventArguments.Graphics.DrawString(FloatingText.Text, FloatingTextFont, new SolidBrush(FloatingText.Color), _MovePointByOffset(_GetDrawingLocation(FloatingText.Origin), FloatingText.Offset), Format);
+                    _DrawFloatingText(EventArguments.Graphics, FloatingTextFont, FloatingText);
                 }
             }
             if((_EntityPrototype != null) && (_EntityPrototype.HasLocation() == true))
@@ -615,6 +612,15 @@ namespace ButtonOffice
             Graphics.DrawRectangle(new Pen(BorderColor), ForegroundRectangle);
         }
 
+        private void _DrawFloatingText(Graphics Graphics, Font Font, FloatingText FloatingText)
+        {
+            var DrawingLocation = _GetDrawingLocation(FloatingText.Origin) + FloatingText.Offset;
+            var Format = new StringFormat();
+
+            Format.Alignment = StringAlignment.Center;
+            Graphics.DrawString(FloatingText.Text, Font, new SolidBrush(FloatingText.Color), DrawingLocation.X.ToSingle(), DrawingLocation.Y.ToSingle(), Format);
+        }
+
         #region Coordinate system transformations: Game -> Draw
         private Double _GetDrawingHeight(Double GamingHeight)
         {
@@ -661,9 +667,9 @@ namespace ButtonOffice
             return new Point(_GetDrawingX(GamingLocation.X).GetNearestInt32(), _GetDrawingY(GamingLocation.Y).GetNearestInt32());
         }
 
-        private Point _GetDrawingLocation(Vector2 GamingLocation)
+        private Vector2 _GetDrawingLocation(Vector2 GamingLocation)
         {
-            return new Point(_GetDrawingX(GamingLocation.X).GetNearestInt32(), _GetDrawingY(GamingLocation.Y).GetNearestInt32());
+            return new Vector2(_GetDrawingX(GamingLocation.X), _GetDrawingY(GamingLocation.Y));
         }
         #endregion
 
@@ -694,13 +700,6 @@ namespace ButtonOffice
         }
         #endregion
 
-        #region Coordinate system helper functions
-        private PointF _MovePointByOffset(PointF Point, PointF Offset)
-        {
-            return new PointF(Point.X + Offset.X, Point.Y + Offset.Y);
-        }
-        #endregion
-
         private void _OnMainWindowResized(Object Sender, EventArgs EventArguments)
         {
             _DrawingBoard.Invalidate();
@@ -724,7 +723,7 @@ namespace ButtonOffice
                     _FloatingTexts[Index].Timeout -= Seconds;
                     if(_FloatingTexts[Index].Timeout > 0.0)
                     {
-                        _FloatingTexts[Index].SetOffset(new PointF(_FloatingTexts[Index].Offset.X, (_FloatingTexts[Index].Offset.Y - Seconds * Data.FloatingTextSpeed).ToSingle()));
+                        _FloatingTexts[Index].SetOffset(new Vector2(_FloatingTexts[Index].Offset.X, _FloatingTexts[Index].Offset.Y - Seconds * Data.FloatingTextSpeed));
                         ++Index;
                     }
                     else
@@ -906,7 +905,7 @@ namespace ButtonOffice
                                      var FloatingText = new FloatingText();
 
                                      FloatingText.SetColor(Data.EarnMoneyFloatingTextColor);
-                                     FloatingText.SetOffset(new PointF(0.0f, 0.0f));
+                                     FloatingText.SetOffset(new Vector2(0.0, 0.0));
                                      FloatingText.SetOrigin(Location);
                                      FloatingText.SetText(_Game.GetMoneyString(Cents));
                                      FloatingText.Timeout = 1.2;
@@ -917,7 +916,7 @@ namespace ButtonOffice
                                       var FloatingText = new FloatingText();
 
                                       FloatingText.SetColor(Data.SpendMoneyFloatingTextColor);
-                                      FloatingText.SetOffset(new PointF(0.0f, 0.0f));
+                                      FloatingText.SetOffset(new Vector2(0.0, 0.0));
                                       FloatingText.SetOrigin(Location);
                                       FloatingText.SetText(_Game.GetMoneyString(Cents));
                                       FloatingText.Timeout = 1.2;
