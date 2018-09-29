@@ -40,11 +40,11 @@ namespace ButtonOffice
                 {
                     DeltaX = -Data.PersonSpeed * DeltaGameMinutes;
                 }
-                Person.SetX(Convert.ToSingle(Person.GetX() + DeltaX));
+                Person.SetX(Person.GetX() + DeltaX);
             }
             else
             {
-                Person.SetX(Convert.ToSingle(_X));
+                Person.SetX(_X);
                 Finish(Game, Person);
             }
         }

@@ -18,7 +18,7 @@ namespace ButtonOffice
 
             Debug.Assert(Person != null);
 
-            var Path = Game.Transportation.GetShortestPath(new Vector2(Person.GetX(), Person.GetY()), _Location);
+            var Path = Game.Transportation.GetShortestPath(Person.GetLocation(), _Location);
 
             if(Path != null)
             {

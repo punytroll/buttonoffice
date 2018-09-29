@@ -9,9 +9,12 @@ namespace ButtonOffice
     {
         private Color _BackgroundColor;
         private Color _BorderColor;
+        private Double _Height;
         private Mind _Mind;
         private Office _Office;
-        private RectangleF _Rectangle;
+        private Double _Width;
+        private Double _X;
+        private Double _Y;
 
         public Color BackgroundColor => _BackgroundColor;
 
@@ -23,8 +26,10 @@ namespace ButtonOffice
         {
             _BackgroundColor = Data.CatBackgroundColor;
             _BorderColor = Data.CatBorderColor;
+            _Height = Data.CatHeight;
             _Mind = new Mind();
             _Mind.SetRootGoal(new CatThink());
+            _Width = Data.CatWidth;
         }
 
         public void AssignOffice(Office Office)
@@ -39,70 +44,34 @@ namespace ButtonOffice
             _Office.Cat = this;
         }
 
-        public Single GetHeight()
+        public RectangleF GetVisualRectangle()
         {
-            return _Rectangle.Height;
+            return new RectangleF(Convert.ToSingle(_X - _Width / 2.0f), Convert.ToSingle(_Y), Convert.ToSingle(_Width), Convert.ToSingle(_Height));
         }
 
-        public PointF GetLocation()
+        public Double GetLeft()
         {
-            return _Rectangle.Location;
+            return _X - _Width / 2.0;
         }
 
-        public RectangleF GetRectangle()
+        public Double GetRight()
         {
-            return _Rectangle;
+            return _X + _Width / 2.0;
         }
 
-        public Single GetRight()
+        public Double GetX()
         {
-            return _Rectangle.Right;
+            return _X;
         }
 
-        public Single GetWidth()
+        public void SetX(Double X)
         {
-            return _Rectangle.Width;
+            _X = X;
         }
 
-        public Single GetX()
+        public void SetY(Double Y)
         {
-            return _Rectangle.X;
-        }
-
-        public Single GetY()
-        {
-            return _Rectangle.Y;
-        }
-
-        public void SetHeight(Single Height)
-        {
-            _Rectangle.Height = Height;
-        }
-
-        public void SetLocation(Single X, Single Y)
-        {
-            _Rectangle.X = X;
-            _Rectangle.Y = Y;
-        }
-
-        public void SetRectangle(RectangleF Rectangle)
-        {
-            _Rectangle = Rectangle;
-        }
-
-        public void SetWidth(Single Width)
-        {
-            _Rectangle.Width = Width;
-        }
-
-        public void SetX(Single X)
-        {
-            _Rectangle.X = X;
-        }
-
-        public void SetY(Single Y)
-        {
-            _Rectangle.Y = Y;
+            _Y = Y;
         }
 
         public void Move(Game Game, Double DeltaGameMinutes)
@@ -115,9 +84,12 @@ namespace ButtonOffice
             base.Save(ObjectStore);
             ObjectStore.Save("background-color", _BackgroundColor);
             ObjectStore.Save("border-color", _BorderColor);
+            ObjectStore.Save("height", _Height);
             ObjectStore.Save("mind", _Mind);
             ObjectStore.Save("office", _Office);
-            ObjectStore.Save("rectangle", _Rectangle);
+            ObjectStore.Save("width", _Width);
+            ObjectStore.Save("x", _X);
+            ObjectStore.Save("y", _Y);
         }
 
         public override void Load(LoadObjectStore ObjectStore)
@@ -125,9 +97,12 @@ namespace ButtonOffice
             base.Load(ObjectStore);
             _BackgroundColor = ObjectStore.LoadColorProperty("background-color");
             _BorderColor = ObjectStore.LoadColorProperty("border-color");
+            _Height = ObjectStore.LoadDoubleProperty("height");
             _Mind = ObjectStore.LoadMindProperty("mind");
             _Office = ObjectStore.LoadOfficeProperty("office");
-            _Rectangle = ObjectStore.LoadRectangleProperty("rectangle");
+            _Width = ObjectStore.LoadDoubleProperty("width");
+            _X = ObjectStore.LoadDoubleProperty("x");
+            _Y = ObjectStore.LoadDoubleProperty("y");
         }
     }
 }

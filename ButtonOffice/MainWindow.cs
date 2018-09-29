@@ -549,7 +549,7 @@ namespace ButtonOffice
                 // cat
                 if(Office.Cat != null)
                 {
-                    _DrawEllipse(EventArguments.Graphics, Office.Cat.GetRectangle(), Office.Cat.BackgroundColor, Office.Cat.BorderColor);
+                    _DrawEllipse(EventArguments.Graphics, Office.Cat.GetVisualRectangle(), Office.Cat.BackgroundColor, Office.Cat.BorderColor);
                 }
             }
             using(var FloatingTextFont = new Font("Arial", 16.0f))

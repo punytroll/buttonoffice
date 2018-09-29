@@ -131,8 +131,8 @@ namespace ButtonOffice.Goals
                             _MinutesToActionStateChange = RandomNumberGenerator.GetDouble(10.0, 8.0);
                         }
                     }
-                    Cat.SetX(Convert.ToSingle(Cat.GetX() - DeltaGameMinutes * Data.CatWalkSpeed));
-                    if(Cat.GetX() <= Cat.Office.GetX())
+                    Cat.SetX(Cat.GetX() - DeltaGameMinutes * Data.CatWalkSpeed);
+                    if(Cat.GetLeft() <= Cat.Office.GetX())
                     {
                         _ActionState = ActionState.WalkRight;
                     }
@@ -156,7 +156,7 @@ namespace ButtonOffice.Goals
                             _MinutesToActionStateChange = RandomNumberGenerator.GetDouble(10.0, 8.0);
                         }
                     }
-                    Cat.SetX(Convert.ToSingle(Cat.GetX() + DeltaGameMinutes * Data.CatWalkSpeed));
+                    Cat.SetX(Cat.GetX() + DeltaGameMinutes * Data.CatWalkSpeed);
                     if(Cat.GetRight() >= Cat.Office.GetRight())
                     {
                         _ActionState = ActionState.WalkLeft;

@@ -107,11 +107,6 @@ namespace ButtonOffice
             return _AtDesk;
         }
 
-        public Double GetHeight()
-        {
-            return _Height;
-        }
-
         public UInt64 GetLeavesAtMinute()
         {
             return _LeavesAtMinute;
@@ -120,6 +115,11 @@ namespace ButtonOffice
         public LivingSide GetLivingSide()
         {
             return _LivingSide;
+        }
+
+        public Vector2 GetLocation()
+        {
+            return new Vector2(_X, _Y);
         }
 
         public Vector2 GetMidLocation()
@@ -135,11 +135,6 @@ namespace ButtonOffice
         public UInt64 GetWage()
         {
             return _Wage;
-        }
-
-        public Double GetWidth()
-        {
-            return _Width;
         }
 
         public UInt64 GetWorkMinutes()

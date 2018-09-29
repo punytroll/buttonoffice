@@ -15,24 +15,9 @@ namespace ButtonOffice
             _MinutesUntilBroken = RandomNumberGenerator.GetDoubleFromExponentialDistribution(Data.MeanMinutesToBrokenComputer);
         }
 
-        public Single GetHeight()
-        {
-            return _Rectangle.Height;
-        }
-
-        public Double GetMinutesUntilBroken()
-        {
-            return _MinutesUntilBroken;
-        }
-
         public RectangleF GetRectangle()
         {
             return _Rectangle;
-        }
-
-        public Single GetRight()
-        {
-            return _Rectangle.Right;
         }
 
         public Single GetWidth()
@@ -55,11 +40,6 @@ namespace ButtonOffice
             return _MinutesUntilBroken < 0.0f;
         }
 
-        public void SetHeight(Single Height)
-        {
-            _Rectangle.Height = Height;
-        }
-
         public void SetLocation(Single X, Single Y)
         {
             _Rectangle.X = X;
@@ -71,29 +51,9 @@ namespace ButtonOffice
             _MinutesUntilBroken = RandomNumberGenerator.GetDoubleFromExponentialDistribution(Data.MeanMinutesToBrokenComputer);
         }
 
-        public void SetRectangle(RectangleF Rectangle)
-        {
-            _Rectangle = Rectangle;
-        }
-
-        public void SetWidth(Single Width)
-        {
-            _Rectangle.Width = Width;
-        }
-
-        public void SetX(Single X)
-        {
-            _Rectangle.X = X;
-        }
-
-        public void SetY(Single Y)
-        {
-            _Rectangle.Y = Y;
-        }
-
         public void Use(Double DeltaGameMinutes)
         {
-            _MinutesUntilBroken += DeltaGameMinutes;
+            _MinutesUntilBroken -= DeltaGameMinutes;
         }
 
         public override void Save(SaveObjectStore ObjectStore)

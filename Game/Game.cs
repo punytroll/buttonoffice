@@ -185,7 +185,6 @@ namespace ButtonOffice
                 Office.SetX(Rectangle.X);
                 Office.SetY(Rectangle.Y);
                 _Build(Data.OfficeBuildCost, Office);
-                _Offices.Add(Office);
 
                 return true;
             }
@@ -353,7 +352,8 @@ namespace ButtonOffice
                 {
                     var Cat = new Cat();
 
-                    Cat.SetRectangle(Rectangle);
+                    Cat.SetY(Office.GetY());
+                    Cat.SetX(Rectangle.X + Rectangle.Width / 2.0f);
                     Cat.AssignOffice(Office);
                     _CatStock -= 1;
 
