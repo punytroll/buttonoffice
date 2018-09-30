@@ -61,17 +61,17 @@ namespace ButtonOffice
 
         protected override void _UpdateInterior()
         {
-            _FirstDesk.SetLocation(_Rectangle.X + Data.DeskOneX, _Rectangle.Y);
+            _FirstDesk.SetLocation(Left + Data.DeskOneX, Floor);
             _FirstDesk.Computer.SetLocation(_FirstDesk.GetX() + (_FirstDesk.GetWidth() - _FirstDesk.Computer.GetWidth()) / 2.0f, _FirstDesk.GetY() +_FirstDesk.GetHeight() + 0.04f);
-            _SecondDesk.SetLocation(_Rectangle.X + Data.DeskTwoX, _Rectangle.Y);
+            _SecondDesk.SetLocation(Left + Data.DeskTwoX, Floor);
             _SecondDesk.Computer.SetLocation(_SecondDesk.GetX() + (_SecondDesk.GetWidth() - _SecondDesk.Computer.GetWidth()) / 2.0f, _SecondDesk.GetY() + _SecondDesk.GetHeight() + 0.04f);
-            _ThirdDesk.SetLocation(_Rectangle.X + Data.DeskThreeX, _Rectangle.Y);
+            _ThirdDesk.SetLocation(Left + Data.DeskThreeX, Floor);
             _ThirdDesk.Computer.SetLocation(_ThirdDesk.GetX() + (_ThirdDesk.GetWidth() - _ThirdDesk.Computer.GetWidth()) / 2.0f, _ThirdDesk.GetY() + _ThirdDesk.GetHeight() + 0.04f);
-            _FourthDesk.SetLocation(_Rectangle.X + Data.DeskFourX, _Rectangle.Y);
+            _FourthDesk.SetLocation(Left + Data.DeskFourX, Floor);
             _FourthDesk.Computer.SetLocation(_FourthDesk.GetX() + (_FourthDesk.GetWidth() - _FourthDesk.Computer.GetWidth()) / 2.0f, _FourthDesk.GetY() + _FourthDesk.GetHeight() + 0.04f);
-            _FirstLamp.SetLocation(_Rectangle.X + Data.LampOneX, _Rectangle.Y + _Rectangle.Height - _FirstLamp.GetHeight());
-            _SecondLamp.SetLocation(_Rectangle.X + Data.LampTwoX, _Rectangle.Y + _Rectangle.Height - _SecondLamp.GetHeight());
-            _ThirdLamp.SetLocation(_Rectangle.X + Data.LampThreeX, _Rectangle.Y + _Rectangle.Height - _ThirdLamp.GetHeight());
+            _FirstLamp.SetLocation(Left + Data.LampOneX, Floor + Height - _FirstLamp.GetHeight());
+            _SecondLamp.SetLocation(Left + Data.LampTwoX, Floor + Height - _SecondLamp.GetHeight());
+            _ThirdLamp.SetLocation(Left + Data.LampThreeX, Floor + Height - _ThirdLamp.GetHeight());
         }
 
         public override void Move(Game Game, Double DeltaGameMinutes)

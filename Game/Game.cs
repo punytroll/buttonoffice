@@ -160,10 +160,10 @@ namespace ButtonOffice
             {
                 var Bathroom = new Bathroom();
 
-                Bathroom.SetHeight(Rectangle.Height);
-                Bathroom.SetWidth(Rectangle.Width);
-                Bathroom.SetX(Rectangle.X);
-                Bathroom.SetY(Rectangle.Y);
+                Bathroom.Floor = Rectangle.Y;
+                Bathroom.Height = Rectangle.Height;
+                Bathroom.Left = Rectangle.X;
+                Bathroom.Width = Rectangle.Width;
                 _Build(Data.BathroomBuildCost, Bathroom);
 
                 return true;
@@ -180,10 +180,10 @@ namespace ButtonOffice
             {
                 var Office = new Office();
 
-                Office.SetHeight(Rectangle.Height);
-                Office.SetWidth(Rectangle.Width);
-                Office.SetX(Rectangle.X);
-                Office.SetY(Rectangle.Y);
+                Office.Floor = Rectangle.Y;
+                Office.Height = Rectangle.Height;
+                Office.Left = Rectangle.X;
+                Office.Width = Rectangle.Width;
                 _Build(Data.OfficeBuildCost, Office);
 
                 return true;
@@ -200,10 +200,10 @@ namespace ButtonOffice
             {
                 var Stairs = new Stairs();
 
-                Stairs.SetHeight(Rectangle.Height);
-                Stairs.SetWidth(Rectangle.Width);
-                Stairs.SetX(Rectangle.X);
-                Stairs.SetY(Rectangle.Y);
+                Stairs.Floor = Rectangle.Y;
+                Stairs.Height = Rectangle.Height;
+                Stairs.Left = Rectangle.X;
+                Stairs.Width = Rectangle.Width;
                 _Build(Data.StairsBuildCost, Stairs);
 
                 return true;
@@ -352,7 +352,7 @@ namespace ButtonOffice
                 {
                     var Cat = new Cat();
 
-                    Cat.SetY(Office.GetY());
+                    Cat.SetY(Office.Floor);
                     Cat.SetX(Rectangle.X + Rectangle.Width / 2.0f);
                     Cat.AssignOffice(Office);
                     _CatStock -= 1;
@@ -484,13 +484,13 @@ namespace ButtonOffice
         public void UpdateBuilding(UInt64 Cost, Building Building)
         {
             SpendMoney(Cost, Building.GetMidLocation());
-            _OccupyFreeSpace(Building.GetX(), Building.GetWidth(), Building.GetY(), Building.GetHeight());
-            _WidenBuilding(Building.GetX(), Building.GetWidth(), Building.GetY(), Building.GetHeight());
+            _OccupyFreeSpace(Building.Left, Building.Width, Building.Floor, Building.Height);
+            _WidenBuilding(Building.Left, Building.Width, Building.Floor, Building.Height);
         }
 
-        public Boolean CanBuild(UInt64 Cost, Single X, Single Width, Single Y, Single Height)
+        public Boolean CanBuild(UInt64 Cost, Double Left, Double Width, Double Floor, Double Height)
         {
-            return (_EnoughCents(Cost) == true) && (_InBuildableWorld(X, Width, Y, Height) == true) && (_InFreeSpace(X, Width, Y, Height) == true) && (_CompletelyOnTopOfBuilding(X, Width, Y, Height) == true);
+            return (_EnoughCents(Cost) == true) && (_InBuildableWorld(Left, Width, Floor, Height) == true) && (_InFreeSpace(Left, Width, Floor, Height) == true) && (_CompletelyOnTopOfBuilding(Left, Width, Floor, Height) == true);
         }
 
         private Boolean _EnoughCents(UInt64 Cents)
@@ -498,31 +498,31 @@ namespace ButtonOffice
             return _Cents >= Cents;
         }
 
-        private Boolean _InBuildableWorld(Single X, Single Width, Single Y, Single Height)
+        private Boolean _InBuildableWorld(Double Left, Double Width, Double Floor, Double Height)
         {
-            return (X >= _LeftBorder) && (X + Width < _RightBorder) && (Y >= _LowestFloor) && (Y + Height < _HighestFloor);
+            return (Left >= _LeftBorder) && (Left + Width < _RightBorder) && (Floor >= _LowestFloor) && (Floor + Height < _HighestFloor);
         }
 
-        private Boolean _InFreeSpace(Single X, Single Width, Single Y, Single Height)
+        private Boolean _InFreeSpace(Double Left, Double Width, Double Floor, Double Height)
         {
             var Result = true;
 
             for(var Column = 0; Column < Width.GetFlooredAsInt32(); ++Column)
             {
-                Result &= _FreeSpace[Y.GetFlooredAsInt32() - _LowestFloor][X.GetFlooredAsInt32() + Column - _LeftBorder];
+                Result &= _FreeSpace[Floor.GetFlooredAsInt32() - _LowestFloor][Left.GetFlooredAsInt32() + Column - _LeftBorder];
             }
 
             return Result;
         }
 
-        private Boolean _CompletelyOnTopOfBuilding(Single X, Single Width, Single Y, Single Height)
+        private Boolean _CompletelyOnTopOfBuilding(Double Left, Double Width, Double Floor, Double Height)
         {
             var Result = true;
 
-            if(Y > 0.0f)
+            if(Floor > 0.0)
             {
-                Result &= _BuildingMinimumMaximum[Y.GetFlooredAsInt32() - 1].First <= X.GetFlooredAsInt32();
-                Result &= _BuildingMinimumMaximum[Y.GetFlooredAsInt32() - 1].Second >= (X + Width).GetFlooredAsInt32();
+                Result &= _BuildingMinimumMaximum[Floor.GetFlooredAsInt32() - 1].First <= Left.GetFlooredAsInt32();
+                Result &= _BuildingMinimumMaximum[Floor.GetFlooredAsInt32() - 1].Second >= (Left + Width).GetFlooredAsInt32();
             }
 
             return Result;
@@ -542,28 +542,28 @@ namespace ButtonOffice
             }
         }
 
-        private void _OccupyFreeSpace(Single X, Single Width, Single Y, Single Height)
+        private void _OccupyFreeSpace(Double Left, Double Width, Double Floor, Double Height)
         {
             for(var Row = 0; Row < Height.GetNearestInt32(); ++Row)
             {
                 for(var Column = 0; Column < Width.GetNearestInt32(); ++Column)
                 {
-                    _FreeSpace[Y.GetNearestInt32() + Row - _LowestFloor][X.GetNearestInt32() + Column - _LeftBorder] = false;
+                    _FreeSpace[Floor.GetNearestInt32() + Row - _LowestFloor][Left.GetNearestInt32() + Column - _LeftBorder] = false;
                 }
             }
         }
 
-        private void _WidenBuilding(Single X, Single Width, Single Y, Single Height)
+        private void _WidenBuilding(Double Left, Double Width, Double Floor, Double Height)
         {
             for(var Row = 0; Row < Height.GetNearestInt32(); ++Row)
             {
-                if(_BuildingMinimumMaximum[Y.GetNearestInt32() + Row].First > X.GetNearestInt32())
+                if(_BuildingMinimumMaximum[Floor.GetNearestInt32() + Row].First > Left.GetNearestInt32())
                 {
-                    _BuildingMinimumMaximum[Y.GetNearestInt32() + Row].First = X.GetNearestInt32();
+                    _BuildingMinimumMaximum[Floor.GetNearestInt32() + Row].First = Left.GetNearestInt32();
                 }
-                if(_BuildingMinimumMaximum[Y.GetNearestInt32() + Row].Second < (X + Width).GetNearestInt32())
+                if(_BuildingMinimumMaximum[Floor.GetNearestInt32() + Row].Second < (Left + Width).GetNearestInt32())
                 {
-                    _BuildingMinimumMaximum[Y.GetNearestInt32() + Row].Second = (X + Width).GetNearestInt32();
+                    _BuildingMinimumMaximum[Floor.GetNearestInt32() + Row].Second = (Left + Width).GetNearestInt32();
                 }
             }
         }
@@ -631,8 +631,8 @@ namespace ButtonOffice
 
                 Stairs.UpdateTransportation(this);
             }
-            _OccupyFreeSpace(Building.GetX(), Building.GetWidth(), Building.GetY(), Building.GetHeight());
-            _WidenBuilding(Building.GetX(), Building.GetWidth(), Building.GetY(), Building.GetHeight());
+            _OccupyFreeSpace(Building.Left, Building.Width, Building.Floor, Building.Height);
+            _WidenBuilding(Building.Left, Building.Width, Building.Floor, Building.Height);
         }
     }
 }

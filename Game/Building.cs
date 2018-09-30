@@ -7,74 +7,82 @@ namespace ButtonOffice
     {
         protected Color _BackgroundColor;
         protected Color _BorderColor;
-        protected RectangleF _Rectangle;
+        private Double _Floor;
+        private Double _Height;
+        private Double _Left;
+        private Double _Width;
 
         public Color BackgroundColor => _BackgroundColor;
 
         public Color BorderColor => _BorderColor;
 
-        public Boolean Contains(Vector2 Location)
+        public Double Floor
         {
-            return (Location.X >= _Rectangle.X) && (Location.X <= _Rectangle.X + _Rectangle.Width) && (Location.Y >= _Rectangle.Y) && (Location.Y <= _Rectangle.Y + _Rectangle.Height);
+            get
+            {
+                return _Floor;
+            }
+            set
+            {
+                _Floor = value;
+                _UpdateInterior();
+            }
         }
 
-        public Single GetHeight()
+        public Double Height
         {
-            return _Rectangle.Height;
+            get
+            {
+                return _Height;
+            }
+            set
+            {
+                _Height = value;
+                _UpdateInterior();
+            }
         }
 
-        public Vector2 GetMidLocation()
+        public Double Left
         {
-            return _Rectangle.GetMidPoint();
+            get
+            {
+                return _Left;
+            }
+            set
+            {
+                _Left = value;
+                _UpdateInterior();
+            }
+        }
+
+        public Double Right => _Left + _Width;
+
+        public Double Width
+        {
+            get
+            {
+                return _Width;
+            }
+            set
+            {
+                _Width = value;
+                _UpdateInterior();
+            }
         }
 
         public RectangleF GetVisualRectangle()
         {
-            return _Rectangle;
+            return new RectangleF(Convert.ToSingle(_Left), Convert.ToSingle(_Floor), Convert.ToSingle(_Width), Convert.ToSingle(_Height));
         }
 
-        public Single GetRight()
+        public Boolean Contains(Vector2 Location)
         {
-            return _Rectangle.Right;
+            return (Location.X >= _Left) && (Location.X <= _Left + _Width) && (Location.Y >= _Floor) && (Location.Y <= _Floor + _Height);
         }
 
-        public Single GetWidth()
+        public Vector2 GetMidLocation()
         {
-            return _Rectangle.Width;
-        }
-
-        public Single GetX()
-        {
-            return _Rectangle.X;
-        }
-
-        public Single GetY()
-        {
-            return _Rectangle.Y;
-        }
-
-        public void SetHeight(Single Height)
-        {
-            _Rectangle.Height = Height;
-            _UpdateInterior();
-        }
-
-        public void SetWidth(Single Width)
-        {
-            _Rectangle.Width = Width;
-            _UpdateInterior();
-        }
-
-        public void SetX(Single X)
-        {
-            _Rectangle.X = X;
-            _UpdateInterior();
-        }
-
-        public void SetY(Single Y)
-        {
-            _Rectangle.Y = Y;
-            _UpdateInterior();
+            return new Vector2(_Left + _Width / 2.0, _Floor + _Height / 2.0);
         }
 
         protected virtual void _UpdateInterior()
@@ -90,7 +98,10 @@ namespace ButtonOffice
             base.Save(ObjectStore);
             ObjectStore.Save("background-color", _BackgroundColor);
             ObjectStore.Save("border-color", _BorderColor);
-            ObjectStore.Save("rectangle", _Rectangle);
+            ObjectStore.Save("floor", _Floor);
+            ObjectStore.Save("height", _Height);
+            ObjectStore.Save("left", _Left);
+            ObjectStore.Save("width", _Width);
         }
 
         public override void Load(LoadObjectStore ObjectStore)
@@ -98,7 +109,10 @@ namespace ButtonOffice
             base.Load(ObjectStore);
             _BackgroundColor = ObjectStore.LoadColorProperty("background-color");
             _BorderColor = ObjectStore.LoadColorProperty("border-color");
-            _Rectangle = ObjectStore.LoadRectangleProperty("rectangle");
+            _Floor = ObjectStore.LoadDoubleProperty("floor");
+            _Height = ObjectStore.LoadDoubleProperty("height");
+            _Left = ObjectStore.LoadDoubleProperty("left");
+            _Width = ObjectStore.LoadDoubleProperty("width");
         }
     }
 }

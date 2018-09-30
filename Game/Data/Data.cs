@@ -85,7 +85,7 @@ namespace ButtonOffice
         public static readonly Single PersonTagWidth = 1.0f;
         public static readonly Double PersonWidthMean = 1.6;
         public static readonly Double PersonWidthSpread = 0.5;
-        public static readonly String SaveGameFileVersion = "12";
+        public static readonly String SaveGameFileVersion = "13";
         public static readonly Color SpendMoneyFloatingTextColor = Color.FromArgb(220, 220, 20, 20);
         public static readonly Color StairsBackgroundColor = Color.FromArgb(180, 192, 160, 160);
         public static readonly Single StairsBlockHeight = 2.0f;

@@ -117,10 +117,10 @@ namespace ButtonOffice
             _Janitor = Janitor;
         }
 
-        public void SetLocation(Single X, Single Y)
+        public void SetLocation(Double X, Double Y)
         {
-            _Rectangle.X = X;
-            _Rectangle.Y = Y;
+            _Rectangle.X = Convert.ToSingle(X);
+            _Rectangle.Y = Convert.ToSingle(Y);
         }
 
         public void SetPerson(Person Person)

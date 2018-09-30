@@ -31,13 +31,13 @@ namespace ButtonOffice
 
         public void ExpandDownwards(Game Game)
         {
-            if(Game.CanBuild(Data.StairsExpansionCost, _Rectangle.X, _Rectangle.Width, _Rectangle.Y - 1.0f, 1.0f) == true)
+            if(Game.CanBuild(Data.StairsExpansionCost, Left, Width, Floor - 1.0f, 1.0f) == true)
             {
-                SetY(GetY() - 1.0f);
-                SetHeight(GetHeight() + 1.0f);
+                Floor = Floor - 1.0;
+                Height = Height + 1.0;
                 Game.UpdateBuilding(Data.StairsExpansionCost, this);
 
-                var NewNode = new Node(_Rectangle.X + _Rectangle.Width / 2.0, _Rectangle.Y.GetNearestInt32());
+                var NewNode = new Node(Left + Width / 2.0, Floor.GetNearestInt32());
                 Node LowestNode = null;
 
                 foreach(var Node in _TransportationNodes)
@@ -57,12 +57,12 @@ namespace ButtonOffice
 
         public void ExpandUpwards(Game Game)
         {
-            if(Game.CanBuild(Data.StairsExpansionCost, _Rectangle.X, _Rectangle.Width, _Rectangle.Y + _Rectangle.Height, 1.0f) == true)
+            if(Game.CanBuild(Data.StairsExpansionCost, Left, Width, Floor + Height, 1.0) == true)
             {
-                SetHeight(GetHeight() + 1.0f);
+                Height = Height + 1.0;
                 Game.UpdateBuilding(Data.StairsExpansionCost, this);
 
-                var NewNode = new Node(_Rectangle.X + _Rectangle.Width / 2.0, (_Rectangle.Y + _Rectangle.Height - 1.0).GetNearestInt32());
+                var NewNode = new Node(Left + Width / 2.0, (Floor + Height - 1.0).GetNearestInt32());
                 Node HighestNode = null;
 
                 foreach(var Node in _TransportationNodes)
@@ -84,9 +84,9 @@ namespace ButtonOffice
         {
             Node LowerNode = null;
 
-            for(var Floor = _Rectangle.Y.GetNearestInt32(); Floor < (_Rectangle.Y + _Rectangle.Height).GetNearestInt32(); ++Floor)
+            for(var FloorCurrent = Floor.GetNearestInt32(); FloorCurrent < (Floor + Height).GetNearestInt32(); ++FloorCurrent)
             {
-                var NewNode = new Node(_Rectangle.X + _Rectangle.Width / 2.0, Floor);
+                var NewNode = new Node(Left + Width / 2.0, FloorCurrent);
 
                 if(LowerNode != null)
                 {

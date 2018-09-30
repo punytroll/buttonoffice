@@ -132,7 +132,7 @@ namespace ButtonOffice.Goals
                         }
                     }
                     Cat.SetX(Cat.GetX() - DeltaGameMinutes * Data.CatWalkSpeed);
-                    if(Cat.GetLeft() <= Cat.Office.GetX())
+                    if(Cat.GetLeft() <= Cat.Office.Left)
                     {
                         _ActionState = ActionState.WalkRight;
                     }
@@ -157,7 +157,7 @@ namespace ButtonOffice.Goals
                         }
                     }
                     Cat.SetX(Cat.GetX() + DeltaGameMinutes * Data.CatWalkSpeed);
-                    if(Cat.GetRight() >= Cat.Office.GetRight())
+                    if(Cat.GetRight() >= Cat.Office.Right)
                     {
                         _ActionState = ActionState.WalkLeft;
                     }
@@ -285,7 +285,7 @@ namespace ButtonOffice.Goals
             Debug.Assert(Janitor != null);
             foreach(var Office in Game.Offices.OrderBy(delegate(Office Office)
                                                        {
-                                                           var Result = Office.GetY() - Janitor.Desk.GetY();
+                                                           var Result = Office.Floor - Janitor.Desk.GetY();
 
                                                            if(Result < 0.0)
                                                            {
@@ -293,7 +293,7 @@ namespace ButtonOffice.Goals
                                                            }
 
                                                            return Result;
-                                                       }).ThenBy((Office) => Office.GetX()))
+                                                       }).ThenBy((Office) => Office.Left))
             {
                 Janitor.EnqueueCleaningTarget(Office.FirstDesk);
                 Janitor.EnqueueCleaningTarget(Office.SecondDesk);
