@@ -439,9 +439,9 @@ namespace ButtonOffice
                 {
                     var Office = (Office)Building;
 
-                    _DrawRectangle(EventArguments.Graphics, Office.FirstLamp.GetRectangle(), Office.FirstLamp.BackgroundColor, Color.Black);
-                    _DrawRectangle(EventArguments.Graphics, Office.SecondLamp.GetRectangle(), Office.SecondLamp.BackgroundColor, Color.Black);
-                    _DrawRectangle(EventArguments.Graphics, Office.ThirdLamp.GetRectangle(), Office.ThirdLamp.BackgroundColor, Color.Black);
+                    _DrawRectangle(EventArguments.Graphics, Office.FirstLamp.GetVisualRectangle(), Office.FirstLamp.BackgroundColor, Color.Black);
+                    _DrawRectangle(EventArguments.Graphics, Office.SecondLamp.GetVisualRectangle(), Office.SecondLamp.BackgroundColor, Color.Black);
+                    _DrawRectangle(EventArguments.Graphics, Office.ThirdLamp.GetVisualRectangle(), Office.ThirdLamp.BackgroundColor, Color.Black);
                 }
             }
             foreach(var Person in _Game.Persons)

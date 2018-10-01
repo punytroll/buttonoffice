@@ -69,9 +69,12 @@ namespace ButtonOffice
             _ThirdDesk.Computer.SetLocation(_ThirdDesk.GetX() + (_ThirdDesk.GetWidth() - _ThirdDesk.Computer.GetWidth()) / 2.0f, _ThirdDesk.GetY() + _ThirdDesk.GetHeight() + 0.04f);
             _FourthDesk.SetLocation(Left + Data.DeskFourX, Floor);
             _FourthDesk.Computer.SetLocation(_FourthDesk.GetX() + (_FourthDesk.GetWidth() - _FourthDesk.Computer.GetWidth()) / 2.0f, _FourthDesk.GetY() + _FourthDesk.GetHeight() + 0.04f);
-            _FirstLamp.SetLocation(Left + Data.LampOneX, Floor + Height - _FirstLamp.GetHeight());
-            _SecondLamp.SetLocation(Left + Data.LampTwoX, Floor + Height - _SecondLamp.GetHeight());
-            _ThirdLamp.SetLocation(Left + Data.LampThreeX, Floor + Height - _ThirdLamp.GetHeight());
+            _FirstLamp.Left = Left + Data.LampOneX;
+            _FirstLamp.Bottom = Floor + Height - _FirstLamp.Height;
+            _SecondLamp.Left = Left + Data.LampTwoX;
+            _SecondLamp.Bottom = Floor + Height - _SecondLamp.Height;
+            _ThirdLamp.Left = Left + Data.LampThreeX;
+            _ThirdLamp.Bottom = Floor + Height - _ThirdLamp.Height;
         }
 
         public override void Move(Game Game, Double DeltaGameMinutes)

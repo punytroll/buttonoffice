@@ -635,7 +635,7 @@ namespace ButtonOffice.Goals
                         {
                             var Lamp = (Lamp)BrokenThing;
 
-                            FindPathToLocation.SetLocation(new Vector2(Lamp.GetX() + Lamp.GetWidth() / 2.0, Lamp.GetY().GetFloored()));
+                            FindPathToLocation.SetLocation(new Vector2(Lamp.Left + Lamp.Width / 2.0, Lamp.Office.Floor));
                         }
                         AppendSubGoal(FindPathToLocation);
                         AppendSubGoal(new Repair());

@@ -6,9 +6,12 @@ namespace ButtonOffice
 {
     public class Lamp : PersistentObject
     {
+        private Double _Bottom;
+        private Double _Height;
+        private Double _Left;
         private Double _MinutesUntilBroken;
         private Office _Office;
-        private RectangleF _Rectangle;
+        private Double _Width;
 
         public Color BackgroundColor
         {
@@ -22,6 +25,28 @@ namespace ButtonOffice
                 {
                     return Color.Gray;
                 }
+            }
+        }
+
+        public Double Bottom
+        {
+            set
+            {
+                _Bottom = value;
+            }
+        }
+
+        public Double Height => _Height;
+
+        public Double Left
+        {
+            get
+            {
+                return _Left;
+            }
+            set
+            {
+                _Left = value;
             }
         }
 
@@ -46,42 +71,19 @@ namespace ButtonOffice
             }
         }
 
+        public Double Width => _Width;
+
         public Lamp()
         {
             _MinutesUntilBroken = RandomNumberGenerator.GetDoubleFromExponentialDistribution(Data.MeanMinutesToBrokenLamp);
             _Office = null;
-            _Rectangle.Height = Data.LampHeight;
-            _Rectangle.Width = Data.LampWidth;
+            _Height = Data.LampHeight;
+            _Width = Data.LampWidth;
         }
 
-        public Single GetHeight()
+        public RectangleF GetVisualRectangle()
         {
-            return _Rectangle.Height;
-        }
-
-        public Office GetOffice()
-        {
-            return _Office;
-        }
-
-        public RectangleF GetRectangle()
-        {
-            return _Rectangle;
-        }
-
-        public Single GetWidth()
-        {
-            return _Rectangle.Width;
-        }
-
-        public Single GetX()
-        {
-            return _Rectangle.X;
-        }
-
-        public Single GetY()
-        {
-            return _Rectangle.Y;
+            return new RectangleF(Convert.ToSingle(_Left), Convert.ToSingle(_Bottom), Convert.ToSingle(_Width), Convert.ToSingle(_Height));
         }
 
         public void Move(Game Game, Double DeltaGameMinutes)
@@ -96,51 +98,31 @@ namespace ButtonOffice
             }
         }
 
-        public void SetHeight(Single Height)
-        {
-            _Rectangle.Height = Height;
-        }
-
-        public void SetLocation(Double X, Double Y)
-        {
-            _Rectangle.X = Convert.ToSingle(X);
-            _Rectangle.Y = Convert.ToSingle(Y);
-        }
-
         public void SetRepaired()
         {
             _MinutesUntilBroken = RandomNumberGenerator.GetDoubleFromExponentialDistribution(Data.MeanMinutesToBrokenLamp);
         }
 
-        public void SetWidth(Single Width)
-        {
-            _Rectangle.Width = Width;
-        }
-
-        public void SetX(Single X)
-        {
-            _Rectangle.X = X;
-        }
-
-        public void SetY(Single Y)
-        {
-            _Rectangle.Y = Y;
-        }
-
         public override void Save(SaveObjectStore ObjectStore)
         {
             base.Save(ObjectStore);
+            ObjectStore.Save("bottom", _Bottom);
+            ObjectStore.Save("height", _Height);
+            ObjectStore.Save("left", _Left);
             ObjectStore.Save("minutes-until-broken", _MinutesUntilBroken);
             ObjectStore.Save("office", _Office);
-            ObjectStore.Save("rectangle", _Rectangle);
+            ObjectStore.Save("width", _Width);
         }
 
         public override void Load(LoadObjectStore ObjectStore)
         {
             base.Load(ObjectStore);
+            _Bottom = ObjectStore.LoadDoubleProperty("bottom");
+            _Height = ObjectStore.LoadDoubleProperty("height");
+            _Left = ObjectStore.LoadDoubleProperty("left");
             _MinutesUntilBroken = ObjectStore.LoadDoubleProperty("minutes-until-broken");
             _Office = ObjectStore.LoadOfficeProperty("office");
-            _Rectangle = ObjectStore.LoadRectangleProperty("rectangle");
+            _Width = ObjectStore.LoadDoubleProperty("width");
         }
     }
 }
