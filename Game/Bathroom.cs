@@ -1,4 +1,6 @@
-﻿namespace ButtonOffice
+﻿using System;
+
+namespace ButtonOffice
 {
     public class Bathroom : Building
     {
@@ -6,6 +8,11 @@
         {
             _BackgroundColor = Data.BathroomBackgroundColor;
             _BorderColor = Data.BathroomBorderColor;
+        }
+
+        public override Boolean CanDestroy()
+        {
+            return true;
         }
     }
 }

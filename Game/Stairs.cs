@@ -1,5 +1,6 @@
 using ButtonOffice.Goals;
 using ButtonOffice.Transportation;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
@@ -14,6 +15,11 @@ namespace ButtonOffice
             _BackgroundColor = Data.StairsBackgroundColor;
             _BorderColor = Data.StairsBorderColor;
             _TransportationNodes = new List<Node>();
+        }
+
+        public override Boolean CanDestroy()
+        {
+            return false;
         }
 
         private Goal _CreateUseStairsGoal(Edge Edge)

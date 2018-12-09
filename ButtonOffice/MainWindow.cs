@@ -280,7 +280,7 @@ namespace ButtonOffice
                 {
                     var GamingLocation = _GetGamingLocation(EventArguments.Location);
 
-                    _MainSplitContainer.Panel2.Controls.Clear();
+                    _MainSplitContainer.Panel1.Controls.Clear();
                     _SelectedObject = null;
                     if(_SelectedObject == null)
                     {
@@ -295,21 +295,21 @@ namespace ButtonOffice
                                 TypeLabel.Location = new Point(10, 20);
                                 TypeLabel.Size = new Size(100, 20);
                                 TypeLabel.Text = Person.GetType().Name;
-                                _MainSplitContainer.Panel2.Controls.Add(TypeLabel);
+                                _MainSplitContainer.Panel1.Controls.Add(TypeLabel);
 
                                 var NameCaptionLabel = new Label();
 
                                 NameCaptionLabel.Location = new Point(10, 40);
                                 NameCaptionLabel.Size = new Size(100, 20);
                                 NameCaptionLabel.Text = "Name:";
-                                _MainSplitContainer.Panel2.Controls.Add(NameCaptionLabel);
+                                _MainSplitContainer.Panel1.Controls.Add(NameCaptionLabel);
 
                                 var NameLabel = new Label();
 
                                 NameLabel.Location = new Point(110, 40);
                                 NameLabel.Size = new Size(100, 20);
                                 NameLabel.Text = Person.Name;
-                                _MainSplitContainer.Panel2.Controls.Add(NameLabel);
+                                _MainSplitContainer.Panel1.Controls.Add(NameLabel);
 
                                 var FireButton = new Button();
 
@@ -319,10 +319,10 @@ namespace ButtonOffice
                                 FireButton.Click += delegate
                                                     {
                                                         _Game.FirePerson(Person);
-                                                        _MainSplitContainer.Panel2Collapsed = true;
-                                                        _MainSplitContainer.Panel2.Controls.Clear();
+                                                        _MainSplitContainer.Panel1Collapsed = true;
+                                                        _MainSplitContainer.Panel1.Controls.Clear();
                                                     };
-                                _MainSplitContainer.Panel2.Controls.Add(FireButton);
+                                _MainSplitContainer.Panel1.Controls.Add(FireButton);
                                 _MoveButton = new CheckBox();
                                 _MoveButton.TextAlign = ContentAlignment.MiddleCenter;
                                 _MoveButton.Location = new Point(10, 120);
@@ -332,17 +332,17 @@ namespace ButtonOffice
                                 _MoveButton.Checked = false;
                                 _MoveButton.CheckedChanged += delegate
                                                               {
-                                    if(_MoveButton.Checked == true)
-                                    {
-                                        _UncheckAllToolButtons();
-                                        _MovePerson = Person;
-                                    }
-                                    else
-                                    {
-                                        _MovePerson = null;
-                                    }
-                                };
-                                _MainSplitContainer.Panel2.Controls.Add(_MoveButton);
+                                                                  if(_MoveButton.Checked == true)
+                                                                  {
+                                                                      _UncheckAllToolButtons();
+                                                                      _MovePerson = Person;
+                                                                  }
+                                                                  else
+                                                                  {
+                                                                      _MovePerson = null;
+                                                                  }
+                                                              };
+                                _MainSplitContainer.Panel1.Controls.Add(_MoveButton);
 
                                 break;
                             }
@@ -361,37 +361,51 @@ namespace ButtonOffice
                                 NameCaptionLabel.Location = new Point(10, 20);
                                 NameCaptionLabel.Size = new Size(100, 20);
                                 NameCaptionLabel.Text = Building.GetType().Name;
-                                _MainSplitContainer.Panel2.Controls.Add(NameCaptionLabel);
+                                _MainSplitContainer.Panel1.Controls.Add(NameCaptionLabel);
+
+                                var DestroyButton = new Button();
+
+                                DestroyButton.Location = new Point(10, 80);
+                                DestroyButton.Size = new Size(120, 20);
+                                DestroyButton.Text = "Destroy";
+                                DestroyButton.Enabled = Building.CanDestroy();
+                                DestroyButton.Click += delegate
+                                                       {
+                                                           _Game.Destroy(Building);
+                                                           _MainSplitContainer.Panel1Collapsed = true;
+                                                           _MainSplitContainer.Panel1.Controls.Clear();
+                                                       };
+                                _MainSplitContainer.Panel1.Controls.Add(DestroyButton);
                                 if(Building is Stairs)
                                 {
                                     var ExpandUpwardsButton = new Button();
 
-                                    ExpandUpwardsButton.Location = new Point(10, 80);
+                                    ExpandUpwardsButton.Location = new Point(10, 110);
                                     ExpandUpwardsButton.Size = new Size(120, 20);
                                     ExpandUpwardsButton.Text = "Expand upwards";
                                     ExpandUpwardsButton.Click += delegate
                                                                  {
                                                                      (Building as Stairs)?.ExpandUpwards(_Game);
                                                                  };
-                                    _MainSplitContainer.Panel2.Controls.Add(ExpandUpwardsButton);
+                                    _MainSplitContainer.Panel1.Controls.Add(ExpandUpwardsButton);
 
                                     var ExpandDownwardsButton = new Button();
 
-                                    ExpandDownwardsButton.Location = new Point(10, 110);
+                                    ExpandDownwardsButton.Location = new Point(10, 140);
                                     ExpandDownwardsButton.Size = new Size(120, 20);
                                     ExpandDownwardsButton.Text = "Expand downwards";
                                     ExpandDownwardsButton.Click += delegate
                                                                    {
                                                                        (Building as Stairs)?.ExpandDownwards(_Game);
                                                                    };
-                                    _MainSplitContainer.Panel2.Controls.Add(ExpandDownwardsButton);
+                                    _MainSplitContainer.Panel1.Controls.Add(ExpandDownwardsButton);
                                 }
 
                                 break;
                             }
                         }
                     }
-                    _MainSplitContainer.Panel2Collapsed = _SelectedObject == null;
+                    _MainSplitContainer.Panel1Collapsed = _SelectedObject == null;
                 }
             }
         }
@@ -942,7 +956,7 @@ namespace ButtonOffice
             if(_SelectedObject != null)
             {
                 _SelectedObject = null;
-                _MainSplitContainer.Panel2Collapsed = true;
+                _MainSplitContainer.Panel1Collapsed = true;
             }
         }
     }

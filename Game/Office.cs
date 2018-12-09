@@ -4,111 +4,129 @@ namespace ButtonOffice
 {
     public class Office : Building
     {
-        private Cat _Cat;
-        private Desk _FirstDesk;
-        private Lamp _FirstLamp;
-        private Desk _FourthDesk;
-        private Desk _SecondDesk;
-        private Lamp _SecondLamp;
-        private Desk _ThirdDesk;
-        private Lamp _ThirdLamp;
-
         public Cat Cat
         {
-            get
-            {
-                return _Cat;
-            }
-            set
-            {
-                _Cat = value;
-            }
+            get;
+            set;
         }
 
-        public Desk FirstDesk => _FirstDesk;
+        public Desk FirstDesk
+        {
+            get;
+            private set;
+        }
 
-        public Desk SecondDesk => _SecondDesk;
+        public Desk SecondDesk
+        {
+            get;
+            private set;
+        }
 
-        public Desk ThirdDesk => _ThirdDesk;
+        public Desk ThirdDesk
+        {
+            get;
+            private set;
+        }
 
-        public Desk FourthDesk => _FourthDesk;
+        public Desk FourthDesk
+        {
+            get;
+            private set;
+        }
 
-        public Lamp FirstLamp => _FirstLamp;
+        public Lamp FirstLamp
+        {
+            get;
+            private set;
+        }
 
-        public Lamp SecondLamp => _SecondLamp;
+        public Lamp SecondLamp
+        {
+            get;
+            private set;
+        }
 
-        public Lamp ThirdLamp => _ThirdLamp;
+        public Lamp ThirdLamp
+        {
+            get;
+            private set;
+        }
 
         public Office()
         {
             _BackgroundColor = Data.OfficeBackgroundColor;
             _BorderColor = Data.OfficeBorderColor;
-            _FirstDesk = new Desk();
-            _FirstDesk.Office = this;
-            _SecondDesk = new Desk();
-            _SecondDesk.Office = this;
-            _ThirdDesk = new Desk();
-            _ThirdDesk.Office = this;
-            _FourthDesk = new Desk();
-            _FourthDesk.Office = this;
-            _FirstLamp = new Lamp();
-            _FirstLamp.Office = this;
-            _SecondLamp = new Lamp();
-            _SecondLamp.Office = this;
-            _ThirdLamp = new Lamp();
-            _ThirdLamp.Office = this;
+            FirstDesk = new Desk();
+            FirstDesk.Office = this;
+            SecondDesk = new Desk();
+            SecondDesk.Office = this;
+            ThirdDesk = new Desk();
+            ThirdDesk.Office = this;
+            FourthDesk = new Desk();
+            FourthDesk.Office = this;
+            FirstLamp = new Lamp();
+            FirstLamp.Office = this;
+            SecondLamp = new Lamp();
+            SecondLamp.Office = this;
+            ThirdLamp = new Lamp();
+            ThirdLamp.Office = this;
+        }
+
+        public override Boolean CanDestroy()
+        {
+            return (FirstDesk.IsFree() == true) && (SecondDesk.IsFree() == true) && (ThirdDesk.IsFree() == true) && (FourthDesk.IsFree() == true);
         }
 
         protected override void _UpdateInterior()
         {
-            _FirstDesk.SetLocation(Left + Data.DeskOneX, Floor);
-            _FirstDesk.Computer.SetLocation(_FirstDesk.GetX() + (_FirstDesk.GetWidth() - _FirstDesk.Computer.GetWidth()) / 2.0f, _FirstDesk.GetY() +_FirstDesk.GetHeight() + 0.04f);
-            _SecondDesk.SetLocation(Left + Data.DeskTwoX, Floor);
-            _SecondDesk.Computer.SetLocation(_SecondDesk.GetX() + (_SecondDesk.GetWidth() - _SecondDesk.Computer.GetWidth()) / 2.0f, _SecondDesk.GetY() + _SecondDesk.GetHeight() + 0.04f);
-            _ThirdDesk.SetLocation(Left + Data.DeskThreeX, Floor);
-            _ThirdDesk.Computer.SetLocation(_ThirdDesk.GetX() + (_ThirdDesk.GetWidth() - _ThirdDesk.Computer.GetWidth()) / 2.0f, _ThirdDesk.GetY() + _ThirdDesk.GetHeight() + 0.04f);
-            _FourthDesk.SetLocation(Left + Data.DeskFourX, Floor);
-            _FourthDesk.Computer.SetLocation(_FourthDesk.GetX() + (_FourthDesk.GetWidth() - _FourthDesk.Computer.GetWidth()) / 2.0f, _FourthDesk.GetY() + _FourthDesk.GetHeight() + 0.04f);
-            _FirstLamp.Left = Left + Data.LampOneX;
-            _FirstLamp.Bottom = Floor + Height - _FirstLamp.Height;
-            _SecondLamp.Left = Left + Data.LampTwoX;
-            _SecondLamp.Bottom = Floor + Height - _SecondLamp.Height;
-            _ThirdLamp.Left = Left + Data.LampThreeX;
-            _ThirdLamp.Bottom = Floor + Height - _ThirdLamp.Height;
+            FirstDesk.SetLocation(Left + Data.DeskOneX, Floor);
+            FirstDesk.Computer.SetLocation(FirstDesk.GetX() + (FirstDesk.GetWidth() - FirstDesk.Computer.GetWidth()) / 2.0f, FirstDesk.GetY() + FirstDesk.GetHeight() + 0.04f);
+            SecondDesk.SetLocation(Left + Data.DeskTwoX, Floor);
+            SecondDesk.Computer.SetLocation(SecondDesk.GetX() + (SecondDesk.GetWidth() - SecondDesk.Computer.GetWidth()) / 2.0f, SecondDesk.GetY() + SecondDesk.GetHeight() + 0.04f);
+            ThirdDesk.SetLocation(Left + Data.DeskThreeX, Floor);
+            ThirdDesk.Computer.SetLocation(ThirdDesk.GetX() + (ThirdDesk.GetWidth() - ThirdDesk.Computer.GetWidth()) / 2.0f, ThirdDesk.GetY() + ThirdDesk.GetHeight() + 0.04f);
+            FourthDesk.SetLocation(Left + Data.DeskFourX, Floor);
+            FourthDesk.Computer.SetLocation(FourthDesk.GetX() + (FourthDesk.GetWidth() - FourthDesk.Computer.GetWidth()) / 2.0f, FourthDesk.GetY() + FourthDesk.GetHeight() + 0.04f);
+            FirstLamp.Left = Left + Data.LampOneX;
+            FirstLamp.Bottom = Floor + Height - FirstLamp.Height;
+            SecondLamp.Left = Left + Data.LampTwoX;
+            SecondLamp.Bottom = Floor + Height - SecondLamp.Height;
+            ThirdLamp.Left = Left + Data.LampThreeX;
+            ThirdLamp.Bottom = Floor + Height - ThirdLamp.Height;
         }
 
         public override void Move(Game Game, Double DeltaGameMinutes)
         {
-            _FirstLamp.Move(Game, DeltaGameMinutes);
-            _SecondLamp.Move(Game, DeltaGameMinutes);
-            _ThirdLamp.Move(Game, DeltaGameMinutes);
-            _Cat?.Move(Game, DeltaGameMinutes);
+            FirstLamp.Move(Game, DeltaGameMinutes);
+            SecondLamp.Move(Game, DeltaGameMinutes);
+            ThirdLamp.Move(Game, DeltaGameMinutes);
+            Cat?.Move(Game, DeltaGameMinutes);
         }
 
         public override void Save(SaveObjectStore ObjectStore)
         {
             base.Save(ObjectStore);
-            ObjectStore.Save("cat", _Cat);
-            ObjectStore.Save("first-desk", _FirstDesk);
-            ObjectStore.Save("first-lamp", _FirstLamp);
-            ObjectStore.Save("fourth-desk", _FourthDesk);
-            ObjectStore.Save("second-desk", _SecondDesk);
-            ObjectStore.Save("second-lamp", _SecondLamp);
-            ObjectStore.Save("third-desk", _ThirdDesk);
-            ObjectStore.Save("third-lamp", _ThirdLamp);
+            ObjectStore.Save("cat", Cat);
+            ObjectStore.Save("first-desk", FirstDesk);
+            ObjectStore.Save("first-lamp", FirstLamp);
+            ObjectStore.Save("fourth-desk", FourthDesk);
+            ObjectStore.Save("second-desk", SecondDesk);
+            ObjectStore.Save("second-lamp", SecondLamp);
+            ObjectStore.Save("third-desk", ThirdDesk);
+            ObjectStore.Save("third-lamp", ThirdLamp);
         }
 
         public override void Load(LoadObjectStore ObjectStore)
         {
             base.Load(ObjectStore);
-            _Cat = ObjectStore.LoadCatProperty("cat");
-            _FirstDesk = ObjectStore.LoadDeskProperty("first-desk");
-            _FirstLamp = ObjectStore.LoadLampProperty("first-lamp");
-            _FourthDesk = ObjectStore.LoadDeskProperty("fourth-desk");
-            _SecondDesk = ObjectStore.LoadDeskProperty("second-desk");
-            _SecondLamp = ObjectStore.LoadLampProperty("second-lamp");
-            _ThirdDesk = ObjectStore.LoadDeskProperty("third-desk");
-            _ThirdLamp = ObjectStore.LoadLampProperty("third-lamp");
+            Cat = ObjectStore.LoadCatProperty("cat");
+            FirstDesk = ObjectStore.LoadDeskProperty("first-desk");
+            FirstLamp = ObjectStore.LoadLampProperty("first-lamp");
+            FourthDesk = ObjectStore.LoadDeskProperty("fourth-desk");
+            SecondDesk = ObjectStore.LoadDeskProperty("second-desk");
+            SecondLamp = ObjectStore.LoadLampProperty("second-lamp");
+            ThirdDesk = ObjectStore.LoadDeskProperty("third-desk");
+            ThirdLamp = ObjectStore.LoadLampProperty("third-lamp");
         }
     }
 }

@@ -85,6 +85,8 @@ namespace ButtonOffice
             return new Vector2(_Left + _Width / 2.0, _Floor + _Height / 2.0);
         }
 
+        public abstract Boolean CanDestroy();
+
         protected virtual void _UpdateInterior()
         {
         }

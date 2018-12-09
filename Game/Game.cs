@@ -214,6 +214,14 @@ namespace ButtonOffice
             }
         }
 
+        public void Destroy(Building Building)
+        {
+            if(CanDestroy(Building) == true)
+            {
+                _RemoveBuilding(Building);
+            }
+        }
+
         public Boolean HireAccountant(RectangleF Rectangle)
         {
             if(_Cents >= Data.AccountantHireCost)
@@ -488,6 +496,11 @@ namespace ButtonOffice
             _WidenBuilding(Building.Left, Building.Width, Building.Floor, Building.Height);
         }
 
+        public Boolean CanDestroy(Building Building)
+        {
+            return Building.CanDestroy();
+        }
+
         public Boolean CanBuild(UInt64 Cost, Double Left, Double Width, Double Floor, Double Height)
         {
             return (_EnoughCents(Cost) == true) && (_InBuildableWorld(Left, Width, Floor, Height) == true) && (_InFreeSpace(Left, Width, Floor, Height) == true) && (_CompletelyOnTopOfBuilding(Left, Width, Floor, Height) == true);
@@ -549,6 +562,17 @@ namespace ButtonOffice
                 for(var Column = 0; Column < Width.GetNearestInt32(); ++Column)
                 {
                     _FreeSpace[Floor.GetNearestInt32() + Row - _LowestFloor][Left.GetNearestInt32() + Column - _LeftBorder] = false;
+                }
+            }
+        }
+
+        private void _FreeOccupiedSpace(Double Left, Double Width, Double Floor, Double Height)
+        {
+            for(var Row = 0; Row < Height.GetNearestInt32(); ++Row)
+            {
+                for(var Column = 0; Column < Width.GetNearestInt32(); ++Column)
+                {
+                    _FreeSpace[Floor.GetNearestInt32() + Row - _LowestFloor][Left.GetNearestInt32() + Column - _LeftBorder] = true;
                 }
             }
         }
@@ -633,6 +657,23 @@ namespace ButtonOffice
             }
             _OccupyFreeSpace(Building.Left, Building.Width, Building.Floor, Building.Height);
             _WidenBuilding(Building.Left, Building.Width, Building.Floor, Building.Height);
+        }
+
+        private void _RemoveBuilding(Building Building)
+        {
+            _Buildings.Remove(Building);
+            if(Building is Office)
+            {
+                var Office = (Office)Building;
+
+                if(Office.Cat != null)
+                {
+                    Office.Cat = null;
+                    _CatStock += 1;
+                }
+                _Offices.Remove(Office);
+            }
+            _FreeOccupiedSpace(Building.Left, Building.Width, Building.Floor, Building.Height);
         }
     }
 }
