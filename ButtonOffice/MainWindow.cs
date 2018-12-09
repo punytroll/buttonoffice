@@ -42,6 +42,8 @@ namespace ButtonOffice
             _OnNewGame();
             _DrawingBoard.MouseWheel += delegate(Object Sender, MouseEventArgs EventArguments)
                                         {
+                                            var OldGamingLocation = _GetGamingLocation(EventArguments.Location);
+
                                             if(EventArguments.Delta > 0)
                                             {
                                                 _Zoom *= 1.2;
@@ -50,6 +52,11 @@ namespace ButtonOffice
                                             {
                                                 _Zoom /= 1.2;
                                             }
+
+                                            var NewGamingLocation = _GetGamingLocation(EventArguments.Location);
+
+                                            _CameraPosition.X += OldGamingLocation.X - NewGamingLocation.X;
+                                            _CameraPosition.Y += OldGamingLocation.Y - NewGamingLocation.Y;
                                         };
         }
 
