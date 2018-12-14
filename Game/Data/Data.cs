@@ -92,7 +92,8 @@ namespace ButtonOffice
         public static readonly Single StairsBlockWidth = 5.0f;
         public static readonly Color StairsBorderColor = Color.FromArgb(180, 0, 0, 0);
         public static readonly UInt64 StairsBuildCost = 60000ul;
-        public static readonly UInt64 StairsExpansionCost = 40000ul;
+        public static readonly UInt64 StairsAddFloorCost = 40000ul;
+        public static readonly UInt64 StairsRemoveFloorCost = 5000ul;
         public static readonly Double StairsSpeed = 0.25;
         public static readonly Double StairsWeightDownwards = 3.0;
         public static readonly Double StairsWeightUpwards = 4.0;

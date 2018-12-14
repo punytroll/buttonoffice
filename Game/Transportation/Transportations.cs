@@ -71,18 +71,18 @@ namespace ButtonOffice.Transportation
             }
             if((LeftNode != null) && (RightNode != null))
             {
-                LeftNode.RemoveEdgeTo(RightNode);
-                RightNode.RemoveEdgeTo(LeftNode);
+                Edge.RemoveEdge(LeftNode, RightNode);
+                Edge.RemoveEdge(RightNode, LeftNode);
             }
             if(LeftNode != null)
             {
-                LeftNode.AddEdgeTo(NewNode, NewNode.X - LeftNode.X, CreateWalkOnSameFloorGoal);
-                LeftNode.AddEdgeFrom(NewNode, NewNode.X - LeftNode.X, CreateWalkOnSameFloorGoal);
+                Edge.AddEdge(LeftNode, NewNode, NewNode.X - LeftNode.X, CreateWalkOnSameFloorGoal);
+                Edge.AddEdge(NewNode, LeftNode, NewNode.X - LeftNode.X, CreateWalkOnSameFloorGoal);
             }
             if(RightNode != null)
             {
-                RightNode.AddEdgeTo(NewNode, RightNode.X - NewNode.X, CreateWalkOnSameFloorGoal);
-                RightNode.AddEdgeFrom(NewNode, RightNode.X - NewNode.X, CreateWalkOnSameFloorGoal);
+                Edge.AddEdge(RightNode, NewNode, RightNode.X - NewNode.X, CreateWalkOnSameFloorGoal);
+                Edge.AddEdge(NewNode, RightNode, RightNode.X - NewNode.X, CreateWalkOnSameFloorGoal);
             }
             _Nodes.Add(NewNode);
         }
@@ -116,18 +116,18 @@ namespace ButtonOffice.Transportation
             }
             if(LeftNode != null)
             {
-                LeftNode.RemoveEdgeTo(DeleteNode);
-                LeftNode.RemoveEdgeFrom(DeleteNode);
+                Edge.RemoveEdge(LeftNode, DeleteNode);
+                Edge.RemoveEdge(DeleteNode, LeftNode);
             }
             if(RightNode != null)
             {
-                RightNode.RemoveEdgeTo(DeleteNode);
-                RightNode.RemoveEdgeFrom(DeleteNode);
+                Edge.RemoveEdge(RightNode, DeleteNode);
+                Edge.RemoveEdge(DeleteNode, RightNode);
             }
             if((LeftNode != null) && (RightNode != null))
             {
-                LeftNode.AddEdgeTo(RightNode, RightNode.X - LeftNode.X, CreateWalkOnSameFloorGoal);
-                RightNode.AddEdgeTo(LeftNode, RightNode.X - LeftNode.X, CreateWalkOnSameFloorGoal);
+                Edge.AddEdge(LeftNode, RightNode, RightNode.X - LeftNode.X, CreateWalkOnSameFloorGoal);
+                Edge.AddEdge(RightNode, LeftNode, RightNode.X - LeftNode.X, CreateWalkOnSameFloorGoal);
             }
         }
 

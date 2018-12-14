@@ -496,17 +496,17 @@ namespace ButtonOffice
             _WidenBuilding(Building.Left, Building.Width, Building.Floor, Building.Height);
         }
 
+        public Boolean CanBuild(UInt64 Cents, Double Left, Double Width, Double Floor, Double Height)
+        {
+            return (CanSpend(Cents) == true) && (_InBuildableWorld(Left, Width, Floor, Height) == true) && (_InFreeSpace(Left, Width, Floor, Height) == true) && (_CompletelyOnTopOfBuilding(Left, Width, Floor, Height) == true);
+        }
+
         public Boolean CanDestroy(Building Building)
         {
             return Building.CanDestroy();
         }
 
-        public Boolean CanBuild(UInt64 Cost, Double Left, Double Width, Double Floor, Double Height)
-        {
-            return (_EnoughCents(Cost) == true) && (_InBuildableWorld(Left, Width, Floor, Height) == true) && (_InFreeSpace(Left, Width, Floor, Height) == true) && (_CompletelyOnTopOfBuilding(Left, Width, Floor, Height) == true);
-        }
-
-        private Boolean _EnoughCents(UInt64 Cents)
+        public Boolean CanSpend(UInt64 Cents)
         {
             return _Cents >= Cents;
         }
@@ -566,7 +566,7 @@ namespace ButtonOffice
             }
         }
 
-        private void _FreeOccupiedSpace(Double Left, Double Width, Double Floor, Double Height)
+        public void FreeSpace(Double Left, Double Width, Double Floor, Double Height)
         {
             for(var Row = 0; Row < Height.GetNearestInt32(); ++Row)
             {
@@ -673,7 +673,7 @@ namespace ButtonOffice
                 }
                 _Offices.Remove(Office);
             }
-            _FreeOccupiedSpace(Building.Left, Building.Width, Building.Floor, Building.Height);
+            FreeSpace(Building.Left, Building.Width, Building.Floor, Building.Height);
         }
     }
 }

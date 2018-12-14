@@ -376,29 +376,54 @@ namespace ButtonOffice
                                                            _MainSplitContainer.Panel1.Controls.Clear();
                                                        };
                                 _MainSplitContainer.Panel1.Controls.Add(DestroyButton);
-                                if(Building is Stairs)
+
+                                var Stairs = Building as Stairs;
+
+                                if(Stairs != null)
                                 {
-                                    var ExpandUpwardsButton = new Button();
+                                    var AddHighestFloorButton = new Button();
 
-                                    ExpandUpwardsButton.Location = new Point(10, 110);
-                                    ExpandUpwardsButton.Size = new Size(120, 20);
-                                    ExpandUpwardsButton.Text = "Expand upwards";
-                                    ExpandUpwardsButton.Click += delegate
-                                                                 {
-                                                                     (Building as Stairs)?.ExpandUpwards(_Game);
-                                                                 };
-                                    _MainSplitContainer.Panel1.Controls.Add(ExpandUpwardsButton);
-
-                                    var ExpandDownwardsButton = new Button();
-
-                                    ExpandDownwardsButton.Location = new Point(10, 140);
-                                    ExpandDownwardsButton.Size = new Size(120, 20);
-                                    ExpandDownwardsButton.Text = "Expand downwards";
-                                    ExpandDownwardsButton.Click += delegate
+                                    AddHighestFloorButton.Location = new Point(10, 110);
+                                    AddHighestFloorButton.Size = new Size(120, 20);
+                                    AddHighestFloorButton.Text = "Add highest floor";
+                                    AddHighestFloorButton.Click += delegate
                                                                    {
-                                                                       (Building as Stairs)?.ExpandDownwards(_Game);
+                                                                       Stairs.AddHighestFloor(_Game);
                                                                    };
-                                    _MainSplitContainer.Panel1.Controls.Add(ExpandDownwardsButton);
+                                    _MainSplitContainer.Panel1.Controls.Add(AddHighestFloorButton);
+
+                                    var RemoveHighestFloorButton = new Button();
+
+                                    RemoveHighestFloorButton.Location = new Point(10, 140);
+                                    RemoveHighestFloorButton.Size = new Size(120, 20);
+                                    RemoveHighestFloorButton.Text = "Remove highest floor";
+                                    RemoveHighestFloorButton.Click += delegate
+                                                                      {
+                                                                          Stairs.RemoveHighestFloor(_Game);
+                                                                      };
+                                    _MainSplitContainer.Panel1.Controls.Add(RemoveHighestFloorButton);
+
+                                    var AddLowestFloorButton = new Button();
+
+                                    AddLowestFloorButton.Location = new Point(10, 170);
+                                    AddLowestFloorButton.Size = new Size(120, 20);
+                                    AddLowestFloorButton.Text = "Add lowest floor";
+                                    AddLowestFloorButton.Click += delegate
+                                                                  {
+                                                                      Stairs.AddLowestFloor(_Game);
+                                                                  };
+                                    _MainSplitContainer.Panel1.Controls.Add(AddLowestFloorButton);
+
+                                    var RemoveLowestFloorButton = new Button();
+
+                                    RemoveLowestFloorButton.Location = new Point(10, 200);
+                                    RemoveLowestFloorButton.Size = new Size(120, 20);
+                                    RemoveLowestFloorButton.Text = "Remove lowest floor";
+                                    RemoveLowestFloorButton.Click += delegate
+                                                                     {
+                                                                         Stairs.RemoveLowestFloor(_Game);
+                                                                     };
+                                    _MainSplitContainer.Panel1.Controls.Add(RemoveLowestFloorButton);
                                 }
 
                                 break;
