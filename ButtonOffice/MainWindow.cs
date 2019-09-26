@@ -941,9 +941,9 @@ namespace ButtonOffice
 
         private void _OnNewGame()
         {
-            // uncheck all buttons
             _UncheckAllToolButtons();
-            _CameraPosition = new Vector2(0.0, 0.0);
+            // places the camera closely above ground with half a block of ground visible
+            _CameraPosition = new Vector2(0.0, _DrawingBoard.Height / Data.BlockHeight / 2.0 - 0.5);
             _CameraVelocity = new Vector2(0.0, 0.0);
             _FloatingTexts.Clear();
             _Game.OnEarnMoney += delegate(UInt64 Cents, Vector2 Location)
@@ -969,7 +969,7 @@ namespace ButtonOffice
                                       _FloatingTexts.Add(FloatingText);
                                   };
             _EntityPrototype = null;
-            _DragPoint = new Point?();
+            _DragPoint = null;
             _LastTick = DateTime.MinValue;
             _MoveButton = null;
             _MovePerson = null;
