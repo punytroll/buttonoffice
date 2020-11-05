@@ -61,9 +61,9 @@ SOURCES = \
 RESOURCES = \
 	$(BUTTON_OFFICE_RESOURCES)
 
-all: buttonoffice.mono
+all: buttonoffice
 
-buttonoffice.mono: $(SOURCES) $(RESOURCES)
+buttonoffice: $(SOURCES) $(RESOURCES)
 	mcs $(filter %.cs, $^) -out:$@ -debug -d:DEBUG -reference:System.Drawing -reference:System.Windows.Forms $(foreach resources, $(filter %.resources, $^), -resource:$(resources))
 
 %.resources: %.resx
