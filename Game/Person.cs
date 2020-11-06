@@ -47,7 +47,7 @@ namespace ButtonOffice
             {
                 _LivingSide = LivingSide.Right;
             }
-            _Mind = new Mind();
+            _Mind = null;
             _Height = RandomNumberGenerator.GetDouble(Data.PersonHeightMean, Data.PersonHeightSpread);
             _Width = RandomNumberGenerator.GetDouble(Data.PersonWidthMean, Data.PersonWidthSpread);
             _Name = "Hagen";

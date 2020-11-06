@@ -15,7 +15,11 @@ namespace ButtonOffice
             _CleaningTargets = new Queue<Desk>();
             _Wage = Data.JanitorWage;
             _WorkMinutes = Data.JanitorWorkMinutes;
-            _Mind.SetRootGoal(new JanitorThink());
+            
+            var Mind = new GoalMind();
+            
+            Mind.SetRootGoal(new JanitorThink());
+            _Mind = Mind;
         }
 
         public void ClearCleaningTargets()

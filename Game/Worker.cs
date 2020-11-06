@@ -1,4 +1,6 @@
-﻿namespace ButtonOffice
+﻿using ButtonOffice.Goals;
+
+namespace ButtonOffice
 {
     internal class Worker : Person
     {
@@ -9,7 +11,11 @@
             _BorderColor = Data.WorkerBorderColor;
             _Wage = Data.WorkerWage;
             _WorkMinutes = Data.WorkerWorkMinutes;
-            _Mind.SetRootGoal(new ButtonOffice.Goals.WorkerThink());
+            
+            var Mind = new GoalMind();
+            
+            Mind.SetRootGoal(new WorkerThink());
+            _Mind = Mind;
         }
     }
 }

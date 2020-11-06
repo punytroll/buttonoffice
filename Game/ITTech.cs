@@ -15,7 +15,11 @@ namespace ButtonOffice
             _RepairingTarget = null;
             _Wage = Data.ITTechWage;
             _WorkMinutes = Data.ITTechWorkMinutes;
-            _Mind.SetRootGoal(new ITTechThink());
+            
+            var Mind = new GoalMind();
+            
+            Mind.SetRootGoal(new ITTechThink());
+            _Mind = Mind;
         }
 
         public PersistentObject GetRepairingTarget()

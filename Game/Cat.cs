@@ -27,8 +27,11 @@ namespace ButtonOffice
             _BackgroundColor = Data.CatBackgroundColor;
             _BorderColor = Data.CatBorderColor;
             _Height = Data.CatHeight;
-            _Mind = new Mind();
-            _Mind.SetRootGoal(new CatThink());
+            
+            var Mind = new GoalMind();
+            
+            Mind.SetRootGoal(new CatThink());
+            _Mind = Mind;
             _Width = Data.CatWidth;
         }
 

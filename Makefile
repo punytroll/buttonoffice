@@ -43,6 +43,7 @@ GAME_SOURCES = \
 	Game/Desk.cs \
 	Game/Game.cs \
 	Game/Goal.cs \
+	Game/GoalMind.cs \
 	Game/Goals.cs \
 	Game/ITTech.cs \
 	Game/Janitor.cs \

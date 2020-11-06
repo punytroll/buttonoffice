@@ -15,7 +15,11 @@ namespace ButtonOffice
             _BonusPromille = Data.AccountantBonusPromille;
             _Wage = Data.AccountantWage;
             _WorkMinutes = Data.AccountantWorkMinutes;
-            _Mind.SetRootGoal(new AccountantThink());
+            
+            var Mind = new GoalMind();
+            
+            Mind.SetRootGoal(new AccountantThink());
+            _Mind = Mind;
         }
 
         public UInt64 GetBonusPromille()
