@@ -45,6 +45,7 @@ GAME_SOURCES = \
 	Game/Goal.cs \
 	Game/GoalMind.cs \
 	Game/Goals.cs \
+	Game/GOAPMind.cs \
 	Game/ITTech.cs \
 	Game/Janitor.cs \
 	Game/Lamp.cs \
