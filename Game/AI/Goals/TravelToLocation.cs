@@ -1,7 +1,7 @@
 using System;
 using System.Diagnostics;
 
-namespace ButtonOffice
+namespace ButtonOffice.AI.Goals
 {
     internal class TravelToLocation : Goal
     {
@@ -12,7 +12,7 @@ namespace ButtonOffice
             _Location = Location;
         }
 
-        protected override void _OnInitialize(Game Game, PersistentObject Actor)
+        protected override void _OnInitialize(Game Game, Actor Actor)
         {
             var Person = Actor as Person;
 
@@ -33,7 +33,7 @@ namespace ButtonOffice
             }
         }
 
-        protected override void _OnExecute(Game Game, PersistentObject Actor, Double DeltaGameMinutes)
+        protected override void _OnExecute(Game Game, Actor Actor, Double DeltaGameMinutes)
         {
             if(HasSubGoals() == false)
             {

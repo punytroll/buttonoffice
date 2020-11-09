@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Drawing;
-using ButtonOffice.Goals;
+using ButtonOffice.AI;
+using ButtonOffice.AI.Goals;
 
 namespace ButtonOffice
 {
-    public class Cat : PersistentObject
+    public class Cat : Actor
     {
         private Color _BackgroundColor;
         private Color _BorderColor;
         private Double _Height;
-        private Mind _Mind;
         private Office _Office;
         private Double _Width;
         private Double _X;
@@ -27,8 +27,11 @@ namespace ButtonOffice
             _BackgroundColor = Data.CatBackgroundColor;
             _BorderColor = Data.CatBorderColor;
             _Height = Data.CatHeight;
-            _Mind = new Mind();
-            _Mind.SetRootGoal(new CatThink());
+            
+            var Mind = new ButtonOffice.AI.Goals.Mind();
+            
+            Mind.SetRootGoal(new CatThink());
+            _Mind = Mind;
             _Width = Data.CatWidth;
         }
 
@@ -76,7 +79,7 @@ namespace ButtonOffice
 
         public void Move(Game Game, Double DeltaGameMinutes)
         {
-            _Mind.Move(Game, this, DeltaGameMinutes);
+            _Mind.Update(Game, this, DeltaGameMinutes);
         }
 
         public override void Save(SaveObjectStore ObjectStore)

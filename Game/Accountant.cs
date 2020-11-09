@@ -1,5 +1,5 @@
 ﻿using System;
-using ButtonOffice.Goals;
+using ButtonOffice.AI.Goals;
 
 namespace ButtonOffice
 {
@@ -13,9 +13,13 @@ namespace ButtonOffice
             _BackgroundColor = Data.AccountantBackgroundColor;
             _BorderColor = Data.AccountantBorderColor;
             _BonusPromille = Data.AccountantBonusPromille;
+            
+            var Mind = new Mind();
+            
+            Mind.SetRootGoal(new AccountantThink());
+            _Mind = Mind;
             _Wage = Data.AccountantWage;
             _WorkMinutes = Data.AccountantWorkMinutes;
-            _Mind.SetRootGoal(new AccountantThink());
         }
 
         public UInt64 GetBonusPromille()

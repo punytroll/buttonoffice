@@ -1,10 +1,11 @@
-﻿using System;
+﻿using ButtonOffice.AI;
+using System;
 using System.Diagnostics;
 using System.Drawing;
 
 namespace ButtonOffice
 {
-    public abstract class Person : PersistentObject
+    public abstract class Person : Actor
     {
         protected Double _ActionFraction;
         protected Double _AnimationFraction;
@@ -18,7 +19,6 @@ namespace ButtonOffice
         private Double _Height;
         protected UInt64 _LeavesAtMinute;
         protected LivingSide _LivingSide;
-        protected Mind _Mind;
         private String _Name;
         protected UInt64 _Wage;
         private Double _Width;
@@ -47,7 +47,6 @@ namespace ButtonOffice
             {
                 _LivingSide = LivingSide.Right;
             }
-            _Mind = new Mind();
             _Height = RandomNumberGenerator.GetDouble(Data.PersonHeightMean, Data.PersonHeightSpread);
             _Width = RandomNumberGenerator.GetDouble(Data.PersonWidthMean, Data.PersonWidthSpread);
             _Name = "Hagen";
@@ -193,9 +192,9 @@ namespace ButtonOffice
             _Y = Y;
         }
 
-        public void Move(Game Game, Double DeltaGameMinutes)
+        public void Update(Game Game, Double DeltaGameMinutes)
         {
-            _Mind.Move(Game, this, DeltaGameMinutes);
+            _Mind.Update(Game, this, DeltaGameMinutes);
         }
 
         public override void Save(SaveObjectStore ObjectStore)
@@ -213,7 +212,6 @@ namespace ButtonOffice
             ObjectStore.Save("height", _Height);
             ObjectStore.Save("leaves-at-minute", _LeavesAtMinute);
             ObjectStore.Save("living-side", _LivingSide);
-            ObjectStore.Save("mind", _Mind);
             ObjectStore.Save("name", _Name);
             ObjectStore.Save("wage", _Wage);
             ObjectStore.Save("width", _Width);
@@ -237,7 +235,6 @@ namespace ButtonOffice
             _Height = ObjectStore.LoadDoubleProperty("height");
             _LeavesAtMinute = ObjectStore.LoadUInt64Property("leaves-at-minute");
             _LivingSide = ObjectStore.LoadLivingSideProperty("living-side");
-            _Mind = ObjectStore.LoadMindProperty("mind");
             _Name = ObjectStore.LoadStringProperty("name");
             _Wage = ObjectStore.LoadUInt64Property("wage");
             _Width = ObjectStore.LoadDoubleProperty("width");

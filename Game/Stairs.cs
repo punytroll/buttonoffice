@@ -1,4 +1,4 @@
-using ButtonOffice.Goals;
+using ButtonOffice.AI.Goals;
 using ButtonOffice.Transportation;
 using System;
 using System.Collections.Generic;

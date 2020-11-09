@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ButtonOffice.AI;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
@@ -40,72 +41,72 @@ namespace ButtonOffice
             _SubGoals.RemoveAt(0);
         }
 
-        public void Abort(Game Game, PersistentObject Actor)
+        public void Abort(Game Game, Actor Actor)
         {
             Debug.Assert(_State == GoalState.Ready || _State == GoalState.Executing || _State == GoalState.Pristine, AssertMessages.CurrentStateIsNotReadyOrExecuting.ToString());
             _OnAbort(Game, Actor);
             _State = GoalState.Done;
         }
 
-        protected virtual void _OnAbort(Game Game, PersistentObject Actor)
+        protected virtual void _OnAbort(Game Game, Actor Actor)
         {
         }
 
-        public void Finish(Game Game, PersistentObject Actor)
+        public void Finish(Game Game, Actor Actor)
         {
             Debug.Assert(_State == GoalState.Executing, AssertMessages.CurrentStateIsNotExecuting.ToString());
             _OnFinish(Game, Actor);
             _State = GoalState.Done;
         }
 
-        protected virtual void _OnFinish(Game Game, PersistentObject Actor)
+        protected virtual void _OnFinish(Game Game, Actor Actor)
         {
         }
 
-        public void Initialize(Game Game, PersistentObject Actor)
+        public void Initialize(Game Game, Actor Actor)
         {
             Debug.Assert(_State == GoalState.Pristine, AssertMessages.CurrentStateIsNotPrestine.ToString());
             _State = GoalState.Ready;
             _OnInitialize(Game, Actor);
         }
 
-        protected virtual void _OnInitialize(Game Game, PersistentObject Actor)
+        protected virtual void _OnInitialize(Game Game, Actor Actor)
         {
         }
 
-        public void Execute(Game Game, PersistentObject Actor, Double DeltaGameMinutes)
+        public void Execute(Game Game, Actor Actor, Double DeltaGameMinutes)
         {
             Debug.Assert(_State == GoalState.Executing, AssertMessages.CurrentStateIsNotExecuting.ToString());
             _OnExecute(Game, Actor, DeltaGameMinutes);
         }
 
-        protected virtual void _OnExecute(Game Game, PersistentObject Actor, Double DeltaGameMinutes)
+        protected virtual void _OnExecute(Game Game, Actor Actor, Double DeltaGameMinutes)
         {
         }
 
-        public void Resume(Game Game, PersistentObject Actor)
+        public void Resume(Game Game, Actor Actor)
         {
             Debug.Assert(_State == GoalState.Ready, AssertMessages.CurrentStateIsNotReady.ToString());
             _OnResume(Game, Actor);
             _State = GoalState.Executing;
         }
 
-        protected virtual void _OnResume(Game Game, PersistentObject Actor)
+        protected virtual void _OnResume(Game Game, Actor Actor)
         {
         }
 
-        public void Suspend(Game Game, PersistentObject Actor)
+        public void Suspend(Game Game, Actor Actor)
         {
             Debug.Assert(_State == GoalState.Executing, AssertMessages.CurrentStateIsNotExecuting.ToString());
             _OnSuspend(Game, Actor);
             _State = GoalState.Ready;
         }
 
-        protected virtual void _OnSuspend(Game Game, PersistentObject Actor)
+        protected virtual void _OnSuspend(Game Game, Actor Actor)
         {
         }
 
-        public void Terminate(Game Game, PersistentObject Actor)
+        public void Terminate(Game Game, Actor Actor)
         {
             Debug.Assert(_State == GoalState.Done, AssertMessages.CurrentStateIsNotDone.ToString());
             Debug.Assert(_SubGoals.Count == 0);
@@ -113,7 +114,7 @@ namespace ButtonOffice
             _State = GoalState.Terminated;
         }
 
-        protected virtual void _OnTerminate(Game Game, PersistentObject Actor)
+        protected virtual void _OnTerminate(Game Game, Actor Actor)
         {
         }
 

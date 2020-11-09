@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ButtonOffice
+namespace ButtonOffice.AI.Goals
 {
-    public class Mind : PersistentObject
+    public class Mind : ButtonOffice.AI.Mind
     {
         protected Goal _RootGoal;
 
@@ -12,7 +12,7 @@ namespace ButtonOffice
             _RootGoal = null;
         }
 
-        public void Move(Game Game, PersistentObject Actor, Double DeltaGameMinutes)
+        public override void Update(Game Game, Actor Actor, Double DeltaGameMinutes)
         {
             var ParentGoals = new List<Goal>();
             var CurrentGoal = _RootGoal;

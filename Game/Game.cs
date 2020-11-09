@@ -93,7 +93,7 @@ namespace ButtonOffice
             }
             foreach(var Person in _Persons)
             {
-                Person.Move(this, DeltaGameMinutes);
+                Person.Update(this, DeltaGameMinutes);
             }
         }
 

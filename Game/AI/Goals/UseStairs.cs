@@ -1,7 +1,7 @@
 using System;
 using System.Diagnostics;
 
-namespace ButtonOffice.Goals
+namespace ButtonOffice.AI.Goals
 {
     internal class UseStairs : Goal
     {
@@ -18,7 +18,7 @@ namespace ButtonOffice.Goals
             _TargetFloor = TargetFloor;
         }
 
-        protected override void _OnInitialize(Game Game, PersistentObject Actor)
+        protected override void _OnInitialize(Game Game, Actor Actor)
         {
             Debug.Assert(_Stairs != null);
             Debug.Assert(_TargetFloor != null);
@@ -31,7 +31,7 @@ namespace ButtonOffice.Goals
             Person.SetAnimationFraction(0.0);
         }
 
-        protected override void _OnExecute(Game Game, PersistentObject Actor, Double DeltaGameMinutes)
+        protected override void _OnExecute(Game Game, Actor Actor, Double DeltaGameMinutes)
         {
             Debug.Assert(_Stairs != null);
             Debug.Assert(_TargetFloor != null);
@@ -75,7 +75,7 @@ namespace ButtonOffice.Goals
             }
         }
 
-        protected override void _OnTerminate(Game Game, PersistentObject Actor)
+        protected override void _OnTerminate(Game Game, Actor Actor)
         {
             var Person = Actor as Person;
 

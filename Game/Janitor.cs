@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using ButtonOffice.Goals;
+﻿using ButtonOffice.AI.Goals;
+using System.Collections.Generic;
 
 namespace ButtonOffice
 {
@@ -13,9 +13,13 @@ namespace ButtonOffice
             _BackgroundColor = Data.JanitorBackgroundColor;
             _BorderColor = Data.JanitorBorderColor;
             _CleaningTargets = new Queue<Desk>();
+            
+            var Mind = new Mind();
+            
+            Mind.SetRootGoal(new JanitorThink());
+            _Mind = Mind;
             _Wage = Data.JanitorWage;
             _WorkMinutes = Data.JanitorWorkMinutes;
-            _Mind.SetRootGoal(new JanitorThink());
         }
 
         public void ClearCleaningTargets()

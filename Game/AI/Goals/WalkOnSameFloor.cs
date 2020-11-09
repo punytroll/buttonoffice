@@ -1,7 +1,7 @@
 using System;
 using System.Diagnostics;
 
-namespace ButtonOffice
+namespace ButtonOffice.AI.Goals
 {
     internal class WalkOnSameFloor : Goal
     {
@@ -12,7 +12,7 @@ namespace ButtonOffice
             _X = X;
         }
 
-        protected override void _OnInitialize(Game Game, PersistentObject Actor)
+        protected override void _OnInitialize(Game Game, Actor Actor)
         {
             var Person = Actor as Person;
 
@@ -22,7 +22,7 @@ namespace ButtonOffice
             Person.SetAnimationFraction(0.0);
         }
 
-        protected override void _OnExecute(Game Game, PersistentObject Actor, Double DeltaGameMinutes)
+        protected override void _OnExecute(Game Game, Actor Actor, Double DeltaGameMinutes)
         {
             var Person = Actor as Person;
 
@@ -49,7 +49,7 @@ namespace ButtonOffice
             }
         }
 
-        protected override void _OnTerminate(Game Game, PersistentObject Actor)
+        protected override void _OnTerminate(Game Game, Actor Actor)
         {
             var Person = Actor as Person;
 
