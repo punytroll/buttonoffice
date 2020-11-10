@@ -25,7 +25,6 @@ GAME_SOURCES = \
 	Game/AI/Goals/CleanDesk.cs \
 	Game/AI/Goals/CleanDesks.cs \
 	Game/AI/Goals/Goal.cs \
-	Game/AI/Goals/Goals.cs \
 	Game/AI/Goals/GoHome.cs \
 	Game/AI/Goals/GoToOwnDesk.cs \
 	Game/AI/Goals/GoToWork.cs \
