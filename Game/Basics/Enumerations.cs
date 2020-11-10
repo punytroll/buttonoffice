@@ -6,7 +6,7 @@
         WalkLeft,
         WalkRight
     }
-
+    
     public enum AnimationState
     {
         Accounting,
@@ -17,16 +17,15 @@
         Standing,
         Walking
     }
-
+    
     public enum GoalState
     {
-        Done,
         Executing,
         Pristine,
-        Ready,
+        Initialized,
         Terminated
     }
-
+    
     public enum LivingSide
     {
         Left,

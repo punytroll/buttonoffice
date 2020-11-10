@@ -1,4 +1,4 @@
-﻿using ButtonOffice.AI;
+﻿using ButtonOffice.AI.Goals;
 using System;
 using System.Collections.Generic;
 using System.Drawing;

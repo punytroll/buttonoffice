@@ -6,36 +6,38 @@ namespace ButtonOffice.AI.Goals
     public class Mind : ButtonOffice.AI.Mind
     {
         protected Goal _RootGoal;
-
+        
         public Mind()
         {
             _RootGoal = null;
         }
-
+        
         public override void Update(Game Game, Actor Actor, Double DeltaGameMinutes)
         {
             var ParentGoals = new List<Goal>();
             var CurrentGoal = _RootGoal;
-
+            
             while(CurrentGoal != null)
             {
-                if(CurrentGoal.GetState() == GoalState.Pristine)
+                var Result = BehaviorResult.Running;
+                
+                if((Result == BehaviorResult.Running) && (CurrentGoal.GetState() == GoalState.Pristine))
                 {
-                    CurrentGoal.Initialize(Game, Actor);
+                    Result = CurrentGoal.Initialize(Game, Actor);
                 }
-                if((CurrentGoal.GetState() == GoalState.Executing) || (CurrentGoal.GetState() == GoalState.Ready))
+                if((Result == BehaviorResult.Running) && ((CurrentGoal.GetState() == GoalState.Executing) || (CurrentGoal.GetState() == GoalState.Initialized)))
                 {
-                    CurrentGoal.Execute(Game, Actor, DeltaGameMinutes);
+                    Result = CurrentGoal.Execute(Game, Actor, DeltaGameMinutes);
                 }
-                if(CurrentGoal.GetState() == GoalState.Done)
+                if((Result == BehaviorResult.Succeeded) || (Result == BehaviorResult.Failed))
                 {
                     var TerminateGoals = new Stack<Goal>();
-
+                    
                     TerminateGoals.Push(CurrentGoal);
                     while(TerminateGoals.Count > 0)
                     {
                         var TerminateGoal = TerminateGoals.Peek();
-
+                        
                         if(TerminateGoal.HasSubGoals() == true)
                         {
                             while(TerminateGoal.HasSubGoals() == true)
@@ -46,10 +48,6 @@ namespace ButtonOffice.AI.Goals
                         }
                         else
                         {
-                            if((TerminateGoal.GetState() == GoalState.Pristine) || (TerminateGoal.GetState() == GoalState.Ready) || (TerminateGoal.GetState() == GoalState.Executing))
-                            {
-                                TerminateGoal.Abort(Game, Actor);
-                            }
                             TerminateGoal.Terminate(Game, Actor);
                             TerminateGoals.Pop();
                         }
@@ -74,18 +72,18 @@ namespace ButtonOffice.AI.Goals
                 }
             }
         }
-
+        
         public void SetRootGoal(Goal RootGoal)
         {
             _RootGoal = RootGoal;
         }
-
+        
         public override void Save(SaveObjectStore ObjectStore)
         {
             base.Save(ObjectStore);
             ObjectStore.Save("root-goal", _RootGoal);
         }
-
+        
         public override void Load(LoadObjectStore ObjectStore)
         {
             base.Load(ObjectStore);

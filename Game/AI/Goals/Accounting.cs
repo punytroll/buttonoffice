@@ -5,23 +5,26 @@ namespace ButtonOffice.AI.Goals
 {
     internal class Accounting : Goal
     {
-        protected override void _OnInitialize(Game Game, Actor Actor)
+        protected override BehaviorResult _OnInitialize(Game Game, Actor Actor)
         {
             var Person = Actor as Person;
             
             Debug.Assert(Person != null);
             Person.SetAnimationState(AnimationState.Accounting);
             Person.SetAnimationFraction(0.0);
+            
+            return BehaviorResult.Running;
         }
         
-        protected override void _OnExecute(Game Game, Actor Actor, Double DeltaGameMinutes)
+        protected override BehaviorResult _OnExecute(Game Game, Actor Actor, Double DeltaGameMinutes)
         {
+            var Result = BehaviorResult.Running;
             var Person = Actor as Person;
             
             Debug.Assert(Person != null);
             if(Game.GetTotalMinutes() > Person.GetLeavesAtMinute())
             {
-                Finish(Game, Actor);
+                Result = BehaviorResult.Succeeded;
             }
             else
             {
@@ -51,6 +54,8 @@ namespace ButtonOffice.AI.Goals
                     }
                 }
             }
+            
+            return Result;
         }
         
         protected override void _OnTerminate(Game Game, Actor Actor)

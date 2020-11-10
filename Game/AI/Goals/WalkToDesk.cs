@@ -17,7 +17,7 @@ namespace ButtonOffice.AI.Goals
             _Desk = Desk;
         }
         
-        protected override void _OnInitialize(Game Game, Actor Actor)
+        protected override BehaviorResult _OnInitialize(Game Game, Actor Actor)
         {
             Debug.Assert(_Desk != null);
             
@@ -25,14 +25,20 @@ namespace ButtonOffice.AI.Goals
             
             WalkToLocation.SetLocation(new Vector2(_Desk.GetX() + _Desk.GetWidth() / 2.0, _Desk.GetY()));
             AppendSubGoal(WalkToLocation);
+            
+            return BehaviorResult.Running;
         }
         
-        protected override void _OnExecute(Game Game, Actor Actor, Double DeltaGameMinutes)
+        protected override BehaviorResult _OnExecute(Game Game, Actor Actor, Double DeltaGameMinutes)
         {
+            var Result = BehaviorResult.Running;
+            
             if(HasSubGoals() == false)
             {
-                Finish(Game, Actor);
+                Result = BehaviorResult.Succeeded;
             }
+            
+            return Result;
         }
         
         public override void Save(SaveObjectStore ObjectStore)

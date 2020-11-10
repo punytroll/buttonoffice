@@ -5,8 +5,9 @@ namespace ButtonOffice.AI.Goals
 {
     internal class Repair : Goal
     {
-        protected override void _OnExecute(Game Game, Actor Actor, Double DeltaGameMinutes)
+        protected override BehaviorResult _OnExecute(Game Game, Actor Actor, Double DeltaGameMinutes)
         {
+            var Result = BehaviorResult.Running;
             var ITTech = Actor as ITTech;
             
             Debug.Assert(ITTech != null);
@@ -38,12 +39,14 @@ namespace ButtonOffice.AI.Goals
                 }
                 ITTech.SetRepairingTarget(null);
                 ITTech.Desk.TrashLevel += 1.0;
-                Finish(Game, Actor);
+                Result = BehaviorResult.Succeeded;
             }
             while(ITTech.GetAnimationFraction() >= 1.0)
             {
                 ITTech.SetAnimationFraction(ITTech.GetAnimationFraction() - 1.0);
             }
+            
+            return Result;
         }
     }
 }

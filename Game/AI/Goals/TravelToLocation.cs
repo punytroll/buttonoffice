@@ -6,20 +6,21 @@ namespace ButtonOffice.AI.Goals
     internal class TravelToLocation : Goal
     {
         private Vector2 _Location;
-
+        
         public void SetLocation(Vector2 Location)
         {
             _Location = Location;
         }
-
-        protected override void _OnInitialize(Game Game, Actor Actor)
+        
+        protected override BehaviorResult _OnInitialize(Game Game, Actor Actor)
         {
+            var Result = BehaviorResult.Running;
             var Person = Actor as Person;
-
+            
             Debug.Assert(Person != null);
-
+            
             var Path = Game.Transportation.GetShortestPath(Person.GetLocation(), _Location);
-
+            
             if(Path != null)
             {
                 foreach(var Edge in Path)
@@ -29,24 +30,30 @@ namespace ButtonOffice.AI.Goals
             }
             else
             {
-                Abort(Game, Person);
+                Result = BehaviorResult.Failed;
             }
+            
+            return Result;
         }
-
-        protected override void _OnExecute(Game Game, Actor Actor, Double DeltaGameMinutes)
+        
+        protected override BehaviorResult _OnExecute(Game Game, Actor Actor, Double DeltaGameMinutes)
         {
+            var Result = BehaviorResult.Running;
+            
             if(HasSubGoals() == false)
             {
-                Finish(Game, Actor);
+                Result = BehaviorResult.Succeeded;
             }
+            
+            return Result;
         }
-
+        
         public override void Save(SaveObjectStore ObjectStore)
         {
             base.Save(ObjectStore);
             ObjectStore.Save("location", _Location);
         }
-
+        
         public override void Load(LoadObjectStore ObjectStore)
         {
             base.Load(ObjectStore);

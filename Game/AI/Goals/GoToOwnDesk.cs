@@ -5,7 +5,7 @@ namespace ButtonOffice.AI.Goals
 {
     internal class GoToOwnDesk : Goal
     {
-        protected override void _OnInitialize(Game Game, Actor Actor)
+        protected override BehaviorResult _OnInitialize(Game Game, Actor Actor)
         {
             var Person = Actor as Person;
             
@@ -19,18 +19,24 @@ namespace ButtonOffice.AI.Goals
             
             WalkToDesk.SetDesk(Desk);
             AppendSubGoal(WalkToDesk);
+            
+            return BehaviorResult.Running;
         }
         
-        protected override void _OnExecute(Game Game, Actor Actor, Double DeltaGameMinutes)
+        protected override BehaviorResult _OnExecute(Game Game, Actor Actor, Double DeltaGameMinutes)
         {
+            var Result = BehaviorResult.Running;
+            
             if(HasSubGoals() == false)
             {
                 var Person = Actor as Person;
                 
                 Debug.Assert(Person != null);
                 Person.SetAtDesk(true);
-                Finish(Game, Actor);
+                Result = BehaviorResult.Succeeded;
             }
+            
+            return Result;
         }
     }
 }

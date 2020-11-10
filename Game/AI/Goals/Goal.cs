@@ -3,96 +3,91 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace ButtonOffice
+namespace ButtonOffice.AI.Goals
 {
     public class Goal : PersistentObject
     {
         private GoalState _State;
         private readonly List<Goal> _SubGoals;
-
+        
         public Goal()
         {
             _SubGoals = new List<Goal>();
             _State = GoalState.Pristine;
         }
-
+        
         public void AppendSubGoal(Goal Goal)
         {
             _SubGoals.Add(Goal);
         }
-
+        
         public Goal GetFirstSubGoal()
         {
             return _SubGoals.GetFirst();
         }
-
+        
         public GoalState GetState()
         {
             return _State;
         }
-
+        
         public Boolean HasSubGoals()
         {
             return _SubGoals.Count > 0;
         }
-
+        
         public void RemoveFirstSubGoal()
         {
             _SubGoals.RemoveAt(0);
         }
-
-        public void Abort(Game Game, Actor Actor)
-        {
-            Debug.Assert(_State == GoalState.Ready || _State == GoalState.Executing || _State == GoalState.Pristine);
-            _State = GoalState.Done;
-        }
-
-        public void Finish(Game Game, Actor Actor)
-        {
-            Debug.Assert(_State == GoalState.Executing);
-            _State = GoalState.Done;
-        }
-
-        public void Initialize(Game Game, Actor Actor)
+        
+        public BehaviorResult Initialize(Game Game, Actor Actor)
         {
             Debug.Assert(_State == GoalState.Pristine);
-            _State = GoalState.Ready;
-            _OnInitialize(Game, Actor);
+            
+            var Result = _OnInitialize(Game, Actor);
+            
+            _State = GoalState.Initialized;
+            
+            return Result;
         }
-
-        protected virtual void _OnInitialize(Game Game, Actor Actor)
+        
+        protected virtual BehaviorResult _OnInitialize(Game Game, Actor Actor)
         {
+            return BehaviorResult.Running;
         }
-
-        public void Execute(Game Game, Actor Actor, Double DeltaGameMinutes)
+        
+        public BehaviorResult Execute(Game Game, Actor Actor, Double DeltaGameMinutes)
         {
-            Debug.Assert(_State == GoalState.Executing || _State == GoalState.Ready);
-            _OnExecute(Game, Actor, DeltaGameMinutes);
+            Debug.Assert(_State == GoalState.Executing || _State == GoalState.Initialized);
+            _State = GoalState.Executing;
+            
+            return _OnExecute(Game, Actor, DeltaGameMinutes);
         }
-
-        protected virtual void _OnExecute(Game Game, Actor Actor, Double DeltaGameMinutes)
+        
+        protected virtual BehaviorResult _OnExecute(Game Game, Actor Actor, Double DeltaGameMinutes)
         {
+            return BehaviorResult.Succeeded;
         }
-
+        
         public void Terminate(Game Game, Actor Actor)
         {
-            Debug.Assert(_State == GoalState.Done);
             Debug.Assert(_SubGoals.Count == 0);
             _OnTerminate(Game, Actor);
             _State = GoalState.Terminated;
         }
-
+        
         protected virtual void _OnTerminate(Game Game, Actor Actor)
         {
         }
-
+        
         public override void Save(SaveObjectStore ObjectStore)
         {
             base.Save(ObjectStore);
             ObjectStore.Save("state", _State);
             ObjectStore.Save("sub-goals", _SubGoals);
         }
-
+        
         public override void Load(LoadObjectStore ObjectStore)
         {
             base.Load(ObjectStore);
