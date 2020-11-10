@@ -16,7 +16,7 @@ namespace ButtonOffice
             this._EmployeesLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this._PositionLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this._MainSplitContainer = new System.Windows.Forms.SplitContainer();
-            this._DrawingBoard = new ButtonOffice.DrawingBoard();
+            this._Canvas = new ButtonOffice.Canvas();
             this._SystemTools = new System.Windows.Forms.ToolStrip();
             this._LoadButton = new System.Windows.Forms.ToolStripDropDownButton();
             this._NewGameButton = new System.Windows.Forms.ToolStripMenuItem();
@@ -124,25 +124,25 @@ namespace ButtonOffice
             // _MainSplitContainer.Panel1
             //
             this._MainSplitContainer.Panel1Collapsed = true;
-            this._MainSplitContainer.Panel2.Controls.Add(this._DrawingBoard);
+            this._MainSplitContainer.Panel2.Controls.Add(this._Canvas);
             this._MainSplitContainer.Size = new System.Drawing.Size(910, 481);
             this._MainSplitContainer.SplitterDistance = 160;
             this._MainSplitContainer.TabIndex = 3;
             //
-            // _DrawingBoard
+            // _Canvas
             //
-            this._DrawingBoard.BackColor = System.Drawing.SystemColors.ControlDark;
-            this._DrawingBoard.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._DrawingBoard.Location = new System.Drawing.Point(0, 0);
-            this._DrawingBoard.Name = "_DrawingBoard";
-            this._DrawingBoard.Size = new System.Drawing.Size(910, 481);
-            this._DrawingBoard.TabIndex = 4;
-            this._DrawingBoard.Paint += new System.Windows.Forms.PaintEventHandler(this._OnDrawingBoardPaint);
-            this._DrawingBoard.KeyDown += new System.Windows.Forms.KeyEventHandler(this._DrawingBoardKeyDown);
-            this._DrawingBoard.KeyUp += new System.Windows.Forms.KeyEventHandler(this._DrawingBoardKeyUp);
-            this._DrawingBoard.MouseDown += new System.Windows.Forms.MouseEventHandler(this._OnDrawingBoardMouseDown);
-            this._DrawingBoard.MouseMove += new System.Windows.Forms.MouseEventHandler(this._OnDrawingBoardMouseMoved);
-            this._DrawingBoard.MouseUp += new System.Windows.Forms.MouseEventHandler(this._OnDrawingBoardMouseUp);
+            this._Canvas.BackColor = System.Drawing.SystemColors.ControlDark;
+            this._Canvas.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._Canvas.Location = new System.Drawing.Point(0, 0);
+            this._Canvas.Name = "_Canvas";
+            this._Canvas.Size = new System.Drawing.Size(910, 481);
+            this._Canvas.TabIndex = 4;
+            this._Canvas.Paint += new System.Windows.Forms.PaintEventHandler(this._OnCanvasPaint);
+            this._Canvas.KeyDown += new System.Windows.Forms.KeyEventHandler(this._OnCanvasKeyDown);
+            this._Canvas.KeyUp += new System.Windows.Forms.KeyEventHandler(this._OnCanvasKeyUp);
+            this._Canvas.MouseDown += new System.Windows.Forms.MouseEventHandler(this._OnCanvasMouseDown);
+            this._Canvas.MouseMove += new System.Windows.Forms.MouseEventHandler(this._OnCanvasMouseMoved);
+            this._Canvas.MouseUp += new System.Windows.Forms.MouseEventHandler(this._OnCanvasMouseUp);
             //
             // _SystemTools
             //
@@ -343,6 +343,6 @@ namespace ButtonOffice
         private System.Windows.Forms.ToolStripMenuItem _NewGameButton;
         private System.Windows.Forms.ToolStripMenuItem _QuitApplicationButton;
         private System.Windows.Forms.ToolStripMenuItem _SaveGameButton;
-        private DrawingBoard _DrawingBoard;
+        private Canvas _Canvas;
     }
 }

@@ -2,7 +2,7 @@ default: all
 
 BUTTON_OFFICE_SOURCES = \
 	ButtonOffice/Application.cs \
-	ButtonOffice/DrawingBoard.cs \
+	ButtonOffice/Canvas.cs \
 	ButtonOffice/EntityPrototype.cs \
 	ButtonOffice/FloatingText.cs \
 	ButtonOffice/MainWindow.cs \

@@ -40,7 +40,7 @@ namespace ButtonOffice
             _FloatingTexts = new List<FloatingText>();
             _Game = Game.CreateNew();
             _OnNewGame();
-            _DrawingBoard.MouseWheel += delegate(Object Sender, MouseEventArgs EventArguments)
+            _Canvas.MouseWheel += delegate(Object Sender, MouseEventArgs EventArguments)
                                         {
                                             var OldGamingLocation = _GetGamingLocation(EventArguments.Location);
 
@@ -220,7 +220,7 @@ namespace ButtonOffice
             }
         }
 
-        private void _OnDrawingBoardMouseMoved(Object Sender, MouseEventArgs EventArguments)
+        private void _OnCanvasMouseMoved(Object Sender, MouseEventArgs EventArguments)
         {
             if(_DragPoint != null)
             {
@@ -235,7 +235,7 @@ namespace ButtonOffice
                 if(_EntityPrototype != null)
                 {
                     _EntityPrototype.SetLocationFromGamingLocation(_GetGamingLocation(EventArguments.Location));
-                    _DrawingBoard.Invalidate();
+                    _Canvas.Invalidate();
                 }
             }
 
@@ -244,7 +244,7 @@ namespace ButtonOffice
             _PositionLabel.Text = "Location: " + GamingLocation.X.GetFlooredAsInt32() + " / " + GamingLocation.Y.GetFlooredAsInt32();
         }
 
-        private void _OnDrawingBoardMouseDown(Object Sender, MouseEventArgs EventArguments)
+        private void _OnCanvasMouseDown(Object Sender, MouseEventArgs EventArguments)
         {
             if(EventArguments.Button == MouseButtons.Right)
             {
@@ -435,7 +435,7 @@ namespace ButtonOffice
             }
         }
 
-        private void _OnDrawingBoardMouseUp(Object Sender, MouseEventArgs EventArguments)
+        private void _OnCanvasMouseUp(Object Sender, MouseEventArgs EventArguments)
         {
             if(EventArguments.Button == MouseButtons.Right)
             {
@@ -457,7 +457,7 @@ namespace ButtonOffice
             }
         }
         
-        private void _OnDrawingBoardPaint(Object Sender, PaintEventArgs EventArguments)
+        private void _OnCanvasPaint(Object Sender, PaintEventArgs EventArguments)
         {
             for(var Row = _Game.LowestFloor; Row < _Game.HighestFloor; ++Row)
             {
@@ -472,7 +472,7 @@ namespace ButtonOffice
                     break;
                 }
             }
-            EventArguments.Graphics.FillRectangle(new SolidBrush(Data.GroundColor), 0, _GetDrawingY(0).GetNearestInt32(), _DrawingBoard.Width, _DrawingBoard.Height);
+            EventArguments.Graphics.FillRectangle(new SolidBrush(Data.GroundColor), 0, _GetDrawingY(0).GetNearestInt32(), _Canvas.Width, _Canvas.Height);
             foreach(var Building in _Game.Buildings)
             {
                 _DrawRectangle(EventArguments.Graphics, Building.GetVisualRectangle(), Building.BackgroundColor, Building.BorderColor);
@@ -675,12 +675,12 @@ namespace ButtonOffice
 
         private Double _GetDrawingY(Double GamingY)
         {
-            return (_DrawingBoard.Height.ToDouble() / 2.0) - (GamingY - _CameraPosition.Y) * Data.BlockHeight * _Zoom;
+            return (_Canvas.Height.ToDouble() / 2.0) - (GamingY - _CameraPosition.Y) * Data.BlockHeight * _Zoom;
         }
 
         private Double _GetDrawingX(Double GamingX)
         {
-            return _DrawingBoard.Width.ToDouble() / 2.0 + (GamingX - _CameraPosition.X) * Data.BlockWidth * _Zoom;
+            return _Canvas.Width.ToDouble() / 2.0 + (GamingX - _CameraPosition.X) * Data.BlockWidth * _Zoom;
         }
 
         private Rectangle _GetDrawingRectangle(RectangleF GamingRectangle)
@@ -727,12 +727,12 @@ namespace ButtonOffice
 
         private Double _GetGamingX(Double DrawingX)
         {
-            return _CameraPosition.X + (DrawingX - _DrawingBoard.Width.ToDouble() / 2.0) / Data.BlockWidth / _Zoom;
+            return _CameraPosition.X + (DrawingX - _Canvas.Width.ToDouble() / 2.0) / Data.BlockWidth / _Zoom;
         }
 
         private Double _GetGamingY(Double DrawingY)
         {
-            return _CameraPosition.Y + (_DrawingBoard.Height.ToDouble() / 2.0 - DrawingY) / Data.BlockHeight / _Zoom;
+            return _CameraPosition.Y + (_Canvas.Height.ToDouble() / 2.0 - DrawingY) / Data.BlockHeight / _Zoom;
         }
 
         private Vector2 _GetGamingLocation(Point DrawingLocation)
@@ -743,7 +743,7 @@ namespace ButtonOffice
 
         private void _OnMainWindowResized(Object Sender, EventArgs EventArguments)
         {
-            _DrawingBoard.Invalidate();
+            _Canvas.Invalidate();
         }
 
         private void _OnTimerTicked(Object Sender, EventArgs EventArguments)
@@ -791,18 +791,18 @@ namespace ButtonOffice
                         _PlaceCatButton.Enabled = false;
                     }
                 }
-                _DrawingBoard.Invalidate();
+                _Canvas.Invalidate();
             }
             _LastTick = Now;
         }
 
         private void _OnMainWindowLoaded(Object Sender, EventArgs EventArguments)
         {
-            _DrawingBoard.BackColor = Data.BackgroundColor;
+            _Canvas.BackColor = Data.BackgroundColor;
             _StartGame();
         }
 
-        private void _DrawingBoardKeyDown(Object Sender, KeyEventArgs EventArguments)
+        private void _OnCanvasKeyDown(Object Sender, KeyEventArgs EventArguments)
         {
             if(EventArguments.KeyCode == Keys.W)
             {
@@ -849,7 +849,7 @@ namespace ButtonOffice
             }
         }
 
-        private void _DrawingBoardKeyUp(Object Sender, KeyEventArgs EventArguments)
+        private void _OnCanvasKeyUp(Object Sender, KeyEventArgs EventArguments)
         {
             if(EventArguments.KeyCode == Keys.W)
             {
@@ -938,7 +938,7 @@ namespace ButtonOffice
         {
             _UncheckAllToolButtons();
             // places the camera closely above ground with half a block of ground visible
-            _CameraPosition = new Vector2(0.0, _DrawingBoard.Height / Data.BlockHeight / 2.0 - 0.5);
+            _CameraPosition = new Vector2(0.0, _Canvas.Height / Data.BlockHeight / 2.0 - 0.5);
             _CameraVelocity = new Vector2(0.0, 0.0);
             _FloatingTexts.Clear();
             _Game.OnEarnMoney += delegate(UInt64 Cents, Vector2 Location)
