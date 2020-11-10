@@ -6,7 +6,7 @@ namespace ButtonOffice
     {
         public Double X;
         public Double Y;
-
+        
         public Vector2(Double X, Double Y)
         {
             this.X = X;
@@ -17,11 +17,11 @@ namespace ButtonOffice
         {
             var DeltaX = Other.X - X;
             var DeltaY = Other.Y - Y;
-
+            
             return DeltaX * DeltaX + DeltaY * DeltaY;
         }
-
-        public static Vector2 operator +(Vector2 One, Vector2 Two)
+        
+        public static Vector2 operator+(Vector2 One, Vector2 Two)
         {
             return new Vector2(One.X + Two.X, One.Y + Two.Y);
         }

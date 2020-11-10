@@ -769,7 +769,7 @@ namespace ButtonOffice
                     _FloatingTexts[Index].Timeout -= Seconds;
                     if(_FloatingTexts[Index].Timeout > 0.0)
                     {
-                        _FloatingTexts[Index].SetOffset(new Vector2(_FloatingTexts[Index].Offset.X, _FloatingTexts[Index].Offset.Y - Seconds * Data.FloatingTextSpeed));
+                        _FloatingTexts[Index].Offset.Y -= Seconds * Data.FloatingTextSpeed;
                         ++Index;
                     }
                     else
@@ -950,10 +950,10 @@ namespace ButtonOffice
                                  {
                                      var FloatingText = new FloatingText();
 
-                                     FloatingText.SetColor(Data.EarnMoneyFloatingTextColor);
-                                     FloatingText.SetOffset(new Vector2(0.0, 0.0));
-                                     FloatingText.SetOrigin(Location);
-                                     FloatingText.SetText(_Game.GetMoneyString(Cents));
+                                     FloatingText.Color = Data.EarnMoneyFloatingTextColor;
+                                     FloatingText.Offset = new Vector2(0.0, 0.0);
+                                     FloatingText.Origin = Location;
+                                     FloatingText.Text = _Game.GetMoneyString(Cents);
                                      FloatingText.Timeout = 1.2;
                                      _FloatingTexts.Add(FloatingText);
                                  };
@@ -961,10 +961,10 @@ namespace ButtonOffice
                                   {
                                       var FloatingText = new FloatingText();
 
-                                      FloatingText.SetColor(Data.SpendMoneyFloatingTextColor);
-                                      FloatingText.SetOffset(new Vector2(0.0, 0.0));
-                                      FloatingText.SetOrigin(Location);
-                                      FloatingText.SetText(_Game.GetMoneyString(Cents));
+                                      FloatingText.Color = Data.SpendMoneyFloatingTextColor;
+                                      FloatingText.Offset = new Vector2(0.0, 0.0);
+                                      FloatingText.Origin = Location;
+                                      FloatingText.Text = _Game.GetMoneyString(Cents);
                                       FloatingText.Timeout = 1.2;
                                       _FloatingTexts.Add(FloatingText);
                                   };
