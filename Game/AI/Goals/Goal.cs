@@ -50,12 +50,7 @@ namespace ButtonOffice
         public void Finish(Game Game, Actor Actor)
         {
             Debug.Assert(_State == GoalState.Executing);
-            _OnFinish(Game, Actor);
             _State = GoalState.Done;
-        }
-
-        protected virtual void _OnFinish(Game Game, Actor Actor)
-        {
         }
 
         public void Initialize(Game Game, Actor Actor)
