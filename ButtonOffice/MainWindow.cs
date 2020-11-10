@@ -456,12 +456,7 @@ namespace ButtonOffice
                 _Dragged = null;
             }
         }
-
-        private Color _MixToWhite(Color Color, Double Fraction)
-        {
-            return Color.FromArgb((Color.R + (255 - Color.R) * Fraction).GetTruncatedAsInt32(), (Color.G + (255 - Color.G) * Fraction).GetTruncatedAsInt32(), (Color.B + (255 - Color.B) * Fraction).GetTruncatedAsInt32());
-        }
-
+        
         private void _OnDrawingBoardPaint(Object Sender, PaintEventArgs EventArguments)
         {
             for(var Row = _Game.LowestFloor; Row < _Game.HighestFloor; ++Row)
@@ -494,7 +489,7 @@ namespace ButtonOffice
             {
                 if(Person.IsHidden() == false)
                 {
-                    _DrawRectangle(EventArguments.Graphics, Person.GetVisualRectangle(), _MixToWhite(Person.BackgroundColor, Person.GetActionFraction()), _MixToWhite(Person.BorderColor, Person.GetAnimationFraction()));
+                    _DrawRectangle(EventArguments.Graphics, Person.GetVisualRectangle(), Person.BackgroundColor.MixToWhite(Person.GetActionFraction()), Person.BorderColor.MixToWhite(Person.GetAnimationFraction()));
                 }
             }
             foreach(var Office in _Game.Offices)

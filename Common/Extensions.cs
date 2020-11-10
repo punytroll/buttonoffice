@@ -101,6 +101,14 @@ public static class Extensions
     }
 
     /// <summary>
+    /// Rounds the Double value towards the nearest integer value and returns it as an Int32.
+    /// </summary>
+    public static Int32 GetRoundedAsInt32(this Double Double)
+    {
+        return Convert.ToInt32(Math.Round(Double));
+    }
+
+    /// <summary>
     /// Rounds the Single value towards 0 and converts it to an Int32 value.
     /// </summary>
     public static Int32 GetTruncatedAsInt32(this Single Single)
@@ -185,5 +193,13 @@ public static class Extensions
         List.RemoveAt(0);
 
         return Result;
+    }
+    
+    /// <summary>
+    /// Mixes a Color to complete white, proportional to the Fraction.
+    /// </summary>
+    public static Color MixToWhite(this Color Color, Double Fraction)
+    {
+        return Color.FromArgb((Color.R + (255 - Color.R) * Fraction).GetRoundedAsInt32(), (Color.G + (255 - Color.G) * Fraction).GetRoundedAsInt32(), (Color.B + (255 - Color.B) * Fraction).GetRoundedAsInt32());
     }
 }
