@@ -23,11 +23,7 @@ namespace ButtonOffice.AI.Goals
                 {
                     CurrentGoal.Initialize(Game, Actor);
                 }
-                if(CurrentGoal.GetState() == GoalState.Ready)
-                {
-                    CurrentGoal.Resume(Game, Actor);
-                }
-                if(CurrentGoal.GetState() == GoalState.Executing)
+                if((CurrentGoal.GetState() == GoalState.Executing) || (CurrentGoal.GetState() == GoalState.Ready))
                 {
                     CurrentGoal.Execute(Game, Actor, DeltaGameMinutes);
                 }

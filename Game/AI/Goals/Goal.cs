@@ -76,33 +76,11 @@ namespace ButtonOffice
 
         public void Execute(Game Game, Actor Actor, Double DeltaGameMinutes)
         {
-            Debug.Assert(_State == GoalState.Executing, AssertMessages.CurrentStateIsNotExecuting.ToString());
+            Debug.Assert(_State == GoalState.Executing || _State == GoalState.Ready, AssertMessages.CurrentStateIsNotExecuting.ToString());
             _OnExecute(Game, Actor, DeltaGameMinutes);
         }
 
         protected virtual void _OnExecute(Game Game, Actor Actor, Double DeltaGameMinutes)
-        {
-        }
-
-        public void Resume(Game Game, Actor Actor)
-        {
-            Debug.Assert(_State == GoalState.Ready, AssertMessages.CurrentStateIsNotReady.ToString());
-            _OnResume(Game, Actor);
-            _State = GoalState.Executing;
-        }
-
-        protected virtual void _OnResume(Game Game, Actor Actor)
-        {
-        }
-
-        public void Suspend(Game Game, Actor Actor)
-        {
-            Debug.Assert(_State == GoalState.Executing, AssertMessages.CurrentStateIsNotExecuting.ToString());
-            _OnSuspend(Game, Actor);
-            _State = GoalState.Ready;
-        }
-
-        protected virtual void _OnSuspend(Game Game, Actor Actor)
         {
         }
 
