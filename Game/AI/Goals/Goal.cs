@@ -43,18 +43,13 @@ namespace ButtonOffice
 
         public void Abort(Game Game, Actor Actor)
         {
-            Debug.Assert(_State == GoalState.Ready || _State == GoalState.Executing || _State == GoalState.Pristine, AssertMessages.CurrentStateIsNotReadyOrExecuting.ToString());
-            _OnAbort(Game, Actor);
+            Debug.Assert(_State == GoalState.Ready || _State == GoalState.Executing || _State == GoalState.Pristine);
             _State = GoalState.Done;
-        }
-
-        protected virtual void _OnAbort(Game Game, Actor Actor)
-        {
         }
 
         public void Finish(Game Game, Actor Actor)
         {
-            Debug.Assert(_State == GoalState.Executing, AssertMessages.CurrentStateIsNotExecuting.ToString());
+            Debug.Assert(_State == GoalState.Executing);
             _OnFinish(Game, Actor);
             _State = GoalState.Done;
         }
@@ -65,7 +60,7 @@ namespace ButtonOffice
 
         public void Initialize(Game Game, Actor Actor)
         {
-            Debug.Assert(_State == GoalState.Pristine, AssertMessages.CurrentStateIsNotPrestine.ToString());
+            Debug.Assert(_State == GoalState.Pristine);
             _State = GoalState.Ready;
             _OnInitialize(Game, Actor);
         }
@@ -76,7 +71,7 @@ namespace ButtonOffice
 
         public void Execute(Game Game, Actor Actor, Double DeltaGameMinutes)
         {
-            Debug.Assert(_State == GoalState.Executing || _State == GoalState.Ready, AssertMessages.CurrentStateIsNotExecuting.ToString());
+            Debug.Assert(_State == GoalState.Executing || _State == GoalState.Ready);
             _OnExecute(Game, Actor, DeltaGameMinutes);
         }
 
@@ -86,7 +81,7 @@ namespace ButtonOffice
 
         public void Terminate(Game Game, Actor Actor)
         {
-            Debug.Assert(_State == GoalState.Done, AssertMessages.CurrentStateIsNotDone.ToString());
+            Debug.Assert(_State == GoalState.Done);
             Debug.Assert(_SubGoals.Count == 0);
             _OnTerminate(Game, Actor);
             _State = GoalState.Terminated;

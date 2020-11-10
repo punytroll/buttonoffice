@@ -38,7 +38,6 @@ GAME_SOURCES = \
 	Game/AI/Goals/WalkToDesk.cs \
 	Game/AI/Goals/WaitUntilTimeToArrive.cs \
 	Game/AI/Goals/WorkerThink.cs \
-	Game/Basics/AssertMessages.cs \
 	Game/Basics/Enumerations.cs \
 	Game/Basics/Extensions.cs \
 	Game/Basics/RandomNumberGenerator.cs \
