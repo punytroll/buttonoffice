@@ -95,12 +95,12 @@ namespace ButtonOffice
             ThirdLamp.Bottom = Floor + Height - ThirdLamp.Height;
         }
 
-        public override void Move(Game Game, Double DeltaGameMinutes)
+        public override void Update(Game Game, Double DeltaGameMinutes)
         {
-            FirstLamp.Move(Game, DeltaGameMinutes);
-            SecondLamp.Move(Game, DeltaGameMinutes);
-            ThirdLamp.Move(Game, DeltaGameMinutes);
-            Cat?.Move(Game, DeltaGameMinutes);
+            FirstLamp.Update(Game, DeltaGameMinutes);
+            SecondLamp.Update(Game, DeltaGameMinutes);
+            ThirdLamp.Update(Game, DeltaGameMinutes);
+            Cat?.Update(Game, DeltaGameMinutes);
         }
 
         public override void Save(SaveObjectStore ObjectStore)

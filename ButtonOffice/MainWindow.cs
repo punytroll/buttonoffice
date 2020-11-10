@@ -760,7 +760,7 @@ namespace ButtonOffice
             {
                 _CameraPosition.X += _CameraVelocity.X * Seconds;
                 _CameraPosition.Y += _CameraVelocity.Y * Seconds;
-                _Game.Move(Data.GameMinutesPerSecond * Seconds);
+                _Game.Update(Data.GameMinutesPerSecond * Seconds);
 
                 var Index = 0;
 

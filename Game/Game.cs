@@ -84,12 +84,12 @@ namespace ButtonOffice
             _Transportation = new Transportation.Transportation();
         }
 
-        public void Move(Double DeltaGameMinutes)
+        public void Update(Double DeltaGameMinutes)
         {
             _Minutes += DeltaGameMinutes;
             foreach(var Building in _Buildings)
             {
-                Building.Move(this, DeltaGameMinutes);
+                Building.Update(this, DeltaGameMinutes);
             }
             foreach(var Person in _Persons)
             {

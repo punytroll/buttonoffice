@@ -86,7 +86,7 @@ namespace ButtonOffice
             return new RectangleF(Convert.ToSingle(_Left), Convert.ToSingle(_Bottom), Convert.ToSingle(_Width), Convert.ToSingle(_Height));
         }
 
-        public void Move(Game Game, Double DeltaGameMinutes)
+        public void Update(Game Game, Double DeltaGameMinutes)
         {
             if(_MinutesUntilBroken > 0.0)
             {

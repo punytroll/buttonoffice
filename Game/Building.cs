@@ -91,7 +91,7 @@ namespace ButtonOffice
         {
         }
 
-        public virtual void Move(Game Game, Double DeltaGameMinutes)
+        public virtual void Update(Game Game, Double DeltaGameMinutes)
         {
         }
 

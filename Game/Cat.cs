@@ -77,7 +77,7 @@ namespace ButtonOffice
             _Y = Y;
         }
 
-        public void Move(Game Game, Double DeltaGameMinutes)
+        public void Update(Game Game, Double DeltaGameMinutes)
         {
             _Mind.Update(Game, this, DeltaGameMinutes);
         }
