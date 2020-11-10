@@ -8,9 +8,6 @@ BUTTON_OFFICE_SOURCES = \
 	ButtonOffice/MainWindow.cs \
 	ButtonOffice/MainWindow.designer.cs
 
-BUTTON_OFFICE_RESOURCES = \
-	ButtonOffice/MainWindow.resources
-
 COMMON_SOURCES = \
 	Common/Extensions.cs \
 	Common/Pair.cs \
@@ -76,13 +73,7 @@ SOURCES = \
 	$(COMMON_SOURCES) \
 	$(GAME_SOURCES)
 
-RESOURCES = \
-	$(BUTTON_OFFICE_RESOURCES)
-
 all: buttonoffice
 
-buttonoffice: $(SOURCES) $(RESOURCES)
-	mcs $(filter %.cs, $^) -out:$@ -debug -d:DEBUG -reference:System.Drawing -reference:System.Windows.Forms $(foreach resources, $(filter %.resources, $^), -resource:$(resources))
-
-%.resources: %.resx
-	resgen $<
+buttonoffice: $(SOURCES)
+	mcs $(filter %.cs, $^) -out:$@ -debug -d:DEBUG -reference:System.Drawing -reference:System.Windows.Forms
