@@ -5,15 +5,14 @@ namespace ButtonOffice.AI.Goals
 {
     internal class StandByForRepairs : Goal
     {
-        protected override BehaviorResult _OnExecute(Game Game, Actor Actor, Double DeltaGameMinutes)
+        protected override void _OnExecute(Game Game, Actor Actor, Double DeltaGameMinutes)
         {
-            var Result = BehaviorResult.Running;
             var ITTech = Actor as ITTech;
             
             Debug.Assert(ITTech != null);
             if(Game.GetTotalMinutes() > ITTech.GetLeavesAtMinute())
             {
-                Result = BehaviorResult.Succeeded;
+                Succeed();
             }
             else
             {
@@ -46,8 +45,6 @@ namespace ButtonOffice.AI.Goals
                     }
                 }
             }
-            
-            return Result;
         }
         
         protected override void _OnTerminate(Game Game, Actor Actor)

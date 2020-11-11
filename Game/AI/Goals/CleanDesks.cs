@@ -6,7 +6,7 @@ namespace ButtonOffice.AI.Goals
 {
     internal class CleanDesks : Goal
     {
-        protected override BehaviorResult _OnInitialize(Game Game, Actor Actor)
+        protected override void _OnInitialize(Game Game, Actor Actor)
         {
             var Janitor = Actor as Janitor;
             
@@ -29,19 +29,16 @@ namespace ButtonOffice.AI.Goals
                 Janitor.EnqueueCleaningTarget(Office.FourthDesk);
             }
             Janitor.SetAtDesk(false);
-            
-            return BehaviorResult.Running;
         }
         
-        protected override BehaviorResult _OnExecute(Game Game, Actor Actor, Double DeltaGameMinutes)
+        protected override void _OnExecute(Game Game, Actor Actor, Double DeltaGameMinutes)
         {
-            var Result = BehaviorResult.Running;
             var Janitor = Actor as Janitor;
             
             Debug.Assert(Janitor != null);
             if(Game.GetTotalMinutes() > Janitor.GetLeavesAtMinute())
             {
-                Result = BehaviorResult.Succeeded;
+                Succeed();
             }
             else
             {
@@ -63,12 +60,10 @@ namespace ButtonOffice.AI.Goals
                     }
                     else
                     {
-                        Result = BehaviorResult.Succeeded;
+                        Succeed();
                     }
                 }
             }
-            
-            return Result;
         }
         
         protected override void _OnTerminate(Game Game, Actor Actor)

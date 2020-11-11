@@ -18,7 +18,6 @@ GAME_SOURCES = \
 	Game/AI/Mind.cs \
 	Game/AI/Goals/AccountantThink.cs \
 	Game/AI/Goals/Accounting.cs \
-	Game/AI/Goals/BehaviorResult.cs \
 	Game/AI/Goals/CatThink.cs \
 	Game/AI/Goals/CleanDesk.cs \
 	Game/AI/Goals/CleanDesks.cs \

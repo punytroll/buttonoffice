@@ -4,7 +4,7 @@ namespace ButtonOffice.AI.Goals
 {
     internal class AccountantThink : Goal
     {
-        protected override BehaviorResult _OnExecute(Game Game, Actor Actor, Double DeltaGameMinutes)
+        protected override void _OnExecute(Game Game, Actor Actor, Double DeltaGameMinutes)
         {
             if(HasSubGoals() == false)
             {
@@ -14,8 +14,6 @@ namespace ButtonOffice.AI.Goals
                 AppendSubGoal(new Accounting());
                 AppendSubGoal(new GoHome());
             }
-            
-            return BehaviorResult.Running;
         }
     }
 }

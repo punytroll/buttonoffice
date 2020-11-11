@@ -5,7 +5,7 @@ namespace ButtonOffice.AI.Goals
 {
     internal class GoHome : Goal
     {
-        protected override BehaviorResult _OnInitialize(Game Game, Actor Actor)
+        protected override void _OnInitialize(Game Game, Actor Actor)
         {
             var Person = Actor as Person;
             
@@ -24,14 +24,10 @@ namespace ButtonOffice.AI.Goals
             }
             Person.SetAtDesk(false);
             AppendSubGoal(WalkToLocation);
-            
-            return BehaviorResult.Running;
         }
         
-        protected override BehaviorResult _OnExecute(Game Game, Actor Actor, Double DeltaGameMinutes)
+        protected override void _OnExecute(Game Game, Actor Actor, Double DeltaGameMinutes)
         {
-            var Result = BehaviorResult.Running;
-            
             if(HasSubGoals() == false)
             {
                 var Person = Actor as Person;
@@ -39,10 +35,8 @@ namespace ButtonOffice.AI.Goals
                 Debug.Assert(Person != null);
                 Person.SetAnimationState(AnimationState.Hidden);
                 Person.SetAnimationFraction(0.0);
-                Result = BehaviorResult.Succeeded;
+                Succeed();
             }
-            
-            return Result;
         }
     }
 }

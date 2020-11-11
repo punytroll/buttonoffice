@@ -14,7 +14,7 @@ namespace ButtonOffice.AI.Goals
             _MinutesToActionStateChange = RandomNumberGenerator.GetDouble(10.0, 15.0);
         }
         
-        protected override BehaviorResult _OnExecute(Game Game, Actor Actor, Double DeltaGameMinutes)
+        protected override void _OnExecute(Game Game, Actor Actor, Double DeltaGameMinutes)
         {
             var Cat = Actor as Cat;
             
@@ -88,8 +88,6 @@ namespace ButtonOffice.AI.Goals
                     break;
                 }
             }
-            
-            return BehaviorResult.Running;
         }
         
         public override void Save(SaveObjectStore ObjectStore)

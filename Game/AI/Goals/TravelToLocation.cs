@@ -12,9 +12,8 @@ namespace ButtonOffice.AI.Goals
             _Location = Location;
         }
         
-        protected override BehaviorResult _OnInitialize(Game Game, Actor Actor)
+        protected override void _OnInitialize(Game Game, Actor Actor)
         {
-            var Result = BehaviorResult.Running;
             var Person = Actor as Person;
             
             Debug.Assert(Person != null);
@@ -30,22 +29,16 @@ namespace ButtonOffice.AI.Goals
             }
             else
             {
-                Result = BehaviorResult.Failed;
+                Failed();
             }
-            
-            return Result;
         }
         
-        protected override BehaviorResult _OnExecute(Game Game, Actor Actor, Double DeltaGameMinutes)
+        protected override void _OnExecute(Game Game, Actor Actor, Double DeltaGameMinutes)
         {
-            var Result = BehaviorResult.Running;
-            
             if(HasSubGoals() == false)
             {
-                Result = BehaviorResult.Succeeded;
+                Succeed();
             }
-            
-            return Result;
         }
         
         public override void Save(SaveObjectStore ObjectStore)

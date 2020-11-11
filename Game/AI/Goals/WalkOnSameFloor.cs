@@ -12,7 +12,7 @@ namespace ButtonOffice.AI.Goals
             _X = X;
         }
         
-        protected override BehaviorResult _OnInitialize(Game Game, Actor Actor)
+        protected override void _OnInitialize(Game Game, Actor Actor)
         {
             var Person = Actor as Person;
             
@@ -20,13 +20,10 @@ namespace ButtonOffice.AI.Goals
             Person.SetActionFraction(0.0);
             Person.SetAnimationState(AnimationState.Walking);
             Person.SetAnimationFraction(0.0);
-            
-            return BehaviorResult.Running;
         }
         
-        protected override BehaviorResult _OnExecute(Game Game, Actor Actor, Double DeltaGameMinutes)
+        protected override void _OnExecute(Game Game, Actor Actor, Double DeltaGameMinutes)
         {
-            var Result = BehaviorResult.Running;
             var Person = Actor as Person;
             
             Debug.Assert(Person != null);
@@ -48,10 +45,8 @@ namespace ButtonOffice.AI.Goals
             else
             {
                 Person.SetX(_X);
-                Result = BehaviorResult.Succeeded;
+                Succeed();
             }
-            
-            return Result;
         }
         
         protected override void _OnTerminate(Game Game, Actor Actor)

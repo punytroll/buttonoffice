@@ -18,7 +18,7 @@ namespace ButtonOffice.AI.Goals
             _TargetFloor = TargetFloor;
         }
         
-        protected override BehaviorResult _OnInitialize(Game Game, Actor Actor)
+        protected override void _OnInitialize(Game Game, Actor Actor)
         {
             Debug.Assert(_Stairs != null);
             Debug.Assert(_TargetFloor != null);
@@ -29,14 +29,10 @@ namespace ButtonOffice.AI.Goals
             Person.SetActionFraction(0.0);
             Person.SetAnimationState(AnimationState.Walking);
             Person.SetAnimationFraction(0.0);
-            
-            return BehaviorResult.Running;
         }
         
-        protected override BehaviorResult _OnExecute(Game Game, Actor Actor, Double DeltaGameMinutes)
+        protected override void _OnExecute(Game Game, Actor Actor, Double DeltaGameMinutes)
         {
-            var Result = BehaviorResult.Running;
-            
             Debug.Assert(_Stairs != null);
             Debug.Assert(_TargetFloor != null);
             
@@ -58,7 +54,7 @@ namespace ButtonOffice.AI.Goals
                 if(NewY <= _TargetFloor)
                 {
                     Person.SetY(_TargetFloor.Value);
-                    Result = BehaviorResult.Succeeded;
+                    Succeed();
                 }
                 else
                 {
@@ -70,15 +66,13 @@ namespace ButtonOffice.AI.Goals
                 if(NewY >= _TargetFloor)
                 {
                     Person.SetY(_TargetFloor.Value);
-                    Result = BehaviorResult.Succeeded;
+                    Succeed();
                 }
                 else
                 {
                     Person.SetY(NewY);
                 }
             }
-            
-            return Result;
         }
         
         protected override void _OnTerminate(Game Game, Actor Actor)

@@ -5,7 +5,7 @@ namespace ButtonOffice.AI.Goals
 {
     internal class GoToWork : Goal
     {
-        protected override BehaviorResult _OnInitialize(Game Game, Actor Actor)
+        protected override void _OnInitialize(Game Game, Actor Actor)
         {
             var Person = Actor as Person;
             
@@ -23,20 +23,14 @@ namespace ButtonOffice.AI.Goals
             }
             Person.SetY(0.0);
             AppendSubGoal(new GoToOwnDesk());
-            
-            return BehaviorResult.Running;
         }
         
-        protected override BehaviorResult _OnExecute(Game Game, Actor Actor, Double DeltaGameMinutes)
+        protected override void _OnExecute(Game Game, Actor Actor, Double DeltaGameMinutes)
         {
-            var Result = BehaviorResult.Running;
-            
             if(HasSubGoals() == false)
             {
-                Result = BehaviorResult.Succeeded;
+                Succeed();
             }
-            
-            return Result;
         }
     }
 }

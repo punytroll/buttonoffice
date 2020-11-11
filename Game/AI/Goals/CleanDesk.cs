@@ -19,9 +19,8 @@ namespace ButtonOffice.AI.Goals
             _CleaningTarget = CleaningTarget;
         }
         
-        protected override BehaviorResult _OnInitialize(Game Game, Actor Actor)
+        protected override void _OnInitialize(Game Game, Actor Actor)
         {
-            var Result = BehaviorResult.Running;
             var Janitor = Actor as Janitor;
             
             Debug.Assert(Janitor != null);
@@ -37,15 +36,12 @@ namespace ButtonOffice.AI.Goals
             else
             {
                 Janitor.DequeueCleaningTarget();
-                Result = BehaviorResult.Failed;
+                Failed();
             }
-            
-            return Result;
         }
         
-        protected override BehaviorResult _OnExecute(Game Game, Actor Actor, Double DeltaGameMinutes)
+        protected override void _OnExecute(Game Game, Actor Actor, Double DeltaGameMinutes)
         {
-            var Result = BehaviorResult.Running;
             var Janitor = Actor as Janitor;
             
             Debug.Assert(Janitor != null);
@@ -62,14 +58,12 @@ namespace ButtonOffice.AI.Goals
             if(((Janitor.GetAnimationFraction() > 1.0) || (Janitor.GetAnimationFraction() == 0.0)) && (_CleaningTarget.TrashLevel == 0.0))
             {
                 Janitor.DequeueCleaningTarget();
-                Result = BehaviorResult.Succeeded;
+                Succeed();
             }
             while(Janitor.GetAnimationFraction() > 1.0)
             {
                 Janitor.SetAnimationFraction(Janitor.GetAnimationFraction() - 1.0);
             }
-            
-            return Result;
         }
         
         protected override void _OnTerminate(Game Game, Actor Actor)

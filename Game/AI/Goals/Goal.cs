@@ -41,33 +41,36 @@ namespace ButtonOffice.AI.Goals
             _SubGoals.RemoveAt(0);
         }
         
-        public BehaviorResult Initialize(Game Game, Actor Actor)
+        public void Succeed()
+        {
+            _State = GoalState.Succeeded;
+        }
+        
+        public void Failed()
+        {
+            _State = GoalState.Failed;
+        }
+        
+        public void Initialize(Game Game, Actor Actor)
         {
             Debug.Assert(_State == GoalState.Pristine);
-            
-            var Result = _OnInitialize(Game, Actor);
-            
-            _State = GoalState.Initialized;
-            
-            return Result;
-        }
-        
-        protected virtual BehaviorResult _OnInitialize(Game Game, Actor Actor)
-        {
-            return BehaviorResult.Running;
-        }
-        
-        public BehaviorResult Execute(Game Game, Actor Actor, Double DeltaGameMinutes)
-        {
-            Debug.Assert(_State == GoalState.Executing || _State == GoalState.Initialized);
             _State = GoalState.Executing;
-            
-            return _OnExecute(Game, Actor, DeltaGameMinutes);
+            _OnInitialize(Game, Actor);
         }
         
-        protected virtual BehaviorResult _OnExecute(Game Game, Actor Actor, Double DeltaGameMinutes)
+        protected virtual void _OnInitialize(Game Game, Actor Actor)
         {
-            return BehaviorResult.Succeeded;
+        }
+        
+        public void Execute(Game Game, Actor Actor, Double DeltaGameMinutes)
+        {
+            Debug.Assert(_State == GoalState.Executing);
+            _OnExecute(Game, Actor, DeltaGameMinutes);
+        }
+        
+        protected virtual void _OnExecute(Game Game, Actor Actor, Double DeltaGameMinutes)
+        {
+            Succeed();
         }
         
         public void Terminate(Game Game, Actor Actor)

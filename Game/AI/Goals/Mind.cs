@@ -19,17 +19,15 @@ namespace ButtonOffice.AI.Goals
             
             while(CurrentGoal != null)
             {
-                var Result = BehaviorResult.Running;
-                
-                if((Result == BehaviorResult.Running) && (CurrentGoal.GetState() == GoalState.Pristine))
+                if(CurrentGoal.GetState() == GoalState.Pristine)
                 {
-                    Result = CurrentGoal.Initialize(Game, Actor);
+                    CurrentGoal.Initialize(Game, Actor);
                 }
-                if((Result == BehaviorResult.Running) && ((CurrentGoal.GetState() == GoalState.Executing) || (CurrentGoal.GetState() == GoalState.Initialized)))
+                if(CurrentGoal.GetState() == GoalState.Executing)
                 {
-                    Result = CurrentGoal.Execute(Game, Actor, DeltaGameMinutes);
+                    CurrentGoal.Execute(Game, Actor, DeltaGameMinutes);
                 }
-                if((Result == BehaviorResult.Succeeded) || (Result == BehaviorResult.Failed))
+                if((CurrentGoal.GetState() == GoalState.Succeeded) || (CurrentGoal.GetState() == GoalState.Failed))
                 {
                     var TerminateGoals = new Stack<Goal>();
                     

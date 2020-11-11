@@ -5,7 +5,7 @@ namespace ButtonOffice.AI.Goals
 {
     internal class PlanNextWorkDay : Goal
     {
-        protected override BehaviorResult _OnExecute(Game Game, Actor Actor, Double DeltaGameMinutes)
+        protected override void _OnExecute(Game Game, Actor Actor, Double DeltaGameMinutes)
         {
             var Person = Actor as Person;
             
@@ -18,8 +18,7 @@ namespace ButtonOffice.AI.Goals
                 ArrivesAtMinute += 1440;
             }
             Person.SetWorkDayMinutes(ArrivesAtMinute, ArrivesAtMinute + Person.GetWorkMinutes());
-            
-            return BehaviorResult.Succeeded;
+            Succeed();
         }
     }
 }

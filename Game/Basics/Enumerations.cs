@@ -20,9 +20,10 @@
     
     public enum GoalState
     {
-        Executing,
         Pristine,
-        Initialized,
+        Executing,
+        Succeeded,
+        Failed,
         Terminated
     }
     
