@@ -9,32 +9,31 @@ namespace ButtonOffice
     public class Stairs : Building
     {
         private readonly List<Node> _TransportationNodes;
-
+        
         public Stairs()
         {
             _BackgroundColor = Data.StairsBackgroundColor;
             _BorderColor = Data.StairsBorderColor;
             _TransportationNodes = new List<Node>();
         }
-
+        
         public override Boolean CanDestroy()
         {
             return false;
         }
-
+        
         private Goal _CreateUseStairsGoal(Edge Edge)
         {
             Debug.Assert(Edge != null);
             Debug.Assert(Edge.To != null);
-
+            
             var Result = new UseStairs();
-
-            Result.SetStairs(this);
+            
             Result.SetTargetFloor(Edge.To.Floor);
-
+        
             return Result;
         }
-
+        
         public void AddLowestFloor(Game Game)
         {
             if(Game.CanBuild(Data.StairsAddFloorCost, Left, Width, Floor - 1.0f, 1.0f) == true)
@@ -42,10 +41,10 @@ namespace ButtonOffice
                 Floor -= 1.0;
                 Height += 1.0;
                 Game.UpdateBuilding(Data.StairsAddFloorCost, this);
-
+                
                 var NewNode = new Node(Left + Width / 2.0, Floor.GetNearestInt32());
                 Node LowestFloorNode = null;
-
+                
                 foreach(var Node in _TransportationNodes)
                 {
                     if((LowestFloorNode == null) || (Node.Floor < LowestFloorNode.Floor))
@@ -60,17 +59,17 @@ namespace ButtonOffice
                 Game.Transportation.AddNode(NewNode);
             }
         }
-
+        
         public void AddHighestFloor(Game Game)
         {
             if(Game.CanBuild(Data.StairsAddFloorCost, Left, Width, Floor + Height, 1.0) == true)
             {
                 Height += 1.0;
                 Game.UpdateBuilding(Data.StairsAddFloorCost, this);
-
+                
                 var NewNode = new Node(Left + Width / 2.0, (Floor + Height - 1.0).GetNearestInt32());
                 Node HighestFloorNode = null;
-
+                
                 foreach(var Node in _TransportationNodes)
                 {
                     if((HighestFloorNode == null) || (Node.Floor > HighestFloorNode.Floor))
@@ -85,7 +84,7 @@ namespace ButtonOffice
                 Game.Transportation.AddNode(NewNode);
             }
         }
-
+        
         public void RemoveHighestFloor(Game Game)
         {
             if((Height > 2.0) && (Game.CanSpend(Data.StairsRemoveFloorCost) == true))
@@ -93,10 +92,10 @@ namespace ButtonOffice
                 Height -= 1.0;
                 Game.FreeSpace(Left, Width, Floor + Height, 1.0);
                 Game.UpdateBuilding(Data.StairsRemoveFloorCost, this);
-
+                
                 Node HighestFloorNode = null;
                 Node SecondHighestFloorNode = null;
-
+                
                 foreach(var Node in _TransportationNodes)
                 {
                     if(HighestFloorNode == null)
@@ -128,7 +127,7 @@ namespace ButtonOffice
                 Game.Transportation.RemoveNode(HighestFloorNode);
             }
         }
-
+        
         public void RemoveLowestFloor(Game Game)
         {
             if((Height > 2.0) && (Game.CanSpend(Data.StairsRemoveFloorCost) == true))
@@ -137,10 +136,10 @@ namespace ButtonOffice
                 Height -= 1.0;
                 Game.FreeSpace(Left, Width, Floor - 1.0, 1.0);
                 Game.UpdateBuilding(Data.StairsRemoveFloorCost, this);
-
+                
                 Node LowestFloorNode = null;
                 Node SecondLowestFloorNode = null;
-
+                
                 foreach(var Node in _TransportationNodes)
                 {
                     if(LowestFloorNode == null)
@@ -172,15 +171,15 @@ namespace ButtonOffice
                 Game.Transportation.RemoveNode(LowestFloorNode);
             }
         }
-
+        
         public void UpdateTransportation(Game Game)
         {
             Node LowerNode = null;
-
+            
             for(var FloorCurrent = Floor.GetNearestInt32(); FloorCurrent < (Floor + Height).GetNearestInt32(); ++FloorCurrent)
             {
                 var NewNode = new Node(Left + Width / 2.0, FloorCurrent);
-
+                
                 if(LowerNode != null)
                 {
                     Edge.AddEdge(LowerNode, NewNode, Data.StairsWeightUpwards, _CreateUseStairsGoal);

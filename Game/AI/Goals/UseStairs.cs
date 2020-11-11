@@ -6,12 +6,6 @@ namespace ButtonOffice.AI.Goals
     internal class UseStairs : Goal
     {
         private Int32? _TargetFloor;
-        private Stairs _Stairs;
-        
-        public void SetStairs(Stairs Stairs)
-        {
-            _Stairs = Stairs;
-        }
         
         public void SetTargetFloor(Int32 TargetFloor)
         {
@@ -20,7 +14,6 @@ namespace ButtonOffice.AI.Goals
         
         protected override void _OnInitialize(Game Game, Actor Actor)
         {
-            Debug.Assert(_Stairs != null);
             Debug.Assert(_TargetFloor != null);
             
             var Person = Actor as Person;
@@ -33,7 +26,6 @@ namespace ButtonOffice.AI.Goals
         
         protected override void _OnExecute(Game Game, Actor Actor, Double DeltaGameMinutes)
         {
-            Debug.Assert(_Stairs != null);
             Debug.Assert(_TargetFloor != null);
             
             var Person = Actor as Person;
@@ -89,14 +81,12 @@ namespace ButtonOffice.AI.Goals
         {
             Debug.Assert(_TargetFloor != null);
             base.Save(ObjectStore);
-            ObjectStore.Save("stairs", _Stairs);
             ObjectStore.Save("target-floor", _TargetFloor.Value);
         }
         
         public override void Load(LoadObjectStore ObjectStore)
         {
             base.Load(ObjectStore);
-            _Stairs = ObjectStore.LoadStairsProperty("stairs");
             _TargetFloor = ObjectStore.LoadInt32Property("target-floor");
         }
     }
