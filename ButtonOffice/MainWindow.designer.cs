@@ -1,4 +1,4 @@
-﻿using System.Windows.Forms;
+using System.Windows.Forms;
 
 namespace ButtonOffice
 {
@@ -315,9 +315,8 @@ namespace ButtonOffice
             this._GameTools.ResumeLayout(false);
             this._GameTools.PerformLayout();
             this.ResumeLayout(false);
-
         }
-
+        
         private System.ComponentModel.IContainer components;
         private System.Windows.Forms.CheckBox _MoveButton;
         private System.Windows.Forms.Timer _Timer;

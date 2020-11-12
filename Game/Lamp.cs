@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.Drawing;
 
@@ -12,7 +12,7 @@ namespace ButtonOffice
         private Double _MinutesUntilBroken;
         private Office _Office;
         private Double _Width;
-
+        
         public Color BackgroundColor
         {
             get
@@ -27,7 +27,7 @@ namespace ButtonOffice
                 }
             }
         }
-
+        
         public Double Bottom
         {
             set
@@ -35,9 +35,9 @@ namespace ButtonOffice
                 _Bottom = value;
             }
         }
-
+        
         public Double Height => _Height;
-
+        
         public Double Left
         {
             get
@@ -49,7 +49,7 @@ namespace ButtonOffice
                 _Left = value;
             }
         }
-
+        
         public Office Office
         {
             get
@@ -70,9 +70,9 @@ namespace ButtonOffice
                 }
             }
         }
-
+        
         public Double Width => _Width;
-
+        
         public Lamp()
         {
             _MinutesUntilBroken = RandomNumberGenerator.GetDoubleFromExponentialDistribution(Data.MeanMinutesToBrokenLamp);
@@ -80,12 +80,12 @@ namespace ButtonOffice
             _Height = Data.LampHeight;
             _Width = Data.LampWidth;
         }
-
+        
         public RectangleF GetVisualRectangle()
         {
             return new RectangleF(Convert.ToSingle(_Left), Convert.ToSingle(_Bottom), Convert.ToSingle(_Width), Convert.ToSingle(_Height));
         }
-
+        
         public void Update(Game Game, Double DeltaGameMinutes)
         {
             if(_MinutesUntilBroken > 0.0)
@@ -97,12 +97,12 @@ namespace ButtonOffice
                 }
             }
         }
-
+        
         public void SetRepaired()
         {
             _MinutesUntilBroken = RandomNumberGenerator.GetDoubleFromExponentialDistribution(Data.MeanMinutesToBrokenLamp);
         }
-
+        
         public override void Save(SaveObjectStore ObjectStore)
         {
             base.Save(ObjectStore);
@@ -113,7 +113,7 @@ namespace ButtonOffice
             ObjectStore.Save("office", _Office);
             ObjectStore.Save("width", _Width);
         }
-
+        
         public override void Load(LoadObjectStore ObjectStore)
         {
             base.Load(ObjectStore);

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -11,7 +11,7 @@ namespace ButtonOffice
         public delegate void MoneyChangeDelegate(UInt64 Cents, Vector2 Location);
         public event MoneyChangeDelegate OnEarnMoney;
         public event MoneyChangeDelegate OnSpendMoney;
-
+        
         private readonly List<Accountant> _Accountants;
         private readonly List<PersistentObject> _BrokenThings;
         private readonly List<Pair<Int32, Int32>> _BuildingMinimumMaximum;
@@ -28,27 +28,27 @@ namespace ButtonOffice
         private readonly List<Person> _Persons;
         private Int32 _RightBorder;
         private readonly Transportation.Transportation _Transportation;
-
+        
         public List<Building> Buildings => _Buildings;
-
+        
         public Int32 HighestFloor => _HighestFloor;
-
+        
         public Int32 LeftBorder => _LeftBorder;
-
+        
         public Int32 LowestFloor => _LowestFloor;
-
+        
         public List<Office> Offices => _Offices;
-
+        
         public List<Person> Persons => _Persons;
-
+        
         public Int32 RightBorder => _RightBorder;
-
+        
         internal Transportation.Transportation Transportation => _Transportation;
-
+        
         public static Game CreateNew()
         {
             var Result = new Game();
-
+            
             Result._CatStock = 0;
             Result._Cents = Data.NewGameCents;
             Result._HighestFloor = Data.NewGameHighestFloor;
@@ -58,20 +58,20 @@ namespace ButtonOffice
             Result._NextCatAtNumberOfEmployees = 20;
             Result._RightBorder = Data.NewGameRightBorder;
             Result._InitializeFreeSpaceAndMinimumMaximum();
-
+            
             return Result;
         }
-
+        
         public static Game LoadFromFileName(String FileName)
         {
             var GameLoader = new GameLoader(FileName);
             var Result = new Game();
-
+            
             GameLoader.Load(Result);
-
+            
             return Result;
         }
-
+        
         private Game()
         {
             _Accountants = new List<Accountant>();
@@ -83,7 +83,7 @@ namespace ButtonOffice
             _Persons = new List<Person>();
             _Transportation = new Transportation.Transportation();
         }
-
+        
         public void Update(Double DeltaGameMinutes)
         {
             _Minutes += DeltaGameMinutes;
@@ -96,11 +96,11 @@ namespace ButtonOffice
                 Person.Update(this, DeltaGameMinutes);
             }
         }
-
+        
         public UInt64 GetCurrentBonusPromille()
         {
             var Result = 1000UL;
-
+            
             foreach(var Accountant in _Accountants)
             {
                 if((Accountant.GetAtDesk() == true) && (Accountant.Desk.Computer.IsBroken() == false))
@@ -108,64 +108,64 @@ namespace ButtonOffice
                     Result += Accountant.GetBonusPromille();
                 }
             }
-
+            
             return Result;
         }
-
+        
         public UInt32 GetCatStock()
         {
             return _CatStock;
         }
-
+        
         public void EarnMoney(UInt64 Cents, Vector2 Location)
         {
             _Cents += Cents;
             OnEarnMoney?.Invoke(Cents, Location);
         }
-
+        
         public void SpendMoney(UInt64 Cents, Vector2 Location)
         {
             _Cents -= Cents;
             OnSpendMoney?.Invoke(Cents, Location);
         }
-
+        
         public UInt64 GetDay()
         {
             return Convert.ToUInt64(_Minutes / 1440.0);
         }
-
+        
         public UInt64 GetTotalMinutes()
         {
             return Convert.ToUInt64(_Minutes);
         }
-
+        
         public UInt64 GetMinuteOfDay()
         {
             return Convert.ToUInt64(_Minutes) % 1440;
         }
-
+        
         public UInt64 GetFirstMinuteOfDay(UInt64 Day)
         {
             return Day * 1440;
         }
-
+        
         public UInt64 GetFirstMinuteOfToday()
         {
             return GetDay() * 1440;
         }
-
+        
         public Boolean BuildBathroom(RectangleF Rectangle)
         {
             if(CanBuild(Data.BathroomBuildCost, Rectangle.X, Rectangle.Width, Rectangle.Y, Rectangle.Height) == true)
             {
                 var Bathroom = new Bathroom();
-
+                
                 Bathroom.Floor = Rectangle.Y;
                 Bathroom.Height = Rectangle.Height;
                 Bathroom.Left = Rectangle.X;
                 Bathroom.Width = Rectangle.Width;
                 _Build(Data.BathroomBuildCost, Bathroom);
-
+                
                 return true;
             }
             else
@@ -173,19 +173,19 @@ namespace ButtonOffice
                 return false;
             }
         }
-
+        
         public Boolean BuildOffice(RectangleF Rectangle)
         {
             if(CanBuild(Data.OfficeBuildCost, Rectangle.X, Rectangle.Width, Rectangle.Y, Rectangle.Height) == true)
             {
                 var Office = new Office();
-
+                
                 Office.Floor = Rectangle.Y;
                 Office.Height = Rectangle.Height;
                 Office.Left = Rectangle.X;
                 Office.Width = Rectangle.Width;
                 _Build(Data.OfficeBuildCost, Office);
-
+                
                 return true;
             }
             else
@@ -193,19 +193,19 @@ namespace ButtonOffice
                 return false;
             }
         }
-
+        
         public Boolean BuildStairs(RectangleF Rectangle)
         {
             if(CanBuild(Data.StairsBuildCost, Rectangle.X, Rectangle.Width, Rectangle.Y, Rectangle.Height) == true)
             {
                 var Stairs = new Stairs();
-
+                
                 Stairs.Floor = Rectangle.Y;
                 Stairs.Height = Rectangle.Height;
                 Stairs.Left = Rectangle.X;
                 Stairs.Width = Rectangle.Width;
                 _Build(Data.StairsBuildCost, Stairs);
-
+                
                 return true;
             }
             else
@@ -213,7 +213,7 @@ namespace ButtonOffice
                 return false;
             }
         }
-
+        
         public void Destroy(Building Building)
         {
             if(CanDestroy(Building) == true)
@@ -221,19 +221,19 @@ namespace ButtonOffice
                 _RemoveBuilding(Building);
             }
         }
-
+        
         public Boolean HireAccountant(RectangleF Rectangle)
         {
             if(_Cents >= Data.AccountantHireCost)
             {
                 var Desk = GetDesk(Rectangle.GetMidPoint());
-
+                
                 if((Desk != null) && (Desk.IsFree() == true))
                 {
                     SpendMoney(Data.AccountantHireCost, Desk.GetMidLocation());
-
+                    
                     var Accountant = new Accountant();
-
+                    
                     Accountant.AssignDesk(Desk);
                     _AddPerson(Accountant);
                     if(_Persons.Count == _NextCatAtNumberOfEmployees)
@@ -241,26 +241,26 @@ namespace ButtonOffice
                         _NextCatAtNumberOfEmployees += 20;
                         _CatStock += 1;
                     }
-
+                    
                     return true;
                 }
             }
-
+            
             return false;
         }
-
+        
         public Boolean HireWorker(RectangleF Rectangle)
         {
             if(_Cents >= Data.WorkerHireCost)
             {
                 var Desk = GetDesk(Rectangle.GetMidPoint());
-
+                
                 if((Desk != null) && (Desk.IsFree() == true))
                 {
                     SpendMoney(Data.WorkerHireCost, Desk.GetMidLocation());
-
+                    
                     var Worker = new Worker();
-
+                    
                     Worker.AssignDesk(Desk);
                     _AddPerson(Worker);
                     if(_Persons.Count == _NextCatAtNumberOfEmployees)
@@ -268,26 +268,26 @@ namespace ButtonOffice
                         _NextCatAtNumberOfEmployees += 20;
                         _CatStock += 1;
                     }
-
+                    
                     return true;
                 }
             }
-
+            
             return false;
         }
-
+        
         public Boolean HireITTech(RectangleF Rectangle)
         {
             if(_Cents >= Data.ITTechHireCost)
             {
                 var Desk = GetDesk(Rectangle.GetMidPoint());
-
+                
                 if((Desk != null) && (Desk.IsFree() == true))
                 {
                     SpendMoney(Data.ITTechHireCost, Desk.GetMidLocation());
-
+                    
                     var ITTech = new ITTech();
-
+                    
                     ITTech.AssignDesk(Desk);
                     _AddPerson(ITTech);
                     if(_Persons.Count == _NextCatAtNumberOfEmployees)
@@ -295,26 +295,26 @@ namespace ButtonOffice
                         _NextCatAtNumberOfEmployees += 20;
                         _CatStock += 1;
                     }
-
+                    
                     return true;
                 }
             }
-
+            
             return false;
         }
-
+        
         public Boolean HireJanitor(RectangleF Rectangle)
         {
             if(_Cents >= Data.JanitorHireCost)
             {
                 var Desk = GetDesk(Rectangle.GetMidPoint());
-
+                
                 if((Desk != null) && (Desk.IsFree() == true))
                 {
                     SpendMoney(Data.JanitorHireCost, Desk.GetMidLocation());
-
+                    
                     var Janitor = new Janitor();
-
+                    
                     Janitor.AssignDesk(Desk);
                     _AddPerson(Janitor);
                     if(_Persons.Count == _NextCatAtNumberOfEmployees)
@@ -322,14 +322,14 @@ namespace ButtonOffice
                         _NextCatAtNumberOfEmployees += 20;
                         _CatStock += 1;
                     }
-
+                    
                     return true;
                 }
             }
-
+            
             return false;
         }
-
+        
         public void FirePerson(Person Person)
         {
             Person.Fire();
@@ -338,7 +338,7 @@ namespace ButtonOffice
             {
                 var ITTech = (ITTech)Person;
                 var BrokenThing = ITTech.GetRepairingTarget();
-
+                
                 if(BrokenThing != null)
                 {
                     _BrokenThings.Add(BrokenThing);
@@ -349,29 +349,29 @@ namespace ButtonOffice
                 _Accountants.Remove((Accountant)Person);
             }
         }
-
+        
         public Boolean PlaceCat(RectangleF Rectangle)
         {
             if(_CatStock > 0)
             {
                 var Office = GetOffice(Rectangle.GetMidPoint());
-
+                
                 if((Office != null) && (Office.Cat == null))
                 {
                     var Cat = new Cat();
-
+                    
                     Cat.SetY(Office.Floor);
                     Cat.SetX(Rectangle.X + Rectangle.Width / 2.0f);
                     Cat.AssignOffice(Office);
                     _CatStock -= 1;
-
+                    
                     return true;
                 }
             }
-
+            
             return false;
         }
-
+        
         public Office GetOffice(Vector2 Location)
         {
             foreach(var Office in _Offices)
@@ -381,18 +381,18 @@ namespace ButtonOffice
                     return Office;
                 }
             }
-
+            
             return null;
         }
-
+        
         private Desk _GetDesk(Office Office, Vector2 Location)
         {
             Debug.Assert(Office != null);
-
+            
             var NearestDeskDistanceSquared = Double.MaxValue;
             Desk NearestDesk = null;
             var DeskDistanceSquared = Office.FirstDesk.GetMidLocation().GetDistanceSquared(Location);
-
+            
             if(DeskDistanceSquared < NearestDeskDistanceSquared)
             {
                 NearestDesk = Office.FirstDesk;
@@ -415,62 +415,61 @@ namespace ButtonOffice
             {
                 NearestDesk = Office.FourthDesk;
             }
-
+            
             return NearestDesk;
         }
-
+        
         public UInt64 GetCents()
         {
             return _Cents;
         }
-
+        
         public String GetMoneyString(UInt64 Cents)
         {
             return (Cents / 100) + "." + (Cents % 100).ToString("00") + "€";
         }
-
+        
         public Pair<Int32, Int32> GetBuildingMinimumMaximum(Int32 Row)
         {
             return _BuildingMinimumMaximum[Row];
         }
-
+        
         public void SaveToFile(String FileName)
         {
             var GameSaver = new GameSaver();
-
+            
             GameSaver.Save(this);
             GameSaver.WriteToFile(FileName);
         }
-
+        
         public void MovePerson(Person Person, Desk Desk)
         {
             Debug.Assert(Person != null);
             Debug.Assert(Desk != null);
             Debug.Assert(Desk.IsFree() == true);
-
             Person.SetAtDesk(false);
             Person.AssignDesk(Desk);
         }
-
+        
         public Desk GetDesk(Vector2 Location)
         {
             var Office = GetOffice(Location);
-
+            
             if(Office == null)
             {
                 return null;
             }
-
+            
             var Desk = _GetDesk(Office, Location);
-
+            
             return Desk;
         }
-
+        
         public void EnqueueBrokenThing(PersistentObject BrokenThing)
         {
             _BrokenThings.Add(BrokenThing);
         }
-
+        
         public PersistentObject DequeueBrokenThing()
         {
             if(_BrokenThings.Count > 0)
@@ -482,65 +481,65 @@ namespace ButtonOffice
                 return null;
             }
         }
-
+        
         private void _Build(UInt64 Cost, Building Building)
         {
             SpendMoney(Cost, Building.GetMidLocation());
             _AddBuilding(Building);
         }
-
+        
         public void UpdateBuilding(UInt64 Cost, Building Building)
         {
             SpendMoney(Cost, Building.GetMidLocation());
             _OccupyFreeSpace(Building.Left, Building.Width, Building.Floor, Building.Height);
             _WidenBuilding(Building.Left, Building.Width, Building.Floor, Building.Height);
         }
-
+        
         public Boolean CanBuild(UInt64 Cents, Double Left, Double Width, Double Floor, Double Height)
         {
             return (CanSpend(Cents) == true) && (_InBuildableWorld(Left, Width, Floor, Height) == true) && (_InFreeSpace(Left, Width, Floor, Height) == true) && (_CompletelyOnTopOfBuilding(Left, Width, Floor, Height) == true);
         }
-
+        
         public Boolean CanDestroy(Building Building)
         {
             return Building.CanDestroy();
         }
-
+        
         public Boolean CanSpend(UInt64 Cents)
         {
             return _Cents >= Cents;
         }
-
+        
         private Boolean _InBuildableWorld(Double Left, Double Width, Double Floor, Double Height)
         {
             return (Left >= _LeftBorder) && (Left + Width < _RightBorder) && (Floor >= _LowestFloor) && (Floor + Height < _HighestFloor);
         }
-
+        
         private Boolean _InFreeSpace(Double Left, Double Width, Double Floor, Double Height)
         {
             var Result = true;
-
+            
             for(var Column = 0; Column < Width.GetFlooredAsInt32(); ++Column)
             {
                 Result &= _FreeSpace[Floor.GetFlooredAsInt32() - _LowestFloor][Left.GetFlooredAsInt32() + Column - _LeftBorder];
             }
-
+            
             return Result;
         }
-
+        
         private Boolean _CompletelyOnTopOfBuilding(Double Left, Double Width, Double Floor, Double Height)
         {
             var Result = true;
-
+            
             if(Floor > 0.0)
             {
                 Result &= _BuildingMinimumMaximum[Floor.GetFlooredAsInt32() - 1].First <= Left.GetFlooredAsInt32();
                 Result &= _BuildingMinimumMaximum[Floor.GetFlooredAsInt32() - 1].Second >= (Left + Width).GetFlooredAsInt32();
             }
-
+            
             return Result;
         }
-
+        
         private void _InitializeFreeSpaceAndMinimumMaximum()
         {
             _FreeSpace.Clear();
@@ -554,7 +553,7 @@ namespace ButtonOffice
                 _BuildingMinimumMaximum.Add(new Pair<Int32, Int32>(Int32.MaxValue, Int32.MinValue));
             }
         }
-
+        
         private void _OccupyFreeSpace(Double Left, Double Width, Double Floor, Double Height)
         {
             for(var Row = 0; Row < Height.GetNearestInt32(); ++Row)
@@ -565,7 +564,7 @@ namespace ButtonOffice
                 }
             }
         }
-
+        
         public void FreeSpace(Double Left, Double Width, Double Floor, Double Height)
         {
             for(var Row = 0; Row < Height.GetNearestInt32(); ++Row)
@@ -576,7 +575,7 @@ namespace ButtonOffice
                 }
             }
         }
-
+        
         private void _WidenBuilding(Double Left, Double Width, Double Floor, Double Height)
         {
             for(var Row = 0; Row < Height.GetNearestInt32(); ++Row)
@@ -591,7 +590,7 @@ namespace ButtonOffice
                 }
             }
         }
-
+        
         public override void Save(SaveObjectStore ObjectStore)
         {
             ObjectStore.Save("broken-things", _BrokenThings);
@@ -606,7 +605,7 @@ namespace ButtonOffice
             ObjectStore.Save("persons", _Persons);
             ObjectStore.Save("right-border", _RightBorder);
         }
-
+        
         public override void Load(LoadObjectStore ObjectStore)
         {
             // read these at first, so we can initialize the free space and minimum/maximum per floor
@@ -632,7 +631,7 @@ namespace ButtonOffice
                 _AddPerson(Person);
             }
         }
-
+        
         private void _AddPerson(Person Person)
         {
             _Persons.Add(Person);
@@ -641,7 +640,7 @@ namespace ButtonOffice
                 _Accountants.Add((Accountant)Person);
             }
         }
-
+        
         private void _AddBuilding(Building Building)
         {
             _Buildings.Add(Building);
@@ -652,20 +651,20 @@ namespace ButtonOffice
             else if(Building is Stairs)
             {
                 var Stairs = (Stairs)Building;
-
+                
                 Stairs.UpdateTransportation(this);
             }
             _OccupyFreeSpace(Building.Left, Building.Width, Building.Floor, Building.Height);
             _WidenBuilding(Building.Left, Building.Width, Building.Floor, Building.Height);
         }
-
+        
         private void _RemoveBuilding(Building Building)
         {
             _Buildings.Remove(Building);
             if(Building is Office)
             {
                 var Office = (Office)Building;
-
+                
                 if(Office.Cat != null)
                 {
                     Office.Cat = null;

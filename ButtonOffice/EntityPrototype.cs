@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Drawing;
 
 namespace ButtonOffice
@@ -8,7 +8,7 @@ namespace ButtonOffice
         Rectangle,
         Ellipse
     }
-
+    
     internal class EntityPrototype
     {
         private Color _BackgroundColor;
@@ -18,7 +18,7 @@ namespace ButtonOffice
         private RectangleF _Rectangle;
         private Boolean _SnapToBlocksHorizontally;
         private DrawType _DrawType;
-
+        
         public Color BackgroundColor
         {
             get
@@ -30,7 +30,7 @@ namespace ButtonOffice
                 _BackgroundColor = value;
             }
         }
-
+        
         public Color BorderColor
         {
             get
@@ -42,11 +42,11 @@ namespace ButtonOffice
                 _BorderColor = value;
             }
         }
-
+        
         public PointF Location => _Rectangle.Location;
-
+        
         public RectangleF Rectangle => _Rectangle;
-
+        
         public Boolean SnapToBlocksHorizontally
         {
             set
@@ -54,7 +54,7 @@ namespace ButtonOffice
                 _SnapToBlocksHorizontally = value;
             }
         }
-
+        
         public DrawType DrawType
         {
             get
@@ -66,34 +66,34 @@ namespace ButtonOffice
                 _DrawType = value;
             }
         }
-
+        
         public EntityPrototype()
         {
             _HasLocation = false;
             _SnapToBlocksHorizontally = true;
             _DrawType = DrawType.Rectangle;
         }
-
+        
         public Boolean CallGameFunction()
         {
             return _GameFunction(_Rectangle);
         }
-
+        
         public void SetGameFunction(Func<RectangleF, Boolean> GameFunction)
         {
             _GameFunction = GameFunction;
         }
-
+        
         public Single GetHeight()
         {
             return _Rectangle.Height;
         }
-
+        
         public Single GetWidth()
         {
             return _Rectangle.Width;
         }
-
+        
         public void SetLocationFromGamingLocation(Vector2 Location)
         {
             if(_SnapToBlocksHorizontally == true)
@@ -107,17 +107,17 @@ namespace ButtonOffice
             _Rectangle.Y = (Location.Y.ToSingle() - _Rectangle.Height / 2.0f).GetRounded();
             _HasLocation = true;
         }
-
+        
         public Boolean HasLocation()
         {
             return _HasLocation;
         }
-
+        
         public void SetHeight(Double Height)
         {
             _Rectangle.Height = Convert.ToSingle(Height);
         }
-
+        
         public void SetWidth(Double Width)
         {
             _Rectangle.Width = Convert.ToSingle(Width);

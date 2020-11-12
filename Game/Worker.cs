@@ -1,4 +1,4 @@
-﻿using ButtonOffice.AI.Goals;
+using ButtonOffice.AI.Goals;
 
 namespace ButtonOffice
 {

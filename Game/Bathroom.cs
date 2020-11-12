@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace ButtonOffice
 {
@@ -9,7 +9,7 @@ namespace ButtonOffice
             _BackgroundColor = Data.BathroomBackgroundColor;
             _BorderColor = Data.BathroomBorderColor;
         }
-
+        
         public override Boolean CanDestroy()
         {
             return true;

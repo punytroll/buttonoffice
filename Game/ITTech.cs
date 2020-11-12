@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using ButtonOffice.AI.Goals;
 
 namespace ButtonOffice
@@ -6,7 +6,7 @@ namespace ButtonOffice
     internal class ITTech : Person
     {
         private PersistentObject _RepairingTarget;
-
+        
         public ITTech()
         {
             _ArrivesAtMinuteOfDay = RandomNumberGenerator.GetUInt32(Data.ITTechStartMinute, 300) % 1440;
@@ -21,23 +21,23 @@ namespace ButtonOffice
             Mind.SetRootGoal(new ITTechThink());
             _Mind = Mind;
         }
-
+        
         public PersistentObject GetRepairingTarget()
         {
             return _RepairingTarget;
         }
-
+        
         public void SetRepairingTarget(PersistentObject RepairingTarget)
         {
             _RepairingTarget = RepairingTarget;
         }
-
+        
         public override void Save(SaveObjectStore ObjectStore)
         {
             base.Save(ObjectStore);
             ObjectStore.Save("repairing-target", _RepairingTarget);
         }
-
+        
         public override void Load(LoadObjectStore ObjectStore)
         {
             base.Load(ObjectStore);

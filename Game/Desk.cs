@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.Drawing;
 
@@ -12,9 +12,9 @@ namespace ButtonOffice
         private Office _Office;
         private Person _Person;
         private Double _TrashLevel;
-
+        
         public Computer Computer => _Computer;
-
+        
         public Office Office
         {
             get
@@ -35,7 +35,7 @@ namespace ButtonOffice
                 }
             }
         }
-
+        
         public Double TrashLevel
         {
             get
@@ -47,7 +47,7 @@ namespace ButtonOffice
                 _TrashLevel = value;
             }
         }
-
+        
         public Desk()
         {
             _Computer = new Computer();
@@ -56,73 +56,73 @@ namespace ButtonOffice
             _Rectangle.Width = Data.DeskWidth;
             _TrashLevel = 0.0;
         }
-
+        
         public Single GetHeight()
         {
             return _Rectangle.Height;
         }
-
+        
         public Janitor GetJanitor()
         {
             return _Janitor;
         }
-
+        
         public PointF GetLocation()
         {
             return _Rectangle.Location;
         }
-
+        
         public Vector2 GetMidLocation()
         {
             return new Vector2(_Rectangle.X + _Rectangle.Width / 2.0, _Rectangle.Y + _Rectangle.Height / 2.0);
         }
-
+        
         public Person GetPerson()
         {
             return _Person;
         }
-
+        
         public RectangleF GetRectangle()
         {
             return _Rectangle;
         }
-
+        
         public Single GetWidth()
         {
             return _Rectangle.Width;
         }
-
+        
         public Single GetX()
         {
             return _Rectangle.X;
         }
-
+        
         public Single GetY()
         {
             return _Rectangle.Y;
         }
-
+        
         public Boolean IsFree()
         {
             return _Person == null;
         }
-
+        
         public void SetHeight(Single Height)
         {
             _Rectangle.Height = Height;
         }
-
+        
         public void SetJanitor(Janitor Janitor)
         {
             _Janitor = Janitor;
         }
-
+        
         public void SetLocation(Double X, Double Y)
         {
             _Rectangle.X = Convert.ToSingle(X);
             _Rectangle.Y = Convert.ToSingle(Y);
         }
-
+        
         public void SetPerson(Person Person)
         {
             if(Person == null)
@@ -136,22 +136,22 @@ namespace ButtonOffice
                 _Person = Person;
             }
         }
-
+        
         public void SetWidth(Single Width)
         {
             _Rectangle.Width = Width;
         }
-
+        
         public void SetX(Single X)
         {
             _Rectangle.X = X;
         }
-
+        
         public void SetY(Single Y)
         {
             _Rectangle.Y = Y;
         }
-
+        
         public override void Save(SaveObjectStore ObjectStore)
         {
             base.Save(ObjectStore);
@@ -162,7 +162,7 @@ namespace ButtonOffice
             ObjectStore.Save("rectangle", _Rectangle);
             ObjectStore.Save("trash-level", _TrashLevel);
         }
-
+        
         public override void Load(LoadObjectStore ObjectStore)
         {
             base.Load(ObjectStore);

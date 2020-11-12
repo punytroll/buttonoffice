@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
@@ -24,7 +24,7 @@ namespace ButtonOffice
         private DateTime _LastTick;
         private PersistentObject _SelectedObject;
         private Double _Zoom;
-
+        
         public MainWindow()
         {
             InitializeComponent();
@@ -43,7 +43,7 @@ namespace ButtonOffice
             _Canvas.MouseWheel += delegate(Object Sender, MouseEventArgs EventArguments)
                                         {
                                             var OldGamingLocation = _GetGamingLocation(EventArguments.Location);
-
+                                            
                                             if(EventArguments.Delta > 0)
                                             {
                                                 _Zoom *= 1.2;
@@ -52,14 +52,14 @@ namespace ButtonOffice
                                             {
                                                 _Zoom /= 1.2;
                                             }
-
+                                            
                                             var NewGamingLocation = _GetGamingLocation(EventArguments.Location);
-
+                                            
                                             _CameraPosition.X += OldGamingLocation.X - NewGamingLocation.X;
                                             _CameraPosition.Y += OldGamingLocation.Y - NewGamingLocation.Y;
                                         };
         }
-
+        
         private void _UncheckAllToolButtons()
         {
             foreach(var Button in _ToolButtons)
@@ -67,7 +67,7 @@ namespace ButtonOffice
                 Button.Checked = false;
             }
         }
-
+        
         private void _ToggleOneToolButton(ToolStripButton ToggleButton)
         {
             if(ToggleButton.Checked == true)
@@ -95,13 +95,13 @@ namespace ButtonOffice
                 ToggleButton.Checked = true;
             }
         }
-
+        
         private void _OnToolButtonClicked(Object Sender, EventArgs EventArguments)
         {
             _UnselectObject();
             _ToggleOneToolButton(Sender as ToolStripButton);
         }
-
+        
         private void _OnBuildBathroomButtonCheckedChanged(Object Sender, EventArgs EventArguments)
         {
              _EntityPrototype = null;
@@ -115,7 +115,7 @@ namespace ButtonOffice
                 _EntityPrototype.SetWidth(Data.BathroomBlockWidth);
             }
         }
-
+        
         private void _OnBuildOfficeButtonCheckedChanged(Object Sender, EventArgs EventArguments)
         {
             _EntityPrototype = null;
@@ -129,7 +129,7 @@ namespace ButtonOffice
                 _EntityPrototype.SetWidth(Data.OfficeBlockWidth);
             }
         }
-
+        
         private void _OnBuildStairsButtonCheckedChanged(Object Sender, EventArgs EventArguments)
         {
             _EntityPrototype = null;
@@ -143,7 +143,7 @@ namespace ButtonOffice
                 _EntityPrototype.SetWidth(Data.StairsBlockWidth);
             }
         }
-
+        
         private void _OnHireAccountantButtonCheckedChanged(Object Sender, EventArgs EventArguments)
         {
             _EntityPrototype = null;
@@ -158,7 +158,7 @@ namespace ButtonOffice
                 _EntityPrototype.SetWidth(Data.PersonWidthMean);
             }
         }
-
+        
         private void _OnHireITTechButtonCheckedChanged(Object Sender, EventArgs EventArguments)
         {
             _EntityPrototype = null;
@@ -173,7 +173,7 @@ namespace ButtonOffice
                 _EntityPrototype.SetWidth(Data.PersonWidthMean);
             }
         }
-
+        
         private void _OnHireJanitorButtonCheckedChanged(Object Sender, EventArgs EventArguments)
         {
             _EntityPrototype = null;
@@ -188,7 +188,7 @@ namespace ButtonOffice
                 _EntityPrototype.SetWidth(Data.PersonWidthMean);
             }
         }
-
+        
         private void _OnHireWorkerButtonCheckedChanged(Object Sender, EventArgs EventArguments)
         {
             _EntityPrototype = null;
@@ -203,7 +203,7 @@ namespace ButtonOffice
                 _EntityPrototype.SetWidth(Data.PersonWidthMean);
             }
         }
-
+        
         private void _OnPlaceCatButtonCheckedChanged(Object Sender, EventArgs EventArguments)
         {
             _EntityPrototype = null;
@@ -219,7 +219,7 @@ namespace ButtonOffice
                 _EntityPrototype.SetWidth(Data.CatWidth);
             }
         }
-
+        
         private void _OnCanvasMouseMoved(Object Sender, MouseEventArgs EventArguments)
         {
             if(_DragPoint != null)
@@ -238,12 +238,12 @@ namespace ButtonOffice
                     _Canvas.Invalidate();
                 }
             }
-
+            
             var GamingLocation = _GetGamingLocation(EventArguments.Location);
-
+            
             _PositionLabel.Text = "Location: " + GamingLocation.X.GetFlooredAsInt32() + " / " + GamingLocation.Y.GetFlooredAsInt32();
         }
-
+        
         private void _OnCanvasMouseDown(Object Sender, MouseEventArgs EventArguments)
         {
             if(EventArguments.Button == MouseButtons.Right)
@@ -269,7 +269,7 @@ namespace ButtonOffice
                 {
                     var GamingLocation = _GetGamingLocation(EventArguments.Location);
                     var Desk = _Game.GetDesk(GamingLocation);
-
+                    
                     if((Desk != null) && (Desk.IsFree() == true))
                     {
                         _Game.MovePerson(_MovePerson, Desk);
@@ -279,7 +279,7 @@ namespace ButtonOffice
                 else
                 {
                     var GamingLocation = _GetGamingLocation(EventArguments.Location);
-
+                    
                     _MainSplitContainer.Panel1.Controls.Clear();
                     _SelectedObject = null;
                     if(_SelectedObject == null)
@@ -289,30 +289,30 @@ namespace ButtonOffice
                             if(Person.Contains(GamingLocation) == true)
                             {
                                 _SelectedObject = Person;
-
+                                
                                 var TypeLabel = new Label();
-
+                                
                                 TypeLabel.Location = new Point(10, 20);
                                 TypeLabel.Size = new Size(100, 20);
                                 TypeLabel.Text = Person.GetType().Name;
                                 _MainSplitContainer.Panel1.Controls.Add(TypeLabel);
-
+                                
                                 var NameCaptionLabel = new Label();
-
+                                
                                 NameCaptionLabel.Location = new Point(10, 40);
                                 NameCaptionLabel.Size = new Size(100, 20);
                                 NameCaptionLabel.Text = "Name:";
                                 _MainSplitContainer.Panel1.Controls.Add(NameCaptionLabel);
-
+                                
                                 var NameLabel = new Label();
-
+                                
                                 NameLabel.Location = new Point(110, 40);
                                 NameLabel.Size = new Size(100, 20);
                                 NameLabel.Text = Person.Name;
                                 _MainSplitContainer.Panel1.Controls.Add(NameLabel);
-
+                                
                                 var FireButton = new Button();
-
+                                
                                 FireButton.Location = new Point(10, 80);
                                 FireButton.Size = new Size(100, 20);
                                 FireButton.Text = "Fire";
@@ -343,7 +343,7 @@ namespace ButtonOffice
                                                                   }
                                                               };
                                 _MainSplitContainer.Panel1.Controls.Add(_MoveButton);
-
+                                
                                 break;
                             }
                         }
@@ -355,16 +355,16 @@ namespace ButtonOffice
                             if(Building.Contains(GamingLocation) == true)
                             {
                                 _SelectedObject = Building;
-
+                                
                                 var NameCaptionLabel = new Label();
-
+                                
                                 NameCaptionLabel.Location = new Point(10, 20);
                                 NameCaptionLabel.Size = new Size(100, 20);
                                 NameCaptionLabel.Text = Building.GetType().Name;
                                 _MainSplitContainer.Panel1.Controls.Add(NameCaptionLabel);
-
+                                
                                 var DestroyButton = new Button();
-
+                                
                                 DestroyButton.Location = new Point(10, 80);
                                 DestroyButton.Size = new Size(120, 20);
                                 DestroyButton.Text = "Destroy";
@@ -376,13 +376,13 @@ namespace ButtonOffice
                                                            _MainSplitContainer.Panel1.Controls.Clear();
                                                        };
                                 _MainSplitContainer.Panel1.Controls.Add(DestroyButton);
-
+                                
                                 var Stairs = Building as Stairs;
-
+                                
                                 if(Stairs != null)
                                 {
                                     var AddHighestFloorButton = new Button();
-
+                                    
                                     AddHighestFloorButton.Location = new Point(10, 110);
                                     AddHighestFloorButton.Size = new Size(120, 20);
                                     AddHighestFloorButton.Text = "Add highest floor";
@@ -391,9 +391,9 @@ namespace ButtonOffice
                                                                        Stairs.AddHighestFloor(_Game);
                                                                    };
                                     _MainSplitContainer.Panel1.Controls.Add(AddHighestFloorButton);
-
+                                    
                                     var RemoveHighestFloorButton = new Button();
-
+                                    
                                     RemoveHighestFloorButton.Location = new Point(10, 140);
                                     RemoveHighestFloorButton.Size = new Size(120, 20);
                                     RemoveHighestFloorButton.Text = "Remove highest floor";
@@ -402,9 +402,9 @@ namespace ButtonOffice
                                                                           Stairs.RemoveHighestFloor(_Game);
                                                                       };
                                     _MainSplitContainer.Panel1.Controls.Add(RemoveHighestFloorButton);
-
+                                    
                                     var AddLowestFloorButton = new Button();
-
+                                    
                                     AddLowestFloorButton.Location = new Point(10, 170);
                                     AddLowestFloorButton.Size = new Size(120, 20);
                                     AddLowestFloorButton.Text = "Add lowest floor";
@@ -413,9 +413,9 @@ namespace ButtonOffice
                                                                       Stairs.AddLowestFloor(_Game);
                                                                   };
                                     _MainSplitContainer.Panel1.Controls.Add(AddLowestFloorButton);
-
+                                    
                                     var RemoveLowestFloorButton = new Button();
-
+                                    
                                     RemoveLowestFloorButton.Location = new Point(10, 200);
                                     RemoveLowestFloorButton.Size = new Size(120, 20);
                                     RemoveLowestFloorButton.Text = "Remove lowest floor";
@@ -425,7 +425,7 @@ namespace ButtonOffice
                                                                      };
                                     _MainSplitContainer.Panel1.Controls.Add(RemoveLowestFloorButton);
                                 }
-
+                                
                                 break;
                             }
                         }
@@ -434,7 +434,7 @@ namespace ButtonOffice
                 }
             }
         }
-
+        
         private void _OnCanvasMouseUp(Object Sender, MouseEventArgs EventArguments)
         {
             if(EventArguments.Button == MouseButtons.Right)
@@ -462,7 +462,7 @@ namespace ButtonOffice
             for(var Row = _Game.LowestFloor; Row < _Game.HighestFloor; ++Row)
             {
                 var BuildingMinimumMaximum = _Game.GetBuildingMinimumMaximum(Row);
-
+                
                 if(BuildingMinimumMaximum.Second.ToInt64() - BuildingMinimumMaximum.First.ToInt64() > 0)
                 {
                     _DrawRectangle(EventArguments.Graphics, new RectangleF(BuildingMinimumMaximum.First.ToSingle(), Row.ToSingle(), (BuildingMinimumMaximum.Second - BuildingMinimumMaximum.First).ToSingle(), 1.0f), Data.BuildingBackgroundColor, Data.BuildingBorderColor);
@@ -479,7 +479,7 @@ namespace ButtonOffice
                 if(Building is Office == true)
                 {
                     var Office = (Office)Building;
-
+                    
                     _DrawRectangle(EventArguments.Graphics, Office.FirstLamp.GetVisualRectangle(), Office.FirstLamp.BackgroundColor, Color.Black);
                     _DrawRectangle(EventArguments.Graphics, Office.SecondLamp.GetVisualRectangle(), Office.SecondLamp.BackgroundColor, Color.Black);
                     _DrawRectangle(EventArguments.Graphics, Office.ThirdLamp.GetVisualRectangle(), Office.ThirdLamp.BackgroundColor, Color.Black);
@@ -498,7 +498,7 @@ namespace ButtonOffice
                 var PersonAtDeskColor = Color.White;
                 var PersonColor = Color.White;
                 var ComputerColor = Data.ComputerBackgroundColor;
-
+                
                 if(Office.FirstDesk.IsFree() == false)
                 {
                     PersonColor = Office.FirstDesk.GetPerson().BackgroundColor;
@@ -613,152 +613,152 @@ namespace ButtonOffice
                 }
             }
         }
-
+        
         private void _DrawEllipse(Graphics Graphics, RectangleF GameRectangle, Color BackgroundColor, Color BorderColor)
         {
             var BackgroundRectangle = _GetDrawingRectangle(GameRectangle);
-
+            
             Graphics.FillEllipse(new SolidBrush(BackgroundColor), BackgroundRectangle);
-
+            
             var ForegroundRectangle = BackgroundRectangle;
-
+            
             ForegroundRectangle.Width -= 1;
             ForegroundRectangle.Height -= 1;
             Graphics.DrawEllipse(new Pen(BorderColor), ForegroundRectangle);
         }
-
+        
         private void _DrawRectangle(Graphics Graphics, RectangleF GameRectangle, Color BackgroundColor, Color BorderColor)
         {
             var BackgroundRectangle = _GetDrawingRectangle(GameRectangle);
-
+            
             Graphics.FillRectangle(new SolidBrush(BackgroundColor), BackgroundRectangle);
-
+            
             var ForegroundRectangle = BackgroundRectangle;
-
+            
             ForegroundRectangle.Width -= 1;
             ForegroundRectangle.Height -= 1;
             Graphics.DrawRectangle(new Pen(BorderColor), ForegroundRectangle);
         }
-
+        
         private void _DrawRectangle(Graphics Graphics, Single GameX, Single GameY, Single GameWidth, Single GameHeight, Color BackgroundColor, Color BorderColor)
         {
             var BackgroundRectangle = _GetDrawingRectangle(GameX, GameY, GameWidth, GameHeight);
-
+            
             Graphics.FillRectangle(new SolidBrush(BackgroundColor), BackgroundRectangle);
-
+            
             var ForegroundRectangle = BackgroundRectangle;
-
+            
             ForegroundRectangle.Width -= 1;
             ForegroundRectangle.Height -= 1;
             Graphics.DrawRectangle(new Pen(BorderColor), ForegroundRectangle);
         }
-
+        
         private void _DrawFloatingText(Graphics Graphics, Font Font, FloatingText FloatingText)
         {
             var DrawingLocation = _GetDrawingLocation(FloatingText.Origin) + FloatingText.Offset;
             var Format = new StringFormat();
-
+            
             Format.Alignment = StringAlignment.Center;
             Graphics.DrawString(FloatingText.Text, Font, new SolidBrush(FloatingText.Color), DrawingLocation.X.ToSingle(), DrawingLocation.Y.ToSingle(), Format);
         }
-
+        
         #region Coordinate system transformations: Game -> Draw
         private Double _GetDrawingHeight(Double GamingHeight)
         {
             return GamingHeight * Data.BlockHeight * _Zoom;
         }
-
+        
         private Double _GetDrawingWidth(Double GamingWidth)
         {
             return GamingWidth * Data.BlockWidth * _Zoom;
         }
-
+        
         private Double _GetDrawingY(Double GamingY)
         {
             return (_Canvas.Height.ToDouble() / 2.0) - (GamingY - _CameraPosition.Y) * Data.BlockHeight * _Zoom;
         }
-
+        
         private Double _GetDrawingX(Double GamingX)
         {
             return _Canvas.Width.ToDouble() / 2.0 + (GamingX - _CameraPosition.X) * Data.BlockWidth * _Zoom;
         }
-
+        
         private Rectangle _GetDrawingRectangle(RectangleF GamingRectangle)
         {
             var DrawingPoint = _GetDrawingLocation(GamingRectangle.Location);
             var DrawingSize = _GetDrawingSize(GamingRectangle.Size);
-
+            
             return new Rectangle(DrawingPoint.X, DrawingPoint.Y - DrawingSize.Height, DrawingSize.Width, DrawingSize.Height);
         }
-
+        
         private Rectangle _GetDrawingRectangle(Single GamingX, Single GamingY, Single GamingWidth, Single GamingHeight)
         {
             var DrawingHeight = _GetDrawingHeight(GamingHeight).GetNearestInt32();
-
+            
             return new Rectangle(_GetDrawingX(GamingX).GetNearestInt32(), _GetDrawingY(GamingY).GetNearestInt32() - DrawingHeight, _GetDrawingWidth(GamingWidth).GetNearestInt32(), DrawingHeight);
         }
-
+        
         private Size _GetDrawingSize(SizeF GamingSize)
         {
             return new Size(_GetDrawingWidth(GamingSize.Width).GetNearestInt32(), _GetDrawingHeight(GamingSize.Height).GetNearestInt32());
         }
-
+        
         private Point _GetDrawingLocation(PointF GamingLocation)
         {
             return new Point(_GetDrawingX(GamingLocation.X).GetNearestInt32(), _GetDrawingY(GamingLocation.Y).GetNearestInt32());
         }
-
+        
         private Vector2 _GetDrawingLocation(Vector2 GamingLocation)
         {
             return new Vector2(_GetDrawingX(GamingLocation.X), _GetDrawingY(GamingLocation.Y));
         }
         #endregion
-
+        
         #region Coordinate system transformations: Draw -> Game
         private Double _GetGamingHeight(Double DrawingHeight)
         {
             return -DrawingHeight / Data.BlockHeight / _Zoom;
         }
-
+        
         private Double _GetGamingWidth(Double DrawingWidth)
         {
             return DrawingWidth / Data.BlockWidth / _Zoom;
         }
-
+        
         private Double _GetGamingX(Double DrawingX)
         {
             return _CameraPosition.X + (DrawingX - _Canvas.Width.ToDouble() / 2.0) / Data.BlockWidth / _Zoom;
         }
-
+        
         private Double _GetGamingY(Double DrawingY)
         {
             return _CameraPosition.Y + (_Canvas.Height.ToDouble() / 2.0 - DrawingY) / Data.BlockHeight / _Zoom;
         }
-
+        
         private Vector2 _GetGamingLocation(Point DrawingLocation)
         {
             return new Vector2(_GetGamingX(DrawingLocation.X), _GetGamingY(DrawingLocation.Y));
         }
         #endregion
-
+        
         private void _OnMainWindowResized(Object Sender, EventArgs EventArguments)
         {
             _Canvas.Invalidate();
         }
-
+        
         private void _OnTimerTicked(Object Sender, EventArgs EventArguments)
         {
             var Now = DateTime.Now;
             var Seconds = (Now - _LastTick).TotalSeconds;
-
+            
             if((Seconds > 0.0) && (Seconds < 0.05))
             {
                 _CameraPosition.X += _CameraVelocity.X * Seconds;
                 _CameraPosition.Y += _CameraVelocity.Y * Seconds;
                 _Game.Update(Data.GameMinutesPerSecond * Seconds);
-
+                
                 var Index = 0;
-
+                
                 while(Index < _FloatingTexts.Count)
                 {
                     _FloatingTexts[Index].Timeout -= Seconds;
@@ -795,13 +795,13 @@ namespace ButtonOffice
             }
             _LastTick = Now;
         }
-
+        
         private void _OnMainWindowLoaded(Object Sender, EventArgs EventArguments)
         {
             _Canvas.BackColor = Data.BackgroundColor;
             _StartGame();
         }
-
+        
         private void _OnCanvasKeyDown(Object Sender, KeyEventArgs EventArguments)
         {
             if(EventArguments.KeyCode == Keys.W)
@@ -848,7 +848,7 @@ namespace ButtonOffice
                 }
             }
         }
-
+        
         private void _OnCanvasKeyUp(Object Sender, KeyEventArgs EventArguments)
         {
             if(EventArguments.KeyCode == Keys.W)
@@ -872,17 +872,17 @@ namespace ButtonOffice
                 _DPressed = false;
             }
         }
-
+        
         private void _StopGame()
         {
             _Timer.Stop();
         }
-
+        
         private void _StartGame()
         {
             _Timer.Start();
         }
-
+        
         private void _OnNewGameButtonClicked(Object Sender, EventArgs EventArguments)
         {
             _StopGame();
@@ -890,30 +890,30 @@ namespace ButtonOffice
             _OnNewGame();
             _StartGame();
         }
-
+        
         private void _OnSaveGameButtonClicked(Object Sender, EventArgs EventArguments)
         {
             _StopGame();
-
+            
             var SaveFileDialog = new SaveFileDialog();
-
+            
             if(SaveFileDialog.ShowDialog() == DialogResult.OK)
             {
                 _Game.SaveToFile(SaveFileDialog.FileName);
             }
             _StartGame();
         }
-
+        
         private void _OnLoadGameButtonClicked(Object Sender, EventArgs EventArguments)
         {
             _StopGame();
-
+            
             var OpenFileDialog = new OpenFileDialog();
-
+            
             if(OpenFileDialog.ShowDialog() == DialogResult.OK)
             {
                 var OldGame = _Game;
-
+                
                 try
                 {
                     _Game = Game.LoadFromFileName(OpenFileDialog.FileName);
@@ -927,13 +927,13 @@ namespace ButtonOffice
             }
             _StartGame();
         }
-
+        
         private void _OnQuitApplicationButtonClicked(Object Sender, EventArgs EventArguments)
         {
             _StopGame();
             Close();
         }
-
+        
         private void _OnNewGame()
         {
             _UncheckAllToolButtons();
@@ -944,7 +944,7 @@ namespace ButtonOffice
             _Game.OnEarnMoney += delegate(UInt64 Cents, Vector2 Location)
                                  {
                                      var FloatingText = new FloatingText();
-
+                                     
                                      FloatingText.Color = Data.EarnMoneyFloatingTextColor;
                                      FloatingText.Offset = new Vector2(0.0, 0.0);
                                      FloatingText.Origin = Location;
@@ -955,7 +955,7 @@ namespace ButtonOffice
             _Game.OnSpendMoney += delegate(UInt64 Cents, Vector2 Location)
                                   {
                                       var FloatingText = new FloatingText();
-
+                                      
                                       FloatingText.Color = Data.SpendMoneyFloatingTextColor;
                                       FloatingText.Offset = new Vector2(0.0, 0.0);
                                       FloatingText.Origin = Location;
@@ -970,7 +970,7 @@ namespace ButtonOffice
             _MovePerson = null;
             _Zoom = 1.0f;
         }
-
+        
         private void _UnselectObject()
         {
             if(_SelectedObject != null)

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 
@@ -11,7 +11,7 @@ public static class Extensions
     {
         return Convert.ToDouble(Int32);
     }
-
+    
     /// <summary>
     /// Converts the UInt32 value to a Double value.
     /// </summary>
@@ -19,7 +19,7 @@ public static class Extensions
     {
         return Convert.ToDouble(UInt32);
     }
-
+    
     /// <summary>
     /// Converts the Int32 value to a Single value.
     /// </summary>
@@ -27,7 +27,7 @@ public static class Extensions
     {
         return Convert.ToSingle(Int32);
     }
-
+    
     /// <summary>
     /// Converts the UInt32 value to a Single value.
     /// </summary>
@@ -35,7 +35,7 @@ public static class Extensions
     {
         return Convert.ToSingle(UInt32);
     }
-
+    
     /// <summary>
     /// Converts the Int32 value to an UInt32 value.
     /// </summary>
@@ -43,7 +43,7 @@ public static class Extensions
     {
         return Convert.ToUInt32(Int32);
     }
-
+    
     /// <summary>
     /// Converts the Int32 value to an Int64 value.
     /// </summary>
@@ -51,7 +51,7 @@ public static class Extensions
     {
         return Convert.ToInt64(Int32);
     }
-
+    
     /// <summary>
     /// Rounds the Single value towards −∞ and converts it to an Int32 value.
     /// </summary>
@@ -59,7 +59,7 @@ public static class Extensions
     {
         return Convert.ToInt32(Math.Floor(Convert.ToDouble(Single)));
     }
-
+    
     /// <summary>
     /// Rounds the Double value towards −∞ and converts it to an Int32 value.
     /// </summary>
@@ -67,7 +67,7 @@ public static class Extensions
     {
         return Convert.ToInt32(Math.Floor(Double));
     }
-
+    
     /// <summary>
     /// Rounds the Double value towards the nearest Int32 value.
     /// </summary>
@@ -75,7 +75,7 @@ public static class Extensions
     {
         return Convert.ToInt32(Math.Round(Double));
     }
-
+    
     /// <summary>
     /// Rounds the Single value towards the nearest Int32 value.
     /// </summary>
@@ -83,7 +83,7 @@ public static class Extensions
     {
         return Convert.ToInt32(Convert.ToDouble(Math.Round(Single)));
     }
-
+    
     /// <summary>
     /// Rounds the Single value towards the nearest integer value and returns it as a Single.
     /// </summary>
@@ -91,7 +91,7 @@ public static class Extensions
     {
         return Convert.ToSingle(Math.Round(Convert.ToDouble(Single)));
     }
-
+    
     /// <summary>
     /// Rounds the Double value towards the nearest integer value and returns it as a Double.
     /// </summary>
@@ -99,7 +99,7 @@ public static class Extensions
     {
         return Math.Round(Double);
     }
-
+    
     /// <summary>
     /// Rounds the Double value towards the nearest integer value and returns it as an Int32.
     /// </summary>
@@ -107,7 +107,7 @@ public static class Extensions
     {
         return Convert.ToInt32(Math.Round(Double));
     }
-
+    
     /// <summary>
     /// Rounds the Single value towards 0 and converts it to an Int32 value.
     /// </summary>
@@ -115,7 +115,7 @@ public static class Extensions
     {
         return Convert.ToInt32(Math.Truncate(Single));
     }
-
+    
     /// <summary>
     /// Rounds the Single value towards 0 and converts it to an Int32 value.
     /// </summary>
@@ -123,7 +123,7 @@ public static class Extensions
     {
         return Convert.ToInt32(Math.Truncate(Double));
     }
-
+    
     /// <summary>
     /// Rounds the Single value towards -∞.
     /// </summary>
@@ -131,7 +131,7 @@ public static class Extensions
     {
         return Convert.ToSingle(Math.Floor(Convert.ToDouble(Single)));
     }
-
+    
     /// <summary>
     /// Converts the UInt64 value to an Int32 value.
     /// </summary>
@@ -139,7 +139,7 @@ public static class Extensions
     {
         return Convert.ToInt32(UInt64);
     }
-
+    
     /// <summary>
     /// Converts the Double value to a Single value.
     /// </summary>
@@ -147,7 +147,7 @@ public static class Extensions
     {
         return Convert.ToSingle(Double);
     }
-
+    
     /// <summary>
     /// Rounds both components of the PointF value towards -∞.
     /// </summary>
@@ -155,7 +155,7 @@ public static class Extensions
     {
         return new PointF(Convert.ToSingle(Math.Floor(Convert.ToDouble(Point.X))), Convert.ToSingle(Math.Floor(Convert.ToDouble(Point.Y))));
     }
-
+    
     /// <summary>
     /// Calculates the squared distance between two PointF values.
     /// </summary>
@@ -163,10 +163,10 @@ public static class Extensions
     {
         var DeltaX = That.X - This.X;
         var DeltaY = That.Y - This.Y;
-
+        
         return DeltaX * DeltaX + DeltaY * DeltaY;
     }
-
+    
     /// <summary>
     /// Retrieves the first element from a list.
     /// </summary>
@@ -174,7 +174,7 @@ public static class Extensions
     {
         return List[0];
     }
-
+    
     /// <summary>
     /// Retrieves the last element from a list.
     /// </summary>
@@ -182,16 +182,16 @@ public static class Extensions
     {
         return List[List.Count - 1];
     }
-
+    
     /// <summary>
     /// Retrieves and removes the first element from a list.
     /// </summary>
     public static ItemType PopFirst<ItemType>(this List<ItemType> List)
     {
         var Result = List[0];
-
+        
         List.RemoveAt(0);
-
+        
         return Result;
     }
     

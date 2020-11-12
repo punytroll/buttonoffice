@@ -1,4 +1,4 @@
-﻿using ButtonOffice.AI.Goals;
+using ButtonOffice.AI.Goals;
 using System.Collections.Generic;
 
 namespace ButtonOffice
@@ -6,7 +6,7 @@ namespace ButtonOffice
     public class Janitor : Person
     {
         private readonly Queue<Desk> _CleaningTargets;
-
+        
         public Janitor()
         {
             _ArrivesAtMinuteOfDay = RandomNumberGenerator.GetUInt32(Data.JanitorStartMinute, 300) % 1440;
@@ -21,22 +21,22 @@ namespace ButtonOffice
             _Wage = Data.JanitorWage;
             _WorkMinutes = Data.JanitorWorkMinutes;
         }
-
+        
         public void ClearCleaningTargets()
         {
             _CleaningTargets.Clear();
         }
-
+        
         public void DequeueCleaningTarget()
         {
             _CleaningTargets.Dequeue();
         }
-
+        
         public void EnqueueCleaningTarget(Desk Desk)
         {
             _CleaningTargets.Enqueue(Desk);
         }
-
+        
         public Desk PeekCleaningTarget()
         {
             if(_CleaningTargets.Count > 0)
@@ -48,13 +48,13 @@ namespace ButtonOffice
                 return null;
             }
         }
-
+        
         public override void Save(SaveObjectStore ObjectStore)
         {
             base.Save(ObjectStore);
             ObjectStore.Save("cleaning-targets", _CleaningTargets);
         }
-
+        
         public override void Load(LoadObjectStore ObjectStore)
         {
             base.Load(ObjectStore);

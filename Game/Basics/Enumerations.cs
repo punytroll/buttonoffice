@@ -1,4 +1,4 @@
-﻿namespace ButtonOffice
+namespace ButtonOffice
 {
     public enum ActionState
     {

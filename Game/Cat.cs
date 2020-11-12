@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.Drawing;
 using ButtonOffice.AI;
@@ -15,13 +15,13 @@ namespace ButtonOffice
         private Double _Width;
         private Double _X;
         private Double _Y;
-
+        
         public Color BackgroundColor => _BackgroundColor;
-
+        
         public Color BorderColor => _BorderColor;
-
+        
         public Office Office => _Office;
-
+        
         public Cat()
         {
             _BackgroundColor = Data.CatBackgroundColor;
@@ -34,7 +34,7 @@ namespace ButtonOffice
             _Mind = Mind;
             _Width = Data.CatWidth;
         }
-
+        
         public void AssignOffice(Office Office)
         {
             Debug.Assert(Office != null);
@@ -46,42 +46,42 @@ namespace ButtonOffice
             _Office = Office;
             _Office.Cat = this;
         }
-
+        
         public RectangleF GetVisualRectangle()
         {
             return new RectangleF(Convert.ToSingle(_X - _Width / 2.0f), Convert.ToSingle(_Y), Convert.ToSingle(_Width), Convert.ToSingle(_Height));
         }
-
+        
         public Double GetLeft()
         {
             return _X - _Width / 2.0;
         }
-
+        
         public Double GetRight()
         {
             return _X + _Width / 2.0;
         }
-
+        
         public Double GetX()
         {
             return _X;
         }
-
+        
         public void SetX(Double X)
         {
             _X = X;
         }
-
+        
         public void SetY(Double Y)
         {
             _Y = Y;
         }
-
+        
         public void Update(Game Game, Double DeltaGameMinutes)
         {
             _Mind.Update(Game, this, DeltaGameMinutes);
         }
-
+        
         public override void Save(SaveObjectStore ObjectStore)
         {
             base.Save(ObjectStore);
@@ -94,7 +94,7 @@ namespace ButtonOffice
             ObjectStore.Save("x", _X);
             ObjectStore.Save("y", _Y);
         }
-
+        
         public override void Load(LoadObjectStore ObjectStore)
         {
             base.Load(ObjectStore);

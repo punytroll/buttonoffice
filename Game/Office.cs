@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace ButtonOffice
 {
@@ -9,49 +9,49 @@ namespace ButtonOffice
             get;
             set;
         }
-
+        
         public Desk FirstDesk
         {
             get;
             private set;
         }
-
+        
         public Desk SecondDesk
         {
             get;
             private set;
         }
-
+        
         public Desk ThirdDesk
         {
             get;
             private set;
         }
-
+        
         public Desk FourthDesk
         {
             get;
             private set;
         }
-
+        
         public Lamp FirstLamp
         {
             get;
             private set;
         }
-
+        
         public Lamp SecondLamp
         {
             get;
             private set;
         }
-
+        
         public Lamp ThirdLamp
         {
             get;
             private set;
         }
-
+        
         public Office()
         {
             _BackgroundColor = Data.OfficeBackgroundColor;
@@ -71,12 +71,12 @@ namespace ButtonOffice
             ThirdLamp = new Lamp();
             ThirdLamp.Office = this;
         }
-
+        
         public override Boolean CanDestroy()
         {
             return (FirstDesk.IsFree() == true) && (SecondDesk.IsFree() == true) && (ThirdDesk.IsFree() == true) && (FourthDesk.IsFree() == true);
         }
-
+        
         protected override void _UpdateInterior()
         {
             FirstDesk.SetLocation(Left + Data.DeskOneX, Floor);
@@ -94,7 +94,7 @@ namespace ButtonOffice
             ThirdLamp.Left = Left + Data.LampThreeX;
             ThirdLamp.Bottom = Floor + Height - ThirdLamp.Height;
         }
-
+        
         public override void Update(Game Game, Double DeltaGameMinutes)
         {
             FirstLamp.Update(Game, DeltaGameMinutes);
@@ -102,7 +102,7 @@ namespace ButtonOffice
             ThirdLamp.Update(Game, DeltaGameMinutes);
             Cat?.Update(Game, DeltaGameMinutes);
         }
-
+        
         public override void Save(SaveObjectStore ObjectStore)
         {
             base.Save(ObjectStore);
@@ -115,7 +115,7 @@ namespace ButtonOffice
             ObjectStore.Save("third-desk", ThirdDesk);
             ObjectStore.Save("third-lamp", ThirdLamp);
         }
-
+        
         public override void Load(LoadObjectStore ObjectStore)
         {
             base.Load(ObjectStore);
