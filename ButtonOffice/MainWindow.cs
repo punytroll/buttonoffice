@@ -342,6 +342,28 @@ namespace ButtonOffice
                                                                       _MovePerson = null;
                                                                   }
                                                               };
+                                
+                                var Y = 150;
+                                
+                                foreach(var MemoryItemKey in Person.Mind.Memory.Keys)
+                                {
+                                    var MemoryLabel = new Label();
+                                    
+                                    MemoryLabel.Location = new Point(10, Y);
+                                    MemoryLabel.MaximumSize = new Size(200, 20);
+                                    MemoryLabel.AutoSize = true;
+                                    if(Person.Mind.Memory.Get(MemoryItemKey) == null)
+                                    {
+                                        Console.WriteLine("EMPTY");
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("DESK");
+                                    }
+                                    MemoryLabel.Text = $"{MemoryItemKey} = \"{Person.Mind.Memory.Get(MemoryItemKey).ToString()}\"";
+                                    _MainSplitContainer.Panel1.Controls.Add(MemoryLabel);
+                                    Y += 20;
+                                }
                                 _MainSplitContainer.Panel1.Controls.Add(_MoveButton);
                                 
                                 break;
