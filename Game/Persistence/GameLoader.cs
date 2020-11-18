@@ -42,7 +42,7 @@ namespace ButtonOffice
         
         public XmlElement GetObjectElement(UInt32 Identifier)
         {
-            return _Document.SelectSingleNode("//button-office/*[@identifier='" + Identifier.ToString(_CultureInfo) + "']") as System.Xml.XmlElement;
+            return _Document.SelectSingleNode($"//button-office/*[@identifier='{Identifier.ToString(_CultureInfo)}']") as System.Xml.XmlElement;
         }
         
         public void Load(Game Game)
@@ -61,10 +61,10 @@ namespace ButtonOffice
                 }
                 if(ButtonOfficeElement.Attributes["version"].Value != Data.SaveGameFileVersion)
                 {
-                    throw new FormatException("The save game file version is \"" + ButtonOfficeElement.Attributes["version"].Value + "\" but should be \"" + Data.SaveGameFileVersion + "\".");
+                    throw new FormatException($"The save game file version is \"{ButtonOfficeElement.Attributes["version"].Value}\" but should be \"{Data.SaveGameFileVersion}\".");
                 }
                 
-                var GameElement = ButtonOfficeElement.SelectSingleNode("//button-office/object[@type='" + typeof(Game).FullName + "']") as XmlElement;
+                var GameElement = ButtonOfficeElement.SelectSingleNode($"//button-office/object[@type='{typeof(Game).AssemblyQualifiedName}']") as XmlElement;
                 var ObjectStore = new LoadObjectStore(this, GameElement);
                 
                 Game.Load(ObjectStore);
