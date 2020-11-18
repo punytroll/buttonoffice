@@ -90,11 +90,11 @@ namespace ButtonOffice
         {
             if(PersistentObject != null)
             {
-                return _CreateProperty(Name, "System.UInt32", _GetIdentifier(PersistentObject).ToString(_CultureInfo));
+                return _CreateProperty(Name, typeof(UInt32).AssemblyQualifiedName, _GetIdentifier(PersistentObject).ToString(_CultureInfo));
             }
             else
             {
-                return _CreateProperty(Name, "System.UInt32", "");
+                return _CreateProperty(Name, typeof(UInt32).AssemblyQualifiedName, "");
             }
         }
         
@@ -136,7 +136,7 @@ namespace ButtonOffice
                     var Element = _Document.CreateElement("object");
                     
                     Element.Attributes.Append(_CreateAttribute("identifier", _GetIdentifier(PersistentObject).ToString(_CultureInfo)));
-                    Element.Attributes.Append(_CreateAttribute("type", PersistentObject.GetType().FullName));
+                    Element.Attributes.Append(_CreateTypeAttribute(PersistentObject.GetType()));
                     
                     var ObjectStore = new SaveObjectStore(this, Element);
                     
