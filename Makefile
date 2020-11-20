@@ -15,11 +15,14 @@ COMMON_SOURCES = \
 
 GAME_SOURCES = \
 	Game/AI/Actor.cs \
-	Game/AI/Goals/AccountantThink.cs \
 	Game/AI/Goals/Accounting.cs \
+	Game/AI/Goals/BehaviorFactory.cs \
 	Game/AI/Goals/CatThink.cs \
 	Game/AI/Goals/CleanDesk.cs \
 	Game/AI/Goals/CleanDesks.cs \
+	Game/AI/Goals/CollectWage.cs \
+	Game/AI/Goals/EnterFromLivingSide.cs \
+	Game/AI/Goals/ExitToLivingSide.cs \
 	Game/AI/Goals/Goal.cs \
 	Game/AI/Goals/GoHome.cs \
 	Game/AI/Goals/GoToOwnDesk.cs \
@@ -30,8 +33,15 @@ GAME_SOURCES = \
 	Game/AI/Goals/PlanNextWorkDay.cs \
 	Game/AI/Goals/PushButton.cs \
 	Game/AI/Goals/Repair.cs \
+	Game/AI/Goals/Repeat.cs \
+	Game/AI/Goals/Sequence.cs \
+	Game/AI/Goals/SetTravelLocationToHome.cs \
+	Game/AI/Goals/SetTravelLocationToOwnDesk.cs \
+	Game/AI/Goals/SitDownAtOwnDesk.cs \
 	Game/AI/Goals/StandByForRepairs.cs \
+	Game/AI/Goals/StandUpFromOwnDesk.cs \
 	Game/AI/Goals/TravelToLocation.cs \
+	Game/AI/Goals/TravelToMemoryLocation.cs \
 	Game/AI/Goals/UseStairs.cs \
 	Game/AI/Goals/WalkOnSameFloor.cs \
 	Game/AI/Goals/WalkToDesk.cs \
@@ -53,6 +63,10 @@ GAME_SOURCES = \
 	Game/Transportation/Edge.cs \
 	Game/Transportation/Node.cs \
 	Game/Transportation/Transportations.cs \
+	Game/Transportation/TravelAction.cs \
+	Game/Transportation/TravelActionState.cs \
+	Game/Transportation/TravelActionUseStairs.cs \
+	Game/Transportation/TravelActionWalkOnSameFloor.cs \
 	Game/Accountant.cs \
 	Game/Bathroom.cs \
 	Game/Building.cs \

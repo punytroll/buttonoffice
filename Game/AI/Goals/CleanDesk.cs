@@ -36,7 +36,7 @@ namespace ButtonOffice.AI.Goals
             else
             {
                 Janitor.DequeueCleaningTarget();
-                Failed();
+                Fail();
             }
         }
         

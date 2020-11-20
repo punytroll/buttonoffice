@@ -1,3 +1,4 @@
+using ButtonOffice.AI.BehaviorTrees;
 using System;
 using System.Collections.Generic;
 
@@ -14,6 +15,8 @@ namespace ButtonOffice.AI.Goals
         
         public override void Update(Game Game, Actor Actor, Double DeltaGameMinutes)
         {
+            Console.WriteLine("================================");
+            
             var ParentGoals = new List<Goal>();
             var CurrentGoal = _RootGoal;
             
@@ -69,6 +72,11 @@ namespace ButtonOffice.AI.Goals
                     CurrentGoal = null;
                 }
             }
+        }
+        
+        public override void SetThought(String Thought)
+        {
+            _RootGoal = BehaviorFactory.CreateBehavior(Thought);
         }
         
         public void SetRootGoal(Goal RootGoal)

@@ -7,6 +7,8 @@ namespace ButtonOffice.AI.Goals
     {
         protected override void _OnInitialize(Game Game, Actor Actor)
         {
+            Console.WriteLine("GoHome.Initialize");
+            
             var Person = Actor as Person;
             
             Debug.Assert(Person != null);
@@ -28,6 +30,7 @@ namespace ButtonOffice.AI.Goals
         
         protected override void _OnExecute(Game Game, Actor Actor, Double DeltaGameMinutes)
         {
+            Console.WriteLine("GoHome.Execute");
             if(HasSubGoals() == false)
             {
                 var Person = Actor as Person;
@@ -37,6 +40,11 @@ namespace ButtonOffice.AI.Goals
                 Person.SetAnimationFraction(0.0);
                 Succeed();
             }
+        }
+        
+        protected override void _OnTerminate(Game Game, Actor Actor)
+        {
+            Console.WriteLine("GoHome.Terminate");
         }
     }
 }

@@ -46,14 +46,14 @@ namespace ButtonOffice.AI.Goals
             _State = GoalState.Succeeded;
         }
         
-        public void Failed()
+        public void Fail()
         {
             _State = GoalState.Failed;
         }
         
         public void Initialize(Game Game, Actor Actor)
         {
-            Debug.Assert(_State == GoalState.Pristine);
+            Debug.Assert((_State == GoalState.Pristine) || (_State == GoalState.Terminated));
             _State = GoalState.Executing;
             _OnInitialize(Game, Actor);
         }
@@ -82,6 +82,27 @@ namespace ButtonOffice.AI.Goals
         
         protected virtual void _OnTerminate(Game Game, Actor Actor)
         {
+        }
+        
+        protected GoalState _Execute(Goal Goal, Game Game, Actor Actor, Double DeltaGameMinutes)
+        {
+            if((Goal.GetState() == GoalState.Pristine) || (Goal.GetState() == GoalState.Terminated))
+            {
+                Goal.Initialize(Game, Actor);
+            }
+            if(Goal.GetState() == GoalState.Executing)
+            {
+                Goal.Execute(Game, Actor, DeltaGameMinutes);
+            }
+            
+            var Result = Goal.GetState();
+            
+            if((Result == GoalState.Succeeded) || (Result == GoalState.Failed))
+            {
+                Goal.Terminate(Game, Actor);
+            }
+            
+            return Result;
         }
         
         public override void Save(SaveObjectStore ObjectStore)

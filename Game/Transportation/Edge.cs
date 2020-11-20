@@ -7,17 +7,10 @@ namespace ButtonOffice.Transportation
     internal class Edge
     {
         private CreateUseGoalDelegate _CreateUseGoalFunction;
+        private CreateTravelActionDelegate _CreateTravelActionFunction;
         internal Node From;
         internal Node To;
         internal Double Weight;
-        
-        internal CreateUseGoalDelegate CreateUseGoalFunction
-        {
-            set
-            {
-                _CreateUseGoalFunction = value;
-            }
-        }
         
         internal Goal CreateUseGoal()
         {
@@ -26,11 +19,19 @@ namespace ButtonOffice.Transportation
             return _CreateUseGoalFunction(this);
         }
         
-        internal static void AddEdge(Node FromNode, Node ToNode, Double Weight, CreateUseGoalDelegate CreateUseGoalFunction)
+        internal TravelAction CreateTravelAction()
+        {
+            Debug.Assert(_CreateTravelActionFunction != null);
+            
+            return _CreateTravelActionFunction(this);
+        }
+        
+        internal static void AddEdge(Node FromNode, Node ToNode, Double Weight, CreateUseGoalDelegate CreateUseGoalFunction, CreateTravelActionDelegate CreateTravelActionFunction)
         {
             var Edge = new Edge();
             
-            Edge.CreateUseGoalFunction = CreateUseGoalFunction;
+            Edge._CreateUseGoalFunction = CreateUseGoalFunction;
+            Edge._CreateTravelActionFunction = CreateTravelActionFunction;
             Edge.From = FromNode;
             Edge.To = ToNode;
             Edge.Weight = Weight;

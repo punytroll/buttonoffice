@@ -34,6 +34,18 @@ namespace ButtonOffice
             return Result;
         }
         
+        private TravelAction _CreateTravelActionUseStairs(Edge Edge)
+        {
+            Debug.Assert(Edge != null);
+            Debug.Assert(Edge.To != null);
+            
+            var Result = new TravelActionUseStairs();
+            
+            Result.TargetFloor = Edge.To.Floor;
+        
+            return Result;
+        }
+        
         public void AddLowestFloor(Game Game)
         {
             if(Game.CanBuild(Data.StairsAddFloorCost, Left, Width, Floor - 1.0f, 1.0f) == true)
@@ -53,8 +65,8 @@ namespace ButtonOffice
                     }
                 }
                 Debug.Assert(LowestFloorNode != null);
-                Edge.AddEdge(LowestFloorNode, NewNode, Data.StairsWeightDownwards, _CreateUseStairsGoal);
-                Edge.AddEdge(NewNode, LowestFloorNode, Data.StairsWeightUpwards, _CreateUseStairsGoal);
+                Edge.AddEdge(LowestFloorNode, NewNode, Data.StairsWeightDownwards, _CreateUseStairsGoal, _CreateTravelActionUseStairs);
+                Edge.AddEdge(NewNode, LowestFloorNode, Data.StairsWeightUpwards, _CreateUseStairsGoal, _CreateTravelActionUseStairs);
                 _TransportationNodes.Add(NewNode);
                 Game.Transportation.AddNode(NewNode);
             }
@@ -78,8 +90,8 @@ namespace ButtonOffice
                     }
                 }
                 Debug.Assert(HighestFloorNode != null);
-                Edge.AddEdge(HighestFloorNode, NewNode, Data.StairsWeightUpwards, _CreateUseStairsGoal);
-                Edge.AddEdge(NewNode, HighestFloorNode, Data.StairsWeightDownwards, _CreateUseStairsGoal);
+                Edge.AddEdge(HighestFloorNode, NewNode, Data.StairsWeightUpwards, _CreateUseStairsGoal, _CreateTravelActionUseStairs);
+                Edge.AddEdge(NewNode, HighestFloorNode, Data.StairsWeightDownwards, _CreateUseStairsGoal, _CreateTravelActionUseStairs);
                 _TransportationNodes.Add(NewNode);
                 Game.Transportation.AddNode(NewNode);
             }
@@ -182,8 +194,8 @@ namespace ButtonOffice
                 
                 if(LowerNode != null)
                 {
-                    Edge.AddEdge(LowerNode, NewNode, Data.StairsWeightUpwards, _CreateUseStairsGoal);
-                    Edge.AddEdge(NewNode, LowerNode, Data.StairsWeightDownwards, _CreateUseStairsGoal);
+                    Edge.AddEdge(LowerNode, NewNode, Data.StairsWeightUpwards, _CreateUseStairsGoal, _CreateTravelActionUseStairs);
+                    Edge.AddEdge(NewNode, LowerNode, Data.StairsWeightDownwards, _CreateUseStairsGoal, _CreateTravelActionUseStairs);
                 }
                 _TransportationNodes.Add(NewNode);
                 Game.Transportation.AddNode(NewNode);

@@ -16,6 +16,7 @@ namespace ButtonOffice.AI
         }
         
         public abstract void Update(Game Game, Actor Actor, Double DeltaGameMinutes);
+        public abstract void SetThought(String Thought);
         
         public override void Save(SaveObjectStore ObjectStore)
         {

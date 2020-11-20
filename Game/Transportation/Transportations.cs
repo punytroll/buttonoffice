@@ -6,6 +6,7 @@ using System.Diagnostics;
 namespace ButtonOffice.Transportation
 {
     internal delegate Goal CreateUseGoalDelegate(Edge Edge);
+    internal delegate TravelAction CreateTravelActionDelegate(Edge Edge);
 
     internal class CostPriority : IComparer<Double>
     {
@@ -45,6 +46,18 @@ namespace ButtonOffice.Transportation
             return Result;
         }
         
+        internal TravelAction CreateWalkOnSameFloorTravelAction(Edge Edge)
+        {
+            Debug.Assert(Edge != null);
+            Debug.Assert(Edge.To != null);
+            
+            var Result = new TravelActionWalkOnSameFloor();
+            
+            Result.X = Edge.To.X;
+            
+            return Result;
+        }
+        
         internal void AddNode(Node NewNode)
         {
             Node LeftNode = null;
@@ -77,13 +90,13 @@ namespace ButtonOffice.Transportation
             }
             if(LeftNode != null)
             {
-                Edge.AddEdge(LeftNode, NewNode, NewNode.X - LeftNode.X, CreateWalkOnSameFloorGoal);
-                Edge.AddEdge(NewNode, LeftNode, NewNode.X - LeftNode.X, CreateWalkOnSameFloorGoal);
+                Edge.AddEdge(LeftNode, NewNode, NewNode.X - LeftNode.X, CreateWalkOnSameFloorGoal, CreateWalkOnSameFloorTravelAction);
+                Edge.AddEdge(NewNode, LeftNode, NewNode.X - LeftNode.X, CreateWalkOnSameFloorGoal, CreateWalkOnSameFloorTravelAction);
             }
             if(RightNode != null)
             {
-                Edge.AddEdge(RightNode, NewNode, RightNode.X - NewNode.X, CreateWalkOnSameFloorGoal);
-                Edge.AddEdge(NewNode, RightNode, RightNode.X - NewNode.X, CreateWalkOnSameFloorGoal);
+                Edge.AddEdge(RightNode, NewNode, RightNode.X - NewNode.X, CreateWalkOnSameFloorGoal, CreateWalkOnSameFloorTravelAction);
+                Edge.AddEdge(NewNode, RightNode, RightNode.X - NewNode.X, CreateWalkOnSameFloorGoal, CreateWalkOnSameFloorTravelAction);
             }
             _Nodes.Add(NewNode);
         }
@@ -126,8 +139,8 @@ namespace ButtonOffice.Transportation
             }
             if((LeftNode != null) && (RightNode != null))
             {
-                Edge.AddEdge(LeftNode, RightNode, RightNode.X - LeftNode.X, CreateWalkOnSameFloorGoal);
-                Edge.AddEdge(RightNode, LeftNode, RightNode.X - LeftNode.X, CreateWalkOnSameFloorGoal);
+                Edge.AddEdge(LeftNode, RightNode, RightNode.X - LeftNode.X, CreateWalkOnSameFloorGoal, CreateWalkOnSameFloorTravelAction);
+                Edge.AddEdge(RightNode, LeftNode, RightNode.X - LeftNode.X, CreateWalkOnSameFloorGoal, CreateWalkOnSameFloorTravelAction);
             }
         }
         
