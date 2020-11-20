@@ -15,7 +15,6 @@ COMMON_SOURCES = \
 
 GAME_SOURCES = \
 	Game/AI/Actor.cs \
-	Game/AI/Mind.cs \
 	Game/AI/Goals/AccountantThink.cs \
 	Game/AI/Goals/Accounting.cs \
 	Game/AI/Goals/CatThink.cs \
@@ -38,6 +37,8 @@ GAME_SOURCES = \
 	Game/AI/Goals/WalkToDesk.cs \
 	Game/AI/Goals/WaitUntilTimeToArrive.cs \
 	Game/AI/Goals/WorkerThink.cs \
+	Game/AI/Memory.cs \
+	Game/AI/Mind.cs \
 	Game/Basics/Enumerations.cs \
 	Game/Basics/Extensions.cs \
 	Game/Basics/RandomNumberGenerator.cs \
@@ -76,3 +77,7 @@ all: buttonoffice
 
 buttonoffice: $(SOURCES)
 	mcs $(filter %.cs, $^) -out:$@ -debug -d:DEBUG -reference:System.Drawing -reference:System.Windows.Forms
+
+clean:
+	$(RM) buttonoffice
+	$(RM) buttonoffice.mdb

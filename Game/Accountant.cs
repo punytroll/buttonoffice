@@ -14,10 +14,10 @@ namespace ButtonOffice
             _BorderColor = Data.AccountantBorderColor;
             _BonusPromille = Data.AccountantBonusPromille;
             
-            var Mind = new Mind();
+            var GoalMind = new Mind();
             
-            Mind.SetRootGoal(new AccountantThink());
-            _Mind = Mind;
+            GoalMind.SetRootGoal(new AccountantThink());
+            Mind = GoalMind;
             _Wage = Data.AccountantWage;
             _WorkMinutes = Data.AccountantWorkMinutes;
         }

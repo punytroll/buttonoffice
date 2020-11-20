@@ -14,10 +14,10 @@ namespace ButtonOffice
             _BorderColor = Data.JanitorBorderColor;
             _CleaningTargets = new Queue<Desk>();
             
-            var Mind = new Mind();
+            var GoalMind = new Mind();
             
-            Mind.SetRootGoal(new JanitorThink());
-            _Mind = Mind;
+            GoalMind.SetRootGoal(new JanitorThink());
+            Mind = GoalMind;
             _Wage = Data.JanitorWage;
             _WorkMinutes = Data.JanitorWorkMinutes;
         }

@@ -16,10 +16,10 @@ namespace ButtonOffice
             _Wage = Data.ITTechWage;
             _WorkMinutes = Data.ITTechWorkMinutes;
             
-            var Mind = new Mind();
+            var GoalMind = new Mind();
             
-            Mind.SetRootGoal(new ITTechThink());
-            _Mind = Mind;
+            GoalMind.SetRootGoal(new ITTechThink());
+            Mind = GoalMind;
         }
         
         public PersistentObject GetRepairingTarget()

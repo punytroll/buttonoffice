@@ -62,6 +62,7 @@ namespace ButtonOffice
             }
             _Desk = Desk;
             _Desk.SetPerson(this);
+            Mind.Memory.Add("desk", _Desk);
         }
         
         public Boolean Contains(Vector2 Location)
@@ -190,11 +191,6 @@ namespace ButtonOffice
         public void SetY(Double Y)
         {
             _Y = Y;
-        }
-        
-        public void Update(Game Game, Double DeltaGameMinutes)
-        {
-            _Mind.Update(Game, this, DeltaGameMinutes);
         }
         
         public override void Save(SaveObjectStore ObjectStore)

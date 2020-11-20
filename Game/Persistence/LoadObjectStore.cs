@@ -1,8 +1,10 @@
+using ButtonOffice.AI;
 using ButtonOffice.AI.Goals;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Xml;
+using Mind = ButtonOffice.AI.Mind;
 
 namespace ButtonOffice
 {
@@ -127,6 +129,11 @@ namespace ButtonOffice
             return (LivingSide)Enum.Parse(typeof(LivingSide), _GetPropertyValue(_Element, PropertyName, typeof(LivingSide)));
         }
         
+        public Memory LoadMemoryProperty(String PropertyName)
+        {
+            return _LoadPersistentObject(_GetPropertyElement(_Element, PropertyName)) as Memory;
+        }
+        
         public Mind LoadMindProperty(String PropertyName)
         {
             return _LoadPersistentObject(_GetPropertyElement(_Element, PropertyName)) as Mind;
@@ -207,6 +214,14 @@ namespace ButtonOffice
             _AssertElementAndType(PropertyElement, typeof(Vector2));
             
             return new Vector2(_LoadDoubleProperty(PropertyElement, "x"), _LoadDoubleProperty(PropertyElement, "y"));
+        }
+        
+        public void LoadForEach(String PropertyName, Action<LoadObjectStore> LoadFunction)
+        {
+            foreach(var Node in _GetPropertyElements(_Element, PropertyName))
+            {
+                LoadFunction(new LoadObjectStore(_GameLoader, Node as XmlElement));
+            }
         }
         
         #endregion
@@ -335,7 +350,7 @@ namespace ButtonOffice
             
             if(ReadingType != ExpectingType)
             {
-                throw new FormatException($"Type error for a \"{Element.Name}\" element: expecting \"{ExpectingType.FullName}\" but got a \"{ReadingType.FullName}\".");
+                throw new FormatException($"Type error for a \"{Element.Name}\" element: expecting \"{ExpectingType.AssemblyQualifiedName}\" but got a \"{ReadingType.AssemblyQualifiedName}\".");
             }
         }
         
@@ -344,9 +359,14 @@ namespace ButtonOffice
             return ObjectElement.SelectSingleNode(PropertyName) as XmlElement;
         }
         
+        private static XmlNodeList _GetPropertyElements(XmlElement ObjectElement, String PropertyName)
+        {
+            return ObjectElement.SelectNodes(PropertyName);
+        }
+        
         private static XmlNodeList _GetPropertyElements(XmlElement ObjectElement, String PropertyName, String ListElementName)
         {
-            return ObjectElement.SelectNodes(PropertyName + "/" + ListElementName);
+            return ObjectElement.SelectNodes($"{PropertyName}/{ListElementName}");
         }
         
         private static String _GetPropertyValue(XmlElement ObjectElement, String PropertyName, Type PropertyType)
@@ -355,7 +375,7 @@ namespace ButtonOffice
             
             if(PropertyElement == null)
             {
-                throw new FormatException("The property \"" + PropertyName + "\" is not defined on the element \"" + _GetNodePath(ObjectElement) + "\".");
+                throw new FormatException("The property \"{PropertyName}\" is not defined on the element \"{_GetNodePath(ObjectElement)}\".");
             }
             
             return _GetTypeSafeValue(PropertyElement, PropertyType);

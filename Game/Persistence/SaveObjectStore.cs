@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Xml;
 
@@ -114,6 +115,19 @@ namespace ButtonOffice
             
             _AppendProperty(Result, "x", Value.X);
             _AppendProperty(Result, "y", Value.Y);
+        }
+        
+        public void Save(String PropertyName, Object Value)
+        {
+            Debug.Assert(Value is PersistentObject);
+            _GameSaver.CreateChildElement(_Element, PropertyName, Value as PersistentObject);
+        }
+        
+        public SaveObjectStore Save(String PropertyName)
+        {
+            var ListElement = _GameSaver.CreateElement(_Element, PropertyName);
+            
+            return new SaveObjectStore(_GameSaver, ListElement);
         }
         
         #endregion

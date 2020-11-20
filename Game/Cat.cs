@@ -28,10 +28,10 @@ namespace ButtonOffice
             _BorderColor = Data.CatBorderColor;
             _Height = Data.CatHeight;
             
-            var Mind = new ButtonOffice.AI.Goals.Mind();
+            var GoalMind = new ButtonOffice.AI.Goals.Mind();
             
-            Mind.SetRootGoal(new CatThink());
-            _Mind = Mind;
+            GoalMind.SetRootGoal(new CatThink());
+            Mind = GoalMind;
             _Width = Data.CatWidth;
         }
         
@@ -77,18 +77,12 @@ namespace ButtonOffice
             _Y = Y;
         }
         
-        public void Update(Game Game, Double DeltaGameMinutes)
-        {
-            _Mind.Update(Game, this, DeltaGameMinutes);
-        }
-        
         public override void Save(SaveObjectStore ObjectStore)
         {
             base.Save(ObjectStore);
             ObjectStore.Save("background-color", _BackgroundColor);
             ObjectStore.Save("border-color", _BorderColor);
             ObjectStore.Save("height", _Height);
-            ObjectStore.Save("mind", _Mind);
             ObjectStore.Save("office", _Office);
             ObjectStore.Save("width", _Width);
             ObjectStore.Save("x", _X);
@@ -101,7 +95,6 @@ namespace ButtonOffice
             _BackgroundColor = ObjectStore.LoadColorProperty("background-color");
             _BorderColor = ObjectStore.LoadColorProperty("border-color");
             _Height = ObjectStore.LoadDoubleProperty("height");
-            _Mind = ObjectStore.LoadMindProperty("mind");
             _Office = ObjectStore.LoadOfficeProperty("office");
             _Width = ObjectStore.LoadDoubleProperty("width");
             _X = ObjectStore.LoadDoubleProperty("x");

@@ -10,10 +10,10 @@ namespace ButtonOffice
             _BackgroundColor = Data.WorkerBackgroundColor;
             _BorderColor = Data.WorkerBorderColor;
             
-            var Mind = new Mind();
+            var GoalMind = new Mind();
             
-            Mind.SetRootGoal(new WorkerThink());
-            _Mind = Mind;
+            GoalMind.SetRootGoal(new WorkerThink());
+            Mind = GoalMind;
             _Wage = Data.WorkerWage;
             _WorkMinutes = Data.WorkerWorkMinutes;
         }
