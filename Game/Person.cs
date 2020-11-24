@@ -59,6 +59,8 @@ namespace ButtonOffice
             {
                 Debug.Assert(_Desk.GetPerson() == this);
                 _Desk.SetPerson(null);
+                _Desk = null;
+                Mind.Memory.Remove("desk");
             }
             _Desk = Desk;
             _Desk.SetPerson(this);
