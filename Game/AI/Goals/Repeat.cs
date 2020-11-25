@@ -17,10 +17,6 @@ namespace ButtonOffice.AI.BehaviorTrees
             set;
         }
         
-        public Repeat()
-        {
-        }
-        
         protected override void _OnInitialize(Game Game, Actor Actor)
         {
             Console.WriteLine("Repeat.Initialize");
@@ -49,6 +45,27 @@ namespace ButtonOffice.AI.BehaviorTrees
         protected override void _OnTerminate(Game Game, Actor Actor)
         {
             Console.WriteLine("Repeat.Terminate");
+        }
+        
+        public override void Save(SaveObjectStore ObjectStore)
+        {
+            base.Save(ObjectStore);
+            ObjectStore.Save("has-count", Count.HasValue);
+            ObjectStore.Save("count", (Count.HasValue == true) ? (Count.Value) : (0));
+            ObjectStore.Save("behavior", Behavior);
+        }
+        
+        public override void Load(LoadObjectStore ObjectStore)
+        {
+            base.Load(ObjectStore);
+            
+            var HasCount = ObjectStore.LoadBooleanProperty("has-count");
+            
+            if(HasCount == true)
+            {
+                Count = ObjectStore.LoadUInt32Property("count");
+            }
+            Behavior = ObjectStore.LoadObjectProperty<Goal>("behavior");
         }
     }
 }

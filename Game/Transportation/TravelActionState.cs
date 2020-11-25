@@ -1,6 +1,6 @@
 namespace ButtonOffice.Transportation
 {
-    internal enum TravelActionState
+    public enum TravelActionState
     {
         Running,
         Succeeded,

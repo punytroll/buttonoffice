@@ -8,11 +8,11 @@ namespace ButtonOffice.AI.BehaviorTrees
 {
     internal class TravelToMemoryLocation : Goal
     {
-        private readonly Queue<TravelAction> _TravelActions;
+        private List<TravelAction> _TravelActions;
         
         public TravelToMemoryLocation()
         {
-            _TravelActions = new Queue<TravelAction>();
+            _TravelActions = new List<TravelAction>();
         }
         
         protected override void _OnInitialize(Game Game, Actor Actor)
@@ -29,7 +29,7 @@ namespace ButtonOffice.AI.BehaviorTrees
             {
                 foreach(var Edge in Path)
                 {
-                    _TravelActions.Enqueue(Edge.CreateTravelAction());
+                    _TravelActions.Add(Edge.CreateTravelAction());
                 }
             }
             else
@@ -43,14 +43,14 @@ namespace ButtonOffice.AI.BehaviorTrees
             Console.WriteLine("TravelToMemoryLocation.Execute");
             if(_TravelActions.Count > 0)
             {
-                var TravelAction = _TravelActions.Peek();
+                var TravelAction = _TravelActions[0];
                 
                 Debug.Assert(TravelAction.State == TravelActionState.Running);
                 TravelAction.Execute(Game, Actor, DeltaGameMinutes);
                 if(TravelAction.State == TravelActionState.Succeeded)
                 {
                     Console.WriteLine("    Succeeded");
-                    _TravelActions.Dequeue();
+                    _TravelActions.RemoveAt(0);
                     if(_TravelActions.Count == 0)
                     {
                         Succeed();
@@ -76,6 +76,18 @@ namespace ButtonOffice.AI.BehaviorTrees
         {
             Console.WriteLine("TravelToMemoryLocation.Termiante");
             Actor.Mind.Memory.Remove("travel-to-location");
+        }
+        
+        public override void Save(SaveObjectStore ObjectStore)
+        {
+            base.Save(ObjectStore);
+            ObjectStore.Save("travel-actions", _TravelActions);
+        }
+        
+        public override void Load(LoadObjectStore ObjectStore)
+        {
+            base.Load(ObjectStore);
+            _TravelActions = ObjectStore.LoadListProperty<TravelAction>("travel-actions");
         }
     }
 }

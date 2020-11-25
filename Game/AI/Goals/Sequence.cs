@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace ButtonOffice.AI.BehaviorTrees
 {
-    internal class Sequence : Goal, IEnumerable<Goal>
+    internal class Sequence : Goal
     {
         public List<Goal> Behaviors
         {
@@ -13,29 +13,24 @@ namespace ButtonOffice.AI.BehaviorTrees
             set;
         }
         
-        private IEnumerator<Goal> _CurrentBehavior;
-        
-        public Sequence()
-        {
-        }
+        private Int32 _BehaviorIndex;
         
         protected override void _OnInitialize(Game Game, Actor Actor)
         {
             Console.WriteLine("Sequence.Initialize");
-            _CurrentBehavior = Behaviors.GetEnumerator();
-            _CurrentBehavior.MoveNext();
+            _BehaviorIndex = 0;
         }
         
         protected override void _OnExecute(Game Game, Actor Actor, Double DeltaGameMinutes)
         {
-            Console.WriteLine("Sequence.Execute");
-            if(_CurrentBehavior.Current == null)
+            Console.WriteLine($"Sequence.Execute (Count={Behaviors.Count}, Index={_BehaviorIndex})");
+            if(_BehaviorIndex == Behaviors.Count)
             {
                 Succeed();
             }
             else
             {
-                var CurrentBehaviorState = _Execute(_CurrentBehavior.Current, Game, Actor, DeltaGameMinutes);
+                var CurrentBehaviorState = _Execute(Behaviors[_BehaviorIndex], Game, Actor, DeltaGameMinutes);
                 
                 switch(CurrentBehaviorState)
                 {
@@ -47,8 +42,8 @@ namespace ButtonOffice.AI.BehaviorTrees
                     }
                 case GoalState.Succeeded:
                     {
-                        _CurrentBehavior.MoveNext();
-                        if(_CurrentBehavior.Current == null)
+                        _BehaviorIndex += 1;
+                        if(_BehaviorIndex == Behaviors.Count)
                         {
                             Succeed();
                         }
@@ -64,14 +59,18 @@ namespace ButtonOffice.AI.BehaviorTrees
             Console.WriteLine("Sequence.Terminate");
         }
         
-        IEnumerator<Goal> IEnumerable<Goal>.GetEnumerator()
+        public override void Save(SaveObjectStore ObjectStore)
         {
-            return Behaviors.GetEnumerator();
+            base.Save(ObjectStore);
+            ObjectStore.Save("behaviors", Behaviors);
+            ObjectStore.Save("behavior-index", _BehaviorIndex);
         }
         
-        IEnumerator IEnumerable.GetEnumerator()
+        public override void Load(LoadObjectStore ObjectStore)
         {
-            return Behaviors.GetEnumerator();
+            base.Load(ObjectStore);
+            Behaviors = ObjectStore.LoadListProperty<Goal>("behaviors");
+            _BehaviorIndex = ObjectStore.LoadInt32Property("behavior-index");
         }
     }
 }

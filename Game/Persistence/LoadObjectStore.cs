@@ -1,5 +1,7 @@
 using ButtonOffice.AI;
 using ButtonOffice.AI.Goals;
+using ButtonOffice.Persistence;
+using ButtonOffice.Transportation;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -124,6 +126,18 @@ namespace ButtonOffice
             return _LoadPersistentObject(_GetPropertyElement(_Element, PropertyName)) as Lamp;
         }
         
+        public List<ObjectType> LoadListProperty<ObjectType>(String ListPropertyName) where ObjectType : PersistentObject
+        {
+            var Result = new List<ObjectType>();
+            
+            foreach(var Node in _GetPropertyElements(_Element, ListPropertyName, "item"))
+            {
+                Result.Add(_LoadPersistentObject(Node as XmlElement) as ObjectType);
+            }
+            
+            return Result;
+        }
+        
         public LivingSide LoadLivingSideProperty(String PropertyName)
         {
             return (LivingSide)Enum.Parse(typeof(LivingSide), _GetPropertyValue(_Element, PropertyName, typeof(LivingSide)));
@@ -197,6 +211,11 @@ namespace ButtonOffice
             return _LoadStairs(_GetPropertyElement(_Element, PropertyName));
         }
         
+        public TravelActionState LoadTravelActionState(String PropertyName)
+        {
+            return (TravelActionState)Enum.Parse(typeof(TravelActionState), _GetPropertyValue(_Element, PropertyName, typeof(TravelActionState)));
+        }
+        
         public UInt32 LoadUInt32Property(String PropertyName)
         {
             return Convert.ToUInt32(_GetPropertyValue(_Element, PropertyName, typeof(UInt32)), _GameLoader.CultureInfo);
@@ -222,6 +241,47 @@ namespace ButtonOffice
             {
                 LoadFunction(new LoadObjectStore(_GameLoader, Node as XmlElement));
             }
+        }
+        
+        public ObjectType LoadObjectProperty<ObjectType>(String PropertyName) where ObjectType : PersistentObject
+        {
+            return _LoadPersistentObject(_GetPropertyElement(_Element, PropertyName)) as ObjectType;
+        }
+        
+        public Object LoadProperty(String PropertyName)
+        {
+            var PropertyElement = _GetPropertyElement(_Element, PropertyName);
+            var Result = Activator.CreateInstance(_AssertElementAndGetType(PropertyElement));
+            
+            if(Result is IPersistable)
+            {
+                var ObjectStore = new LoadObjectStore(_GameLoader, PropertyElement);
+                
+                (Result as IPersistable).Load(ObjectStore);
+            }
+            else if(Result is ObjectReference)
+            {
+                var Identifier = _LoadObjectReference(PropertyElement);
+                
+                Result = _GameLoader.GetPersistentObject(Identifier);
+                if(Result == null)
+                {
+                    var ObjectElement = _GameLoader.GetObjectElement(Identifier);
+                    
+                    Result = Activator.CreateInstance(_AssertElementAndGetType(ObjectElement));
+                    if(Result == null)
+                    {
+                        throw new FormatException();
+                    }
+                    _GameLoader.AddPersistentObject(Identifier, Result as PersistentObject);
+                    
+                    var ObjectStore = new LoadObjectStore(_GameLoader, ObjectElement);
+                    
+                    (Result as PersistentObject).Load(ObjectStore);
+                }
+            }
+            
+            return Result;
         }
         
         #endregion
@@ -260,7 +320,7 @@ namespace ButtonOffice
             
             if(PropertyElement.InnerText.Trim().Length > 0)
             {
-                var Identifier = _LoadUInt32(PropertyElement);
+                var Identifier = _LoadObjectReference(PropertyElement);
                 
                 Result = _GameLoader.GetPersistentObject(Identifier);
                 if(Result == null)
@@ -306,6 +366,11 @@ namespace ButtonOffice
         private UInt32 _LoadUInt32(XmlElement Element)
         {
             return Convert.ToUInt32(_GetTypeSafeValue(Element, typeof(UInt32)), _GameLoader.CultureInfo);
+        }
+        
+        private UInt32 _LoadObjectReference(XmlElement Element)
+        {
+            return Convert.ToUInt32(_GetTypeSafeValue(Element, typeof(ObjectReference)), _GameLoader.CultureInfo);
         }
         
         #endregion

@@ -1,3 +1,4 @@
+using ButtonOffice.Persistence;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -12,7 +13,7 @@ namespace ButtonOffice
         
         private readonly CultureInfo _CultureInfo;
         private readonly XmlDocument _Document;
-        private readonly Dictionary<PersistentObject, Pair<Boolean, UInt32>> _Objects;
+        private readonly Dictionary<PersistentObject, Pair<Boolean, ObjectReference>> _Objects;
         
         public GameSaver()
         {
@@ -24,7 +25,7 @@ namespace ButtonOffice
             
             ButtonOfficeElement.Attributes.Append(_CreateAttribute("version", Data.SaveGameFileVersion));
             _Document.AppendChild(ButtonOfficeElement);
-            _Objects = new Dictionary<PersistentObject, Pair<Boolean, UInt32>>();
+            _Objects = new Dictionary<PersistentObject, Pair<Boolean, ObjectReference>>();
         }
         
         public void Save(Game Game)
@@ -90,11 +91,11 @@ namespace ButtonOffice
         {
             if(PersistentObject != null)
             {
-                return _CreateProperty(Name, typeof(UInt32).AssemblyQualifiedName, _GetIdentifier(PersistentObject).ToString(_CultureInfo));
+                return _CreateProperty(Name, typeof(ObjectReference).AssemblyQualifiedName, _GetIdentifier(PersistentObject).Identifier.ToString(_CultureInfo));
             }
             else
             {
-                return _CreateProperty(Name, typeof(UInt32).AssemblyQualifiedName, "");
+                return _CreateProperty(Name, typeof(ObjectReference).AssemblyQualifiedName, "");
             }
         }
         
@@ -107,13 +108,13 @@ namespace ButtonOffice
             return Result;
         }
         
-        private UInt32 _GetIdentifier(PersistentObject PersistentObject)
+        private ObjectReference _GetIdentifier(PersistentObject PersistentObject)
         {
             if(_Objects.ContainsKey(PersistentObject) == false)
             {
                 var Identifier = _Objects.Count.ToUInt32();
                 
-                _Objects.Add(PersistentObject, new Pair<Boolean, UInt32>(false, Identifier));
+                _Objects.Add(PersistentObject, new Pair<Boolean, ObjectReference>(false, new ObjectReference(Identifier)));
             }
             
             return _Objects[PersistentObject].Second;
@@ -127,7 +128,7 @@ namespace ButtonOffice
                 {
                     var Identifier = _Objects.Count.ToUInt32();
                     
-                    _Objects.Add(PersistentObject, new Pair<Boolean, UInt32>(false, Identifier));
+                    _Objects.Add(PersistentObject, new Pair<Boolean, ObjectReference>(false, new ObjectReference(Identifier)));
                 }
                 if(_Objects[PersistentObject].First == false)
                 {
@@ -135,7 +136,7 @@ namespace ButtonOffice
                     
                     var Element = _Document.CreateElement("object");
                     
-                    Element.Attributes.Append(_CreateAttribute("identifier", _GetIdentifier(PersistentObject).ToString(_CultureInfo)));
+                    Element.Attributes.Append(_CreateAttribute("identifier", _GetIdentifier(PersistentObject).Identifier.ToString(_CultureInfo)));
                     Element.Attributes.Append(_CreateTypeAttribute(PersistentObject.GetType()));
                     
                     var ObjectStore = new SaveObjectStore(this, Element);

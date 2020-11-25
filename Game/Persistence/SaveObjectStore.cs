@@ -1,6 +1,7 @@
+using ButtonOffice.Persistence;
+using ButtonOffice.Transportation;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
 using System.Xml;
 
@@ -99,6 +100,11 @@ namespace ButtonOffice
             _GameSaver.CreateChildElement(_Element, PropertyName, Value.GetType(), Value);
         }
         
+        public void Save(String PropertyName, TravelActionState Value)
+        {
+            _GameSaver.CreateChildElement(_Element, PropertyName, Value.GetType(), Value.ToString());
+        }
+        
         public void Save(String PropertyName, UInt32 Value)
         {
             _GameSaver.CreateChildElement(_Element, PropertyName, Value.GetType(), Value.ToString(_GameSaver.CultureInfo));
@@ -117,10 +123,31 @@ namespace ButtonOffice
             _AppendProperty(Result, "y", Value.Y);
         }
         
-        public void Save(String PropertyName, Object Value)
+        public void SaveReference(String PropertyName, Object Value)
         {
-            Debug.Assert(Value is PersistentObject);
-            _GameSaver.CreateChildElement(_Element, PropertyName, Value as PersistentObject);
+            if(Value is PersistentObject)
+            {
+                _GameSaver.CreateChildElement(_Element, PropertyName, Value as PersistentObject);
+            }
+            else
+            {
+                throw new Exception("Only persistent objects can be saved by reference.");
+            }
+        }
+        
+        public void SaveContained(String PropertyName, Object Value)
+        {
+            if(Value is PersistentObject)
+            {
+                throw new Exception("Cannot store contained persistent objects.");
+            }
+            else if(Value is IPersistable)
+            {
+                var ChildElement = _GameSaver.CreateChildElement(_Element, PropertyName, Value.GetType());
+                var ObjectStore = new SaveObjectStore(_GameSaver, ChildElement);
+                
+                (Value as IPersistable).Save(ObjectStore);
+            }
         }
         
         public SaveObjectStore Save(String PropertyName)

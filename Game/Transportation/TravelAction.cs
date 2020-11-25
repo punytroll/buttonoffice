@@ -5,7 +5,11 @@ namespace ButtonOffice.Transportation
 {
     internal abstract class TravelAction : PersistentObject
     {
-        public TravelActionState State;
+        public TravelActionState State
+        {
+            get;
+            protected set;
+        }
         
         public TravelAction()
         {
@@ -13,5 +17,15 @@ namespace ButtonOffice.Transportation
         }
         
         public abstract void Execute(Game Game, Actor Actor, Double DeltaGameMinutes);
+        
+        public override void Save(SaveObjectStore ObjectStore)
+        {
+            ObjectStore.Save("state", State);
+        }
+        
+        public override void Load(LoadObjectStore ObjectStore)
+        {
+            State = ObjectStore.LoadTravelActionState("state");
+        }
     }
 }

@@ -9,6 +9,7 @@ BUTTON_OFFICE_SOURCES = \
 	ButtonOffice/MainWindow.designer.cs
 
 COMMON_SOURCES = \
+	Common/Assert.cs \
 	Common/Extensions.cs \
 	Common/Pair.cs \
 	Common/ReferencePriorityQueueByList.cs
@@ -57,7 +58,9 @@ GAME_SOURCES = \
 	Game/Persistence/GameLoader.cs \
 	Game/Persistence/GameLoadException.cs \
 	Game/Persistence/GameSaver.cs \
+	Game/Persistence/IPersistable.cs \
 	Game/Persistence/LoadObjectStore.cs \
+	Game/Persistence/ObjectReference.cs \
 	Game/Persistence/PersistentObject.cs \
 	Game/Persistence/SaveObjectStore.cs \
 	Game/Transportation/Edge.cs \
@@ -90,7 +93,7 @@ SOURCES = \
 all: buttonoffice
 
 buttonoffice: $(SOURCES)
-	mcs $(filter %.cs, $^) -out:$@ -debug -d:DEBUG -reference:System.Drawing -reference:System.Windows.Forms
+	mcs $(filter %.cs, $^) -out:$@ -debug -d:DEBUG -d:ASSERT -reference:System.Drawing -reference:System.Windows.Forms
 
 clean:
 	$(RM) buttonoffice

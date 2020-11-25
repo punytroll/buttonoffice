@@ -59,7 +59,14 @@ namespace ButtonOffice.AI
                 var ItemObjectStore = ObjectStore.Save("item");
                 
                 ItemObjectStore.Save("key", Item.Key);
-                ItemObjectStore.Save("value", Item.Value);
+                if(Item.Value is PersistentObject)
+                {
+                    ItemObjectStore.SaveReference("value", Item.Value);
+                }
+                else
+                {
+                    ItemObjectStore.SaveContained("value", Item.Value);
+                }
             }
         }
         
@@ -69,7 +76,7 @@ namespace ButtonOffice.AI
             ObjectStore.LoadForEach("item", delegate(LoadObjectStore ItemObjectStore)
                                             {
                                                 var Key = ItemObjectStore.LoadStringProperty("key");
-                                                var Value = ItemObjectStore.LoadObjectProperty("value");
+                                                var Value = ItemObjectStore.LoadProperty("value");
                                                 
                                                 _Items.Add(Key, Value);
                                             });
